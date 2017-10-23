@@ -4,12 +4,12 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>uk.ac.qub.csc3045.api</groupId>
-    <artifactId>csc3045</artifactId>
+    <artifactId>csc3045-cs2</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <packaging>jar</packaging>
 
-    <name>SC3045 API</name>
-    <description>Back end service for CSC3045 project</description>
+    <name>SC3045-CS2 API</name>
+    <description>Back end service for CSC3045 project, team CS2</description>
 
     <parent>
         <groupId>org.springframework.boot</groupId>

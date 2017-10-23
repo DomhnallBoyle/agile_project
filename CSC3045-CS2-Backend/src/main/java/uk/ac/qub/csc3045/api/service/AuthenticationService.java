@@ -20,15 +20,14 @@ public class AuthenticationService {
     }
 
     public String register(Account account) {
-        // Validation here
+        //Validation here
+        if (null != null) {
+            throw new ResponseErrorException("Registration failed! Username already in use.", HttpStatus.FORBIDDEN);
+        }
+
 
         mapper.createUser(account.getUser());
         mapper.createAccount(account);
-
-        // Add error handling here
-        if (null != null) {
-            throw new ResponseErrorException("Registration failed!", HttpStatus.FORBIDDEN);
-        }
 
         return "Registration successful!";
     }
