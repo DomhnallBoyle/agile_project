@@ -4,7 +4,7 @@
 <mapper namespace="uk.ac.qub.csc3045cs2.csc3045cs2.mapper.AuthenticationMapper">
 
     <insert id="createUser" parameterType="User" useGeneratedKeys="true">
-    	INSERT into User(firstName, lastName, email) values(#{fistName}, #{lastName}, #{email})
+    	INSERT into User(firstName, lastName, email) values(#{firstName}, #{lastName}, #{email})
     </insert>
     
     <insert id="createAccount" parameterType="Account" useGeneratedKeys="true">
