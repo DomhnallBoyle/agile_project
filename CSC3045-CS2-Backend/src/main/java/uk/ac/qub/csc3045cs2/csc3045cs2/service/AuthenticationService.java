@@ -17,7 +17,7 @@ public class AuthenticationService {
 		this.mapper = mapper;
 	}
 
-	public void register(String userName, String passWord, User user) {
+	public String register(String userName, String passWord, User user) {
 		mapper.createUser(user);
 		User retrievedUser = mapper.findUserByName(user.getFirstName(), user.getLastName());
 		Account account = new Account();
@@ -26,5 +26,6 @@ public class AuthenticationService {
 		account.setPassword(passWord);
 		mapper.createAccount(account);
 		
+		return "Registration Successful";
 	}
 }

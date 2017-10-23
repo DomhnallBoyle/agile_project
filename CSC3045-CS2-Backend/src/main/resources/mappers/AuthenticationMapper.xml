@@ -11,7 +11,7 @@
     	INSERT into Account(user_id, userName, passWord) values(#{user_id}, #{userName}, #{passWord})
     </insert>
     
-    <select id="findUserByName" resultType=User">
+    <select id="findUserByName" resultType="User">
     	SELECT * from User where firstName LIKE #{firstName} AND lastName LIKE #{lastName}
     </select>
 </mapper>
