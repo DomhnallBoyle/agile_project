@@ -23,12 +23,12 @@ namespace CSC3045_CS2.Pages
     /// </summary>
     public partial class test: Page
     {
-        private RegisterClient client;
+        private AuthenticationClient client;
        
         public test()
         {
             InitializeComponent();
-            client = new RegisterClient();
+            client = new AuthenticationClient();
         }
         public void  RegisterButton_Click(Object sender, EventArgs e)
         {

@@ -55,8 +55,10 @@ namespace CSC3045_CS2.Service
         /// <exception cref="RestResponseErrorException">Thrown if there is an error response (response code 4XX, eg 404) and bubbled up to be handled by UI</exception>
         public string Execute(RestRequest request)
         {
+           
             var response = this.client.Execute(request);
             var statCode = "";
+          
 
             if (response.ErrorException != null)
             {
@@ -78,7 +80,7 @@ namespace CSC3045_CS2.Service
                 return "Succesfully Registered";
                 
             }
-            return "CPD";
+            return response.StatusCode.ToString();
         }
         
     }

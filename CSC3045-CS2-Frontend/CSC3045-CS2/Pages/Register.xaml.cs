@@ -21,12 +21,12 @@ namespace CSC3045_CS2.Pages
     
     public partial class Register : Page
     {
-        private RegisterClient client;
+        private AuthenticationClient client;
        
         public Register()
         {
             InitializeComponent();
-            client = new RegisterClient();
+            client = new AuthenticationClient();
         }
 
         /// <summary>
@@ -43,13 +43,12 @@ namespace CSC3045_CS2.Pages
             if (checkValidation() ) {
                 try
                 {
-                    
-                    MessageBox.Show(this.client.Register(UsernameTextBox.Text, PasswordTextBox.Password.ToString(),
-                        FirstnameTextBox.Text, SurnameTextBox.Text, EmailTextBox.Text));
+                    string result = this.client.Register(UsernameTextBox.Text, PasswordTextBox.Password.ToString(),
+                        FirstnameTextBox.Text, SurnameTextBox.Text, EmailTextBox.Text);
+                    MessageBox.Show(result);
 
                    
-                    if (this.client.Register(UsernameTextBox.Text, PasswordTextBox.Password.ToString(),
-                        FirstnameTextBox.Text, SurnameTextBox.Text, EmailTextBox.Text) == "Succesfully Registered")
+                    if (result == "Succesfully Registered")
                     {
                         Page test = new test();
                         NavigationService.GetNavigationService(this).Navigate(test);
@@ -109,7 +108,7 @@ namespace CSC3045_CS2.Pages
             
         }
         /// <summary>
-        /// 
+        /// check the 2 passwords match 
         /// </summary>
         /// <param name="a"></param>
         /// <param name="b"></param>
@@ -134,12 +133,18 @@ namespace CSC3045_CS2.Pages
             }
              
         }
+        /// <summary>
+        /// Method to Check validation, returns true if all conditions are met,
+        /// false otherwise
+        /// </summary>
+        /// <returns></returns>
 
 
         public Boolean checkValidation()
         {
            return checkRequiredValues(UsernameTextBox)&&
             checkRequiredValues(FirstnameTextBox) &&
+            checkRequiredValues(EmailTextBox) &&
             checkPasswordNotEmpty(PasswordTextBox) &&
             checkPasswordNotEmpty(ConfirmPasswordTextBox) &&
             checkPasswordsMatch(PasswordTextBox, ConfirmPasswordTextBox);

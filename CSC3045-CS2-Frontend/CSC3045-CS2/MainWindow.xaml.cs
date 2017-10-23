@@ -26,11 +26,7 @@ namespace CSC3045_CS2
         {
             InitializeComponent();
         }
-         public void RegistrationButton_Click(object sender, RoutedEventArgs e)
-        {
-            Page register = new Register();
-            NavigationService.GetNavigationService(this).Navigate(register);
-        }
+         
 
     }
 }
