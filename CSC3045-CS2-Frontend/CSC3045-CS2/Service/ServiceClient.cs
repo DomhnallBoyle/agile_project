@@ -13,15 +13,12 @@ namespace CSC3045_CS2.Service
    public class ServiceClient
     {
         const string BASE_URL = "http://localhost:8000";
-
     
         private RestClient client;
         private JsonDeserializer deserializer;
 
         public ServiceClient()
         {
-            
-
             client = new RestClient
             {
                 BaseUrl = new System.Uri(BASE_URL),
@@ -57,10 +54,8 @@ namespace CSC3045_CS2.Service
         /// <exception cref="RestResponseErrorException">Thrown if there is an error response (response code 4XX, eg 404) and bubbled up to be handled by UI</exception>
         public string Execute(RestRequest request)
         {
-           
             var response = this.client.Execute(request);
             var statCode = "";
-          
 
             if (response.ErrorException != null)
             {
@@ -70,7 +65,6 @@ namespace CSC3045_CS2.Service
             }
             if(response.StatusCode == HttpStatusCode.NotFound)
             {
-                
                 statCode = response.StatusCode.ToString();
                 
                 return "Error 404: Page Does Not Exist";
@@ -82,10 +76,8 @@ namespace CSC3045_CS2.Service
             if(response.StatusCode == HttpStatusCode.OK)
             {
                 return "Succesfully Registered";
-                
             }
             return response.StatusCode.ToString();
         }
-        
     }
 }

@@ -9,6 +9,7 @@
       Title="Login">
 
     <StackPanel>
+        
         <TextBlock Text="{Binding LoginTitle, FallbackValue='Login'}" HorizontalAlignment="Center" Margin="0,10,0,25"/>
 
         <Grid>

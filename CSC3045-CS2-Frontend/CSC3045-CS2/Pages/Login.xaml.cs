@@ -33,7 +33,6 @@ namespace CSC3045_CS2.Pages
         public Login()
         {
             InitializeComponent();
-
             DataContext = this;
         }
     }
