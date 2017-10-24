@@ -12,6 +12,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using CSC3045_CS2.Pages;
+
 
 namespace CSC3045_CS2
 {
@@ -24,5 +26,7 @@ namespace CSC3045_CS2
         {
             InitializeComponent();
         }
+         
+
     }
 }
