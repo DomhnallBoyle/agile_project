@@ -6,6 +6,8 @@ using System.Net;
 using System.Windows.Controls;
 using System.Windows.Navigation;
 using CSC3045_CS2.Pages;
+using System;
+
 namespace CSC3045_CS2.Service
 {
    public class ServiceClient
@@ -62,6 +64,8 @@ namespace CSC3045_CS2.Service
 
             if (response.ErrorException != null)
             {
+                Console.Write("Error Exception:");
+                Console.Write(response.Content);
                 throw new RestResponseErrorException(response.Content);
             }
             if(response.StatusCode == HttpStatusCode.NotFound)
