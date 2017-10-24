@@ -43,11 +43,18 @@ namespace CSC3045_CS2.Pages
             if (checkValidation() ) {
                 try
                 {
-                    string result = this.client.Register(UsernameTextBox.Text, PasswordTextBox.Password.ToString(),
-                        FirstnameTextBox.Text, SurnameTextBox.Text, EmailTextBox.Text);
+                    string result = this.client.Register(
+                        UsernameTextBox.Text, 
+                        PasswordTextBox.Password.ToString(),
+                        FirstnameTextBox.Text, 
+                        SurnameTextBox.Text, 
+                        EmailTextBox.Text,
+                        ProductOwnerCheckBox.IsChecked.Value,
+                        ScrumMasterCheckBox.IsChecked.Value,
+                        DeveloperCheckBox.IsChecked.Value
+                    );
                     MessageBox.Show(result);
 
-                   
                     if (result == "Succesfully Registered")
                     {
                         Page test = new test();

@@ -12,14 +12,11 @@ namespace CSC3045_CS2.Service
     {
         const string BASE_URL = "http://localhost:8000";
 
-    
         private RestClient client;
         private JsonDeserializer deserializer;
 
         public ServiceClient()
         {
-            
-
             client = new RestClient
             {
                 BaseUrl = new System.Uri(BASE_URL),
@@ -53,7 +50,7 @@ namespace CSC3045_CS2.Service
         /// <param name="request">The RestRequest object containing the call data.</param>
         /// <returns>The body of the response as a raw string. Can be ignored, only needed a custom response message must be sent back.</returns>
         /// <exception cref="RestResponseErrorException">Thrown if there is an error response (response code 4XX, eg 404) and bubbled up to be handled by UI</exception>
-        public string Execute(RestRequest request)
+        protected string Execute(RestRequest request)
         {
            
             var response = this.client.Execute(request);
@@ -77,7 +74,7 @@ namespace CSC3045_CS2.Service
             }
             if(response.StatusCode == HttpStatusCode.OK)
             {
-                return "Succesfully Registered";
+                return "Successfully Registered";
                 
             }
             return response.StatusCode.ToString();
