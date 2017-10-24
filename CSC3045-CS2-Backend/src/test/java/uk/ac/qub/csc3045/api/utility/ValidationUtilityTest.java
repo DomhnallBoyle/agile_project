@@ -141,4 +141,5 @@ public class ValidationUtilityTest {
 		valid = validator.validateEmail("testing._%+$@qub.ac.uk");
 		assertEquals(true, valid);
 	}
+	
 }
