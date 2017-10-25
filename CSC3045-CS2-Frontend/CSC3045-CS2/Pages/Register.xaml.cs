@@ -15,6 +15,7 @@ using System.Windows.Shapes;
 using RestSharp;
 using CSC3045_CS2.Exception;
 using CSC3045_CS2.Service;
+using CSC3045_CS2.Utility;
 
 namespace CSC3045_CS2.Pages
 {
@@ -26,6 +27,7 @@ namespace CSC3045_CS2.Pages
         public Register()
         {
             InitializeComponent();
+            DataContext = this;
             client = new AuthenticationClient();
         }
 
@@ -37,117 +39,114 @@ namespace CSC3045_CS2.Pages
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        public void  RegisterButton_Click(Object sender, EventArgs e)
+        public void RegisterButton_Click(Object sender, EventArgs e)
         {
-         
-            if (checkValidation() ) {
+            if (CheckValidation()) {
                 try
                 {
                     string result = this.client.Register(UsernameTextBox.Text, PasswordTextBox.Password.ToString(),
                         FirstnameTextBox.Text, SurnameTextBox.Text, EmailTextBox.Text);
+
                     MessageBox.Show(result);
+                    Page loginPage = new Login();
 
-                   
-                    if (result == "Succesfully Registered")
-                    {
-                        Page test = new test();
-                        NavigationService.GetNavigationService(this).Navigate(test);
-                    }
-
-
+                    NavigationService.GetNavigationService(this).Navigate(loginPage);
                 }
                 catch (RestResponseErrorException ex)
                 {
-                    MessageBox.Show(ex.Message+"Server Not Available Please Try Again Later");
+                    MessageBox.Show(ex.Message);
                 }
-
             }
-
         }
+
+        public ICommand BackCommand
+        {
+            get
+            {
+                return new RelayCommand(param =>
+                {
+                    Page loginPage = new Login();
+
+                    NavigationService.GetNavigationService(this).Navigate(loginPage);
+                });
+            }
+        }
+
         /// <summary>
         /// Method for checking if the required values for the User Registration Form is filled in
-        /// If the Form isnt filled correctly, text box is highlighted
+        /// if the Form isnt filled correctly, text box is highlighted
         /// </summary>
-        /// <param name="a"></param>
+        /// <param name="textBox"></param>
         /// <returns></returns>
-
-        public Boolean checkRequiredValues(TextBox a)
+        public Boolean CheckRequiredValues(TextBox textBox)
         {
-            if (a.Text == "")
+            if (string.IsNullOrEmpty(textBox.Text))
             {
-                a.Background = Brushes.Red;
+                textBox.Background = Brushes.Red;
                 return false;
             }
             else
             {
-                a.Background = Brushes.White;
+                textBox.Background = Brushes.White;
                 return true;
             }
-            
-            
         }
+
         /// <summary>
         /// Method for checking if password isnt empty, if it is turn the  box red
         /// </summary>
-        /// <param name="a"></param>
+        /// <param name="passwordBox"></param>
         /// <returns></returns>
-
-        public Boolean checkPasswordNotEmpty(PasswordBox a)
+        public Boolean CheckPasswordNotEmpty(PasswordBox passwordBox)
         {
-            if (a.Password.ToString()== "")
+            if (passwordBox.Password.ToString()== "")
             {
-              a.Background = Brushes.Red;
+              passwordBox.Background = Brushes.Red;
               return false;
             }
             else
             {
-                a.Background = Brushes.White;
+                passwordBox.Background = Brushes.White;
                 return true;
             }
-            
-            
         }
-        /// <summary>
-        /// check the 2 passwords match 
-        /// </summary>
-        /// <param name="a"></param>
-        /// <param name="b"></param>
-        /// <returns></returns>
 
-        public Boolean checkPasswordsMatch(PasswordBox a, PasswordBox b)
+        /// <summary>
+        /// Check the 2 passwords match 
+        /// </summary>
+        /// <param name="mainPasswordBox"></param>
+        /// <param name="confirmPasswordBox"></param>
+        /// <returns></returns>
+        public Boolean CheckPasswordsMatch(PasswordBox mainPasswordBox, PasswordBox confirmPasswordBox)
         {
-            
-            if (a.Password.ToString() != b.Password.ToString())
+            if (mainPasswordBox.Password.ToString() != confirmPasswordBox.Password.ToString())
             {
-                String text = "Passwords Dont Match";
+                String text = "Passwords Don't Match";
                 MessageBox.Show(text);
-                a.Background = Brushes.Red;
-                b.Background = Brushes.Red;
+                mainPasswordBox.Background = Brushes.Red;
+                confirmPasswordBox.Background = Brushes.Red;
 
                 return false;
             }
             else
             {
-                a.Background = Brushes.White;
+                mainPasswordBox.Background = Brushes.White;
                 return true;
             }
-             
         }
+
         /// <summary>
-        /// Method to Check validation, returns true if all conditions are met,
-        /// false otherwise
+        /// Method to Check validation, returns true if all conditions are met, false otherwise
         /// </summary>
         /// <returns></returns>
-
-
-        public Boolean checkValidation()
+        public Boolean CheckValidation()
         {
-           return checkRequiredValues(UsernameTextBox)&&
-            checkRequiredValues(FirstnameTextBox) &&
-            checkRequiredValues(EmailTextBox) &&
-            checkPasswordNotEmpty(PasswordTextBox) &&
-            checkPasswordNotEmpty(ConfirmPasswordTextBox) &&
-            checkPasswordsMatch(PasswordTextBox, ConfirmPasswordTextBox);
+           return CheckRequiredValues(UsernameTextBox) &&
+            CheckRequiredValues(FirstnameTextBox) &&
+            CheckRequiredValues(EmailTextBox) &&
+            CheckPasswordNotEmpty(PasswordTextBox) &&
+            CheckPasswordNotEmpty(ConfirmPasswordTextBox) &&
+            CheckPasswordsMatch(PasswordTextBox, ConfirmPasswordTextBox);
         }
     }
 }

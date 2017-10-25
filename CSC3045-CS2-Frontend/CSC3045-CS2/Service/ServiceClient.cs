@@ -12,19 +12,18 @@ namespace CSC3045_CS2.Service
 {
    public class ServiceClient
     {
-        const string BASE_URL = "http://localhost:8000";
+        protected const string BASE_URL = "http://localhost:8000";
     
-        private RestClient client;
-        private JsonDeserializer deserializer;
+        private RestClient _client;
+        private JsonDeserializer _deserializer;
 
         public ServiceClient()
         {
-            client = new RestClient
+            _client = new RestClient
             {
-                BaseUrl = new System.Uri(BASE_URL),
-                //Authenticator = new HttpBasicAuthenticator()
+                BaseUrl = new System.Uri(BASE_URL)
             };
-            deserializer = new JsonDeserializer();
+            _deserializer = new JsonDeserializer();
         }
 
         /// <summary>
@@ -36,14 +35,21 @@ namespace CSC3045_CS2.Service
         /// <exception cref="RestResponseErrorException">Thrown if there is an error response (response code 4XX, eg 404) and bubbled up to be handled by UI</exception>
         protected T Execute<T>(RestRequest request) where T : new()
         {
-            var response = this.client.Execute(request);
+            var response = this._client.Execute(request);
 
-            if (response.ErrorException != null)
+            if (response.ResponseStatus != ResponseStatus.Completed)
             {
-                throw new RestResponseErrorException(response.Content);
+                Console.WriteLine("Failed getting response from server");
+                throw new RestResponseErrorException("Failed getting response from server");
             }
 
-            return deserializer.Deserialize<T>(response);
+            if (!IsSuccessfulStatusCode(response.StatusCode))
+            {
+                Console.WriteLine("Error " + response.StatusCode + " from server: " + response.Content);
+                throw new RestResponseErrorException(response.Content, response.StatusCode);
+            }
+
+            return _deserializer.Deserialize<T>(response);
         }
 
         /// <summary>
@@ -54,30 +60,26 @@ namespace CSC3045_CS2.Service
         /// <exception cref="RestResponseErrorException">Thrown if there is an error response (response code 4XX, eg 404) and bubbled up to be handled by UI</exception>
         public string Execute(RestRequest request)
         {
-            var response = this.client.Execute(request);
-            var statCode = "";
+            var response = this._client.Execute(request);
 
-            if (response.ErrorException != null)
+            if (response.ResponseStatus != ResponseStatus.Completed)
             {
-                Console.Write("Error Exception:");
-                Console.Write(response.Content);
-                throw new RestResponseErrorException(response.Content);
+                Console.WriteLine("Failed getting response from server");
+                throw new RestResponseErrorException("Failed getting response from server");
             }
-            if(response.StatusCode == HttpStatusCode.NotFound)
+
+            if (!IsSuccessfulStatusCode(response.StatusCode))
             {
-                statCode = response.StatusCode.ToString();
-                
-                return "Error 404: Page Does Not Exist";
+                Console.WriteLine("Error " + response.StatusCode + " from server: " + response.Content);
+                throw new RestResponseErrorException(response.Content, response.StatusCode);
             }
-            if (response.StatusCode == HttpStatusCode.Conflict)
-            {
-                return "This Username has already been Used, Please Select Another";
-            }
-            if(response.StatusCode == HttpStatusCode.OK)
-            {
-                return "Succesfully Registered";
-            }
-            return response.StatusCode.ToString();
+
+            return response.Content;
+        }
+
+        private bool IsSuccessfulStatusCode(HttpStatusCode statusCode)
+        {
+            return (int) statusCode >= 200 && (int) statusCode <= 399;
         }
     }
 }
