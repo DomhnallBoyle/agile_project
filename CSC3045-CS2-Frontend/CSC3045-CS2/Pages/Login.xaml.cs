@@ -17,7 +17,7 @@ namespace CSC3045_CS2.Pages
     {
         #region Private Variables
 
-        private AuthenticationClient client;
+        private AuthenticationClient _client;
 
         #endregion
 
@@ -41,7 +41,7 @@ namespace CSC3045_CS2.Pages
         {
             InitializeComponent();
             DataContext = this;
-            client = new AuthenticationClient();
+            _client = new AuthenticationClient();
         }
 
         #region Command methods
@@ -58,7 +58,7 @@ namespace CSC3045_CS2.Pages
 
                     try
                     {
-                        client.Login(account);
+                        _client.Login(account);
                         Page test = new test();
 
                         NavigationService.GetNavigationService(this).Navigate(test);
