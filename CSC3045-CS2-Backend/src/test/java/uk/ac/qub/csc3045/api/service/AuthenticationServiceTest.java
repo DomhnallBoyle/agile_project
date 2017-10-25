@@ -12,43 +12,42 @@ import static org.mockito.Mockito.when;
 
 public class AuthenticationServiceTest {
 
-//    private AuthenticationService authenticationService;
-//    private AuthenticationMapper authenticationMapperMock;
-//
-//    @Before
-//    public void setUp() throws Exception {
-//        authenticationMapperMock = Mockito.mock(AuthenticationMapper.class);
-//        authenticationService = new AuthenticationService(authenticationMapperMock);
-//    }
-//
-//    @Test
-//    public void handleLoginRequestSuccessful() throws Exception {
-//        Account mockAccount = new Account();
-//        mockAccount.setUsername("russell.kane");
-//        mockAccount.setPassword("intense");
-//
-//        String expectedResponse = "Login successful!";
-//
-//        when(authenticationMapperMock.findAccount(mockAccount.getUsername(), mockAccount.getPassword()))
-//                .thenReturn(mockAccount);
-//
-//        String response = authenticationService.register(mockAccount.getUsername(), mockAccount.getPassword());
-//        assertEquals(expectedResponse, response);
-//    }
-//
-//    @Test(expected = ResponseErrorException.class)
-//    public void handleLoginRequestFailed() throws Exception {
-//        Account mockAccount = new Account();
-//        mockAccount.setUsername("ji.ming");
-//        mockAccount.setPassword("ok");
-//
-//        String expectedResponse = "Login failed!";
-//
-//        when(authenticationMapperMock.findAccount(mockAccount.getUsername(), mockAccount.getPassword()))
-//                .thenReturn(null);
-//
-//        String response = authenticationService.register(mockAccount.getUsername(), mockAccount.getPassword());
-//        assertEquals(expectedResponse, response);
-//    }
+    private AuthenticationService authenticationService;
+    private AuthenticationMapper authenticationMapperMock;
 
+    @Before
+    public void setUp() throws Exception {
+        authenticationMapperMock = Mockito.mock(AuthenticationMapper.class);
+        authenticationService = new AuthenticationService(authenticationMapperMock);
+    }
+
+    @Test
+    public void handleLoginRequestSuccessful() throws Exception {
+        Account mockAccount = new Account();
+        mockAccount.setUsername("russell.kane");
+        mockAccount.setPassword("intense");
+
+        String expectedResponse = "Login successful!";
+
+        when(authenticationMapperMock.findAccountByUsername(mockAccount.getUsername()))
+                .thenReturn(mockAccount);
+
+        String response = authenticationService.register(mockAccount);
+        assertEquals(expectedResponse, response);
+    }
+
+    @Test(expected = ResponseErrorException.class)
+    public void handleLoginRequestFailed() throws Exception {
+        Account mockAccount = new Account();
+        mockAccount.setUsername("ji.ming");
+        mockAccount.setPassword("ok");
+
+        String expectedResponse = "Login failed!";
+
+        when(authenticationMapperMock.findAccountByUsername(mockAccount.getUsername()))
+                .thenReturn(null);
+
+        String response = authenticationService.register(mockAccount);
+        assertEquals(expectedResponse, response);
+    }
 }
