@@ -46,6 +46,10 @@ namespace CSC3045_CS2.Pages
 
         #region Command methods
 
+        /// <summary>
+        /// Creates the account and attempts to login with it
+        /// Navigates the user to the dashboard if successful, or displays an error message if failed
+        /// </summary>
         public ICommand LoginCommand
         {
             get
@@ -71,6 +75,9 @@ namespace CSC3045_CS2.Pages
             }
         }
 
+        /// <summary>
+        /// Navigates the user to the registration page
+        /// </summary>
         public ICommand NavigateToRegistrationCommand
         {
             get

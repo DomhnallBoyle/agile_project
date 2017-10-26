@@ -39,13 +39,11 @@ namespace CSC3045_CS2.Service
 
             if (response.ResponseStatus != ResponseStatus.Completed)
             {
-                Console.WriteLine("Failed getting response from server");
                 throw new RestResponseErrorException("Failed getting response from server");
             }
 
             if (!IsSuccessfulStatusCode(response.StatusCode))
             {
-                Console.WriteLine("Error " + response.StatusCode + " from server: " + response.Content);
                 throw new RestResponseErrorException(response.Content, response.StatusCode);
             }
 
@@ -58,25 +56,28 @@ namespace CSC3045_CS2.Service
         /// <param name="request">The RestRequest object containing the call data.</param>
         /// <returns>The body of the response as a raw string. Can be ignored, only needed a custom response message must be sent back.</returns>
         /// <exception cref="RestResponseErrorException">Thrown if there is an error response (response code 4XX, eg 404) and bubbled up to be handled by UI</exception>
-        public string Execute(RestRequest request)
+        protected string Execute(RestRequest request)
         {
             var response = this._client.Execute(request);
 
             if (response.ResponseStatus != ResponseStatus.Completed)
             {
-                Console.WriteLine("Failed getting response from server");
                 throw new RestResponseErrorException("Failed getting response from server");
             }
 
             if (!IsSuccessfulStatusCode(response.StatusCode))
             {
-                Console.WriteLine("Error " + response.StatusCode + " from server: " + response.Content);
                 throw new RestResponseErrorException(response.Content, response.StatusCode);
             }
 
             return response.Content;
         }
 
+        /// <summary>
+        /// Checks a given HTTP StatusCode to see if it was a Success or an Error
+        /// </summary>
+        /// <param name="statusCode">The HTTP Status Code to be checked</param>
+        /// <returns>A boolean, true for Successful, false for Error</returns>
         private bool IsSuccessfulStatusCode(HttpStatusCode statusCode)
         {
             return (int) statusCode >= 200 && (int) statusCode <= 399;
