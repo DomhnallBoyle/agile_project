@@ -1,13 +1,10 @@
 package uk.ac.qub.csc3045.api.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import uk.ac.qub.csc3045.api.exception.ResponseErrorException;
 import uk.ac.qub.csc3045.api.mapper.AuthenticationMapper;
 import uk.ac.qub.csc3045.api.model.Account;
-import uk.ac.qub.csc3045.api.model.User;
+import uk.ac.qub.csc3045.api.utility.ValidationUtility;
 
 @Service
 public class AuthenticationService {
@@ -20,15 +17,11 @@ public class AuthenticationService {
     }
 
     public String register(Account account) {
-        //Validation here
-        if (null != null) {
-            throw new ResponseErrorException("Registration failed! Username already in use.", HttpStatus.FORBIDDEN);
-        }
-
+    	String responseMessage = ValidationUtility.validateAccount(account, mapper);
 
         mapper.createUser(account.getUser());
         mapper.createAccount(account);
 
-        return "Registration successful!";
+        return responseMessage;
     }
 }
