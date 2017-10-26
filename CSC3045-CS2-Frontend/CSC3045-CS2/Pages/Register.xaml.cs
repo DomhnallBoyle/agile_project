@@ -59,6 +59,9 @@ namespace CSC3045_CS2.Pages
             }
         }
 
+        /// <summary>
+        /// Navigates the user back to the Login Page
+        /// </summary>
         public ICommand BackCommand
         {
             get
@@ -78,7 +81,7 @@ namespace CSC3045_CS2.Pages
         /// </summary>
         /// <param name="textBox"></param>
         /// <returns></returns>
-        public Boolean CheckRequiredValues(TextBox textBox)
+        private Boolean CheckRequiredValues(TextBox textBox)
         {
             if (string.IsNullOrEmpty(textBox.Text))
             {
@@ -97,7 +100,7 @@ namespace CSC3045_CS2.Pages
         /// </summary>
         /// <param name="passwordBox"></param>
         /// <returns></returns>
-        public Boolean CheckPasswordNotEmpty(PasswordBox passwordBox)
+        private Boolean CheckPasswordNotEmpty(PasswordBox passwordBox)
         {
             if (passwordBox.Password.ToString()== "")
             {
@@ -117,7 +120,7 @@ namespace CSC3045_CS2.Pages
         /// <param name="mainPasswordBox"></param>
         /// <param name="confirmPasswordBox"></param>
         /// <returns></returns>
-        public Boolean CheckPasswordsMatch(PasswordBox mainPasswordBox, PasswordBox confirmPasswordBox)
+        private Boolean CheckPasswordsMatch(PasswordBox mainPasswordBox, PasswordBox confirmPasswordBox)
         {
             if (mainPasswordBox.Password.ToString() != confirmPasswordBox.Password.ToString())
             {
@@ -139,7 +142,7 @@ namespace CSC3045_CS2.Pages
         /// Method to Check validation, returns true if all conditions are met, false otherwise
         /// </summary>
         /// <returns></returns>
-        public Boolean CheckValidation()
+        private Boolean CheckValidation()
         {
            return CheckRequiredValues(UsernameTextBox) &&
             CheckRequiredValues(FirstnameTextBox) &&
