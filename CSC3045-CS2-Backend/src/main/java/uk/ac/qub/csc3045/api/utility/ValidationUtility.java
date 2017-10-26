@@ -60,7 +60,6 @@ public class ValidationUtility {
 	    	for (int i = 0; i < errorMessages.size(); i++) {
 	    		sb.append(errorMessages.get(i));
 	    	}
-	    	System.out.println(sb.toString());
 			throw new ResponseErrorException(sb.toString(), HttpStatus.BAD_REQUEST);
     	}
 
