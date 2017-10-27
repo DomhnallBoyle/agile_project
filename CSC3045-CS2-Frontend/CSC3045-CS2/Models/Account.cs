@@ -6,8 +6,9 @@ using System.Threading.Tasks;
 
 namespace CSC3045_CS2.Models
 {
-   
-
+    /// <summary>
+    /// 
+    /// </summary>
     public class Account
     {
         public User user { get; set; }
