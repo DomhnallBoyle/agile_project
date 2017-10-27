@@ -11,6 +11,8 @@ import uk.ac.qub.csc3045.api.service.AuthenticationService;
 
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
+import javax.validation.Valid;
+
 @RestController
 @RequestMapping(value = "/authentication")
 public class AuthenticationController {
@@ -23,7 +25,7 @@ public class AuthenticationController {
     }
 
     @RequestMapping(value = "/register", method = POST)
-    public ResponseEntity<String> register(@RequestBody Account account) {
+    public ResponseEntity<String> register(@Valid @RequestBody Account account) {
         return new ResponseEntity<>(this.authenticationService.register(account), HttpStatus.OK);
     }
 }
