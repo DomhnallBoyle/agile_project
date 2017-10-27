@@ -10,43 +10,50 @@ import javax.persistence.Table;
 @Table
 public class Roles {
 	@Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 	
-	private Boolean isDeveloper = false;
-	private Boolean isScrumMaster = false;
-	private Boolean isProductOwner = false;
+	private Boolean developer = false;
+	private Boolean scrumMaster = false;
+	private Boolean productOwner = false;
 	
 	public Roles() {}
 	
-	public Roles(Boolean isDeveloper, Boolean isScrumMaster, Boolean isProductOwner) {
-		this.isDeveloper = isDeveloper;
-		this.isScrumMaster = isScrumMaster;
-		this.isProductOwner = isProductOwner;
+	public Roles(Boolean developer, Boolean scrumMaster, Boolean productOwner) {
+		this.developer = developer;
+		this.scrumMaster = scrumMaster;
+		this.productOwner = productOwner;
 	}
 
-	public Boolean getIsDeveloper() {
-		return isDeveloper;
+	public Long getId() {
+		return id;
 	}
 
-	public void setIsDeveloper(Boolean isDeveloper) {
-		this.isDeveloper = isDeveloper;
+	public void setId(Long id) {
+		this.id = id;
 	}
 
-	public Boolean getIsScrumMaster() {
-		return isScrumMaster;
+	public Boolean isDeveloper() {
+		return developer;
 	}
 
-	public void setIsScrumMaster(Boolean isScrumMaster) {
-		this.isScrumMaster = isScrumMaster;
+	public void setDeveloper(Boolean developer) {
+		this.developer = developer;
 	}
 
-	public Boolean getIsProductOwner() {
-		return isProductOwner;
+	public Boolean isScrumMaster() {
+		return scrumMaster;
 	}
 
-	public void setIsProductOwner(Boolean isProductOwner) {
-		this.isProductOwner = isProductOwner;
+	public void setScrumMaster(Boolean scrumMaster) {
+		this.scrumMaster = scrumMaster;
 	}
-	
+
+	public Boolean isProductOwner() {
+		return productOwner;
+	}
+
+	public void setProductOwner(Boolean productOwner) {
+		this.productOwner = productOwner;
+	}
 }
