@@ -4,10 +4,14 @@
 <!-- Set the namespace below to the interface side of the mapper -->
 <mapper namespace="uk.ac.qub.csc3045.api.mapper.AuthenticationMapper">
     <insert id="createUser" parameterType="User" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
-        INSERT INTO user (forename, surname, email) VALUES (#{forename}, #{surname}, #{email})
+        INSERT INTO user(forename, surname, email) VALUES(#{forename}, #{surname}, #{email})
     </insert>
 
     <insert id="createAccount" parameterType="Account" useGeneratedKeys="true">
-        INSERT INTO account(user_id, username, password) values(#{user.id}, #{username}, #{password})
+        INSERT INTO account(user_id, username, password) VALUES(#{user.id}, #{username}, #{password})
     </insert>
+    
+    <select id="findAccountByUsername" resultType="Account">
+    	SELECT username FROM account WHERE username = #{username}
+    </select>
 </mapper>

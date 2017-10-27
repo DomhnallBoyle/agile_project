@@ -1,21 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
-using System.Windows.Shapes;
-using RestSharp;
 using CSC3045_CS2.Exception;
 using CSC3045_CS2.Service;
 using CSC3045_CS2.Utility;
+using CSC3045_CS2.Models;
 
 namespace CSC3045_CS2.Pages
 {
@@ -44,9 +36,12 @@ namespace CSC3045_CS2.Pages
             if (CheckValidation()) {
                 try
                 {
-                    string result = this.client.Register(UsernameTextBox.Text, PasswordTextBox.Password.ToString(),
-                        FirstnameTextBox.Text, SurnameTextBox.Text, EmailTextBox.Text);
+                    Roles roles = new Roles(ProductOwnerCheckBox.IsChecked.Value, ScrumMasterCheckBox.IsChecked.Value, DeveloperCheckBox.IsChecked.Value);
+                    User user = new User(FirstnameTextBox.Text, SurnameTextBox.Text, EmailTextBox.Text, roles);
+                    Account account = new Account(user, UsernameTextBox.Text, PasswordTextBox.Password.ToString());
+                    string result = this.client.Register(account);
 
+                    Console.WriteLine(result);
                     MessageBox.Show(result);
                     Page loginPage = new Login();
 
@@ -54,6 +49,8 @@ namespace CSC3045_CS2.Pages
                 }
                 catch (RestResponseErrorException ex)
                 {
+                    Console.WriteLine("error");
+                    Console.WriteLine(ex.Message);
                     MessageBox.Show(ex.Message);
                 }
             }

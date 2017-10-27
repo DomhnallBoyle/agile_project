@@ -12,4 +12,5 @@ import uk.ac.qub.csc3045.api.model.User;
 public interface AuthenticationMapper {
     void createUser(User user);
     void createAccount(Account account);
+    Account findAccountByUsername(@Param("username") String username);
 }

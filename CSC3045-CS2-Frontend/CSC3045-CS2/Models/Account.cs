@@ -2,8 +2,6 @@
 
 namespace CSC3045_CS2.Models
 {
-
-
     public class Account
     {
         public User User { get; set; }

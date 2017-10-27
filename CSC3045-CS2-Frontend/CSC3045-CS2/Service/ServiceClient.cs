@@ -1,12 +1,7 @@
 ﻿using CSC3045_CS2.Exception;
 using RestSharp;
-using RestSharp.Authenticators;
 using RestSharp.Deserializers;
 using System.Net;
-using System.Windows.Controls;
-using System.Windows.Navigation;
-using CSC3045_CS2.Pages;
-using System;
 
 namespace CSC3045_CS2.Service
 {
