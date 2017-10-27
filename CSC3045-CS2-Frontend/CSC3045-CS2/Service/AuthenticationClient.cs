@@ -1,6 +1,8 @@
 ﻿using CSC3045_CS2.Exception;
 using CSC3045_CS2.Models;
+using CSC3045_CS2.Utility;
 using RestSharp;
+using System;
 
 namespace CSC3045_CS2.Service
 {
@@ -43,6 +45,7 @@ namespace CSC3045_CS2.Service
             var request = new RestRequest(BASE_ENDPOINT + "login", Method.POST);
             request.AddHeader("Content-Type", "application/json");
             request.RequestFormat = DataFormat.Json;
+            SimpleJson.CurrentJsonSerializerStrategy = new CamelCaseSerializationStrategy();
 
             request.AddBody(account);
 

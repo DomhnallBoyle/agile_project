@@ -70,6 +70,7 @@
     </Compile>
     <Compile Include="Service\AuthenticationClient.cs" />
     <Compile Include="Service\ServiceClient.cs" />
+    <Compile Include="Utility\CamelCaseSerializationStrategy.cs" />
     <Compile Include="Utility\RelayCommand.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
