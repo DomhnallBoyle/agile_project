@@ -15,6 +15,7 @@ using System.Windows.Shapes;
 using RestSharp;
 using CSC3045_CS2.Exception;
 using CSC3045_CS2.Service;
+using CSC3045_CS2.Models;
 
 namespace CSC3045_CS2.Pages
 {
@@ -43,16 +44,10 @@ namespace CSC3045_CS2.Pages
             if (checkValidation() ) {
                 try
                 {
-                    string result = this.client.Register(
-                        UsernameTextBox.Text, 
-                        PasswordTextBox.Password.ToString(),
-                        FirstnameTextBox.Text, 
-                        SurnameTextBox.Text, 
-                        EmailTextBox.Text,
-                        ProductOwnerCheckBox.IsChecked.Value,
-                        ScrumMasterCheckBox.IsChecked.Value,
-                        DeveloperCheckBox.IsChecked.Value
-                    );
+                    Role role = new Role(ProductOwnerCheckBox.IsChecked.Value, ScrumMasterCheckBox.IsChecked.Value, DeveloperCheckBox.IsChecked.Value);
+                    User user = new User(FirstnameTextBox.Text, SurnameTextBox.Text, EmailTextBox.Text, role);
+                    Account account = new Account(user, UsernameTextBox.Text, PasswordTextBox.Password.ToString());
+                    string result = this.client.Register(account);
                     MessageBox.Show(result);
 
                     if (result == "Succesfully Registered")
