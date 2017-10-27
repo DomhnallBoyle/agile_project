@@ -16,11 +16,16 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
 import io.jsonwebtoken.Jwts;
+import uk.ac.qub.csc3045.api.mapper.AuthenticationMapper;
+import uk.ac.qub.csc3045.api.model.Account;
 
 public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
-
-    public JWTAuthorizationFilter(AuthenticationManager authManager) {
+	
+    private AuthenticationMapper mapper;
+    
+    public JWTAuthorizationFilter(AuthenticationManager authManager, AuthenticationMapper mapper) {
         super(authManager);
+        this.mapper = mapper;
     }
 
     @Override
@@ -42,8 +47,8 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
                     .parseClaimsJws(token.replace(TOKEN_PREFIX, ""))
                     .getBody()
                     .getSubject();
-
-            if (user != null) {
+            Account account = mapper.findAccountByUsername(user);
+            if (account != null) {
                 return new UsernamePasswordAuthenticationToken(user, null, new ArrayList<>());
             }
             return null;

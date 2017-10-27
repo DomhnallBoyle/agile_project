@@ -1,7 +1,7 @@
 package uk.ac.qub.csc3045.api.security;
 
 public class SecurityConstants {
-	public static final String SECRET = "CSC3045APISecret";
+	public static final String SECRET = "xGYtv9CR8xbre8";
     public static final long EXPIRATION_TIME = 864_000_000; // 10 days
     public static final String TOKEN_PREFIX = "Bearer ";
     public static final String HEADER_STRING = "Authorization";

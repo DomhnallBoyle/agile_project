@@ -11,6 +11,7 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
+import uk.ac.qub.csc3045.api.mapper.AuthenticationMapper;
 import uk.ac.qub.csc3045.api.service.AuthenticationService;
 import static uk.ac.qub.csc3045.api.security.SecurityConstants.*;
 
@@ -18,10 +19,12 @@ import static uk.ac.qub.csc3045.api.security.SecurityConstants.*;
 public class WebSecurity extends WebSecurityConfigurerAdapter {
     private AuthenticationService authenticationService;
     private BCryptPasswordEncoder bCryptPasswordEncoder;
+    private AuthenticationMapper mapper;
 
-    public WebSecurity(AuthenticationService authenticationService, BCryptPasswordEncoder bCryptPasswordEncoder) {
+    public WebSecurity(AuthenticationService authenticationService, BCryptPasswordEncoder bCryptPasswordEncoder, AuthenticationMapper mapper) {
         this.authenticationService = authenticationService;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+        this.mapper = mapper;
     }
 
     @Override
@@ -31,7 +34,7 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
                 .anyRequest().authenticated()
                 .and()
                 .addFilter(new JWTAuthenticationFilter(authenticationManager()))
-                .addFilter(new JWTAuthorizationFilter(authenticationManager()));
+                .addFilter(new JWTAuthorizationFilter(authenticationManager(), mapper));
     }
 
     @Override
