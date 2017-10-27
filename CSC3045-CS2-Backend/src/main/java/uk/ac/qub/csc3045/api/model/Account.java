@@ -1,6 +1,7 @@
 package uk.ac.qub.csc3045.api.model;
 
 import javax.persistence.*;
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
 @Entity
@@ -13,6 +14,7 @@ public class Account {
 
     @OneToOne
     @NotNull
+    @Valid
     private User user;
     @NotNull
     private String username;
