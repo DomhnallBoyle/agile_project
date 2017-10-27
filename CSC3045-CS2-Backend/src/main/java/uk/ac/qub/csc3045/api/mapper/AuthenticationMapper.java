@@ -13,4 +13,5 @@ public interface AuthenticationMapper {
     void createUser(User user);
     void createAccount(Account account);
     Account findAccountByUsername(@Param("username") String username);
+    User findUserByEmail(@Param("email") String email);
 }

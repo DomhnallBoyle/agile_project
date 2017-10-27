@@ -16,11 +16,12 @@ public class AuthenticationControllerIT {
 	private RequestHelper request;
 
 	Account validAccount;
+	User validUser;
 	String invalidPasswordErrorMessage = "The Password does not meet the requirements:\n\tPassword length must be between 4 and 25 characters\n\tPassword must contain at least 1 uppercase letter, 1 lowercase letter and 1 digit\n";
 	String invalidEmailErrorMessage = "The Email does not meet the requirements:\n\tEmail identifier must be at least 4 letters and have a valid domain\n\tEmail identifier can only contain the following special characters '.', '_', '%', '+', '$'\n";
 	String invalidUsernameErrorMessage = "The Username does not meet the requirements:\n\tUsername length must be between 3 and 15 characters\n\tUsername can only contain the following special characters '_', '-', '.'\n";
 	String usernameConflictErrorMessage = "This username already exists, please select another one";
-	String emailConflictErrorMessage = "";
+	String emailConflictErrorMessage = "This email already exists, please select another one";
 	
 	public static final String URI_CONTEXT = "/authentication/register";
 
@@ -35,9 +36,10 @@ public class AuthenticationControllerIT {
 	@Test
 	public void registerAccountShouldReturn200() throws Exception {
 		validAccount.setUsername(generateUsername());
+		validAccount.getUser().setEmail(generateEmail());
 		Response r = request.SendPostRequest(URI_CONTEXT, validAccount);
 		
-		assertEquals(r.body().asString(), "Registration Successful!");
+		assertEquals("Registration Successful!", r.body().asString());
 		r.then().assertThat().statusCode(200);
 	}
 	
@@ -144,7 +146,6 @@ public class AuthenticationControllerIT {
 		r.then().assertThat().statusCode(409);
 	}
 	
-	/*
 	@Test
 	public void registerExistingEmailShouldReturn409() throws Exception {
 		validAccount.setUsername(generateUsername());
@@ -155,23 +156,26 @@ public class AuthenticationControllerIT {
 		assertEquals(r.body().asString(), emailConflictErrorMessage);
 		r.then().assertThat().statusCode(409);
 	}
-	*/
 	
 	// Setup test data
 	public void setupTestAccount() {
 		validAccount = new Account();
 		validAccount.setUsername("username");
 		validAccount.setPassword("Password1");
-		User validUser = new User();
+		validUser = new User();
 		validUser.setEmail("test@email.com");
 		validUser.setForename("Forename");
 		validUser.setSurname("Surname");
 		validAccount.setUser(validUser);
 	}
 	
-	public String generateUsername() {
+	private String generateUsername() {
 		Random random = new Random();
 		return "test" + random.nextInt();
 	}
 
+    private String generateEmail() {
+        Random random = new Random();
+        return "test" + random.nextInt() + "@testing.com";
+    }
 }

@@ -14,4 +14,8 @@
     <select id="findAccountByUsername" resultType="Account">
     	SELECT username FROM account WHERE username = #{username}
     </select>
+    
+    <select id="findUserByEmail" resultType="User">
+        SELECT email FROM user WHERE email = #{email} 
+    </select>
 </mapper>
