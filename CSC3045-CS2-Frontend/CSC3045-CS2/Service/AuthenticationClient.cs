@@ -1,21 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using CSC3045_CS2.Models;
+using CSC3045_CS2.Utility;
 using RestSharp;
-using System.Windows.Controls;
-using System.Windows.Navigation;
-using CSC3045_CS2.Models;
-using System.Net.Http;
-using Newtonsoft.Json;
 
 namespace CSC3045_CS2.Service
 {
     class AuthenticationClient : ServiceClient
     { 
-
         const string BASE_ENDPOINT = "authentication/";
+
         public AuthenticationClient() : base () { }
 
         /// <summary>
@@ -30,6 +22,24 @@ namespace CSC3045_CS2.Service
             var request = new RestRequest(BASE_ENDPOINT + "register", Method.POST);
             request.AddHeader("Content-Type", "application/json");
             request.RequestFormat = DataFormat.Json;
+            SimpleJson.CurrentJsonSerializerStrategy = new CamelCaseSerializationStrategy();
+
+            request.AddBody(account);
+
+            return Execute(request);
+        }
+
+        /// <summary>
+        /// Sends the account to the backend in an attempt to log in
+        /// </summary>
+        /// <param name="account">The account to be sent to the backend</param>
+        /// <returns>Returns a string with information on the request response</returns>
+        public string Login(Account account)
+        {
+            var request = new RestRequest(BASE_ENDPOINT + "login", Method.POST);
+            request.AddHeader("Content-Type", "application/json");
+            request.RequestFormat = DataFormat.Json;
+            SimpleJson.CurrentJsonSerializerStrategy = new CamelCaseSerializationStrategy();
 
             request.AddBody(account);
 
