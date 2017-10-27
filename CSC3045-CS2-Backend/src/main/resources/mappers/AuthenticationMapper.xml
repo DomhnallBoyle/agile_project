@@ -12,6 +12,6 @@
     </insert>
     
     <select id="findAccountByUsername" resultType="Account">
-    	SELECT username FROM account WHERE username = #{username}
+    	SELECT * FROM account WHERE username = #{username}
     </select>
 </mapper>
