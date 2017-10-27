@@ -9,13 +9,13 @@ namespace CSC3045_CS2.Models
     /// <summary>
     /// Model for the User Role which is selected on Register.
     /// </summary>
-    public class Role
+    public class Roles
     {
         #region public getters & setters
 
-        public bool IsProductOwner { get; set; }
-        public bool IsScrumMaster { get; set; }
-        public bool IsDeveloper { get; set; }
+        public bool ProductOwner { get; set; }
+        public bool ScrumMaster { get; set; }
+        public bool Developer { get; set; }
 
         #endregion
 
@@ -24,14 +24,14 @@ namespace CSC3045_CS2.Models
         /// Builds upon the notion that a user can have multiple roles
         /// All 3 booleans from checkboxes passed into the constructor
         /// </summary>
-        /// <param name="isProductOwner"></param>
-        /// <param name="isScrumMaster"></param>
-        /// <param name="isDeveloper"></param>
-        public Role(bool isProductOwner, bool isScrumMaster, bool isDeveloper)
+        /// <param name="productOwner"></param>
+        /// <param name="scrumMaster"></param>
+        /// <param name="developer"></param>
+        public Roles(bool productOwner, bool scrumMaster, bool developer)
         {
-            this.IsProductOwner = isProductOwner;
-            this.IsScrumMaster = isScrumMaster;
-            this.IsDeveloper = isDeveloper;
+            this.ProductOwner = productOwner;
+            this.ScrumMaster = scrumMaster;
+            this.Developer = developer;
         }
     }
 }

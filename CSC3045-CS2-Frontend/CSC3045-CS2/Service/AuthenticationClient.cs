@@ -30,6 +30,7 @@ namespace CSC3045_CS2.Service
             var request = new RestRequest(BASE_ENDPOINT + "register", Method.POST);
             request.AddHeader("Content-Type", "application/json");
             request.RequestFormat = DataFormat.Json;
+
             request.AddBody(account);
 
             return Execute(request);

@@ -14,14 +14,14 @@ namespace CSC3045_CS2.Models
         public string forename { get; set; }
         public string surname { get; set; }
         public string email { get; set; }
-        public Role Role { get; set; }
+        public Roles Roles { get; set; }
 
-        public User(string forename, string surname, string email, Role role)
+        public User(string forename, string surname, string email, Roles roles)
         {
             this.forename = forename;
             this.surname = surname;
             this.email = email;
-            this.Role = role;
+            this.Roles = roles;
         }
        
     }
