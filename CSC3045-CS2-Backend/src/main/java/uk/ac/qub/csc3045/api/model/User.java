@@ -1,6 +1,7 @@
 package uk.ac.qub.csc3045.api.model;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table
@@ -9,8 +10,11 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    @NotNull
     private String forename;
+    @NotNull
     private String surname;
+    @NotNull
     private String email;
 
     public User() {
