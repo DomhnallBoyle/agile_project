@@ -36,12 +36,12 @@ public class AuthenticationService implements UserDetailsService{
         return responseMessage;
     }
 
-	@Override
-	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		Account account = mapper.findAccountByUsername(username);
-        if (account == null) {
-            throw new UsernameNotFoundException(username);
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+    	Account account = mapper.findAccountByUsername(username);
+    	if (account == null) {
+             throw new UsernameNotFoundException(username);
         }
         return new User(account.getUsername(), account.getPassword(), emptyList());
-	}
+   }
 }
