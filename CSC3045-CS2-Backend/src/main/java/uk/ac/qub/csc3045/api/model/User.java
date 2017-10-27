@@ -16,6 +16,8 @@ public class User {
     private String surname;
     @NotNull
     private String email;
+    @OneToOne
+    private Roles roles = new Roles();
 
     public User() {
     }
@@ -57,4 +59,13 @@ public class User {
     public void setEmail(String email) {
         this.email = email;
     }
+
+	public Roles getRoles() {
+		return roles;
+	}
+
+	public void setRoles(Roles roles) {
+		this.roles = roles;
+	}
+    
 }
