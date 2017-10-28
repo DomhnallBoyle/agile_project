@@ -8,10 +8,10 @@ namespace CSC3045_CS2.Models
 {
     class Project
     {
-        public User projectManager { get; set; }
-        public string projectName { get; set; }
-        public string description { get; set; }
-        public User productOwner { get; set; }
+        public User ProjectManager { get; set; }
+        public string ProjectName { get; set; }
+        public string Description { get; set; }
+        public User ProductOwner { get; set; }
 
         public Project()
         {
@@ -19,10 +19,17 @@ namespace CSC3045_CS2.Models
         }
         public Project(User projectManager, String projectName, String description, User productOwner)
         {
-            this.projectManager = projectManager;
-            this.projectName = projectName;
-            this.description = description;
-            this.productOwner = productOwner;
+            this.ProjectManager = projectManager;
+            this.ProjectName = projectName;
+            this.Description = description;
+            this.ProductOwner = productOwner;
+        }
+
+        public Project(User projectManager, String projectName, String description)
+        {
+            this.ProjectManager = projectManager;
+            this.ProjectName = projectName;
+            this.Description = description;          
         }
     }
 }

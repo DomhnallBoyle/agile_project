@@ -25,7 +25,7 @@ namespace CSC3045_CS2.Pages
     public partial class CreateProject : Page
     {
 
-        private ProjectClient client;
+        private ProjectClient _client;
 
         #region Public Variables
 
@@ -49,14 +49,15 @@ namespace CSC3045_CS2.Pages
 
         #endregion
 
+        #region Command methods
+
         public CreateProject()
         {
             InitializeComponent();
             DataContext = this;
-            client = new ProjectClient();
+            _client = new ProjectClient();
         }
 
-        #region Command methods
         public ICommand CreateProjectCommand
         {
             get
@@ -65,9 +66,20 @@ namespace CSC3045_CS2.Pages
                 {
                     Project project = new Project();
 
+                    //project.ProjectManager - set
+
+                    String ProjectManagerName = project.ProjectManager.Forename;
+                    ProjectManagerName += project.ProjectManager.Surname;
+                    ProjectManagerName = ProjectManagerNameLabel;
+
+                    project.ProjectName = ProjectNameTextContent;
+                    project.Description = DescriptionTextContent;
+
+                    //project.ProjectOwner - set
+
                     try
                     {
-                        client.Project(project);
+                        _client.CreateProject(project);
                     }
                     catch (RestResponseErrorException ex)
                     {

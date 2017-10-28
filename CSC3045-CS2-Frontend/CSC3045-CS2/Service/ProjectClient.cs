@@ -15,10 +15,10 @@ namespace CSC3045_CS2.Service
     class ProjectClient : ServiceClient
     {
 
-        const string BASE_ENDPOINT = "project/";
+        const string BASE_ENDPOINT = "create/";
         public ProjectClient() : base() { }
 
-        public string Project(Project project)
+        public string CreateProject(Project project)
         {
            var request = new RestRequest(BASE_ENDPOINT + "project", Method.POST);
             request.AddHeader("Content-Type", "application/json");
