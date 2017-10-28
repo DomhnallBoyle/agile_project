@@ -34,7 +34,7 @@ public class AuthenticationControllerIT {
 	}
 
 	//Successful registration tests
-	//@Test
+	@Test
 	public void registerAccountShouldReturn200() throws Exception {
 		validAccount.setUsername(generateUsername());
 		Response r = request.SendPostRequest(URI_CONTEXT, validAccount);
@@ -43,7 +43,7 @@ public class AuthenticationControllerIT {
 		r.then().assertThat().statusCode(200);
 	}
 	
-	//@Test
+	@Test
 	public void registerAccountAsProductOwnerRoleShouldReturn200() throws Exception{
 		validAccount.setUsername(generateUsername());
 		validRole.setProductOwner(true);
@@ -54,7 +54,7 @@ public class AuthenticationControllerIT {
 		r.then().assertThat().statusCode(200);
 	}
 	
-	//@Test
+	@Test
 	public void registerAccountAsScrumMasterRoleShouldReturn200() throws Exception{
 		validAccount.setUsername(generateUsername());
 		validRole.setScrumMaster(true);
@@ -65,7 +65,7 @@ public class AuthenticationControllerIT {
 		r.then().assertThat().statusCode(200);
 	}
 	
-	//@Test
+	@Test
 	public void registerAccountAsDeveloperRoleShouldReturn200() throws Exception{
 		validAccount.setUsername(generateUsername());
 		validRole.setDeveloper(true);
@@ -90,7 +90,7 @@ public class AuthenticationControllerIT {
 	}
 	
 	//Missing field tests
-	//@Test
+	@Test
 	public void missingUsernameShouldReturn400() {
 		Account invalidAccount = validAccount;
 		invalidAccount.setUsername(null);
@@ -108,7 +108,7 @@ public class AuthenticationControllerIT {
 		r.then().assertThat().statusCode(400);
 	}
 	
-	//@Test
+	@Test
 	public void missingForenameShouldReturn400() {
 		Account invalidAccount = validAccount;
 		invalidAccount.getUser().setForename(null);
@@ -117,7 +117,7 @@ public class AuthenticationControllerIT {
 		r.then().assertThat().statusCode(400);
 	}
 	
-	//@Test
+	@Test
 	public void missingSurnameShouldReturn400() {
 		Account invalidAccount = validAccount;
 		invalidAccount.getUser().setSurname(null);
@@ -126,7 +126,7 @@ public class AuthenticationControllerIT {
 		r.then().assertThat().statusCode(400);
 	}
 	
-	//@Test
+	@Test
 	public void missingUserShouldReturn400() {
 		Account invalidAccount = validAccount;
 		invalidAccount.setUser(null);
@@ -136,7 +136,7 @@ public class AuthenticationControllerIT {
 	}
 	
 	//Invalid input tests
-	//@Test
+	@Test
 	public void invalidUsernameShouldReturn400() throws Exception {
 		Account invalidAccount = validAccount;
 		invalidAccount.setUsername("sh");
@@ -146,7 +146,7 @@ public class AuthenticationControllerIT {
 		r.then().assertThat().statusCode(400);
 	}
 	
-	//@Test
+	@Test
 	public void invalidEmailShouldReturn400() throws Exception {
 		Account invalidAccount = validAccount;
 		invalidAccount.getUser().setEmail("wrong");
@@ -156,7 +156,7 @@ public class AuthenticationControllerIT {
 		r.then().assertThat().statusCode(400);
 	}
 	
-	//@Test
+	@Test
 	public void invalidPasswordShouldReturn400() throws Exception {
 		Account invalidAccount = validAccount;
 		invalidAccount.setPassword("a");
@@ -166,7 +166,7 @@ public class AuthenticationControllerIT {
 		r.then().assertThat().statusCode(400);
 	}
 	
-	//@Test
+	@Test
 	public void multipleInvalidDetailsShouldReturn400WithMultipleErrors() throws Exception {
 		Account invalidAccount = validAccount;
 		invalidAccount.setPassword("a");
@@ -183,7 +183,7 @@ public class AuthenticationControllerIT {
 	
 	
 	//Conflict tests
-	//@Test
+	@Test
 	public void registerExistingAccountShouldReturn409() throws Exception {
 		request.SendPostRequest(URI_CONTEXT, validAccount);
 		Response r = request.SendPostRequest(URI_CONTEXT, validAccount);
