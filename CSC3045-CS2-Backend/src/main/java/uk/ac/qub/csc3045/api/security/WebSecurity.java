@@ -33,7 +33,7 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.POST, SIGN_UP_URL).permitAll()
                 .anyRequest().authenticated()
                 .and()
-                .addFilter(new JWTAuthenticationFilter(authenticationManager()))
+                .addFilter(getJWTAuthenticationFilter())
                 .addFilter(new JWTAuthorizationFilter(authenticationManager(), mapper));
     }
 
@@ -50,5 +50,12 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
 	  UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
       source.registerCorsConfiguration("/**", configuration);
     return source;
+  }
+  
+  @Bean
+  public JWTAuthenticationFilter getJWTAuthenticationFilter() throws Exception {
+      final JWTAuthenticationFilter filter = new JWTAuthenticationFilter(authenticationManager());
+      filter.setFilterProcessesUrl(LOGIN_URL);
+      return filter;
   }
 }
