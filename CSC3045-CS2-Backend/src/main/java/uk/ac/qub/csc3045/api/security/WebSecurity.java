@@ -27,6 +27,8 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
         this.mapper = mapper;
     }
 
+    //configures security filters, SIGN_UP_URL and LOGIN_URL are allowed to be hit with no token, all other endpoints must receive a token that is 
+    //checked by the authorization filter
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.cors().and().csrf().disable().authorizeRequests()

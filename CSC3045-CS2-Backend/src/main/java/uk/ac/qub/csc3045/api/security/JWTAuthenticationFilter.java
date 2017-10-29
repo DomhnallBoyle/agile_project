@@ -32,6 +32,7 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         this.authenticationManager = authenticationManager;
     }
 
+    //Takes in account object from login request, and checks if credentials are valid
     @Override
     public Authentication attemptAuthentication(HttpServletRequest req,
                                                 HttpServletResponse res) throws AuthenticationException {
@@ -56,6 +57,7 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         super.setAuthenticationManager(authenticationManager);
     }
 
+    //if credentials were valid builds the token and sends the response
     @Override
     protected void successfulAuthentication(HttpServletRequest req,
                                             HttpServletResponse res,

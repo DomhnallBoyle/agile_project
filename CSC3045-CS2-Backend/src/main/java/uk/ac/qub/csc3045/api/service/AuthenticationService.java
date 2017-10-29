@@ -15,7 +15,7 @@ import uk.ac.qub.csc3045.api.model.Account;
 import uk.ac.qub.csc3045.api.utility.ValidationUtility;
 
 @Service
-public class AuthenticationService implements UserDetailsService{
+public class AuthenticationService implements UserDetailsService {
 
     private AuthenticationMapper mapper;
     private BCryptPasswordEncoder passwordEncoder;
