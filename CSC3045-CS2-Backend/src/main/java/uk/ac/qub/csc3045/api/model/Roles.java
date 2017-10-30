@@ -9,9 +9,9 @@ public class Roles {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 
-	private Boolean developer;
-	private Boolean scrumMaster;
-	private Boolean productOwner;
+	private Boolean developer = false;
+	private Boolean scrumMaster = false;
+	private Boolean productOwner = false;
 	
 	public Roles() {}
 	
