@@ -1,0 +1,51 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- Set the namespace below to the interface side of the mapper -->
+<mapper namespace="uk.ac.qub.csc3045.api.mapper.ProjectMapper">
+
+    <insert id="createProject" parameterType="Project" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+        INSERT INTO project(name, description, manager_id, product_owner_id)
+        VALUES(#{name}, #{description}, #{manager.id}, #{productOwner.id});
+    </insert>
+
+	<resultMap id="projectResultMap" type="Project">
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="description" property="description"/>
+        <association property="manager" column="manager_id" javaType="User" select="selectManager"/>
+        <association property="productOwner" column="product_owner_id" javaType="User" select="selectProductOwner"/>
+    </resultMap>
+    
+   	<resultMap id="userResultMap" type="User">
+        <id column="id" property="id"/>
+        <result column="forename" property="forename"/>
+        <result column="surname" property="surname"/>
+        <result column="email" property="email"/>
+        <association property="roles" resultMap="rolesResultMap"/>
+    </resultMap>
+    
+    <resultMap id="rolesResultMap" type="Roles">
+        <id column="id" property="id"/>
+        <result column="developer" property="developer"/>
+        <result column="scrum_master" property="scrumMaster"/>
+        <result column="product_owner" property="productOwner"/>
+    </resultMap>
+    
+    <select id="getProjectById" resultMap="projectResultMap">
+    	SELECT * FROM PROJECT WHERE id = #{id}
+    </select>
+    
+    <select id="selectManager" resultMap="userResultMap">
+    	SELECT * FROM USER 
+    	JOIN roles ON roles_id = roles.id
+    	WHERE user.id = #{project.manager_id} 
+    </select>
+    
+    <select id="selectProductOwner" resultMap="userResultMap">
+    	SELECT * FROM USER
+    	JOIN roles ON roles_id = roles.id
+    	WHERE user.id = #{project.product_owner_id}
+    </select>
+   	  
+</mapper>
