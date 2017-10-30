@@ -1,5 +1,7 @@
 package uk.ac.qub.csc3045.api.model;
 
+import java.util.List;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
@@ -10,17 +12,22 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    
     @NotNull
     private String forename;
+    
     @NotNull
     private String surname;
+    
     @NotNull
     private String email;
     @OneToOne
     private Roles roles = new Roles();
 
-    public User() {
-    }
+    @ManyToMany
+    private List<Project> projects;
+    
+    public User() { }
 
     public User(String forename, String surname, String email) {
         this.forename = forename;
