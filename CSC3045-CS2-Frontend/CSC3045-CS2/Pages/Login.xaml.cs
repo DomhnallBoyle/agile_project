@@ -64,10 +64,12 @@ namespace CSC3045_CS2.Pages
                     {
                         User user = _client.Login(account);
 
-                        if (Application.Current.Properties.Contains("user")
+                        if (Application.Current.Properties.Contains("user"))
                         {
-                            Application.Current.Properties.Add("user", user);
+                            Application.Current.Properties.Remove("user");
                         }
+
+                        Application.Current.Properties.Add("user", user);
 
                         Page test = new test();
 
