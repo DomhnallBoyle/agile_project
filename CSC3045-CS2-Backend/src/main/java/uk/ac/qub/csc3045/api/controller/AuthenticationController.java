@@ -27,9 +27,6 @@ public class AuthenticationController {
 
     @RequestMapping(value = "/register", method = POST)
     public ResponseEntity<Account> register(@Valid @RequestBody Account account) {
-//        HttpHeaders headers = new HttpHeaders();
-//        headers.add(HttpHeaders.CONTENT_TYPE, "application/json; charset=UTF-8");
-//        return new ResponseEntity<>(this.authenticationService.register(account), headers, HttpStatus.OK);
         return new ResponseEntity<>(this.authenticationService.register(account), HttpStatus.OK);
     }
 }
