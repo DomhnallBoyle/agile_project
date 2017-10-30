@@ -76,11 +76,11 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
                 .compact();
         res.addHeader(HEADER_STRING, TOKEN_PREFIX + token);
         
-        //add account object to body
+        //add user object for the account to body
         res.setContentType("application/json");
         Account account = authenticationMapper.findAccountByUsername(((User) auth.getPrincipal()).getUsername());
         ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
-        String json = ow.writeValueAsString(account);
+        String json = ow.writeValueAsString(account.getUser());
         res.getWriter().write(json);
     }
     
