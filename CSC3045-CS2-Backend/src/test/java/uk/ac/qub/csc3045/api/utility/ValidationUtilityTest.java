@@ -1,6 +1,7 @@
 package uk.ac.qub.csc3045.api.utility;
 
 import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.mockito.Mockito.when;
@@ -111,16 +112,16 @@ public class ValidationUtilityTest {
     public void usernameValidTest() {
         try {
             account.setUsername("abc123");
-            String successMessage = ValidationUtility.validateAccount(account, authenticationMapperMock);
-            assertThat(successMessage, containsString("Registration Successful"));
+            boolean validated = ValidationUtility.validateAccount(account, authenticationMapperMock);
+            assertTrue(validated);
 
             account.setUsername("abc_123-cba");
-            successMessage = ValidationUtility.validateAccount(account, authenticationMapperMock);
-            assertThat(successMessage, containsString("Registration Successful"));
+            validated = ValidationUtility.validateAccount(account, authenticationMapperMock);
+            assertTrue(validated);
 
             account.setUsername("1_2-3-4_5-6_abc");
-            successMessage = ValidationUtility.validateAccount(account, authenticationMapperMock);
-            assertThat(successMessage, containsString("Registration Successful"));
+            validated = ValidationUtility.validateAccount(account, authenticationMapperMock);
+            assertTrue(validated);
         } catch (ResponseErrorException e) {
             fail("An unexpected exception was thrown by validateAccount");
         }
@@ -202,16 +203,16 @@ public class ValidationUtilityTest {
     public void passwordValidTest() {
         try {
             account.setPassword("ABCdef123");
-            String successMessage = ValidationUtility.validateAccount(account, authenticationMapperMock);
-            assertThat(successMessage, containsString("Registration Successful"));
+            boolean validated = ValidationUtility.validateAccount(account, authenticationMapperMock);
+            assertTrue(validated);
 
             account.setPassword("Ab1nb1nb1nb1nb1nb1nb1nb1n");
-            successMessage = ValidationUtility.validateAccount(account, authenticationMapperMock);
-            assertThat(successMessage, containsString("Registration Successful"));
+            validated = ValidationUtility.validateAccount(account, authenticationMapperMock);
+            assertTrue(validated);
 
             account.setPassword("1234TESTING4321password0");
-            successMessage = ValidationUtility.validateAccount(account, authenticationMapperMock);
-            assertThat(successMessage, containsString("Registration Successful"));
+            validated = ValidationUtility.validateAccount(account, authenticationMapperMock);
+            assertTrue(validated);
         } catch (ResponseErrorException e) {
             fail("An unexpected exception was thrown by validateAccount");
         }
@@ -257,16 +258,16 @@ public class ValidationUtilityTest {
     public void emailValidTest() {
         try {
             user.setEmail("abcdef@gmail.com");
-            String successMessage = ValidationUtility.validateAccount(account, authenticationMapperMock);
-            assertThat(successMessage, containsString("Registration Successful"));
+            boolean validated = ValidationUtility.validateAccount(account, authenticationMapperMock);
+            assertTrue(validated);
 
             user.setEmail("testing@qub.ac.uk");
-            successMessage = ValidationUtility.validateAccount(account, authenticationMapperMock);
-            assertThat(successMessage, containsString("Registration Successful"));
+            validated = ValidationUtility.validateAccount(account, authenticationMapperMock);
+            assertTrue(validated);
 
             user.setEmail("testing._%+$@qub.ac.uk");
-            successMessage = ValidationUtility.validateAccount(account, authenticationMapperMock);
-            assertThat(successMessage, containsString("Registration Successful"));
+            validated = ValidationUtility.validateAccount(account, authenticationMapperMock);
+            assertTrue(validated);
         } catch (ResponseErrorException e) {
             fail("An unexpected exception was thrown by validateAccount");
         }

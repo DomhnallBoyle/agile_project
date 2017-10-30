@@ -1,6 +1,7 @@
 package uk.ac.qub.csc3045.api.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -25,7 +26,10 @@ public class AuthenticationController {
     }
 
     @RequestMapping(value = "/register", method = POST)
-    public ResponseEntity<String> register(@Valid @RequestBody Account account) {
+    public ResponseEntity<Account> register(@Valid @RequestBody Account account) {
+//        HttpHeaders headers = new HttpHeaders();
+//        headers.add(HttpHeaders.CONTENT_TYPE, "application/json; charset=UTF-8");
+//        return new ResponseEntity<>(this.authenticationService.register(account), headers, HttpStatus.OK);
         return new ResponseEntity<>(this.authenticationService.register(account), HttpStatus.OK);
     }
 }

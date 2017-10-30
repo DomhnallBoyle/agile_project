@@ -10,5 +10,4 @@ public abstract class ErrorMessages {
     public static final String INVALID_EMAIL = "The Email does not meet the requirements:\n\tEmail identifier must be at least 4 letters and have a valid domain\n\tEmail identifier can only contain the following special characters '.', '_', '%', '+', '$'\n";
     public static final String USERNAME_ALREADY_EXISTS = "This username already exists, please select another one";
     public static final String EMAIL_ALREADY_EXISTS = "This email already exists, please select another one";
-    
 }

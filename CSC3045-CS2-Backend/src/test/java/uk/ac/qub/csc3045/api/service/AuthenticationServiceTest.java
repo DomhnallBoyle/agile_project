@@ -3,6 +3,8 @@ package uk.ac.qub.csc3045.api.service;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
 import uk.ac.qub.csc3045.api.exception.ResponseErrorException;
 import uk.ac.qub.csc3045.api.mapper.AuthenticationMapper;
 import uk.ac.qub.csc3045.api.model.Account;
@@ -11,6 +13,7 @@ import uk.ac.qub.csc3045.api.model.User;
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.mock;
 
 public class AuthenticationServiceTest {
 
@@ -22,8 +25,9 @@ public class AuthenticationServiceTest {
 
     @Before
     public void setUp() throws Exception {
-        authenticationMapperMock = Mockito.mock(AuthenticationMapper.class);
-        authenticationService = new AuthenticationService(authenticationMapperMock);
+        authenticationMapperMock = mock(AuthenticationMapper.class);
+        BCryptPasswordEncoder passwordEncoderMock =  mock(BCryptPasswordEncoder.class);
+        authenticationService = new AuthenticationService(authenticationMapperMock, passwordEncoderMock );
 
         user = new User();
         user.setEmail("abcdef@gmail.com");
@@ -36,9 +40,10 @@ public class AuthenticationServiceTest {
 
     @Test
     public void handleRegisterRequestSuccessful() throws Exception {
-        String response = authenticationService.register(account);
+        Account response = authenticationService.register(account);
 
-        assertThat(response, containsString("Registration Successful"));
+        assertEquals(account.getUsername(), response.getUsername());
+        assertEquals(account.getPassword(), response.getPassword());
     }
 
     @Test(expected = ResponseErrorException.class)

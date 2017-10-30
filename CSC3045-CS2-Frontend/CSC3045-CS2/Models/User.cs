@@ -1,23 +1,35 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using RestSharp.Deserializers;
 
 namespace CSC3045_CS2.Models
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public class User
     {
-        public string forename { get; set; }
-        public string surname { get; set; }
-        public string email { get; set; }
+        [DeserializeAs(Name = "id")]
+        public long Id { get; set; }
 
-        public User(string forename, string surname, string email)
+        [DeserializeAs(Name = "forename")]
+        public string Forename { get; set; }
+
+        [DeserializeAs(Name = "surname")]
+        public string Surname { get; set; }
+
+        [DeserializeAs(Name = "email")]
+        public string Email { get; set; }
+
+        [DeserializeAs(Name = "roles")]
+        public Roles Roles { get; set; }
+
+        public User() { }
+
+        public User(string forename, string surname, string email, Roles roles)
         {
-            this.forename = forename;
-            this.surname = surname;
-            this.email = email;
+            this.Forename = forename;
+            this.Surname = surname;
+            this.Email = email;
+            this.Roles = roles;
         }
-       
     }
 }

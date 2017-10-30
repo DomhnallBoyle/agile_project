@@ -42,7 +42,7 @@ public abstract class ValidationUtility {
 	 * @param mapper db access
 	 * @return a String with the response message
 	 */
-    public static String validateAccount(Account account, AuthenticationMapper mapper) {
+    public static boolean validateAccount(Account account, AuthenticationMapper mapper) {
         List<String> errorMessages = new ArrayList<>();
         StringBuilder sb = new StringBuilder();
 
@@ -73,7 +73,7 @@ public abstract class ValidationUtility {
             throw new ResponseErrorException(sb.toString(), HttpStatus.CONFLICT);
         }
 
-        return "Registration Successful!";
+        return true;
     }
 	
 	/**

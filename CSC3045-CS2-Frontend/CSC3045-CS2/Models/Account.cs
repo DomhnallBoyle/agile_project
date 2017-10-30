@@ -1,28 +1,29 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using RestSharp.Deserializers;
+using System;
 
 namespace CSC3045_CS2.Models
 {
-   
-
     public class Account
     {
-        public User user { get; set; }
-        public string username { get; set; }
-        public string password { get; set; }
+        [DeserializeAs(Name = "id")]
+        public long Id { get; set; }
 
-        public Account()
-        {
+        [DeserializeAs(Name = "user")]
+        public User User { get; set; }
 
-        }
+        [DeserializeAs(Name = "username")]
+        public string Username { get; set; }
+
+        [DeserializeAs(Name = "password")]
+        public string Password { get; set; }
+
+        public Account() { }
+
         public Account(User user, String username, String password)
         {
-            this.user = user;
-            this.username = username;
-            this.password = password;
+            this.User = user;
+            this.Username = username;
+            this.Password = password;
         }
         
     }

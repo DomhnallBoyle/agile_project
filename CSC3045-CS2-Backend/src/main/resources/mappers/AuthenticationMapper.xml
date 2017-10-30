@@ -3,16 +3,49 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <!-- Set the namespace below to the interface side of the mapper -->
 <mapper namespace="uk.ac.qub.csc3045.api.mapper.AuthenticationMapper">
+    <resultMap id="accountResultMap" type="Account">
+        <id column="id" property="id"/>
+        <result column="username" property="username"/>
+        <result column="password" property="password"/>
+        <association property="user" resultMap="userResultMap"/>
+    </resultMap>
+
+    <resultMap id="userResultMap" type="User">
+        <id column="id" property="id"/>
+        <result column="forename" property="forename"/>
+        <result column="surname" property="surname"/>
+        <result column="email" property="email"/>
+        <association property="roles" resultMap="rolesResultMap"/>
+    </resultMap>
+
+    <resultMap id="rolesResultMap" type="Roles">
+        <id column="id" property="id"/>
+        <result column="developer" property="developer"/>
+        <result column="scrum_master" property="scrumMaster"/>
+        <result column="product_owner" property="productOwner"/>
+    </resultMap>
+
     <insert id="createUser" parameterType="User" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
-        INSERT INTO user(forename, surname, email) VALUES(#{forename}, #{surname}, #{email})
+        INSERT INTO user(forename, surname, email, roles_id)
+        VALUES(#{forename}, #{surname}, #{email}, #{roles.id})
     </insert>
 
-    <insert id="createAccount" parameterType="Account" useGeneratedKeys="true">
-        INSERT INTO account(user_id, username, password) VALUES(#{user.id}, #{username}, #{password})
+    <insert id="createAccount" parameterType="Account" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+        INSERT INTO account(user_id, username, password)
+        VALUES(#{user.id}, #{username}, #{password})
+    </insert>
+
+    <insert id="createRoles" parameterType="Roles" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+        INSERT INTO roles(developer, scrum_master, product_owner)
+        VALUES(#{developer}, #{scrumMaster}, #{productOwner})
     </insert>
     
-    <select id="findAccountByUsername" resultType="Account">
-    	SELECT username FROM account WHERE username = #{username}
+    <select id="findAccountByUsername" resultMap="accountResultMap">
+    	SELECT *
+        FROM account
+            JOIN user ON account.user_id = user.id
+            JOIN roles ON user.roles_id = roles.id
+        WHERE username = #{username}
     </select>
     
     <select id="findUserByEmail" resultType="User">
