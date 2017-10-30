@@ -99,7 +99,7 @@ public class AuthenticationControllerIT {
 		r.then().assertThat().statusCode(400);
 	}
 	
-	//@Test
+	@Test
 	public void missingEmailShouldReturn400() {
 		Account invalidAccount = validAccount;
 		invalidAccount.getUser().setEmail(null);
