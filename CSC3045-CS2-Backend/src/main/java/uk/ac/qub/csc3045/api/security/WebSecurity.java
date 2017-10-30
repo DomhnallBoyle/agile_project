@@ -56,7 +56,7 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
   
   @Bean
   public JWTAuthenticationFilter getJWTAuthenticationFilter() throws Exception {
-      final JWTAuthenticationFilter filter = new JWTAuthenticationFilter(authenticationManager());
+      final JWTAuthenticationFilter filter = new JWTAuthenticationFilter(authenticationManager(), mapper);
       filter.setFilterProcessesUrl(LOGIN_URL);
       return filter;
   }

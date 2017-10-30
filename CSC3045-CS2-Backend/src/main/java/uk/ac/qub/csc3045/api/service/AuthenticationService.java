@@ -26,14 +26,15 @@ public class AuthenticationService implements UserDetailsService {
         this.passwordEncoder = passwordEncoder;
     }
 
-    public String register(Account account) {
-    	String responseMessage = ValidationUtility.validateAccount(account, mapper);
+    public Account register(Account account) {
+    	ValidationUtility.validateAccount(account, mapper);
 
     	account.setPassword(passwordEncoder.encode(account.getPassword()));
+        mapper.createRoles(account.getUser().getRoles());
         mapper.createUser(account.getUser());
         mapper.createAccount(account);
-        
-        return responseMessage;
+
+        return account;
     }
 
     @Override

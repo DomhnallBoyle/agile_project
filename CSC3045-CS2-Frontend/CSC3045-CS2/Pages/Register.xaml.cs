@@ -39,10 +39,9 @@ namespace CSC3045_CS2.Pages
                     Roles roles = new Roles(ProductOwnerCheckBox.IsChecked.Value, ScrumMasterCheckBox.IsChecked.Value, DeveloperCheckBox.IsChecked.Value);
                     User user = new User(FirstnameTextBox.Text, SurnameTextBox.Text, EmailTextBox.Text, roles);
                     Account account = new Account(user, UsernameTextBox.Text, PasswordTextBox.Password.ToString());
-                    string result = this.client.Register(account);
+                    Account response = this.client.Register(account);
 
-                    Console.WriteLine(result);
-                    MessageBox.Show(result);
+                    MessageBox.Show("Registration successful!");
                     Page loginPage = new Login();
 
                     NavigationService.GetNavigationService(this).Navigate(loginPage);
