@@ -40,9 +40,10 @@ public class AuthenticationServiceTest {
 
     @Test
     public void handleRegisterRequestSuccessful() throws Exception {
-        String response = authenticationService.register(account);
+        Account response = authenticationService.register(account);
 
-        assertThat(response, containsString("Registration Successful"));
+        assertEquals(account.getUsername(), response.getUsername());
+        assertEquals(account.getPassword(), response.getPassword());
     }
 
     @Test(expected = ResponseErrorException.class)

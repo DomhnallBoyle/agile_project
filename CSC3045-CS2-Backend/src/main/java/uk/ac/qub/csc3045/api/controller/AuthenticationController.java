@@ -25,7 +25,7 @@ public class AuthenticationController {
     }
 
     @RequestMapping(value = "/register", method = POST)
-    public ResponseEntity<String> register(@Valid @RequestBody Account account) {
+    public ResponseEntity<Account> register(@Valid @RequestBody Account account) {
         return new ResponseEntity<>(this.authenticationService.register(account), HttpStatus.OK);
     }
 }
