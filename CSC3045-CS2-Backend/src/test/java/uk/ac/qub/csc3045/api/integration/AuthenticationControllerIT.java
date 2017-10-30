@@ -10,12 +10,14 @@ import org.junit.Test;
 import io.restassured.response.Response;
 import uk.ac.qub.csc3045.api.integration.util.RequestHelper;
 import uk.ac.qub.csc3045.api.model.Account;
+import uk.ac.qub.csc3045.api.model.Roles;
 import uk.ac.qub.csc3045.api.model.User;
 
 public class AuthenticationControllerIT {
 	private RequestHelper request;
 
 	Account validAccount;
+	Roles validRole;
 	String invalidPasswordErrorMessage = "The Password does not meet the requirements:\n\tPassword length must be between 4 and 25 characters\n\tPassword must contain at least 1 uppercase letter, 1 lowercase letter and 1 digit\n";
 	String invalidEmailErrorMessage = "The Email does not meet the requirements:\n\tEmail identifier must be at least 4 letters and have a valid domain\n\tEmail identifier can only contain the following special characters '.', '_', '%', '+', '$'\n";
 	String invalidUsernameErrorMessage = "The Username does not meet the requirements:\n\tUsername length must be between 3 and 15 characters\n\tUsername can only contain the following special characters '_', '-', '.'\n";
@@ -35,6 +37,52 @@ public class AuthenticationControllerIT {
 	@Test
 	public void registerAccountShouldReturn200() throws Exception {
 		validAccount.setUsername(generateUsername());
+		Response r = request.SendPostRequest(URI_CONTEXT, validAccount);
+		
+		assertEquals(r.body().asString(), "Registration Successful!");
+		r.then().assertThat().statusCode(200);
+	}
+	
+	@Test
+	public void registerAccountAsProductOwnerRoleShouldReturn200() throws Exception{
+		validAccount.setUsername(generateUsername());
+		validRole.setProductOwner(true);
+		validAccount.getUser().setRoles(validRole);
+		Response r = request.SendPostRequest(URI_CONTEXT, validAccount);
+		
+		assertEquals(r.body().asString(), "Registration Successful!");
+		r.then().assertThat().statusCode(200);
+	}
+	
+	@Test
+	public void registerAccountAsScrumMasterRoleShouldReturn200() throws Exception{
+		validAccount.setUsername(generateUsername());
+		validRole.setScrumMaster(true);
+		validAccount.getUser().setRoles(validRole);
+		Response r = request.SendPostRequest(URI_CONTEXT, validAccount);
+		
+		assertEquals(r.body().asString(), "Registration Successful!");
+		r.then().assertThat().statusCode(200);
+	}
+	
+	@Test
+	public void registerAccountAsDeveloperRoleShouldReturn200() throws Exception{
+		validAccount.setUsername(generateUsername());
+		validRole.setDeveloper(true);
+		validAccount.getUser().setRoles(validRole);
+		Response r = request.SendPostRequest(URI_CONTEXT, validAccount);
+		
+		assertEquals(r.body().asString(), "Registration Successful!");
+		r.then().assertThat().statusCode(200);
+	}
+	
+	@Test
+	public void registerAccountwithMulipleRolesShouldReturn200() throws Exception{
+		validAccount.setUsername(generateUsername());
+		validRole.setProductOwner(true);
+		validRole.setScrumMaster(true);
+		validRole.setDeveloper(true);
+		validAccount.getUser().setRoles(validRole);
 		Response r = request.SendPostRequest(URI_CONTEXT, validAccount);
 		
 		assertEquals(r.body().asString(), "Registration Successful!");
@@ -144,6 +192,7 @@ public class AuthenticationControllerIT {
 		r.then().assertThat().statusCode(409);
 	}
 	
+	
 	/*
 	@Test
 	public void registerExistingEmailShouldReturn409() throws Exception {
@@ -167,6 +216,7 @@ public class AuthenticationControllerIT {
 		validUser.setForename("Forename");
 		validUser.setSurname("Surname");
 		validAccount.setUser(validUser);
+		validRole = new Roles();		
 	}
 	
 	public String generateUsername() {
