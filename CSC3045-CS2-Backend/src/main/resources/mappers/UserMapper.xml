@@ -24,10 +24,10 @@
         FROM user
           JOIN roles ON roles.id = user.roles_id
         WHERE forename LIKE '%'||${forename}||'%'
-          AND surname LIKE '%'||${surname}||'%'
-          AND email LIKE '%'||${email}||'%'
-          AND developer LIKE '%'||${developer}||'%'
-          AND scrum_master LIKE '%'||${scrumMaster}||'%'
-          AND product_owner LIKE '%'||${productOwner}||'%'
+          OR surname LIKE '%'||${surname}||'%'
+          OR email LIKE '%'||${email}||'%'
+          OR developer = #{developer}
+          OR scrum_master = #{scrumMaster}
+          OR product_owner = #{productOwner}
     </select>
 </mapper>

@@ -12,7 +12,7 @@ import uk.ac.qub.csc3045.api.service.UserService;
 import javax.validation.Valid;
 import java.util.List;
 
-import static org.springframework.web.bind.annotation.RequestMethod.GET;
+import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
 @RestController
 @RequestMapping(value = "/user")
@@ -25,7 +25,7 @@ public class UserController {
         this.userService = userService;
     }
 
-    @RequestMapping(value = "/search", method = GET)
+    @RequestMapping(value = "/search", method = POST)
     public ResponseEntity<List<User>> search(@Valid @RequestBody User user) {
         return new ResponseEntity<>(userService.search(user), HttpStatus.OK);
     }
