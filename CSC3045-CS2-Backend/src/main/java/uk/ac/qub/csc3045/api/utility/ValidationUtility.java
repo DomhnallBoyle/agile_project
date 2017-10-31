@@ -7,7 +7,10 @@ import org.springframework.http.HttpStatus;
 
 import uk.ac.qub.csc3045.api.exception.ResponseErrorException;
 import uk.ac.qub.csc3045.api.mapper.AuthenticationMapper;
+import uk.ac.qub.csc3045.api.mapper.ProjectMapper;
 import uk.ac.qub.csc3045.api.model.Account;
+import uk.ac.qub.csc3045.api.model.Project;
+import uk.ac.qub.csc3045.api.model.User;
 
 public class ValidationUtility {
 
@@ -72,6 +75,28 @@ public class ValidationUtility {
         return true;
     }
 	
+    public static boolean validateProject(Project project, ProjectMapper mapper) {
+        if (!validateProjectExists(project, mapper)) {
+            throw new ResponseErrorException("Project does not exist", HttpStatus.NOT_FOUND);
+        }
+        
+        for (User user : project.getProjectTeam()) {
+            if (!validateUserExists(user, mapper)) {
+                throw new ResponseErrorException("User" + user.getForename() + " " + user.getSurname() + " does not exist", HttpStatus.NOT_FOUND);
+            }
+        }
+        
+        return true;
+    }
+    
+    private static boolean validateProjectExists(Project project, ProjectMapper mapper) {
+        return (mapper.findProjectByProjectName(project.getProjectName()) != null);
+    }
+    
+    private static boolean validateUserExists(User user, ProjectMapper mapper) {
+        return (mapper.findUserByEmail(user.getEmail()) != null);
+    }
+    
 	/**
 	 * Validates the username against the length requirements and the regex
 	 * @param - username the username to be validated

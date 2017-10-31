@@ -22,9 +22,10 @@ public class Project {
     private String description;
 
     @NotNull
+    @ManyToOne
     private User projectManager;
 
-    @NotNull
+    @ManyToOne
     private User productOwner;
 
     @ManyToMany
@@ -41,6 +42,14 @@ public class Project {
 
     public Long getId() {
         return id;
+    }
+
+    public List<User> getProjectTeam() {
+        return projectTeam;
+    }
+
+    public void setProjectTeam(List<User> projectTeam) {
+        this.projectTeam = projectTeam;
     }
 
     public void setId(Long id) {
@@ -79,4 +88,15 @@ public class Project {
         this.productOwner = productOwner;
     }
 
+    @Override
+    public boolean equals(Object toCompare) {
+        if (!(toCompare instanceof Project))
+            return false;
+        
+        Project project = ((Project)toCompare);
+        project.setId(null);
+
+        return this.projectName.equalsIgnoreCase(project.getProjectName());
+    }
+    
 }

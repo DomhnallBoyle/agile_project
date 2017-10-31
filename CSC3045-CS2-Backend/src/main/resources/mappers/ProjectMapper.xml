@@ -1,0 +1,37 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- Set the namespace below to the interface side of the mapper -->
+<mapper namespace="uk.ac.qub.csc3045.api.mapper.ProjectMapper">
+    <resultMap id="projectResultMap" type="Project">
+        <id column="id" property="id"/>
+        <result column="project_name" property="projectName"/>
+        <collection property="projectTeam" javaType="List" ofType="User"/>
+    </resultMap>
+
+    <select id="findProjectByProjectName" resultType="Project">
+        SELECT * FROM project WHERE projectName = #{projectName}
+    </select>
+    
+    <select id="getUsersOnProjectByProjectName" resultMap="projectResultMap">
+        SELECT *
+        FROM project
+            JOIN project_user ON project.id = project_user.project_id
+            JOIN user ON user.id = project_user.user.id
+        WHERE project.project_name LIKE '#{projectName}'
+    </select>
+    
+    <select id="findUserByEmail" resultType="User">
+        SELECT * FROM user WHERE email = #{email}
+    </select>
+    
+    <insert id="addToProjectTeam" parameterType="User">
+        INSERT INTO project_user (project_user.project_id, project_user.user_id)
+        SELECT
+            project.id
+            user.id
+        FROM project
+            JOIN user ON project.id = user.project_id
+    </insert>
+
+</mapper>
