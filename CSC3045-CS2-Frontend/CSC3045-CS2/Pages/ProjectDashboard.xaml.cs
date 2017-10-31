@@ -24,29 +24,28 @@ namespace CSC3045_CS2.Pages
     {
         #region Public Variables
 
-        public String WelcomeProductManagerLabel { get; set; }
+        public String WelcomeProductManagerLabel { get; set; } = "Welcome!";
 
-        public String CreateProjectButtonLabel { get; set; } = "Create Button";
+        public String ProductManagerLabel { get; set; } = "";
 
+        public String CreateProjectButtonLabel { get; set; } = "Create Project";
+
+        User currentUser = (User)Application.Current.Properties["user"];
         #endregion
+
+
+
 
         public ProjectDashboard()
         {
             InitializeComponent();
             DataContext = this;
+            pageSetup();
         }
-
-        public ICommand ShowNameCommand
+        public void pageSetup()
         {
-            get
-            {
-                return new RelayCommand(param =>
-                {
-
-                });
-            }
+            ProductManagerLabel = currentUser.Forename + " " + currentUser.Surname;
         }
-
         #region Command methods
         public ICommand NavigateToCreateProjectCommand
         {

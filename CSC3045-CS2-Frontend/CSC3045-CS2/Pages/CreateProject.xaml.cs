@@ -28,6 +28,7 @@ namespace CSC3045_CS2.Pages
         private ProjectClient _client;
 
         #region Public Variables
+        User currentUser = (User)Application.Current.Properties["user"];
 
         public String TitleLabel { get; set; } = "Create A Project";
 
@@ -56,26 +57,22 @@ namespace CSC3045_CS2.Pages
             InitializeComponent();
             DataContext = this;
             _client = new ProjectClient();
+            pageSetup();
         }
 
+        public void pageSetup()
+        {     
+            ProjectManagerNameLabel = currentUser.Forename + " " + currentUser.Surname;
+        }
         public ICommand CreateProjectCommand
         {
             get
             {
                 return new RelayCommand(param =>
                 {
-                    Project project = new Project();
+                    Project project = new Project(currentUser, ProjectNameTextContent, DescriptionTextContent);
 
-                    //project.ProjectManager - set
-
-                    String ProjectManagerName = project.ProjectManager.Forename;
-                    ProjectManagerName += project.ProjectManager.Surname;
-                    ProjectManagerName = ProjectManagerNameLabel;
-
-                    project.ProjectName = ProjectNameTextContent;
-                    project.Description = DescriptionTextContent;
-
-                    //project.ProjectOwner - set
+                    ProjectManagerNameLabel = project.ProjectManager.Forename + project.ProjectManager.Surname;
 
                     try
                     {
