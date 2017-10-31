@@ -1,0 +1,33 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- Set the namespace below to the interface side of the mapper -->
+<mapper namespace="uk.ac.qub.csc3045.api.mapper.UserMapper">
+
+    <resultMap id="userResultMap" type="User">
+        <id column="id" property="id"/>
+        <result column="forename" property="forename"/>
+        <result column="surname" property="surname"/>
+        <result column="email" property="email"/>
+        <association property="roles" resultMap="rolesResultMap"/>
+    </resultMap>
+
+    <resultMap id="rolesResultMap" type="Roles">
+        <id column="id" property="id"/>
+        <result column="developer" property="developer"/>
+        <result column="scrum_master" property="scrumMaster"/>
+        <result column="product_owner" property="productOwner"/>
+    </resultMap>
+
+    <select id="searchUsers" parameterType="User" resultMap="userResultMap">
+        SELECT *
+        FROM user
+          JOIN roles ON roles.id = user.roles_id
+        WHERE forename LIKE '%'||${forename}||'%'
+          AND surname LIKE '%'||${surname}||'%'
+          AND email LIKE '%'||${email}||'%'
+          AND developer LIKE '%'||${developer}||'%'
+          AND scrum_master LIKE '%'||${scrumMaster}||'%'
+          AND product_owner LIKE '%'||${productOwner}||'%'
+    </select>
+</mapper>
