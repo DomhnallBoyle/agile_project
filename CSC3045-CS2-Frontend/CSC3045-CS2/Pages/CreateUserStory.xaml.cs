@@ -64,10 +64,9 @@ namespace CSC3045_CS2.Pages
             {
                 return new RelayCommand(param =>
                 {
-                    //TODO: Make this change to the correct page
-                    Page registrationPage = new Register();
+                    Page productBacklogPage = new ProductBacklog();
 
-                    NavigationService.GetNavigationService(this).Navigate(registrationPage);
+                    NavigationService.GetNavigationService(this).Navigate(productBacklogPage);
                 });
             }
         }

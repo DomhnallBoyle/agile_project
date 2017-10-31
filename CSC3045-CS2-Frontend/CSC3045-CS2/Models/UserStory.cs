@@ -23,9 +23,10 @@ namespace CSC3045_CS2.Models
 
         [DeserializeAs(Name = "marketValue")]
         public int MarketValue { get; set; }
-
-        [DeserializeAs(Name = "assigned")]
-        public bool Assigned { get; set; }
+        
+        //TODO: Sprint 2
+        //[DeserializeAs(Name = "assigned")]
+        //public bool Assigned { get; set; }
 
         //TODO: Below Doesn't exist yet on branch
         //[DeserializeAs(Name = "project")]
