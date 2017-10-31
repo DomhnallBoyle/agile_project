@@ -1,10 +1,6 @@
 package uk.ac.qub.csc3045.api.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table
@@ -12,7 +8,7 @@ public class Roles {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
-	
+
 	private Boolean developer = false;
 	private Boolean scrumMaster = false;
 	private Boolean productOwner = false;

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RestSharp.Deserializers;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,11 +14,21 @@ namespace CSC3045_CS2.Models
     {
         #region public getters & setters
 
+        [DeserializeAs(Name = "id")]
+        public long Id { get; set; }
+
+        [DeserializeAs(Name = "productOwner")]
         public bool ProductOwner { get; set; }
+
+        [DeserializeAs(Name = "scrumMaster")]
         public bool ScrumMaster { get; set; }
+
+        [DeserializeAs(Name = "developer")]
         public bool Developer { get; set; }
 
         #endregion
+
+        public Roles() { }
 
         /// <summary>
         /// Constructor for Role model
