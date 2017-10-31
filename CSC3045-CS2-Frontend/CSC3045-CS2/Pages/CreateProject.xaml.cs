@@ -49,9 +49,6 @@ namespace CSC3045_CS2.Pages
         public String CreateButtonText { get; set; } = "Create";
 
         #endregion
-
-        #region Command methods
-
         public CreateProject()
         {
             InitializeComponent();
@@ -60,10 +57,13 @@ namespace CSC3045_CS2.Pages
             pageSetup();
         }
 
+        #region Command methods
+
         public void pageSetup()
         {     
             ProjectManagerNameLabel = currentUser.Forename + " " + currentUser.Surname;
         }
+
         public ICommand CreateProjectCommand
         {
             get
@@ -71,8 +71,6 @@ namespace CSC3045_CS2.Pages
                 return new RelayCommand(param =>
                 {
                     Project project = new Project(currentUser, ProjectNameTextContent, DescriptionTextContent);
-
-                    ProjectManagerNameLabel = project.ProjectManager.Forename + project.ProjectManager.Surname;
 
                     try
                     {

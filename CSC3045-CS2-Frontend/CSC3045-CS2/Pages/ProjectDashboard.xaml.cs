@@ -33,19 +33,18 @@ namespace CSC3045_CS2.Pages
         User currentUser = (User)Application.Current.Properties["user"];
         #endregion
 
-
-
-
         public ProjectDashboard()
         {
             InitializeComponent();
             DataContext = this;
             pageSetup();
         }
+
         public void pageSetup()
         {
             ProductManagerLabel = currentUser.Forename + " " + currentUser.Surname;
         }
+
         #region Command methods
         public ICommand NavigateToCreateProjectCommand
         {
