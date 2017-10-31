@@ -9,7 +9,7 @@ import uk.ac.qub.csc3045.api.exception.ResponseErrorException;
 import uk.ac.qub.csc3045.api.mapper.AuthenticationMapper;
 import uk.ac.qub.csc3045.api.model.Account;
 
-public abstract class ValidationUtility {
+public class ValidationUtility {
 
 	/**
 	 * Username must start and end with an Alphanumeric character
