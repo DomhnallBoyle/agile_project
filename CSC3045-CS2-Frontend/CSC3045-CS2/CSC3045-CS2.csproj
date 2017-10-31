@@ -77,6 +77,9 @@
     <Compile Include="Pages\test.xaml.cs">
       <DependentUpon>test.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Pages\UserDashboard.xaml.cs">
+      <DependentUpon>UserDashboard.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Service\AuthenticationClient.cs" />
     <Compile Include="Service\ProjectClient.cs" />
     <Compile Include="Service\ServiceClient.cs" />
@@ -111,6 +114,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Pages\Register.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\UserDashboard.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
