@@ -31,5 +31,10 @@ namespace CSC3045_CS2.Models
             this.Email = email;
             this.Roles = roles;
         }
+
+        public string GetFullName()
+        {
+            return Forename + " " + Surname;
+        }
     }
 }

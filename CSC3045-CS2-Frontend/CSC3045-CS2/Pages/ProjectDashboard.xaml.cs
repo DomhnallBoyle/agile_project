@@ -1,4 +1,5 @@
-﻿using CSC3045_CS2.Models;
+﻿using CSC3045_CS2.Exception;
+using CSC3045_CS2.Models;
 using CSC3045_CS2.Utility;
 using System;
 using System.Collections.Generic;
@@ -22,42 +23,87 @@ namespace CSC3045_CS2.Pages
     /// </summary>
     public partial class ProjectDashboard : Page
     {
-        #region Public Variables
+        #region Private Variables
 
-        public String WelcomeProductManagerLabel { get; set; } = "Welcome!";
+        private List<Project> _projects;
+        private int _currentProjectNumber;
+        private MenuItem _projectName;
 
-        public String ProductManagerLabel { get; set; } = "";
-
-        public String CreateProjectButtonLabel { get; set; } = "Create Project";
-
-        User currentUser = (User)Application.Current.Properties["user"];
         #endregion
 
-        public ProjectDashboard()
+        public ProjectDashboard(List<Project> projects, int currentProjectNumber)
         {
             InitializeComponent();
             DataContext = this;
-            pageSetup();
+            this._projects = projects;
+            this._currentProjectNumber = currentProjectNumber;
+            ProjectDropDownButton.Content = this._projects[currentProjectNumber].ProjectName;
+            addProjectstoList();
         }
 
-        public void pageSetup()
+        #region Class methods
+
+        private void addProjectstoList()
         {
-            ProductManagerLabel = currentUser.Forename + " " + currentUser.Surname;
+            for (int i = 0; i < _projects.Count; i++)
+            {
+                _projectName = new MenuItem
+                {
+                    Header = _projects[i].ProjectName,
+                    Command = goToCommand,
+                    CommandParameter = i
+                };
+
+                if (this._currentProjectNumber == i)
+                {
+                    _projectName.Background = Brushes.Wheat;
+                    _projectName.IsChecked = true;
+                }
+
+                menuItems.Items.Add(_projectName);
+            }
         }
+
+        #endregion
 
         #region Command methods
-        public ICommand NavigateToCreateProjectCommand
+
+        public ICommand ProjectDropDown
         {
             get
             {
                 return new RelayCommand(param =>
                 {
-                    Page createProjectPage = new CreateProject();
-
-                    NavigationService.GetNavigationService(this).Navigate(createProjectPage);
+                    ProjectDropDownButton.ContextMenu.IsEnabled = true;
+                    ProjectDropDownButton.ContextMenu.PlacementTarget = ProjectDropDownButton;
+                    ProjectDropDownButton.ContextMenu.Placement = System.Windows.Controls.Primitives.PlacementMode.Bottom;
+                    ProjectDropDownButton.ContextMenu.IsOpen = true;
                 });
             }
         }
+
+        public ICommand goToCommand
+
+        {
+            get
+            {
+                return new RelayCommand(param =>
+                {
+                    try
+                    {
+                        var projectNumber = ((int)param);
+                        Page projectDashboard = new ProjectDashboard(_projects, projectNumber);
+
+                        NavigationService.GetNavigationService(this).Navigate(projectDashboard);
+                    }
+                    catch (RestResponseErrorException ex)
+                    {
+                        MessageBox.Show(ex.Message);
+                    }
+                });
+            }
+        }
+
         #endregion
     }
 }
