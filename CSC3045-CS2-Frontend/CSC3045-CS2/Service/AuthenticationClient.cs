@@ -17,7 +17,7 @@ namespace CSC3045_CS2.Service
         /// </summary>
         /// <param name="account"></param>
         /// <returns>string containing message result from backend</returns>
-        public string Register(Account account)
+        public Account Register(Account account)
         {
             var request = new RestRequest(BASE_ENDPOINT + "register", Method.POST);
             request.AddHeader("Content-Type", "application/json");
@@ -26,7 +26,7 @@ namespace CSC3045_CS2.Service
 
             request.AddBody(account);
 
-            return Execute(request);
+            return Execute<Account>(request);
         }
 
         /// <summary>
@@ -34,7 +34,7 @@ namespace CSC3045_CS2.Service
         /// </summary>
         /// <param name="account">The account to be sent to the backend</param>
         /// <returns>Returns a string with information on the request response</returns>
-        public string Login(Account account)
+        public User Login(Account account)
         {
             var request = new RestRequest(BASE_ENDPOINT + "login", Method.POST);
             request.AddHeader("Content-Type", "application/json");
@@ -43,7 +43,7 @@ namespace CSC3045_CS2.Service
 
             request.AddBody(account);
 
-            return Execute(request);
+            return Execute<User>(request);
         }
     }
 }
