@@ -26,10 +26,11 @@ public class User {
 	public User() {
     }
 
-    public User(String forename, String surname, String email) {
+    public User(String forename, String surname, String email, Roles roles) {
         this.forename = forename;
         this.surname = surname;
         this.email = email;
+        this.roles = roles;
     }
 
     public Long getId() {
@@ -77,5 +78,22 @@ public class User {
 
 	public void setProjects(List<Project> projects) {
 		this.projects = projects;
+	}
+	
+	@Override
+	public boolean equals(Object toCompare) {
+		if (!(toCompare instanceof User))
+			return false;
+		
+		User user = ((User)toCompare);
+		user.setId(null);
+		
+		if (this.forename.equalsIgnoreCase(user.getForename())
+			&& this.surname.equalsIgnoreCase(user.getSurname())
+			&& this.email.equalsIgnoreCase(user.getEmail()) 
+			&& this.roles.equals(user.getRoles())) {
+			return true;
+		}
+		return false;
 	}
 }

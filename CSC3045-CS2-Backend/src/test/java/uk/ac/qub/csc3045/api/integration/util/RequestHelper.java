@@ -28,6 +28,17 @@ public class RequestHelper {
                         extract().response();
         return r;
     }
+    
+    public Response SendGetRequestWithAuthHeader(String target, String authHeader){
+        Response r =
+                given().log().everything(true).
+                		headers("Authorization", authHeader).
+                        when().get(target).
+                        then().log().everything(true).
+                        extract().response();
+        
+        return r;
+    }
 
     public Response SendDeleteRequest(String target){
         Response r = given().log().everything(true).
@@ -49,6 +60,19 @@ public class RequestHelper {
                 then().log().everything(true).
                 extract().response();
 
+        return r;
+    }
+    
+    public Response SendPostRequestWithAuthHeader(String target, String authHeader, Object body){
+        Response r  = given().log().everything(true).
+                contentType("application/json").
+                headers("Authorization", authHeader).
+                when().
+                body(body).
+                post(target).
+                then().log().everything(true).
+                extract().response();
+        
         return r;
     }
 }

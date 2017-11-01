@@ -52,4 +52,20 @@ public class Roles {
 	public void setProductOwner(Boolean productOwner) {
 		this.productOwner = productOwner;
 	}
+	
+	@Override
+	public boolean equals(Object toCompare) {
+		if (!(toCompare instanceof Roles))
+			return false;
+		
+		Roles role = ((Roles)toCompare);
+		role.setId(null);
+		
+		if (this.developer == role.developer
+			&& this.scrumMaster == role.scrumMaster
+			&& this.productOwner == role.productOwner) {
+			return true;
+		}
+		return false;
+	}
 }
