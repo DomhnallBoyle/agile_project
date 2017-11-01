@@ -48,8 +48,8 @@
     	WHERE user.id = #{project.product_owner_id}
     </select>
     
-    <select id="findProjectByProjectName" resultType="Project">
-        SELECT * FROM project WHERE projectName = #{projectName}
+    <select id="findProjectByProjectId" resultType="Project">
+        SELECT * FROM project WHERE projectId = #{projectId}
     </select>
     
     <select id="getUsersOnProject" resultMap="userResultMap">

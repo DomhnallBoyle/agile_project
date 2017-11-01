@@ -12,7 +12,7 @@ import uk.ac.qub.csc3045.api.model.User;
 @Mapper
 @Repository
 public interface ProjectMapper {
-    Project findProjectByProjectName(@Param("projectName") String projectName); 
+    Project findProjectByProjectId(@Param("projectId") long projectId); 
     User findUserByEmail(@Param("email") String email);
     
     void addToProjectTeam(@Param("projectId") long projectId, @Param("userId") long userId);

@@ -74,29 +74,11 @@ public class ValidationUtility {
 
         return true;
     }
-	
-    public static boolean validateProject(Project project, ProjectMapper mapper) {
-        if (!validateProjectExists(project, mapper)) {
-            throw new ResponseErrorException("Project does not exist", HttpStatus.NOT_FOUND);
-        }
-        
-        for (User user : project.getUsers()) {
-            if (!validateUserExists(user, mapper)) {
-                throw new ResponseErrorException("User" + user.getForename() + " " + user.getSurname() + " does not exist", HttpStatus.NOT_FOUND);
-            }
-        }
-        
-        return true;
-    }
     
-    private static boolean validateProjectExists(Project project, ProjectMapper mapper) {
-        return (mapper.findProjectByProjectName(project.getName()) != null);
+    public static boolean validateProjectExists(long projectId, ProjectMapper mapper) {
+        return (mapper.findProjectByProjectId(projectId) != null);
     }
-    
-    private static boolean validateUserExists(User user, ProjectMapper mapper) {
-        return (mapper.findUserByEmail(user.getEmail()) != null);
-    }
-    
+   
 	/**
 	 * Validates the username against the length requirements and the regex
 	 * @param - username the username to be validated
