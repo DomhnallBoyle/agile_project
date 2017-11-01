@@ -17,5 +17,5 @@ public class CSC3045ApiApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(CSC3045ApiApplication.class, args);
-		}
+	}
 }

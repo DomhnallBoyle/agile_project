@@ -34,10 +34,7 @@ public class AuthenticationService implements UserDetailsService {
         mapper.createRoles(account.getUser().getRoles());
         mapper.createUser(account.getUser());
         mapper.createAccount(account);
-        EmailUtility email = new EmailUtility();
-		email.sendEmail("ciaran.duncan@gmail.com", "You are Registered", "THIS IS A BODY"+account.getUsername());
-		
-
+       
         return account;
     }
 
