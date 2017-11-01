@@ -5,11 +5,9 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import static org.springframework.web.bind.annotation.RequestMethod.GET;
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
 import java.util.List;
@@ -34,9 +32,9 @@ public class ProjectController {
         return new ResponseEntity<>(this.projectService.addToTeam(project), HttpStatus.OK);
     }
     
-    @RequestMapping(value = "/teamGet", method = POST)
-    public ResponseEntity<List<User>> getTeamMembers(@Valid @RequestBody Project project) {
-        return new ResponseEntity<>(this.projectService.getTeamMembers(project), HttpStatus.OK);
+    @RequestMapping(value = "/team/{projectId}", method = GET)
+    public ResponseEntity<List<User>> getTeamMembers(@Valid @PathVariable("projectId") long projectId) {
+        return new ResponseEntity<>(this.projectService.getTeamMembers(projectId), HttpStatus.OK);
     }
     
     @PostMapping()

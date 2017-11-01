@@ -24,9 +24,9 @@ public class User {
     
     @OneToOne
     private Roles roles = new Roles();
-    
+
     @ManyToMany(mappedBy="users")
-    private List<Project>projects;
+    private List<Project> projects;
 
 	public User() {
 	}

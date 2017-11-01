@@ -23,7 +23,6 @@
         <result column="surname" property="surname"/>
         <result column="email" property="email"/>
         <association property="roles" resultMap="rolesResultMap"/>
-        <collection property="projects" javaType="List" resultMap="projectResultMap"/>
     </resultMap>
     
     <resultMap id="rolesResultMap" type="Roles">
@@ -53,19 +52,20 @@
         SELECT * FROM project WHERE projectName = #{projectName}
     </select>
     
-    <select id="getUsersOnProjectByProjectName" resultMap="projectResultMap">
-        SELECT *
-        FROM project
-            INNER JOIN project_user ON project.id = project_user.project_id
-            INNER JOIN user ON user.id = project_user.user.id
-        WHERE project.project_name LIKE '#{projectName}'
+    <select id="getUsersOnProject" resultMap="userResultMap">
+      SELECT *
+      FROM USER
+          JOIN ROLES ON USER.ROLES_ID = ROLES.ID
+          JOIN PROJECT_USER ON USER.ID = PROJECT_USER.USER_ID
+      WHERE PROJECT_USER.PROJECT_ID = #{projectId}
     </select>
     
     <select id="findUserByEmail" resultType="User">
         SELECT * FROM user WHERE email = #{email}
     </select>
     
-    <insert id="addToProjectTeam" parameterType="User">
-        INSERT INTO project_user (project_id, user_id)
+    <insert id="addToProjectTeam">
+      INSERT INTO project_user (project_id, user_id)
+        VALUES (#{projectId}, #{userId})
     </insert>
 </mapper>

@@ -27,10 +27,13 @@ public class Project {
     @OneToOne
     private User productOwner;
 
-    @ManyToMany//(mappedBy="projects")
-    /* @JoinTable (name="Project_Team",joinColumns=@JoinColumn(name="project_id",referencedColumnName="id"),
-    inverseJoinColumns=@JoinColumn(name="user_id",referencedColumnName="id"))*/
-    @JoinTable
+
+    @ManyToMany
+	@JoinTable(
+			name = "PROJECT_USER",
+			joinColumns = @JoinColumn(name="PROJECT_ID", referencedColumnName="ID"),
+			inverseJoinColumns = @JoinColumn(name="USER_ID", referencedColumnName="ID")
+	)
     private List<User> users;
     
     public Project() {

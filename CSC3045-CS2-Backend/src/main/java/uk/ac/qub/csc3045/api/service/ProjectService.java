@@ -28,15 +28,16 @@ public class ProjectService {
     public Project addToTeam(Project project) {
 //        if (ValidationUtility.validateProject(project, mapper)) {
             for (User user : project.getUsers()) {
-                mapper.addToProjectTeam(user);
+                mapper.addToProjectTeam(project.getId(), user.getId());
             }
 //        }
-        
+        //org.springframework.dao.DataIntegrityViolationException
         return project;
     }
     
-    public List<User> getTeamMembers(Project project) {
-        return mapper.getProjectTeam(project);
+    public List<User> getTeamMembers(long projectId) {
+        List<User> kek = mapper.getUsersOnProject(projectId);
+        return kek;
     }
     
 }
