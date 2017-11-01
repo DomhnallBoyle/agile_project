@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CSC3045_CS2.Models
 {
-    class Project
+    public class Project
     {
         public User ProjectManager { get; set; }
         public string ProjectName { get; set; }
