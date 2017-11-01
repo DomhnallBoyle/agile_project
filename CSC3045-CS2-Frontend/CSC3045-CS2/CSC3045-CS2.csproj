@@ -65,11 +65,12 @@
     <Compile Include="Models\Project.cs" />
     <Compile Include="Models\Roles.cs" />
     <Compile Include="Models\User.cs" />
+    <Compile Include="Pages\CreateProject.xaml.cs">
+      <DependentUpon>CreateProject.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Models\UserStory.cs" />
     <Compile Include="Pages\CreateUserStory.xaml.cs">
       <DependentUpon>CreateUserStory.xaml</DependentUpon>
-    <Compile Include="Pages\CreateProject.xaml.cs">
-      <DependentUpon>CreateProject.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\Login.xaml.cs">
       <DependentUpon>Login.xaml</DependentUpon>
@@ -102,6 +103,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="Pages\CreateUserStory.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Pages\CreateProject.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
