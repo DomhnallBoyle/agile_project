@@ -9,6 +9,7 @@ import uk.ac.qub.csc3045.api.model.Project;
 @Repository
 public interface ProjectMapper {
 	void createProject(Project project);
+	void updateProject(Project project);
 	Project getProjectById(@Param("id")long id);
 }
 

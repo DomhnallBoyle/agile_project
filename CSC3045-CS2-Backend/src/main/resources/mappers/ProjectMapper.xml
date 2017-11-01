@@ -8,6 +8,15 @@
         INSERT INTO project(name, description, manager_id, product_owner_id)
         VALUES(#{name}, #{description}, #{manager.id}, #{productOwner.id});
     </insert>
+    
+    <update id="updateProject" parameterType="Project">
+		UPDATE project SET 
+			name = #{name}, 
+			description = #{description}, 
+			manager_id = #{manager.id}, 
+			product_owner_id = #{productOwner.id}
+		WHERE id = #{id};
+    </update>
 
 	<resultMap id="projectResultMap" type="Project">
         <id column="id" property="id"/>
