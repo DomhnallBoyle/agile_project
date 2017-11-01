@@ -34,14 +34,14 @@ public class ProjectService {
     	   for (User user : project.getUsers()) {
                mapper.addToProjectTeam(project.getId(), user.getId());
            }
-       }catch(DataIntegrityViolationException e) {
+       } catch (DataIntegrityViolationException e) {
     	   throw new ResponseErrorException("Project or User does not exist", HttpStatus.NOT_FOUND);
        }
         return project;
     }
     
     public List<User> getTeamMembers(long projectId) {
-       if(ValidationUtility.validateProjectExists(projectId, mapper)) {
+       if (ValidationUtility.validateProjectExists(projectId, mapper)) {
     	   return mapper.getUsersOnProject(projectId);
     } 
        throw new ResponseErrorException("Project does not exist", HttpStatus.NOT_FOUND);

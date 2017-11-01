@@ -9,67 +9,67 @@ import javax.validation.constraints.NotNull;
 @Table
 public class User {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
-    
-    @NotNull
-    private String forename;
-    
-    @NotNull
-    private String surname;
-    
-    @NotNull
-    private String email;
-    
-    @OneToOne
-    private Roles roles = new Roles();
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private Long id;
 
-    @ManyToMany(mappedBy="users")
-    private List<Project> projects;
+	@NotNull
+	private String forename;
+
+	@NotNull
+	private String surname;
+
+	@NotNull
+	private String email;
+
+	@OneToOne
+	private Roles roles = new Roles();
+
+	@ManyToMany(mappedBy = "users")
+	private List<Project> projects;
 
 	public User() {
 	}
 
-    public User(String forename, String surname, String email, Roles roles) {
-        this.forename = forename;
-        this.surname = surname;
-        this.email = email;
-        this.roles = roles;
-    }
+	public User(String forename, String surname, String email, Roles roles) {
+		this.forename = forename;
+		this.surname = surname;
+		this.email = email;
+		this.roles = roles;
+	}
 
-    public Long getId() {
-        return id;
-    }
+	public Long getId() {
+		return id;
+	}
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+	public void setId(Long id) {
+		this.id = id;
+	}
 
-    public String getForename() {
-        return forename;
-    }
+	public String getForename() {
+		return forename;
+	}
 
-    public void setForename(String forename) {
-        this.forename = forename;
-    }
+	public void setForename(String forename) {
+		this.forename = forename;
+	}
 
-    public String getSurname() {
-        return surname;
-    }
+	public String getSurname() {
+		return surname;
+	}
 
-    public void setSurname(String surname) {
-        this.surname = surname;
-    }
+	public void setSurname(String surname) {
+		this.surname = surname;
+	}
 
-    public String getEmail() {
-        return email;
-    }
+	public String getEmail() {
+		return email;
+	}
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
-    
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
 	public Roles getRoles() {
 		return roles;
 	}
@@ -77,7 +77,8 @@ public class User {
 	public void setRoles(Roles roles) {
 		this.roles = roles;
 	}
-	 public List<Project> getProjects() {
+
+	public List<Project> getProjects() {
 		return projects;
 	}
 

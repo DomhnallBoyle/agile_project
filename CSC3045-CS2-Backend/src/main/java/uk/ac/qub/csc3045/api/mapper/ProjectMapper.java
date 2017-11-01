@@ -12,13 +12,16 @@ import uk.ac.qub.csc3045.api.model.User;
 @Mapper
 @Repository
 public interface ProjectMapper {
-    Project findProjectByProjectId(@Param("projectId") long projectId); 
-    User findUserByEmail(@Param("email") String email);
-    
-    void addToProjectTeam(@Param("projectId") long projectId, @Param("userId") long userId);
-    List<User> getUsersOnProject(@Param("projectId") long projectId);
-    
+	Project findProjectByProjectId(@Param("projectId") long projectId);
+
+	User findUserByEmail(@Param("email") String email);
+
+	void addToProjectTeam(@Param("projectId") long projectId, @Param("userId") long userId);
+
+	List<User> getUsersOnProject(@Param("projectId") long projectId);
+
 	void createProject(Project project);
-	Project getProjectById(@Param("id")long id);
-	
+
+	Project getProjectById(@Param("id") long id);
+
 }
