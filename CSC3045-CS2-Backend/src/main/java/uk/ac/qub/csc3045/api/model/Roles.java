@@ -52,20 +52,37 @@ public class Roles {
 	public void setProductOwner(Boolean productOwner) {
 		this.productOwner = productOwner;
 	}
-	
+
 	@Override
-	public boolean equals(Object toCompare) {
-		if (!(toCompare instanceof Roles))
-			return false;
-		
-		Roles role = ((Roles)toCompare);
-		role.setId(null);
-		
-		if (this.developer == role.developer
-			&& this.scrumMaster == role.scrumMaster
-			&& this.productOwner == role.productOwner) {
+	public boolean equals(Object obj) {
+		if (this == obj)
 			return true;
-		}
-		return false;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Roles other = (Roles) obj;
+		if (developer == null) {
+			if (other.developer != null)
+				return false;
+		} else if (!developer.equals(other.developer))
+			return false;
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
+		if (productOwner == null) {
+			if (other.productOwner != null)
+				return false;
+		} else if (!productOwner.equals(other.productOwner))
+			return false;
+		if (scrumMaster == null) {
+			if (other.scrumMaster != null)
+				return false;
+		} else if (!scrumMaster.equals(other.scrumMaster))
+			return false;
+		return true;
 	}
+	
 }

@@ -79,21 +79,47 @@ public class User {
 	public void setProjects(List<Project> projects) {
 		this.projects = projects;
 	}
-	
+
 	@Override
-	public boolean equals(Object toCompare) {
-		if (!(toCompare instanceof User))
-			return false;
-		
-		User user = ((User)toCompare);
-		user.setId(null);
-		
-		if (this.forename.equalsIgnoreCase(user.getForename())
-			&& this.surname.equalsIgnoreCase(user.getSurname())
-			&& this.email.equalsIgnoreCase(user.getEmail()) 
-			&& this.roles.equals(user.getRoles())) {
+	public boolean equals(Object obj) {
+		if (this == obj)
 			return true;
-		}
-		return false;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		User other = (User) obj;
+		if (email == null) {
+			if (other.email != null)
+				return false;
+		} else if (!email.equals(other.email))
+			return false;
+		if (forename == null) {
+			if (other.forename != null)
+				return false;
+		} else if (!forename.equals(other.forename))
+			return false;
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
+		if (projects == null) {
+			if (other.projects != null)
+				return false;
+		} else if (!projects.equals(other.projects))
+			return false;
+		if (roles == null) {
+			if (other.roles != null)
+				return false;
+		} else if (!roles.equals(other.roles))
+			return false;
+		if (surname == null) {
+			if (other.surname != null)
+				return false;
+		} else if (!surname.equals(other.surname))
+			return false;
+		return true;
 	}
+	
 }
