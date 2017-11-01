@@ -243,6 +243,18 @@ public class ValidationUtilityTest {
     }
 
     @Test
+    public void emailAlreadyExists() {
+        try {
+            when(authenticationMapperMock.findUserByEmail(account.getUser().getEmail())).thenReturn(account.getUser());
+
+            ValidationUtility.validateAccount(account, authenticationMapperMock);
+            fail("An exception was not thrown by validateAccount");
+        } catch (ResponseErrorException e) {
+            assertThat(e.getMessage(), containsString("email already exists"));
+        }
+    }
+    
+    @Test
     public void emailValidTest() {
         try {
             user.setEmail("abcdef@gmail.com");
