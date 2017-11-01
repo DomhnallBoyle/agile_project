@@ -1,7 +1,5 @@
 package uk.ac.qub.csc3045.api.model;
 
-import javax.persistence.GenerationType;
-
 import java.util.List;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -45,7 +43,7 @@ public class Project {
 		this.productOwner = productOwner;
 		this.users = users;
 	}
-
+	
 	public Long getId() {
 		return id;
 	}
@@ -92,16 +90,5 @@ public class Project {
 
 	public void setUsers(List<User> users) {
 		this.users = users;
-	}
-
-	@Override
-	public boolean equals(Object toCompare) {
-		if (!(toCompare instanceof Project))
-			return false;
-
-		Project project = ((Project) toCompare);
-		project.setId(null);
-
-		return this.name.equalsIgnoreCase(project.getName());
 	}
 }

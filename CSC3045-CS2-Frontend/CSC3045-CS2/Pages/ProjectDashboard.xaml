@@ -6,17 +6,24 @@
       xmlns:local="clr-namespace:CSC3045_CS2.Pages"
       mc:Ignorable="d" 
       d:DesignHeight="100" d:DesignWidth="100"
-      Title="ProjectDashboard" Height="100" Width="100">
+      Title="ProjectDashboard" Height="500" Width="500">
+    <StackPanel>
+        <Grid Background="White">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
 
+            <Grid.RowDefinitions>
+                <RowDefinition></RowDefinition>
+            </Grid.RowDefinitions>
 
-    <StackPanel Margin="0,0,-8,0">
-        <TextBlock Text="{Binding WelcomeProductManagerLabel, FallbackValue='Welcome!'}" HorizontalAlignment="Center" Margin="0,20,0,25" />
-        <TextBlock Text="{Binding ProductManagerLabel, FallbackValue='blank'}" HorizontalAlignment="Center" Margin="0,-20,0,0" />
-        <Grid>
-
-            <StackPanel Margin="0,20,0,20">
-                <Button Content="{Binding CreateProjectButtonLabel, FallbackValue='Create Project'}" HorizontalAlignment="Center" Margin="8,-20,6,20" Command="{Binding NavigateToCreateProjectCommand}"/>
-            </StackPanel>
+            <Button Name="ProjectDropDownButton" Grid.Column="1" Grid.Row="1" Content="Click Me" Command="{Binding ProjectDropDown}" ContextMenuService.IsEnabled="False">
+                <Button.ContextMenu>
+                    <ContextMenu Name="menuItems">
+                    </ContextMenu>
+                </Button.ContextMenu>
+            </Button>
         </Grid>
     </StackPanel>
+  
 </Page>

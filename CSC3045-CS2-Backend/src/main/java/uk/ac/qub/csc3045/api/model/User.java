@@ -12,19 +12,14 @@ public class User {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
-
 	@NotNull
 	private String forename;
-
 	@NotNull
 	private String surname;
-
 	@NotNull
 	private String email;
-
 	@OneToOne
 	private Roles roles = new Roles();
-
 	@ManyToMany(mappedBy = "users")
 	private List<Project> projects;
 
@@ -85,4 +80,47 @@ public class User {
 	public void setProjects(List<Project> projects) {
 		this.projects = projects;
 	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		User other = (User) obj;
+		if (email == null) {
+			if (other.email != null)
+				return false;
+		} else if (!email.equals(other.email))
+			return false;
+		if (forename == null) {
+			if (other.forename != null)
+				return false;
+		} else if (!forename.equals(other.forename))
+			return false;
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
+		if (projects == null) {
+			if (other.projects != null)
+				return false;
+		} else if (!projects.equals(other.projects))
+			return false;
+		if (roles == null) {
+			if (other.roles != null)
+				return false;
+		} else if (!roles.equals(other.roles))
+			return false;
+		if (surname == null) {
+			if (other.surname != null)
+				return false;
+		} else if (!surname.equals(other.surname))
+			return false;
+		return true;
+	}
+
 }

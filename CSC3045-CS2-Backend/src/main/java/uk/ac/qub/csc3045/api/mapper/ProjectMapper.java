@@ -5,9 +5,9 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
-
 import uk.ac.qub.csc3045.api.model.Project;
 import uk.ac.qub.csc3045.api.model.User;
+
 
 @Mapper
 @Repository
@@ -21,7 +21,6 @@ public interface ProjectMapper {
 	List<User> getUsersOnProject(@Param("projectId") long projectId);
 
 	void createProject(Project project);
-
-	Project getProjectById(@Param("id") long id);
-
+	void updateProject(Project project);
+	Project getProjectById(@Param("id")long id);
 }

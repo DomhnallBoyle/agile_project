@@ -27,6 +27,16 @@ public class ProjectController {
         this.projectService = projectService;
     }
     
+    @PostMapping()
+    public ResponseEntity<Project> create(@Valid @RequestBody Project project) {
+        return new ResponseEntity<>(this.projectService.create(project), HttpStatus.CREATED);
+    }
+    
+    @PutMapping()
+    public ResponseEntity<Project> update(@Valid @RequestBody Project project){
+    	return new ResponseEntity<>(this.projectService.update(project), HttpStatus.OK);
+    }
+    
     @RequestMapping(value = "/team", method = POST)
     public ResponseEntity<Project> addToTeam(@Valid @RequestBody Project project) {
         return new ResponseEntity<>(this.projectService.addToTeam(project), HttpStatus.OK);
@@ -36,10 +46,4 @@ public class ProjectController {
     public ResponseEntity<List<User>> getTeamMembers(@Valid @PathVariable("projectId") long projectId) {
         return new ResponseEntity<>(this.projectService.getTeamMembers(projectId), HttpStatus.OK);
     }
-    
-    @PostMapping()
-    public ResponseEntity<Project> create(@Valid @RequestBody Project project) {
-        return new ResponseEntity<>(this.projectService.create(project), HttpStatus.CREATED);
-    }
-
 }
