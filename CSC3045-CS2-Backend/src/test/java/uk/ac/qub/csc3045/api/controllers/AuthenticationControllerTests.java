@@ -13,14 +13,18 @@ import uk.ac.qub.csc3045.api.service.AuthenticationService;
 
 public class AuthenticationControllerTests {
 	@Test
-	public void registerAccountShouldReturn200OnSuccess() {
+	public void registerAccountShouldReturn201OnSuccess() {
+		//Arrange
 		AuthenticationService authenticationService = mock(AuthenticationService.class);
 		Account account = new Account();
-		
 		AuthenticationController authenticationController = new AuthenticationController(authenticationService);
+		when(authenticationService.register(account)).thenReturn(account);
 		
+		//Act
 		ResponseEntity response = authenticationController.register(account);
 		
-		assertEquals(HttpStatus.OK, response.getStatusCode());
+		//Assert
+		assertEquals(HttpStatus.CREATED, response.getStatusCode());
+		assertEquals(account, response.getBody());
 	}
 }

@@ -12,22 +12,19 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    
     @NotNull
     private String forename;
-    
     @NotNull
     private String surname;
-    
     @NotNull
     private String email;
     @OneToOne
-    private Roles roles;
+    private Roles roles = new Roles();
+    @ManyToMany(mappedBy="users")
+    private List<Project>projects;
 
-    @ManyToMany
-    private List<Project> projects;
-    
-    public User() { }
+	public User() {
+    }
 
     public User(String forename, String surname, String email) {
         this.forename = forename;
@@ -74,5 +71,11 @@ public class User {
 	public void setRoles(Roles roles) {
 		this.roles = roles;
 	}
-    
+	 public List<Project> getProjects() {
+		return projects;
+	}
+
+	public void setProjects(List<Project> projects) {
+		this.projects = projects;
+	}
 }

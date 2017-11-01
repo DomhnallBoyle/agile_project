@@ -71,9 +71,9 @@ namespace CSC3045_CS2.Pages
 
                         Application.Current.Properties.Add("user", user);
 
-                        Page test = new test();
+                        Page userDashboard = new UserDashboard();
 
-                        NavigationService.GetNavigationService(this).Navigate(test);
+                        NavigationService.GetNavigationService(this).Navigate(userDashboard);
                     }
                     catch (RestResponseErrorException ex)
                     {

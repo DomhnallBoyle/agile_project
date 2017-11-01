@@ -47,4 +47,8 @@
             JOIN roles ON user.roles_id = roles.id
         WHERE username = #{username}
     </select>
+    
+    <select id="findUserByEmail" resultType="User">
+        SELECT email FROM user WHERE email = #{email} 
+    </select>
 </mapper>

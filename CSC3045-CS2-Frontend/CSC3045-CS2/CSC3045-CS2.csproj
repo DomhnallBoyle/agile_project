@@ -62,8 +62,12 @@
     </ApplicationDefinition>
     <Compile Include="Exception\RestResponseErrorException.cs" />
     <Compile Include="Models\Account.cs" />
+    <Compile Include="Models\Project.cs" />
     <Compile Include="Models\Roles.cs" />
     <Compile Include="Models\User.cs" />
+    <Compile Include="Pages\CreateProject.xaml.cs">
+      <DependentUpon>CreateProject.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Models\UserStory.cs" />
     <Compile Include="Pages\CreateUserStory.xaml.cs">
       <DependentUpon>CreateUserStory.xaml</DependentUpon>
@@ -71,13 +75,20 @@
     <Compile Include="Pages\Login.xaml.cs">
       <DependentUpon>Login.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Pages\ProjectDashboard.xaml.cs">
+      <DependentUpon>ProjectDashboard.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\test.xaml.cs">
       <DependentUpon>test.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\UserDashboard.xaml.cs">
+      <DependentUpon>UserDashboard.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\ProductBacklog.xaml.cs">
       <DependentUpon>ProductBacklog.xaml</DependentUpon>
     </Compile>
     <Compile Include="Service\AuthenticationClient.cs" />
+    <Compile Include="Service\ProjectClient.cs" />
     <Compile Include="Service\ServiceClient.cs" />
     <Compile Include="Service\UserStoryClient.cs" />
     <Compile Include="Utility\CamelCaseSerializationStrategy.cs" />
@@ -98,7 +109,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Pages\CreateProject.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Pages\Login.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\ProjectDashboard.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -107,6 +126,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Pages\Register.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\UserDashboard.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
