@@ -60,19 +60,37 @@ public class Account {
     public void setPassword(String password) {
         this.password = password;
     }
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Account other = (Account) obj;
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
+		if (password == null) {
+			if (other.password != null)
+				return false;
+		} else if (!password.equals(other.password))
+			return false;
+		if (user == null) {
+			if (other.user != null)
+				return false;
+		} else if (!user.equals(other.user))
+			return false;
+		if (username == null) {
+			if (other.username != null)
+				return false;
+		} else if (!username.equals(other.username))
+			return false;
+		return true;
+	}
     
-    @Override
-    public boolean equals(Object toCompare) {
-    	if (!(toCompare instanceof Account))
-    		return false;
-    	
-    	Account account = ((Account)toCompare);
-    	account.setId(null);
-   
-    	if (this.username.equalsIgnoreCase(account.getUsername())
-			&& this.user.equals(account.user)) {
-    		return true;
-    	}
-    	return false;
-    }
 }

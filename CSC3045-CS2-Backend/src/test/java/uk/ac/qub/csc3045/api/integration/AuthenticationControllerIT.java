@@ -236,6 +236,8 @@ public class AuthenticationControllerIT {
 		
     	r.then().assertThat().statusCode(200);
     	assertTrue(r.getHeader("Authorization").matches("Bearer [a-zA-Z0-9_-]+.[a-zA-Z0-9_-]+.[a-zA-Z0-9_-]+"));
+    	account.getUser().setId(returnedUser.getId());
+    	account.getUser().getRoles().setId(returnedUser.getRoles().getId());
     	assertTrue(account.getUser().equals(returnedUser));
     }
     
