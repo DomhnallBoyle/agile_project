@@ -7,7 +7,10 @@ import org.springframework.http.HttpStatus;
 
 import uk.ac.qub.csc3045.api.exception.ResponseErrorException;
 import uk.ac.qub.csc3045.api.mapper.AuthenticationMapper;
+import uk.ac.qub.csc3045.api.mapper.ProjectMapper;
 import uk.ac.qub.csc3045.api.model.Account;
+import uk.ac.qub.csc3045.api.model.Project;
+import uk.ac.qub.csc3045.api.model.User;
 
 public class ValidationUtility {
 
@@ -75,7 +78,7 @@ public class ValidationUtility {
 
         return true;
     }
-	
+    
 	/**
 	 * Validates the username against the length requirements and the regex
 	 * @param - username the username to be validated
