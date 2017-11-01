@@ -13,12 +13,8 @@ import uk.ac.qub.csc3045.api.security.SecurityConstants;
 
 
 public class EmailUtility {
-
-	public EmailUtility() {
-		
-	}
 	
-	public void sendEmail(String toAddress, String subject, String body) {
+	public static void sendEmail(String toAddress, String subject, String body) {
 		final String username = SecurityConstants.SERVER_USERNAME;
 		final String password = SecurityConstants.SERVER_PASSWORD;
 
@@ -51,7 +47,6 @@ public class EmailUtility {
 
 		} catch (MessagingException e) {
 			throw new RuntimeException(e);
-
 		}
 	}
 	
@@ -61,7 +56,4 @@ public class EmailUtility {
 		email.sendEmail("ciaran.duncan@gmail.com", "You are Registered", "Hi"+account.getUsername()+
 		"You have been registered");
 	 */
-
-
-
 }
