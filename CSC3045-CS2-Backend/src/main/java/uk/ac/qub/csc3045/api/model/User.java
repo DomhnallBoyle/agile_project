@@ -31,10 +31,11 @@ public class User {
 	public User() {
 	}
 
-    public User(String forename, String surname, String email) {
+    public User(String forename, String surname, String email, Roles roles) {
         this.forename = forename;
         this.surname = surname;
         this.email = email;
+        this.roles = roles;
     }
 
     public Long getId() {
