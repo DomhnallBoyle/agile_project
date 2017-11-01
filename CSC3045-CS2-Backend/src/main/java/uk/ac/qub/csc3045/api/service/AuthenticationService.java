@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import uk.ac.qub.csc3045.api.mapper.AuthenticationMapper;
 import uk.ac.qub.csc3045.api.model.Account;
+import uk.ac.qub.csc3045.api.utility.EmailUtility;
 import uk.ac.qub.csc3045.api.utility.ValidationUtility;
 
 @Service
@@ -33,6 +34,9 @@ public class AuthenticationService implements UserDetailsService {
         mapper.createRoles(account.getUser().getRoles());
         mapper.createUser(account.getUser());
         mapper.createAccount(account);
+        EmailUtility email = new EmailUtility();
+		email.sendEmail("ciaran.duncan@gmail.com", "You are Registered", "THIS IS A BODY"+account.getUsername());
+		
 
         return account;
     }

@@ -5,6 +5,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+import uk.ac.qub.csc3045.api.utility.EmailUtility;
+
 @SpringBootApplication
 public class CSC3045ApiApplication {
 	
@@ -15,5 +17,5 @@ public class CSC3045ApiApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(CSC3045ApiApplication.class, args);
-	}
+		}
 }
