@@ -17,4 +17,10 @@ public class ProjectService {
 
 		return mapper.getProjectById(project.getId());
 	}
+	
+	public Project update(Project project) {
+		mapper.updateProject(project);
+		
+		return mapper.getProjectById(project.getId());
+	}
 }
