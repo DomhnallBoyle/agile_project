@@ -17,7 +17,7 @@ public class User {
     @NotNull
     private String email;
     @OneToOne
-    private Roles roles;
+    private Roles roles = new Roles();
 
     public User() {
     }

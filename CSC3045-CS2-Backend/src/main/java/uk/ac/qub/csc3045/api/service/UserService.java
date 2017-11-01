@@ -1,14 +1,13 @@
 package uk.ac.qub.csc3045.api.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestClientResponseException;
-import uk.ac.qub.csc3045.api.exception.ResponseErrorException;
 import uk.ac.qub.csc3045.api.mapper.UserMapper;
+import uk.ac.qub.csc3045.api.model.Roles;
 import uk.ac.qub.csc3045.api.model.User;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class UserService {
@@ -21,12 +20,13 @@ public class UserService {
     }
 
     public List<User> search(User user) {
-        List<User> users = userMapper.searchUsers(user);
+        Roles rolesCriteria = user.getRoles();
 
-        if (users == null || users.isEmpty()) {
-            throw new ResponseErrorException("Could no find user(s) matching criteria.", HttpStatus.NOT_FOUND);
-        }
-
-        return users;
+        return userMapper.searchUsers(user).stream()
+                .filter(foundUser ->
+                        (rolesCriteria.isDeveloper() && foundUser.getRoles().isDeveloper() == rolesCriteria.isDeveloper())
+                                || (rolesCriteria.isScrumMaster() && foundUser.getRoles().isScrumMaster() == rolesCriteria.isScrumMaster())
+                                || (rolesCriteria.isProductOwner() && foundUser.getRoles().isProductOwner() == rolesCriteria.isProductOwner()))
+                .collect(Collectors.toList());
     }
 }

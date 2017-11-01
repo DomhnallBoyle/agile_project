@@ -22,12 +22,9 @@
     <select id="searchUsers" parameterType="User" resultMap="userResultMap">
         SELECT *
         FROM user
-          JOIN roles ON roles.id = user.roles_id
-        WHERE forename LIKE '%'||${forename}||'%'
-          OR surname LIKE '%'||${surname}||'%'
-          OR email LIKE '%'||${email}||'%'
-          OR developer = #{developer}
-          OR scrum_master = #{scrumMaster}
-          OR product_owner = #{productOwner}
+          JOIN roles ON roles.ID = user.ROLES_ID
+        WHERE FORENAME LIKE '%' || '${forename}' || '%'
+          AND SURNAME LIKE '%' || '${surname}' || '%'
+          AND EMAIL LIKE '%' || '${email}' || '%'
     </select>
 </mapper>

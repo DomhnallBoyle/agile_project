@@ -4,11 +4,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import uk.ac.qub.csc3045.api.controller.AuthenticationController;
 import uk.ac.qub.csc3045.api.controller.UserController;
-import uk.ac.qub.csc3045.api.model.Account;
 import uk.ac.qub.csc3045.api.model.User;
-import uk.ac.qub.csc3045.api.service.AuthenticationService;
 import uk.ac.qub.csc3045.api.service.UserService;
 
 import static org.junit.Assert.assertEquals;
