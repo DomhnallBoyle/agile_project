@@ -75,10 +75,14 @@ public class ValidationUtility {
             sb.append(ErrorMessages.EMAIL_ALREADY_EXISTS);
             throw new ResponseErrorException(sb.toString(), HttpStatus.CONFLICT);
         }
-
+        
         return true;
     }
     
+    public static boolean validateProjectExists(long projectId, ProjectMapper mapper) {
+        return (mapper.findProjectByProjectId(projectId) != null);
+    }
+
 	/**
 	 * Validates the username against the length requirements and the regex
 	 * @param - username the username to be validated
