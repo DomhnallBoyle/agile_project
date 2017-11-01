@@ -1,6 +1,7 @@
 package uk.ac.qub.csc3045.api.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -26,6 +27,6 @@ public class AuthenticationController {
 
     @RequestMapping(value = "/register", method = POST)
     public ResponseEntity<Account> register(@Valid @RequestBody Account account) {
-        return new ResponseEntity<>(this.authenticationService.register(account), HttpStatus.OK);
+        return new ResponseEntity<>(this.authenticationService.register(account), HttpStatus.CREATED);
     }
 }
