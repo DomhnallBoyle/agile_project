@@ -60,4 +60,19 @@ public class Account {
     public void setPassword(String password) {
         this.password = password;
     }
+    
+    @Override
+    public boolean equals(Object toCompare) {
+    	if (!(toCompare instanceof Account))
+    		return false;
+    	
+    	Account account = ((Account)toCompare);
+    	account.setId(null);
+   
+    	if (this.username.equalsIgnoreCase(account.getUsername())
+			&& this.user.equals(account.user)) {
+    		return true;
+    	}
+    	return false;
+    }
 }

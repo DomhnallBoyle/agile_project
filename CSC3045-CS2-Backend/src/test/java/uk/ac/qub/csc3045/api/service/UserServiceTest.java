@@ -28,17 +28,13 @@ public class UserServiceTest {
 
         userList = new ArrayList<>();
 
-        User user1 = new User("Ragnar", "Lothbrok", "ragnar.lothbrok@valhalla.odin");
-        user1.setRoles(new Roles(true, true, false));
+        User user1 = new User("Ragnar", "Lothbrok", "ragnar.lothbrok@valhalla.odin", new Roles(true, true, false));
 
-        User user2 = new User("Bjorn", "Ironside", "bjorn.ironside@valhalla.odin");
-        user2.setRoles(new Roles(false, false, true));
+        User user2 = new User("Bjorn", "Ironside", "bjorn.ironside@valhalla.odin", new Roles(false, false, true));
 
-        User user3 = new User("Rollo", "Lothbrok", "rollo.lothbrok@valhalla.odin");
-        user3.setRoles(new Roles(true, false, false));
+        User user3 = new User("Rollo", "Lothbrok", "rollo.lothbrok@valhalla.odin", new Roles(true, false, false));
 
-        User user4 = new User("Floki", "Boatbuilder", "floki.boatbuilder@valhalla.odin");
-        user4.setRoles(new Roles(true, true, true));
+        User user4 = new User("Floki", "Boatbuilder", "floki.boatbuilder@valhalla.odin", new Roles(true, true, true));
 
         userList.add(user1);
         userList.add(user2);
