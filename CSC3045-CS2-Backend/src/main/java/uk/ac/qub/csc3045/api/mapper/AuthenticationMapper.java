@@ -15,4 +15,5 @@ public interface AuthenticationMapper {
     void createAccount(Account account);
     void createRoles(Roles roles);
     Account findAccountByUsername(@Param("username") String username);
+    Account findAccountById(@Param("id") Long id);
 }

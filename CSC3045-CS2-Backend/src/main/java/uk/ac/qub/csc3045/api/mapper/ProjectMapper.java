@@ -17,4 +17,8 @@ public interface ProjectMapper {
     
     void addToProjectTeam(@Param("user") User user);
     List<User> getProjectTeam(@Param("project") Project project);
+    
+	void createProject(Project project);
+	Project getProjectById(@Param("id")long id);
+	
 }

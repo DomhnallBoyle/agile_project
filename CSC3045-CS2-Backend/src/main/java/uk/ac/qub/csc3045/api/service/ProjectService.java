@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 import uk.ac.qub.csc3045.api.mapper.ProjectMapper;
 import uk.ac.qub.csc3045.api.model.Project;
 import uk.ac.qub.csc3045.api.model.User;
-import uk.ac.qub.csc3045.api.utility.ValidationUtility;
 
 @Service
 public class ProjectService {
@@ -20,9 +19,15 @@ public class ProjectService {
         this.mapper = mapper;
     }
     
+    public Project create(Project project) {
+        mapper.createProject(project);
+
+        return mapper.getProjectById(project.getId());
+    }
+    
     public Project addToTeam(Project project) {
 //        if (ValidationUtility.validateProject(project, mapper)) {
-            for (User user : project.getProjectTeam()) {
+            for (User user : project.getUsers()) {
                 mapper.addToProjectTeam(user);
             }
 //        }

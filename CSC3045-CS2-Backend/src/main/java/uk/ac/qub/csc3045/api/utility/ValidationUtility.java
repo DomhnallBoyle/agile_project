@@ -80,7 +80,7 @@ public class ValidationUtility {
             throw new ResponseErrorException("Project does not exist", HttpStatus.NOT_FOUND);
         }
         
-        for (User user : project.getProjectTeam()) {
+        for (User user : project.getUsers()) {
             if (!validateUserExists(user, mapper)) {
                 throw new ResponseErrorException("User" + user.getForename() + " " + user.getSurname() + " does not exist", HttpStatus.NOT_FOUND);
             }
@@ -90,7 +90,7 @@ public class ValidationUtility {
     }
     
     private static boolean validateProjectExists(Project project, ProjectMapper mapper) {
-        return (mapper.findProjectByProjectName(project.getProjectName()) != null);
+        return (mapper.findProjectByProjectName(project.getName()) != null);
     }
     
     private static boolean validateUserExists(User user, ProjectMapper mapper) {

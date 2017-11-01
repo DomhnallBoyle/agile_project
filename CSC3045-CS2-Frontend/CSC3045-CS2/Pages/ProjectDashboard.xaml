@@ -1,0 +1,22 @@
+﻿<Page x:Class="CSC3045_CS2.Pages.ProjectDashboard"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:CSC3045_CS2.Pages"
+      mc:Ignorable="d" 
+      d:DesignHeight="100" d:DesignWidth="100"
+      Title="ProjectDashboard" Height="100" Width="100">
+
+
+    <StackPanel Margin="0,0,-8,0">
+        <TextBlock Text="{Binding WelcomeProductManagerLabel, FallbackValue='Welcome!'}" HorizontalAlignment="Center" Margin="0,20,0,25" />
+        <TextBlock Text="{Binding ProductManagerLabel, FallbackValue='blank'}" HorizontalAlignment="Center" Margin="0,-20,0,0" />
+        <Grid>
+
+            <StackPanel Margin="0,20,0,20">
+                <Button Content="{Binding CreateProjectButtonLabel, FallbackValue='Create Project'}" HorizontalAlignment="Center" Margin="8,-20,6,20" Command="{Binding NavigateToCreateProjectCommand}"/>
+            </StackPanel>
+        </Grid>
+    </StackPanel>
+</Page>

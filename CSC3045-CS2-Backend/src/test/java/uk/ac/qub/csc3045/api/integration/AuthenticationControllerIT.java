@@ -47,11 +47,11 @@ public class AuthenticationControllerIT {
         List<User> projectTeam = new ArrayList<>();
         projectTeam.add(user);
 
-        project.setProjectName("abababab");
+        project.setName("abababab");
         project.setDescription("bababababab");
-        project.setProjectManager(user2);
+        project.setManager(user2);
         project.setProductOwner(user3);
-        project.setProjectTeam(projectTeam);
+        project.setUsers(projectTeam);
         
         Response r = request.SendPostRequest(TEST_CONTEXT, project);
         

@@ -3,12 +3,52 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <!-- Set the namespace below to the interface side of the mapper -->
 <mapper namespace="uk.ac.qub.csc3045.api.mapper.ProjectMapper">
-    <resultMap id="projectResultMap" type="Project">
-        <id column="id" property="id"/>
-        <result column="project_name" property="projectName"/>
-        <collection property="projectTeam" javaType="List" ofType="User"/>
-    </resultMap>
+    <insert id="createProject" parameterType="Project" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+        INSERT INTO project(name, description, manager_id, product_owner_id)
+        VALUES(#{name}, #{description}, #{manager.id}, #{productOwner.id});
+    </insert>
 
+	<resultMap id="projectResultMap" type="Project">
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="description" property="description"/>
+        <association property="manager" column="manager_id" javaType="User" select="selectManager"/>
+        <association property="productOwner" column="product_owner_id" javaType="User" select="selectProductOwner"/>
+        <collection property="users" javaType="List" resultMap="userResultMap"/>
+    </resultMap>
+    
+   	<resultMap id="userResultMap" type="User">
+        <id column="id" property="id"/>
+        <result column="forename" property="forename"/>
+        <result column="surname" property="surname"/>
+        <result column="email" property="email"/>
+        <association property="roles" resultMap="rolesResultMap"/>
+        <collection property="projects" javaType="List" resultMap="projectResultMap"/>
+    </resultMap>
+    
+    <resultMap id="rolesResultMap" type="Roles">
+        <id column="id" property="id"/>
+        <result column="developer" property="developer"/>
+        <result column="scrum_master" property="scrumMaster"/>
+        <result column="product_owner" property="productOwner"/>
+    </resultMap>
+    
+    <select id="getProjectById" resultMap="projectResultMap">
+    	SELECT * FROM PROJECT WHERE id = #{id}
+    </select>
+    
+    <select id="selectManager" resultMap="userResultMap">
+    	SELECT * FROM USER 
+    	JOIN roles ON roles_id = roles.id
+    	WHERE user.id = #{project.manager_id} 
+    </select>
+    
+    <select id="selectProductOwner" resultMap="userResultMap">
+    	SELECT * FROM USER
+    	JOIN roles ON roles_id = roles.id
+    	WHERE user.id = #{project.product_owner_id}
+    </select>
+    
     <select id="findProjectByProjectName" resultType="Project">
         SELECT * FROM project WHERE projectName = #{projectName}
     </select>
@@ -16,8 +56,8 @@
     <select id="getUsersOnProjectByProjectName" resultMap="projectResultMap">
         SELECT *
         FROM project
-            JOIN project_user ON project.id = project_user.project_id
-            JOIN user ON user.id = project_user.user.id
+            INNER JOIN project_user ON project.id = project_user.project_id
+            INNER JOIN user ON user.id = project_user.user.id
         WHERE project.project_name LIKE '#{projectName}'
     </select>
     
@@ -26,12 +66,6 @@
     </select>
     
     <insert id="addToProjectTeam" parameterType="User">
-        INSERT INTO project_user (project_user.project_id, project_user.user_id)
-        SELECT
-            project.id
-            user.id
-        FROM project
-            JOIN user ON project.id = user.project_id
+        INSERT INTO project_user (project_id, user_id)
     </insert>
-
 </mapper>

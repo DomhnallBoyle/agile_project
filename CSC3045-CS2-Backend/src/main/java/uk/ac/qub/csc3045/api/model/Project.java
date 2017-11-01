@@ -3,7 +3,6 @@ package uk.ac.qub.csc3045.api.model;
 import javax.persistence.GenerationType;
 
 import java.util.List;
-
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
@@ -16,79 +15,74 @@ public class Project {
     private Long id;
 
     @NotNull
-    private String projectName;
+    private String name;
 
     @NotNull
     private String description;
-
+    
+    @OneToOne
     @NotNull
-    @ManyToOne
-    private User projectManager;
-
-    @ManyToOne
+    private User manager;
+    
+    @OneToOne
     private User productOwner;
 
-    @ManyToMany
-    private List<User> projectTeam;
+    @ManyToMany//(mappedBy="projects")
+    /* @JoinTable (name="Project_Team",joinColumns=@JoinColumn(name="project_id",referencedColumnName="id"),
+    inverseJoinColumns=@JoinColumn(name="user_id",referencedColumnName="id"))*/
+    @JoinTable
+    private List<User> users;
     
-    public Project() { }
-
-    public Project(String projectName, String description, User projectManager, User productOwner) {
-        this.projectName = projectName;
-        this.description = description;
-        this.projectManager = projectManager;
-        this.productOwner = productOwner;
+    public Project() {
+    	
     }
-
-    public Long getId() {
-        return id;
+    
+    public Project(String name, String description, User manager, User productOwner, List<User>users) {
+    	this.name = name;
+    	this.description = description;
+    	this.manager = manager;
+    	this.productOwner = productOwner;
+    	this.users = users;
     }
-
-    public List<User> getProjectTeam() {
-        return projectTeam;
-    }
-
-    public void setProjectTeam(List<User> projectTeam) {
-        this.projectTeam = projectTeam;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getProjectName() {
-        return projectName;
-    }
-
-    public void setProjectName(String projectName) {
-        this.projectName = projectName;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public User getProjectManager() {
-        return projectManager;
-    }
-
-    public void setProjectManager(User projectManager) {
-        this.projectManager = projectManager;
-    }
-
-    public User getProductOwner() {
-        return productOwner;
-    }
-
-    public void setProductOwner(User productOwner) {
-        this.productOwner = productOwner;
-    }
-
-    @Override
+    
+	public Long getId() {
+		return id;
+	}
+	public void setId(Long id) {
+		this.id = id;
+	}
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	public String getDescription() {
+		return description;
+	}
+	public void setDescription(String description) {
+		this.description = description;
+	}
+	public User getManager() {
+		return manager;
+	}
+	public void setManager(User manager) {
+		this.manager = manager;
+	}
+	public User getProductOwner() {
+		return productOwner;
+	}
+	public void setProductOwner(User productOwner) {
+		this.productOwner = productOwner;
+	}
+	public List<User> getUsers() {
+		return users;
+	}
+	public void setUsers(List<User> users) {
+		this.users = users;
+	}
+	
+	@Override
     public boolean equals(Object toCompare) {
         if (!(toCompare instanceof Project))
             return false;
@@ -96,7 +90,6 @@ public class Project {
         Project project = ((Project)toCompare);
         project.setId(null);
 
-        return this.projectName.equalsIgnoreCase(project.getProjectName());
+        return this.name.equalsIgnoreCase(project.getName());
     }
-    
 }
