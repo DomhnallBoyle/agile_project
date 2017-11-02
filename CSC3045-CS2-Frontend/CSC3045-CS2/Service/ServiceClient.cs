@@ -46,6 +46,7 @@ namespace CSC3045_CS2.Service
                 throw new RestResponseErrorException(response.Content, response.StatusCode);
             }
             CheckForAuthToken(response.Headers);
+
             return _deserializer.Deserialize<T>(response);
         }
 
@@ -61,6 +62,7 @@ namespace CSC3045_CS2.Service
             {
                 request.AddHeader("Authorization", Properties.Settings.Default.AuthToken);
             }
+
             var response = this._client.Execute(request);
             if (response.ResponseStatus != ResponseStatus.Completed)
             {
@@ -71,6 +73,7 @@ namespace CSC3045_CS2.Service
                 throw new RestResponseErrorException(response.Content, response.StatusCode);
             }
             CheckForAuthToken(response.Headers);
+
             return response.Content;
         }
 
@@ -84,6 +87,11 @@ namespace CSC3045_CS2.Service
             return (int) statusCode >= 200 && (int) statusCode <= 399;
         }
 
+        /// <summary>
+        /// Checks for auth token in response headers
+        /// Sets the settings property if auth token is not null
+        /// </summary>
+        /// <param name="headers">List of response headers</param>
         private void CheckForAuthToken(IList<Parameter> headers)
         {
             Parameter authToken = headers.ToList().Find(x => x.Name == "Authorization");

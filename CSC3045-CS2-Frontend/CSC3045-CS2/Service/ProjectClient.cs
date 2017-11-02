@@ -15,8 +15,8 @@ namespace CSC3045_CS2.Service
 {
     class ProjectClient : ServiceClient
     {
+        const string BASE_ENDPOINT = "project/";
 
-        const string BASE_ENDPOINT = "project";
         public ProjectClient() : base() { }
 
         public string CreateProject(Project project)
@@ -33,7 +33,7 @@ namespace CSC3045_CS2.Service
 
         public List<User> GetProjectTeam(long projectId)
         {
-            var request = new RestRequest(BASE_ENDPOINT + "/team/" + projectId, Method.GET);
+            var request = new RestRequest(BASE_ENDPOINT + "team/" + projectId, Method.GET);
             request.AddHeader("Content-Type", "application/json");
             request.RequestFormat = DataFormat.Json;
  
@@ -42,7 +42,7 @@ namespace CSC3045_CS2.Service
 
         public List<Project> GetProjectsForUser(long userId)
         {
-            var request = new RestRequest(BASE_ENDPOINT + "/user/" + userId, Method.GET);
+            var request = new RestRequest(BASE_ENDPOINT + "user/" + userId, Method.GET);
             request.AddHeader("Content-Type", "application/json");
             request.RequestFormat = DataFormat.Json;
 
@@ -64,7 +64,7 @@ namespace CSC3045_CS2.Service
         public void Add(List<User> users, Project project)
         {
             project.Users = users;
-            var request = new RestRequest(BASE_ENDPOINT + "/team", Method.POST);
+            var request = new RestRequest(BASE_ENDPOINT + "team", Method.POST);
             request.AddHeader("Content-Type", "application/json");
             request.RequestFormat = DataFormat.Json;
             SimpleJson.CurrentJsonSerializerStrategy = new CamelCaseSerializationStrategy();

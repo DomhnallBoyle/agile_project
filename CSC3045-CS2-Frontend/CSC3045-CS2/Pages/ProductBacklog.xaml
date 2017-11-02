@@ -26,8 +26,8 @@
             <Button Grid.Column="0" Content="{Binding BackButtonLabel, FallbackValue='Back'}" Command="{Binding BackCommand}"/>
             <Button Grid.Column="1" Content="{Binding CreateStoryButtonLabel, FallbackValue='Create Story'}" Command="{Binding CreateStoryCommand}"/>
         </Grid>
-        
-        <ListBox Grid.Row="2" Margin="10" Name="StoryList" HorizontalContentAlignment="Stretch">
+
+        <ListBox Grid.Row="2" Margin="10" Name="StoryList" HorizontalContentAlignment="Stretch" AllowDrop="True">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Margin="0,0,0,10">
