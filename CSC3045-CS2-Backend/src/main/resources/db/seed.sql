@@ -12,3 +12,5 @@ INSERT INTO ACCOUNT (USERNAME, PASSWORD, USER_ID) VALUES ('dany.targaryen', 'dra
 INSERT INTO ACCOUNT (USERNAME, PASSWORD, USER_ID) VALUES ('jon.snow', 'iknownothing', 2);
 INSERT INTO ACCOUNT (USERNAME, PASSWORD, USER_ID) VALUES ('tyrion.lannister', 'idrinkandiknowthings', 3);
 INSERT INTO ACCOUNT (USERNAME, PASSWORD, USER_ID) VALUES ('ned.stark', 'winteriscoming', 4);
+
+INSERT INTO PROJECT(NAME, DESCRIPTION, MANAGER_ID, PRODUCT_OWNER_ID) VALUES ('Kingdom', 'Command 7 kingdoms', 1, 2);
