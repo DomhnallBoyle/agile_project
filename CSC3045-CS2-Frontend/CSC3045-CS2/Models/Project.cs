@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RestSharp.Deserializers;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,9 +9,15 @@ namespace CSC3045_CS2.Models
 {
     public class Project
     {
+        [DeserializeAs(Name = "id")]
+        public long ProjectId { get; set; }
+        [DeserializeAs(Name = "manager")]
         public User ProjectManager { get; set; }
+        [DeserializeAs(Name = "name")]
         public string ProjectName { get; set; }
+        [DeserializeAs(Name = "description")]
         public string Description { get; set; }
+        [DeserializeAs(Name = "productOwner")]
         public User ProductOwner { get; set; }
 
         public Project()
