@@ -34,6 +34,10 @@ public class ProjectService {
 
 		return mapper.getProjectById(project.getId());
 	}
+	
+	public Project get(long projectId) {
+		return mapper.getProjectById(projectId);
+	}
 
 	public Project addToTeam(Project project) {
 		try {
@@ -50,7 +54,7 @@ public class ProjectService {
 		if (ValidationUtility.validateProjectExists(projectId, mapper)) {
 			return mapper.getUsersOnProject(projectId);
 		}
-		throw new ResponseErrorException("Project does not exist", HttpStatus.NOT_FOUND);
+		throw new ResponseErrorException("Project with specified ID does not exist", HttpStatus.NOT_FOUND);
 	}
 
 }
