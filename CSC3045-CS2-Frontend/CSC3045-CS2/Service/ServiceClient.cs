@@ -1,6 +1,8 @@
 ﻿using CSC3045_CS2.Exception;
 using RestSharp;
 using RestSharp.Deserializers;
+using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 
 namespace CSC3045_CS2.Service
@@ -30,18 +32,20 @@ namespace CSC3045_CS2.Service
         /// <exception cref="RestResponseErrorException">Thrown if there is an error response (response code 4XX, eg 404) and bubbled up to be handled by UI</exception>
         protected T Execute<T>(RestRequest request) where T : new()
         {
+            if (Properties.Settings.Default.AuthToken != null)
+            {
+                request.AddHeader("Authorization", Properties.Settings.Default.AuthToken);
+            }
             var response = this._client.Execute(request);
-
             if (response.ResponseStatus != ResponseStatus.Completed)
             {
                 throw new RestResponseErrorException("Failed getting response from server");
             }
-
             if (!IsSuccessfulStatusCode(response.StatusCode))
             {
                 throw new RestResponseErrorException(response.Content, response.StatusCode);
             }
-
+            CheckForAuthToken(response.Headers);
             return _deserializer.Deserialize<T>(response);
         }
 
@@ -53,18 +57,20 @@ namespace CSC3045_CS2.Service
         /// <exception cref="RestResponseErrorException">Thrown if there is an error response (response code 4XX, eg 404) and bubbled up to be handled by UI</exception>
         protected string Execute(RestRequest request)
         {
+            if (Properties.Settings.Default.AuthToken != null)
+            {
+                request.AddHeader("Authorization", Properties.Settings.Default.AuthToken);
+            }
             var response = this._client.Execute(request);
-
             if (response.ResponseStatus != ResponseStatus.Completed)
             {
                 throw new RestResponseErrorException("Failed getting response from server");
             }
-
             if (!IsSuccessfulStatusCode(response.StatusCode))
             {
                 throw new RestResponseErrorException(response.Content, response.StatusCode);
             }
-
+            CheckForAuthToken(response.Headers);
             return response.Content;
         }
 
@@ -76,6 +82,15 @@ namespace CSC3045_CS2.Service
         private bool IsSuccessfulStatusCode(HttpStatusCode statusCode)
         {
             return (int) statusCode >= 200 && (int) statusCode <= 399;
+        }
+
+        private void CheckForAuthToken(IList<Parameter> headers)
+        {
+            Parameter authToken = headers.ToList().Find(x => x.Name == "Authorization");
+            if (authToken != null)
+            {
+                Properties.Settings.Default.AuthToken = authToken.Value.ToString();
+            }
         }
     }
 }

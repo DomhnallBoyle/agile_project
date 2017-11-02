@@ -51,7 +51,7 @@ namespace CSC3045_CS2.Pages
             {
                 _projectName = new TextBlock
                 {
-                    Text = _projectList[i].ProjectName
+                    Text = _projectList[i].Name
                 };
                 _projectDescription = new TextBlock
                 {
@@ -83,7 +83,7 @@ namespace CSC3045_CS2.Pages
             Project projectOne = new Project(user1, "Calypso", "Android App", user2);
             Project projectTwo = new Project(user2, "Cornetto", "Java app", user3);
             Project projectThree = new Project(user5, "Twister", "c# app", user4);
-     
+            projectOne.Id = 1;
             return new List<Project> { projectOne, projectTwo, projectThree };
         }
 

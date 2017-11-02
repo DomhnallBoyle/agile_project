@@ -10,15 +10,17 @@ namespace CSC3045_CS2.Models
     public class Project
     {
         [DeserializeAs(Name = "id")]
-        public long ProjectId { get; set; }
+        public long Id { get; set; }
         [DeserializeAs(Name = "manager")]
-        public User ProjectManager { get; set; }
+        public User Manager { get; set; }
         [DeserializeAs(Name = "name")]
-        public string ProjectName { get; set; }
+        public string Name { get; set; }
         [DeserializeAs(Name = "description")]
         public string Description { get; set; }
         [DeserializeAs(Name = "productOwner")]
         public User ProductOwner { get; set; }
+        [DeserializeAs(Name = "users")]
+        public List<User> Users { get; set; }
 
         public Project()
         {
@@ -26,16 +28,16 @@ namespace CSC3045_CS2.Models
         }
         public Project(User projectManager, String projectName, String description, User productOwner)
         {
-            this.ProjectManager = projectManager;
-            this.ProjectName = projectName;
+            this.Manager = projectManager;
+            this.Name = projectName;
             this.Description = description;
             this.ProductOwner = productOwner;
         }
 
         public Project(User projectManager, String projectName, String description)
         {
-            this.ProjectManager = projectManager;
-            this.ProjectName = projectName;
+            this.Manager = projectManager;
+            this.Name = projectName;
             this.Description = description;          
         }
     }

@@ -37,6 +37,8 @@
 
             <Button Grid.Column="0" Content="{Binding UserDashboardButtonLabel, FallbackValue='User Dashboard'}" Command="{Binding GoToUserDashboardCommand}"/>
 
+            <Button Grid.Column="1" Content="{Binding AddTeamMemberButtonLabel, FallbackValue='Add Members'}" Command="{Binding GoToAddTeamMemberCommand}"/>
+
             <Button Grid.Column="2" Content="{Binding ProductBacklogButtonLabel, FallbackValue='Product Backlog'}" Command="{Binding GoToProductBacklogCommand}"/>
         </Grid>
 

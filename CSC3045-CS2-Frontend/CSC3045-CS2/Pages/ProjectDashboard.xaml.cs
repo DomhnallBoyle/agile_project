@@ -65,13 +65,14 @@ namespace CSC3045_CS2.Pages
             DataContext = this;
             this._projects = projects;
             this._currentProjectNumber = currentProjectNumber;
-            ProjectDropDownButton.Content = this._projects[currentProjectNumber].ProjectName;
+            ProjectDropDownButton.Content = this._projects[currentProjectNumber].Name;
 
             Project project = this._projects[currentProjectNumber];
             
             addProjectstoList();
             pageSetup();
-            ProjectTeamMembers.ItemsSource = _client.GetProjectTeam(project.ProjectId);
+            _client = new ProjectClient();
+            ProjectTeamMembers.ItemsSource = _client.GetProjectTeam(project.Id);
 
         }
 
@@ -89,7 +90,7 @@ namespace CSC3045_CS2.Pages
             {
                 _projectName = new MenuItem
                 {
-                    Header = _projects[i].ProjectName,
+                    Header = _projects[i].Name,
                     Command = goToCommand,
                     CommandParameter = i
                 };
@@ -144,6 +145,19 @@ namespace CSC3045_CS2.Pages
                     Page userDashboard = new UserDashboard();
 
                     NavigationService.GetNavigationService(this).Navigate(userDashboard);
+                });
+            }
+        }
+
+        public ICommand GoToAddTeamMemberCommand
+        {
+            get
+            {
+                return new RelayCommand(param =>
+                {
+                    Page addProjectMember = new AddProjectTeamMember(_projects[_currentProjectNumber]);
+
+                    NavigationService.GetNavigationService(this).Navigate(addProjectMember);
                 });
             }
         }
