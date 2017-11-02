@@ -17,7 +17,7 @@ import uk.ac.qub.csc3045.api.model.UserStory;
 import uk.ac.qub.csc3045.api.service.UserStoryService;
 
 @RestController
-@RequestMapping(value = "/userstory")
+@RequestMapping(value = "/story")
 
 public class UserStoryController {
 	private final UserStoryService userStoryService;
@@ -37,7 +37,7 @@ public class UserStoryController {
     	
         return new ResponseEntity<>(this.userStoryService.getUserStory(id), HttpStatus.OK);
     }
-    @RequestMapping(value = "project/{id}", method = GET)
+    @RequestMapping(value = "/project/{id}", method = GET)
     @ResponseBody
     public ResponseEntity<List<UserStory>> getUserStoryByProject(@PathVariable("id") long id) {
     	
