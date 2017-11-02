@@ -27,6 +27,15 @@ namespace CSC3045_CS2.Service
 
             return Execute(request);
         }
+
+        public List<User> GetProjectTeam(long projectId)
+        {
+            var request = new RestRequest(BASE_ENDPOINT + "team/" + projectId, Method.POST);
+            request.AddHeader("Content-Type", "application/json");
+            request.RequestFormat = DataFormat.Json;
+ 
+            return Execute<List<User>>(request);
+        }
     }
 }
 

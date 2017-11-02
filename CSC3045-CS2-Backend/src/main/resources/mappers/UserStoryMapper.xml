@@ -4,10 +4,36 @@
 <!-- Set the namespace below to the interface side of the mapper -->
 <mapper namespace="uk.ac.qub.csc3045.api.mapper.UserStoryMapper">
 
+    <resultMap id="userStoryResultMap" type="UserStory">
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="description" property="description"/>
+        <result column="points" property="points"/>
+        <result column="market_value" property="marketValue"/>
+        <result column="assigned" property="assigned"/>
+        <association property="project" column="project_id" javaType="Project" select="selectProject"/>
+    </resultMap>
+
+   	<insert id="createUserStory" parameterType="UserStory" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+        INSERT INTO user_story(name, description, points, market_value, assigned, project_id)
+        VALUES(#{name}, #{description}, #{points}, #{marketValue}, #{assigned},#{project.id} )
+    </insert>
+    
+    <select id="getUserStoryById" resultMap="userStoryResultMap">
+    	SELECT * FROM USER_STORY WHERE id = #{id} 
+    </select>	
+    
+    <select id="getUserStoriesByProject" resultMap="userStoryResultMap">
+    	SELECT * FROM USER_STORY WHERE project_id = #{id} 
+    </select>	
+
+    <select id="selectProject" resultMap="uk.ac.qub.csc3045.api.mapper.ProjectMapper.projectResultMap">
+        SELECT * FROM PROJECT WHERE project.id = #{user_story.project_id}
+    </select>
+
     <update id="updateUserStoryIndex">
         UPDATE USER_STORY SET
             INDEX = #{index}
         WHERE ID = #{userStoryId}
     </update>
-
 </mapper>
