@@ -30,25 +30,19 @@ public class ProjectService {
 		Project newProject = mapper.getProjectById(project.getId());
 		
 		if ( newProject.getProductOwner() != null) {
-		
 			EmailUtility.sendEmail(newProject.getProductOwner().getEmail(), "You Have been added as a Project Owner",
 					"Hello "+newProject.getProductOwner().getForename()+
 					" You are now the Project Owner for "+newProject.getName());
-			
 		}
 		
-		if ( newProject.getManager() != null) {
+		/*if ( newProject.getScrumMaster() != null) {
 			
-			EmailUtility.sendEmail(newProject.getManager().getEmail(), "You Have been added as a Manger",
-					"Hello "+newProject.getManager().getForename()+
-					" You are now the Project Manager for "+newProject.getName());
+			EmailUtility.sendEmail(newProject.getScrumMaster().getEmail(), "You Have been added as a Scrum Master",
+					"Hello "+newProject.getScrumMaster().getForename()+
+					" You are now the Scrum Master for "+newProject.getName());
 			
-		}
-
-
-		return mapper.getProjectById(project.getId());
-		
-		
+		}*/
+		return mapper.getProjectById(project.getId());	
 	}
 
 	public Project update(Project project) {
@@ -65,12 +59,12 @@ public class ProjectService {
 					"You are now the Project Owner for "+project.getName());
 			
 		}
-		if ( !project.getManager().equals(startingProject.getManager())) {
-			EmailUtility.sendEmail(project.getProductOwner().getEmail(), "You Have been added as a Manger",
-					"Hello "+project.getProductOwner().getForename()+
-					" You are now the Project Manager for "+project.getProductOwner().getForename());
+		/*if ( !project.getScrumMaster().equals(startingProject.getScrumMaster())) {
+			EmailUtility.sendEmail(project.getScrumMaster().getEmail(), "You Have been added as a Scrum Master",
+					"Hello "+project.getScrumMaster().getForename()+
+					" You are now the Scrum Master for "+project.getScrumMaster().getForename());
 			
-		}
+		}*/
 		return project;
 	}
 
