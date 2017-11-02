@@ -11,6 +11,7 @@ import uk.ac.qub.csc3045.api.exception.ResponseErrorException;
 import uk.ac.qub.csc3045.api.mapper.ProjectMapper;
 import uk.ac.qub.csc3045.api.model.Project;
 import uk.ac.qub.csc3045.api.model.User;
+import uk.ac.qub.csc3045.api.utility.EmailUtility;
 import uk.ac.qub.csc3045.api.utility.ValidationUtility;
 
 @Service
@@ -48,6 +49,10 @@ public class ProjectService {
 		try {
 			for (User user : project.getUsers()) {
 				mapper.addToProjectTeam(project.getId(), user.getId());
+				
+				EmailUtility.sendEmail(user.getEmail(), "You have been added to a new Project - " + project.getName(),
+						"Hello " + user.getForename() +
+						", \n\nYou have been added to the Project Team for " + project.getName());
 			}
 		} catch (DataIntegrityViolationException e) {
 			throw new ResponseErrorException("Project or User does not exist", HttpStatus.NOT_FOUND);
