@@ -24,6 +24,7 @@
         <result column="description" property="description"/>
         <association property="manager" column="manager_id" javaType="User" select="selectManager"/>
         <association property="productOwner" column="product_owner_id" javaType="User" select="selectProductOwner"/>
+        <collection property="users" javaType="List" resultMap="userResultMap"/>
     </resultMap>
     
    	<resultMap id="userResultMap" type="User">
@@ -56,5 +57,25 @@
     	JOIN roles ON roles_id = roles.id
     	WHERE user.id = #{project.product_owner_id}
     </select>
-   	  
+
+    <select id="findProjectByProjectId" resultType="Project">
+        SELECT * FROM project WHERE projectId = #{projectId}
+    </select>
+    
+    <select id="getUsersOnProject" resultMap="userResultMap">
+      SELECT *
+      FROM USER
+          JOIN ROLES ON USER.ROLES_ID = ROLES.ID
+          JOIN PROJECT_USER ON USER.ID = PROJECT_USER.USER_ID
+      WHERE PROJECT_USER.PROJECT_ID = #{projectId}
+    </select>
+    
+    <select id="findUserByEmail" resultType="User">
+        SELECT * FROM user WHERE email = #{email}
+    </select>
+    
+    <insert id="addToProjectTeam">
+      INSERT INTO project_user (project_id, user_id)
+        VALUES (#{projectId}, #{userId})
+    </insert>
 </mapper>
