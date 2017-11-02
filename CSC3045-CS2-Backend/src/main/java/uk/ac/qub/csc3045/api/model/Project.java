@@ -31,19 +31,23 @@ public class Project {
 			joinColumns = @JoinColumn(name = "PROJECT_ID", referencedColumnName = "ID"), 
 			inverseJoinColumns = @JoinColumn(name = "USER_ID", referencedColumnName = "ID"))
 	private List<User> users;
+	
+    @OneToMany(mappedBy = "project")
+    private List<UserStory>userStories;
 
 	public Project() {
 
 	}
 
-	public Project(String name, String description, User manager, User productOwner, List<User> users) {
-		this.name = name;
-		this.description = description;
-		this.manager = manager;
-		this.productOwner = productOwner;
-		this.users = users;
-	}
-	
+    public Project(String name, String description, User manager, User productOwner, List<User>users, List<UserStory> userStories) {
+    	this.name = name;
+    	this.description = description;
+    	this.manager = manager;
+    	this.productOwner = productOwner;
+    	this.users = users;
+    	this.userStories = userStories;
+    }
+    
 	public Long getId() {
 		return id;
 	}
@@ -90,6 +94,14 @@ public class Project {
 
 	public void setUsers(List<User> users) {
 		this.users = users;
+	}
+	
+	public List<UserStory> getUserStories() {
+		return userStories;
+	}
+	
+	public void setUserStories(List<UserStory> userStories) {
+		this.userStories = userStories;
 	}
 	
 	@Override
