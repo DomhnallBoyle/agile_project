@@ -30,13 +30,18 @@ public class ProjectService {
 	}
 
 	public Project update(Project project) {
-		mapper.updateProject(project);
-
-		return mapper.getProjectById(project.getId());
+		if (ValidationUtility.validateProjectExists(project.getId(), mapper)) {
+			mapper.updateProject(project);
+			return mapper.getProjectById(project.getId());
+		}
+		throw new ResponseErrorException("Project does not exist", HttpStatus.NOT_FOUND);
 	}
 	
 	public Project get(long projectId) {
-		return mapper.getProjectById(projectId);
+		if (ValidationUtility.validateProjectExists(projectId, mapper)) {
+			return mapper.getProjectById(projectId);
+		}
+		throw new ResponseErrorException("Project does not exist", HttpStatus.NOT_FOUND);
 	}
 
 	public Project addToTeam(Project project) {
