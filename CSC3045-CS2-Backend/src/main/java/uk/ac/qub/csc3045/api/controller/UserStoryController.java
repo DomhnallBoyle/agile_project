@@ -32,16 +32,14 @@ public class UserStoryController {
         return new ResponseEntity<>(this.userStoryService.create(userStory), HttpStatus.CREATED);
     }
     @RequestMapping(value = "/{id}", method = GET)
-    @ResponseBody
     public ResponseEntity<UserStory> getUserStory(@PathVariable("id") long id) {
     	
         return new ResponseEntity<>(this.userStoryService.getUserStory(id), HttpStatus.OK);
     }
     @RequestMapping(value = "/project/{id}", method = GET)
-    @ResponseBody
-    public ResponseEntity<List<UserStory>> getUserStoryByProject(@PathVariable("id") long id) {
+    public ResponseEntity<List<UserStory>> getUserStoriesByProject(@PathVariable("id") long id) {
     	
-        return new ResponseEntity<>(this.userStoryService.getAllUserStory(id), HttpStatus.OK);
+        return new ResponseEntity<>(this.userStoryService.getAllUserStories(id), HttpStatus.OK);
     }
 
      

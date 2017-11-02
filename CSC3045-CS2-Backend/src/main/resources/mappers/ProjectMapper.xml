@@ -11,6 +11,7 @@
         <association property="manager" column="manager_id" javaType="User" select="selectManager"/>
         <association property="productOwner" column="product_owner_id" javaType="User" select="selectProductOwner"/>
         <collection property="users" javaType="List" resultMap="userResultMap"/>
+        <collection property="userStories" javaType="List" resultMap="uk.ac.qub.csc3045.api.mapper.UserStoryMapper.userStoryResultMap"/>
     </resultMap>
     
    	<resultMap id="userResultMap" type="User">

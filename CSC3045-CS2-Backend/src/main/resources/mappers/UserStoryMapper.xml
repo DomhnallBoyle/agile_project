@@ -3,7 +3,16 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <!-- Set the namespace below to the interface side of the mapper -->
 <mapper namespace="uk.ac.qub.csc3045.api.mapper.UserStoryMapper">
-
+	 
+    <resultMap id="userStoryResultMap" type="UserStory">
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="description" property="description"/>
+        <result column="points" property="points"/>
+        <result column="market_value" property="marketValue"/>
+        <result column="assigned" property="assigned"/>
+        <association property="project" column="project_id" javaType="Project" select="selectProject"/>
+    </resultMap>
 
     
    	<insert id="createUserStory" parameterType="UserStory" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
@@ -15,83 +24,28 @@
     	SELECT * FROM USER_STORY WHERE id = #{id} 
     </select>	
     
-    <select id="getUserStoryByProject" resultMap="userStoryResultMap">
-    	SELECT * FROM USER_STORY WHERE user_story.project_id = #{id} 
+    <select id="getUserStoriesByProject" resultMap="userStoryResultMap">
+    	SELECT * FROM USER_STORY WHERE project_id = #{id} 
     </select>	
-   	
-    
-    <resultMap id="userStoryResultMap" type="UserStory">
-        <id column="id" property="id"/>
-        <result column="name" property="name"/>
-        <result column="description" property="description"/>
-        <result column="points" property="points"/>
-        <result column="market_value" property="marketValue"/>
-        <result column="assigned" property="assigned"/>
-         <association property="project" column="project_id" javaType="Project" select="selectProject"/>
-     	
-    </resultMap>
-    
-    <select id="selectProject" resultMap="projectResultMap">
+
+    <select id="selectProject" resultMap="uk.ac.qub.csc3045.api.mapper.ProjectMapper.projectResultMap">
     	SELECT * FROM PROJECT WHERE project.id = #{user_story.project_id}
     </select>
     
-    
-    <resultMap id="projectResultMap" type="Project">
-        <id column="id" property="id"/>
-        <result column="name" property="name"/>
-        <result column="description" property="description"/>
-        <association property="manager" column="manager_id" javaType="User" select="selectManager"/>
-        
-        <association property="productOwner" column="product_owner_id" javaType="User" select="selectProductOwner"/>
-        <association property="userStories" resultMap="userStoryResultMap"/>
-    </resultMap>
-    
-    
-   	<resultMap id="userResultMap" type="User">
-        <id column="id" property="id"/>
-        <result column="forename" property="forename"/>
-        <result column="surname" property="surname"/>
-        <result column="email" property="email"/>
-        <association property="roles" resultMap="rolesResultMap"/>
-    </resultMap>
-    
-    <resultMap id="rolesResultMap" type="Roles">
-        <id column="id" property="id"/>
-        <result column="developer" property="developer"/>
-        <result column="scrum_master" property="scrumMaster"/>
-        <result column="product_owner" property="productOwner"/>
-    </resultMap>
-    
-    <select id="getProjectById" resultMap="projectResultMap">
+    <select id="getProjectById" resultMap="uk.ac.qub.csc3045.api.mapper.ProjectMapper.projectResultMap">
     	SELECT * FROM PROJECT WHERE id = #{id}
     </select>
-    
-   
-    
-    <select id="selectManager" resultMap="userResultMap">
+
+    <select id="selectManager" resultMap="uk.ac.qub.csc3045.api.mapper.UserMapper.userResultMap">
     	SELECT * FROM USER 
     	JOIN roles ON roles_id = roles.id
     	WHERE user.id = #{project.manager_id} 
     </select>
     
-    <select id="selectProductOwner" resultMap="userResultMap">
+    <select id="selectProductOwner" resultMap="uk.ac.qub.csc3045.api.mapper.UserMapper.userResultMap">
     	SELECT * FROM USER
     	JOIN roles ON roles_id = roles.id
     	WHERE user.id = #{project.product_owner_id}
     </select>
-   <!--  <select id="getUserStoryById" resultMap="userStoryResultMap">
-    	SELECT * FROM USERSTORY WHERE id = #{id}
-    </select>
-    	
-    <select id="getAllUserStoriesFromProject" resultMap="">
-    	SELECT * FROM USERSTORY WHERE project_id = #{id}
-    </select>
-    	
-
-    	
-    <select id="selectProject" resultMap="userStoryResultMap">
-    	SELECT * FROM PROJECT 
-    	JOIN USERSTORY ON project_id = project.id
-    	WHERE project.id = #{project.project_id} 
-    </select>--> 
+    
 </mapper>

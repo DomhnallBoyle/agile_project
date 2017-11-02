@@ -13,5 +13,5 @@ import uk.ac.qub.csc3045.api.model.UserStory;
 public interface UserStoryMapper {
 	void createUserStory(UserStory userStory);
 	UserStory getUserStoryById(@Param("id")long id);
-	List<UserStory> getUserStoryByProject(@Param("id")long id);
+	List<UserStory> getUserStoriesByProject(@Param("id")long id);
 }
