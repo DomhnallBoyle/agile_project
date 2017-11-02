@@ -17,7 +17,7 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
         <Button Name="ProjectDropDownButton" Grid.Column="1" Grid.Row="0" Content="Click Me" Command="{Binding ProjectDropDown}" ContextMenuService.IsEnabled="False">
@@ -42,20 +42,19 @@
 
         <TextBlock Grid.Row="3" Text="{Binding ProjectManagerLabel, FallbackValue='Project Manager'}" TextAlignment="Left" FontWeight="Bold" FontSize="16" Margin="10"></TextBlock>
 
-        <Separator  Grid.Row="4" ></Separator>
-        
+        <Separator  Grid.Row="4" ></Separator> 
         <TextBlock Grid.Row="5" Text="{Binding setProductManagerName, FallbackValue=''}" TextAlignment="Left" FontWeight="Bold" FontSize="14"></TextBlock>
         
         <TextBlock Grid.Row="5" Text="{Binding setProductManagerEmail, FallbackValue=''}" TextAlignment="Center" FontWeight="Bold" FontSize="12"></TextBlock>
 
-        <Separator  Grid.Row="6" ></Separator>
+         <Separator  Grid.Row="6" ></Separator> 
 
-        <TextBlock Grid.Row="7" Text="{Binding ProjectTeamMembersLabel, FallbackValue='Project Team Members'}" TextAlignment="Left" FontWeight="Bold" FontSize="16" Margin="10"></TextBlock>
+        <TextBlock Grid.Row="7" Text="{Binding ProjectTeamMembersLabe l, FallbackValue='Project Team Members'}" TextAlignment="Left" FontWeight="Bold" FontSize="16" Margin="10"></TextBlock>
 
-      <!--  <ListBox Grid.Row="8" Name="ProjectTeamMembers" HorizontalContentAlignment="Stretch">
+        <ListBox Grid.Row="8" Name="ProjectTeamMembers" HorizontalContentAlignment="Stretch">
             <ListBox.ItemTemplate>
                 <DataTemplate>
-                    <StackPanel Margin="0,0,0,0">
+                    <StackPanel Margin="0,0,0,10">
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*"/>
@@ -102,60 +101,7 @@
                     </StackPanel>
                 </DataTemplate>
             </ListBox.ItemTemplate>
-        </ListBox>
 
-    </Grid> -->
-
-        <ListBox Grid.Row="7" Margin="10" Name="ProjectTeamMembers" HorizontalContentAlignment="Stretch">
-            <ListBox.ItemTemplate>
-                <DataTemplate>
-                    <StackPanel Margin="0,0,0,0">
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="*"/>
-                            </Grid.ColumnDefinitions>
-
-                            <TextBlock Grid.Column="0" Text="{Binding Forename}" FontWeight="Bold" FontSize="16" HorizontalAlignment="Left"/>
-                            <TextBlock Grid.Column="1" Text="{Binding Surname}" FontWeight="Bold" FontSize="16" HorizontalAlignment="Center"/>
-
-                        </Grid>
-
-                        <Separator/>
-
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="0.25*"/>
-                                <ColumnDefinition Width="0.75*"/>
-                            </Grid.ColumnDefinitions>
-
-                            <StackPanel Grid.Column="0">
-                                <TextBlock Text="{Binding Email}" Margin="10" FontWeight="Bold" FontSize="12" HorizontalAlignment="Center"/>
-                            </StackPanel>
-
-                            <StackPanel Grid.Column="1">
-                                <TextBlock Text="{Binding RelativeSource={RelativeSource AncestorType={x:Type Page}}, Path=DataContext.ProductOwnerValueLabel, FallbackValue='Product Owner'}" HorizontalAlignment="Left" FontWeight="Bold" FontSize="12"/>
-                                <TextBlock Text="{Binding Roles.ProductOwner}" HorizontalAlignment="Left"/>
-                            </StackPanel>
-
-                            <StackPanel Grid.Column="2">
-                                <TextBlock Text="{Binding RelativeSource={RelativeSource AncestorType={x:Type Page}}, Path=DataContext.DeveloperValueLabel, FallbackValue='Developer'}" HorizontalAlignment="Center" FontWeight="Bold" FontSize="12"/>
-                                <TextBlock Text="{Binding Roles.Developer}" HorizontalAlignment="Center"/>
-                            </StackPanel>
-
-                            <StackPanel Grid.Column="3">
-                                <TextBlock Text="{Binding RelativeSource={RelativeSource AncestorType={x:Type Page}}, Path=DataContext.ScrumMasterValueLabel, FallbackValue='Scrum Master'}" HorizontalAlignment="Right" FontWeight="Bold" FontSize="12"/>
-                                <TextBlock Text="{Binding Roles.ScrumMaster}" HorizontalAlignment="Right"/>
-                            </StackPanel>
-                        </Grid>
-                        </StackPanel>
-                </DataTemplate>
-            </ListBox.ItemTemplate>
         </ListBox>
     </Grid>
 </Page>

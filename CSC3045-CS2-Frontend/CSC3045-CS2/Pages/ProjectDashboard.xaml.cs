@@ -69,19 +69,9 @@ namespace CSC3045_CS2.Pages
 
             Project project = this._projects[currentProjectNumber];
             
-
             addProjectstoList();
             pageSetup();
-                _user = new List<User>();
-                Roles role = new Roles(false, false, true);
-                Roles role1 = new Roles(false, true, true);
-                _user.Add(new User("Zoey", "Longridge", "zoey@hotmail.com", role));
-                _user.Add(new User("Kevin", "Martin", "zoey@hotmail.com", role1));
-                _user.Add(new User("Darren", "huehuehue", "hue@hotmail.com", role));
-                ProjectTeamMembers.ItemsSource = _user;
- 
-
-           // ProjectTeamMembers.ItemsSource = _client.GetProjectTeam(project.ProjectId);
+            ProjectTeamMembers.ItemsSource = _client.GetProjectTeam(project.ProjectId);
 
         }
 
