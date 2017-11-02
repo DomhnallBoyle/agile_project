@@ -63,7 +63,7 @@ public class ProjectServiceTest {
 	@Test
 	public void getTeamRequestSuccessful() throws Exception{
 		when(projectMapperMock.getUsersOnProject(project.getId())).thenReturn(project.getUsers());
-		when(projectMapperMock.findProjectByProjectId(project.getId())).thenReturn(project);
+		when(projectMapperMock.getProjectById(project.getId())).thenReturn(project);
 		
 		List<User> response = projectService.getTeamMembers(project.getId());
 		
@@ -72,7 +72,7 @@ public class ProjectServiceTest {
 	
 	@Test(expected = ResponseErrorException.class)
 	public void getTeamRequestFailure() throws Exception{
-		when(projectMapperMock.findProjectByProjectId(project.getId())).thenReturn(null);
+		when(projectMapperMock.getProjectById(project.getId())).thenReturn(null);
 		projectService.getTeamMembers(project.getId());	
 	}
 }

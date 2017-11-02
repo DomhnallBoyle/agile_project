@@ -37,6 +37,11 @@ public class ProjectController {
     	return new ResponseEntity<>(this.projectService.update(project), HttpStatus.OK);
     }
     
+    @RequestMapping(value = "/{projectId}", method = GET)
+    public ResponseEntity<Project> get(@Valid @PathVariable("projectId") long projectId) {
+    	return new ResponseEntity<>(this.projectService.get(projectId), HttpStatus.OK);
+    }
+    
     @RequestMapping(value = "/team", method = POST)
     public ResponseEntity<Project> addToTeam(@Valid @RequestBody Project project) {
         return new ResponseEntity<>(this.projectService.addToTeam(project), HttpStatus.OK);

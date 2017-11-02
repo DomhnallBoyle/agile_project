@@ -4,20 +4,6 @@
 <!-- Set the namespace below to the interface side of the mapper -->
 <mapper namespace="uk.ac.qub.csc3045.api.mapper.ProjectMapper">
 
-    <insert id="createProject" parameterType="Project" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
-        INSERT INTO project(name, description, manager_id, product_owner_id)
-        VALUES(#{name}, #{description}, #{manager.id}, #{productOwner.id});
-    </insert>
-    
-    <update id="updateProject" parameterType="Project">
-		UPDATE project SET 
-			name = #{name}, 
-			description = #{description}, 
-			manager_id = #{manager.id}, 
-			product_owner_id = #{productOwner.id}
-		WHERE id = #{id};
-    </update>
-
 	<resultMap id="projectResultMap" type="Project">
         <id column="id" property="id"/>
         <result column="name" property="name"/>
@@ -42,6 +28,20 @@
         <result column="product_owner" property="productOwner"/>
     </resultMap>
     
+    <insert id="createProject" parameterType="Project" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+        INSERT INTO project(name, description, manager_id, product_owner_id)
+        VALUES(#{name}, #{description}, #{manager.id}, #{productOwner.id});
+    </insert>
+    
+    <update id="updateProject" parameterType="Project">
+        UPDATE project SET 
+            name = #{name}, 
+            description = #{description}, 
+            manager_id = #{manager.id}, 
+            product_owner_id = #{productOwner.id}
+        WHERE id = #{id};
+    </update>
+    
     <select id="getProjectById" resultMap="projectResultMap">
     	SELECT * FROM PROJECT WHERE id = #{id}
     </select>
@@ -58,10 +58,6 @@
     	WHERE user.id = #{project.product_owner_id}
     </select>
 
-    <select id="findProjectByProjectId" resultType="Project">
-        SELECT * FROM project WHERE projectId = #{projectId}
-    </select>
-    
     <select id="getUsersOnProject" resultMap="userResultMap">
       SELECT *
       FROM USER

@@ -80,7 +80,7 @@ public class ValidationUtility {
     }
     
     public static boolean validateProjectExists(long projectId, ProjectMapper mapper) {
-        return (mapper.findProjectByProjectId(projectId) != null);
+        return (mapper.getProjectById(projectId) != null);
     }
 
 	/**
