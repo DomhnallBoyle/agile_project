@@ -1,0 +1,13 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- Set the namespace below to the interface side of the mapper -->
+<mapper namespace="uk.ac.qub.csc3045.api.mapper.UserStoryMapper">
+
+    <update id="updateUserStoryIndex">
+        UPDATE USER_STORY SET
+            INDEX = #{index}
+        WHERE ID = #{userStoryId}
+    </update>
+
+</mapper>
