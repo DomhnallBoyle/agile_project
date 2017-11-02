@@ -1,5 +1,6 @@
 ﻿using CSC3045_CS2.Exception;
 using CSC3045_CS2.Models;
+using CSC3045_CS2.Service;
 using CSC3045_CS2.Utility;
 using System;
 using System.Collections.Generic;
@@ -26,8 +27,35 @@ namespace CSC3045_CS2.Pages
         #region Private Variables
 
         private List<Project> _projects;
+        private List<User> _user;
         private int _currentProjectNumber;
         private MenuItem _projectName;
+        private ProjectClient _client;
+
+        #endregion
+
+        #region Public Variables
+        User currentUser = (User)Application.Current.Properties["user"];
+
+        public string TitleLabel { get; set; } = "Project Team Members";
+
+        public string UserDashboardButtonLabel { get; set; } = "User Dashboard";
+
+        public string ProductBacklogButtonLabel { get; set; } = "Product Backlog";
+
+        public string ProjectManagerLabel { get; set; } = "Project Manager";
+
+        public string ProjectTeamMembersLabel { get; set; } = "Project Team Members";
+
+        public String setProductManagerName { get; set; } = "";
+
+        public String setProductManagerEmail { get; set; } = "";
+
+        public String DeveloperValueLabel { get; set; } = "Developer";
+
+        public String ScrumMasterValueLabel { get; set; } = "Scrum Master";
+
+        public String ProductOwnerValueLabel { get; set; } = "Product Owner";
 
         #endregion
 
@@ -38,10 +66,32 @@ namespace CSC3045_CS2.Pages
             this._projects = projects;
             this._currentProjectNumber = currentProjectNumber;
             ProjectDropDownButton.Content = this._projects[currentProjectNumber].ProjectName;
+
+            Project project = this._projects[currentProjectNumber];
+            
+
             addProjectstoList();
+            pageSetup();
+                _user = new List<User>();
+                Roles role = new Roles(false, false, true);
+                Roles role1 = new Roles(false, true, true);
+                _user.Add(new User("Zoey", "Longridge", "zoey@hotmail.com", role));
+                _user.Add(new User("Kevin", "Martin", "zoey@hotmail.com", role1));
+                _user.Add(new User("Darren", "huehuehue", "hue@hotmail.com", role));
+                ProjectTeamMembers.ItemsSource = _user;
+ 
+
+           // ProjectTeamMembers.ItemsSource = _client.GetProjectTeam(project.ProjectId);
+
         }
 
         #region Class methods
+
+        public void pageSetup()
+        {
+            setProductManagerName = currentUser.Forename + " " + currentUser.Surname;
+            setProductManagerEmail = currentUser.Email;
+        }
 
         private void addProjectstoList()
         {
@@ -78,6 +128,32 @@ namespace CSC3045_CS2.Pages
                     ProjectDropDownButton.ContextMenu.PlacementTarget = ProjectDropDownButton;
                     ProjectDropDownButton.ContextMenu.Placement = System.Windows.Controls.Primitives.PlacementMode.Bottom;
                     ProjectDropDownButton.ContextMenu.IsOpen = true;
+                });
+            }
+        }
+
+        public ICommand GoToProductBacklogCommand
+        {
+            get
+            {
+                return new RelayCommand(param =>
+                {
+                    Page productBacklog = new ProductBacklog();
+
+                    NavigationService.GetNavigationService(this).Navigate(productBacklog);
+                });
+            }
+        }
+
+        public ICommand GoToUserDashboardCommand
+        {
+            get
+            {
+                return new RelayCommand(param =>
+                {
+                    Page userDashboard = new UserDashboard();
+
+                    NavigationService.GetNavigationService(this).Navigate(userDashboard);
                 });
             }
         }

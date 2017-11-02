@@ -84,6 +84,10 @@ namespace CSC3045_CS2.Pages
             Project projectTwo = new Project(user2, "Cornetto", "Java app", user3);
             Project projectThree = new Project(user5, "Twister", "c# app", user4);
 
+            projectOne.ProjectId = 0;
+            projectTwo.ProjectId = 1;
+            projectThree.ProjectId = 2;
+
             return new List<Project> { projectOne, projectTwo, projectThree };
         }
 
