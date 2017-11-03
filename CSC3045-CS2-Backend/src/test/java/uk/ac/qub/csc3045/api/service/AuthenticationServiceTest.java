@@ -23,8 +23,8 @@ public class AuthenticationServiceTest {
     @Before
     public void setUp() throws Exception {
         authenticationMapperMock = mock(AuthenticationMapper.class);
-        BCryptPasswordEncoder passwordEncoderMock =  mock(BCryptPasswordEncoder.class);
-        authenticationService = new AuthenticationService(authenticationMapperMock, passwordEncoderMock );
+        BCryptPasswordEncoder passwordEncoderMock = mock(BCryptPasswordEncoder.class);
+        authenticationService = new AuthenticationService(authenticationMapperMock, passwordEncoderMock);
 
         user = new User();
         user.setEmail("abcdef@gmail.com");

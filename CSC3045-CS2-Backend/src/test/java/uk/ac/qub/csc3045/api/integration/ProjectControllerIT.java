@@ -1,6 +1,10 @@
 package uk.ac.qub.csc3045.api.integration;
 
-import static org.junit.Assert.*;
+import io.restassured.response.Response;
+import org.junit.Before;
+import org.junit.Test;
+import uk.ac.qub.csc3045.api.integration.util.RequestHelper;
+import uk.ac.qub.csc3045.api.model.*;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -8,19 +12,11 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
-import org.junit.Before;
-import org.junit.Test;
-
-import io.restassured.response.Response;
-import uk.ac.qub.csc3045.api.integration.util.RequestHelper;
-import uk.ac.qub.csc3045.api.model.Account;
-import uk.ac.qub.csc3045.api.model.Project;
-import uk.ac.qub.csc3045.api.model.Roles;
-import uk.ac.qub.csc3045.api.model.User;
-import uk.ac.qub.csc3045.api.model.UserStory;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 public class ProjectControllerIT {
-    
+	
 	private Account account;
 	private Project existingProject;
 	private RequestHelper requestHelper;
@@ -37,34 +33,34 @@ public class ProjectControllerIT {
 	@Before
     public void setup() throws IOException {
         requestHelper = new RequestHelper();
-        
+
         setupTestAccount();
         setupTestProject();
-        
-		authHeader = requestHelper.getAuthHeader(account);
+
+        authHeader = requestHelper.getAuthHeader(account);
     }
-	
-	/**
+
+    /**
      * Get Project Tests
      */
-	@Test
-	public void getProjectThatExistsShouldReturn200() {
-		Response r = requestHelper.sendGetRequestWithAuthHeader(BASE_PATH + "/" + existingProject.getId(), authHeader);
-		Project returnedProject = r.getBody().as(Project.class);
-		
-		r.then().assertThat().statusCode(200);
-		assertTrue(existingProject.getId() == returnedProject.getId());
-	}
-	
-	@Test
-	public void getProjectThatDoesntExistShouldReturn404() {
-		Response r = requestHelper.sendGetRequestWithAuthHeader(BASE_PATH + "/6500", authHeader);
-		
-		r.then().assertThat().statusCode(404);
-		assertEquals(projectDoesNotExistErrorMessage, r.getBody().asString());
-	}
-	
-	/**
+    @Test
+    public void getProjectThatExistsShouldReturn200() {
+        Response r = requestHelper.sendGetRequestWithAuthHeader(BASE_PATH + "/" + existingProject.getId(), authHeader);
+        Project returnedProject = r.getBody().as(Project.class);
+
+        r.then().assertThat().statusCode(200);
+        assertTrue(existingProject.getId() == returnedProject.getId());
+    }
+
+    @Test
+    public void getProjectThatDoesntExistShouldReturn404() {
+        Response r = requestHelper.sendGetRequestWithAuthHeader(BASE_PATH + "/6500", authHeader);
+
+        r.then().assertThat().statusCode(404);
+        assertEquals(projectDoesNotExistErrorMessage, r.getBody().asString());
+    }
+
+    /**
      * Create project tests
      */
 	@Test
@@ -222,29 +218,31 @@ public class ProjectControllerIT {
         existingProject = new Project("ProjectName1", "Project Description1", existingUser, existingUser, existingUser, users, new ArrayList<UserStory>());
         existingProject.setId(1L);
     }
-    
+
     private void setupTestAccount() {
-		Roles validRoles = new Roles();
-		User validUser = new User("Forename", "Surname", generateEmail(), validRoles);
-		account = new Account(validUser, generateUsername(), "Password1");
-	}
+        Roles validRoles = new Roles();
+        User validUser = new User("Forename", "Surname", generateEmail(), validRoles);
+        account = new Account(validUser, generateUsername(), "Password1");
+    }
 
-	/**
-	 * Generates a random username
-	 * @return the username generated
-	 */
-	private String generateUsername() {
-		Random random = new Random();
-		return "test" + random.nextInt(5000);
-	}
+    /**
+     * Generates a random username
+     *
+     * @return the username generated
+     */
+    private String generateUsername() {
+        Random random = new Random();
+        return "test" + random.nextInt(5000);
+    }
 
-	/**
-	 * Generates a random email
-	 * @return the email generated
-	 */
-	private String generateEmail() {
-		Random random = new Random();
-		return "testing" + random.nextInt(5000) + "@testing.com";
-	}
+    /**
+     * Generates a random email
+     *
+     * @return the email generated
+     */
+    private String generateEmail() {
+        Random random = new Random();
+        return "testing" + random.nextInt(5000) + "@testing.com";
+    }
 
 }

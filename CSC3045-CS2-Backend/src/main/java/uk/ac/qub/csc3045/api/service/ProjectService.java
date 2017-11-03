@@ -1,18 +1,17 @@
 package uk.ac.qub.csc3045.api.service;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-
 import uk.ac.qub.csc3045.api.exception.ResponseErrorException;
 import uk.ac.qub.csc3045.api.mapper.ProjectMapper;
 import uk.ac.qub.csc3045.api.model.Project;
 import uk.ac.qub.csc3045.api.model.User;
 import uk.ac.qub.csc3045.api.utility.EmailUtility;
 import uk.ac.qub.csc3045.api.utility.ValidationUtility;
+
+import java.util.List;
 
 @Service
 public class ProjectService {

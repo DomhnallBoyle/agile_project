@@ -16,8 +16,10 @@ public class Account {
     @NotNull
     @Valid
     private User user;
+
     @NotNull
     private String username;
+
     @NotNull
     private String password;
 
@@ -67,17 +69,17 @@ public class Account {
         if (this == obj) {
             return true;
         }
-        
+
         if (obj == null) {
             return false;
         }
-        
+
         if (getClass() != obj.getClass()) {
             return false;
         }
-        
+
         Account other = (Account) obj;
-        
+
         if (id == null) {
             if (other.id != null) {
                 return false;
@@ -85,7 +87,7 @@ public class Account {
         } else if (!id.equals(other.id)) {
             return false;
         }
-        
+
         if (password == null) {
             if (other.password != null) {
                 return false;
@@ -93,7 +95,7 @@ public class Account {
         } else if (!password.equals(other.password)) {
             return false;
         }
-        
+
         if (user == null) {
             if (other.user != null) {
                 return false;
@@ -101,7 +103,7 @@ public class Account {
         } else if (!user.equals(other.user)) {
             return false;
         }
-        
+
         if (username == null) {
             if (other.username != null) {
                 return false;
@@ -109,7 +111,7 @@ public class Account {
         } else if (!username.equals(other.username)) {
             return false;
         }
-        
+
         return true;
     }
 

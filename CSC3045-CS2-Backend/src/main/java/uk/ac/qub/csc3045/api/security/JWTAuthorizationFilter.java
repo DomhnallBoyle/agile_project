@@ -1,28 +1,26 @@
 package uk.ac.qub.csc3045.api.security;
 
-import static uk.ac.qub.csc3045.api.security.SecurityConstants.*;
-
-import java.io.IOException;
-import java.util.ArrayList;
+import io.jsonwebtoken.Jwts;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
+import uk.ac.qub.csc3045.api.mapper.AuthenticationMapper;
+import uk.ac.qub.csc3045.api.model.Account;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.util.ArrayList;
 
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
-
-import io.jsonwebtoken.Jwts;
-import uk.ac.qub.csc3045.api.mapper.AuthenticationMapper;
-import uk.ac.qub.csc3045.api.model.Account;
+import static uk.ac.qub.csc3045.api.security.SecurityConstants.*;
 
 public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
-	
+
     private AuthenticationMapper mapper;
-    
+
     public JWTAuthorizationFilter(AuthenticationManager authManager, AuthenticationMapper mapper) {
         super(authManager);
         this.mapper = mapper;

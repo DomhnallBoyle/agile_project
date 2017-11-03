@@ -1,20 +1,16 @@
 package uk.ac.qub.csc3045.api.utility;
 
-import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
-import static org.hamcrest.CoreMatchers.containsString;
-import static org.mockito.Mockito.when;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
-
+import uk.ac.qub.csc3045.api.exception.ResponseErrorException;
 import uk.ac.qub.csc3045.api.mapper.AuthenticationMapper;
 import uk.ac.qub.csc3045.api.model.Account;
 import uk.ac.qub.csc3045.api.model.User;
-import uk.ac.qub.csc3045.api.utility.ValidationUtility;
-import uk.ac.qub.csc3045.api.exception.ResponseErrorException;
+
+import static org.hamcrest.CoreMatchers.containsString;
+import static org.junit.Assert.*;
+import static org.mockito.Mockito.when;
 
 public class ValidationUtilityTest {
 
@@ -253,7 +249,7 @@ public class ValidationUtilityTest {
             assertThat(e.getMessage(), containsString("email already exists"));
         }
     }
-    
+
     @Test
     public void emailValidTest() {
         try {

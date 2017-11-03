@@ -141,7 +141,7 @@ namespace CSC3045_CS2.Pages
                 });
             }
         }
-        
+
         public ICommand SaveCommand
         {
             get

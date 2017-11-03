@@ -30,7 +30,7 @@ namespace CSC3045_CS2.Pages
         public String LoginPasswordLabel { get; set; } = "Password: ";
 
         public String UsernameTextContent { get; set; }
-        
+
         public String LoginButtonText { get; set; } = "Login";
 
         public String RegisterButtonText { get; set; } = "Register";
@@ -77,7 +77,15 @@ namespace CSC3045_CS2.Pages
                     }
                     catch (RestResponseErrorException ex)
                     {
-                        MessageBox.Show(ex.Message);
+                        if (ex.StatusCode == System.Net.HttpStatusCode.Unauthorized)
+                        {
+                            MessageBox.Show("Invalid username or password");
+                        }
+                        else
+                        {
+                            MessageBox.Show(ex.Message);
+                        }
+                        
                     }
                 });
             }

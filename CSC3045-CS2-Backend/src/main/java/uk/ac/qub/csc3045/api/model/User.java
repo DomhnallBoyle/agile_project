@@ -1,151 +1,155 @@
 package uk.ac.qub.csc3045.api.model;
 
-import java.util.List;
-
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.List;
 
 @Entity
 @Table
 public class User {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Long id;
-	@NotNull
-	private String forename;
-	@NotNull
-	private String surname;
-	@NotNull
-	private String email;
-	@OneToOne
-	private Roles roles = new Roles();
-	@ManyToMany(mappedBy = "users")
-	private List<Project> projects;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
 
-	public User() {
-	}
+    @NotNull
+    private String forename;
 
-	public User(String forename, String surname, String email, Roles roles) {
-		this.forename = forename;
-		this.surname = surname;
-		this.email = email;
-		this.roles = roles;
-	}
+    @NotNull
+    private String surname;
 
-	public Long getId() {
-		return id;
-	}
+    @NotNull
+    private String email;
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+    @OneToOne
+    private Roles roles = new Roles();
 
-	public String getForename() {
-		return forename;
-	}
+    @ManyToMany(mappedBy = "users")
+    private List<Project> projects;
 
-	public void setForename(String forename) {
-		this.forename = forename;
-	}
+    public User() {
+    }
 
-	public String getSurname() {
-		return surname;
-	}
+    public User(String forename, String surname, String email, Roles roles) {
+        this.forename = forename;
+        this.surname = surname;
+        this.email = email;
+        this.roles = roles;
+    }
 
-	public void setSurname(String surname) {
-		this.surname = surname;
-	}
+    public Long getId() {
+        return id;
+    }
 
-	public String getEmail() {
-		return email;
-	}
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-	public void setEmail(String email) {
-		this.email = email;
-	}
+    public String getForename() {
+        return forename;
+    }
 
-	public Roles getRoles() {
-		return roles;
-	}
+    public void setForename(String forename) {
+        this.forename = forename;
+    }
 
-	public void setRoles(Roles roles) {
-		this.roles = roles;
-	}
+    public String getSurname() {
+        return surname;
+    }
 
-	public List<Project> getProjects() {
-		return projects;
-	}
+    public void setSurname(String surname) {
+        this.surname = surname;
+    }
 
-	public void setProjects(List<Project> projects) {
-		this.projects = projects;
-	}
+    public String getEmail() {
+        return email;
+    }
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
-			return true;
-		}
-		
-		if (obj == null) {
-			return false;
-		}
-		
-		if (getClass() != obj.getClass()) {
-			return false;
-		}
-		
-		User other = (User) obj;
-				
-		if (id == null) {
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public Roles getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Roles roles) {
+        this.roles = roles;
+    }
+
+    public List<Project> getProjects() {
+        return projects;
+    }
+
+    public void setProjects(List<Project> projects) {
+        this.projects = projects;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+
+        if (obj == null) {
+            return false;
+        }
+
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+
+        User other = (User) obj;
+
+        if (id == null) {
             if (other.id != null) {
                 return false;
             }
         } else if (!id.equals(other.id)) {
             return false;
         }
-		
-		if (forename == null) {
+
+        if (forename == null) {
             if (other.forename != null) {
                 return false;
             }
         } else if (!forename.equals(other.forename)) {
             return false;
         }
-		
-		if (surname == null) {
+
+        if (surname == null) {
             if (other.surname != null) {
                 return false;
             }
         } else if (!surname.equals(other.surname)) {
             return false;
         }
-		
-		if (email == null) {
-			if (other.email != null) {
-				return false;
-			}
-		} else if (!email.equals(other.email)) {
-			return false;
-		}
-				
-		if (projects == null) {
-			if (other.projects != null) {
-				return false;
-			}
-		} else if (!projects.equals(other.projects)) {
-			return false;
-		}
-		
-		if (roles == null) {
-			if (other.roles != null) {
-				return false;
-			}
-		} else if (!roles.equals(other.roles)) {
-			return false;
-		}
 
-		return true;
-	}
+        if (email == null) {
+            if (other.email != null) {
+                return false;
+            }
+        } else if (!email.equals(other.email)) {
+            return false;
+        }
+
+        if (projects == null) {
+            if (other.projects != null) {
+                return false;
+            }
+        } else if (!projects.equals(other.projects)) {
+            return false;
+        }
+
+        if (roles == null) {
+            if (other.roles != null) {
+                return false;
+            }
+        } else if (!roles.equals(other.roles)) {
+            return false;
+        }
+
+        return true;
+    }
 
 }

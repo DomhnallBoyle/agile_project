@@ -11,11 +11,11 @@ using CSC3045_CS2.Models;
 
 namespace CSC3045_CS2.Pages
 {
-    
+
     public partial class Register : Page
     {
         private AuthenticationClient client;
-       
+
         public Register()
         {
             InitializeComponent();
@@ -33,7 +33,8 @@ namespace CSC3045_CS2.Pages
         /// <param name="e"></param>
         public void RegisterButton_Click(Object sender, EventArgs e)
         {
-            if (CheckValidation()) {
+            if (CheckValidation())
+            {
                 try
                 {
                     Roles roles = new Roles(ProductOwnerCheckBox.IsChecked.Value, ScrumMasterCheckBox.IsChecked.Value, DeveloperCheckBox.IsChecked.Value);
@@ -98,10 +99,10 @@ namespace CSC3045_CS2.Pages
         /// <returns></returns>
         private Boolean CheckPasswordNotEmpty(PasswordBox passwordBox)
         {
-            if (passwordBox.Password.ToString()== "")
+            if (passwordBox.Password.ToString() == "")
             {
-              passwordBox.Background = Brushes.Red;
-              return false;
+                passwordBox.Background = Brushes.Red;
+                return false;
             }
             else
             {
@@ -140,12 +141,12 @@ namespace CSC3045_CS2.Pages
         /// <returns></returns>
         private Boolean CheckValidation()
         {
-           return CheckRequiredValues(UsernameTextBox) &&
-            CheckRequiredValues(FirstnameTextBox) &&
-            CheckRequiredValues(EmailTextBox) &&
-            CheckPasswordNotEmpty(PasswordTextBox) &&
-            CheckPasswordNotEmpty(ConfirmPasswordTextBox) &&
-            CheckPasswordsMatch(PasswordTextBox, ConfirmPasswordTextBox);
+            return CheckRequiredValues(UsernameTextBox) &&
+             CheckRequiredValues(FirstnameTextBox) &&
+             CheckRequiredValues(EmailTextBox) &&
+             CheckPasswordNotEmpty(PasswordTextBox) &&
+             CheckPasswordNotEmpty(ConfirmPasswordTextBox) &&
+             CheckPasswordsMatch(PasswordTextBox, ConfirmPasswordTextBox);
         }
     }
 }

@@ -57,7 +57,7 @@ namespace CSC3045_CS2.Pages
 
         private void AddProjectsToUIList()
         {
-            for (int i=0; i<_projectList.Count; i++)
+            for (int i = 0; i < _projectList.Count; i++)
             {
                 _projectName = new TextBlock
                 {
@@ -105,7 +105,7 @@ namespace CSC3045_CS2.Pages
                 {
                     try
                     {
-                        var selectedProject = (Project) param;
+                        var selectedProject = (Project)param;
                         Page projectDashboardPage = new ProjectDashboard(selectedProject);
 
                         NavigationService.GetNavigationService(this).Navigate(projectDashboardPage);

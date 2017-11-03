@@ -17,7 +17,7 @@ namespace CSC3045_CS2.Utility
 
         public bool Manager { get; set; }
 
-        public Permissions (User user, Project project)
+        public Permissions(User user, Project project)
         {
             this.Developer = user.Roles.Developer;
             this.ScrumMaster = project.ScrumMaster != null && project.ScrumMaster.Id == user.Id ? true : false;

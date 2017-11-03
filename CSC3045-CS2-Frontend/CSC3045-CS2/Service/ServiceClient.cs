@@ -7,10 +7,10 @@ using System.Net;
 
 namespace CSC3045_CS2.Service
 {
-   public class ServiceClient
+    public class ServiceClient
     {
         protected const string BASE_URL = "http://localhost:8000";
-    
+
         private RestClient _client;
         private JsonDeserializer _deserializer;
 
@@ -84,7 +84,7 @@ namespace CSC3045_CS2.Service
         /// <returns>A boolean, true for Successful, false for Error</returns>
         private bool IsSuccessfulStatusCode(HttpStatusCode statusCode)
         {
-            return (int) statusCode >= 200 && (int) statusCode <= 399;
+            return (int)statusCode >= 200 && (int)statusCode <= 399;
         }
 
         /// <summary>
