@@ -43,7 +43,6 @@ public class EmailUtility {
 			message.setText(body);
 			//Return Email Sent Message to Backend 
 			Transport.send(message);
-			System.out.println("Email Sent Successfully");
 
 		} catch (MessagingException e) {
 			throw new RuntimeException(e);

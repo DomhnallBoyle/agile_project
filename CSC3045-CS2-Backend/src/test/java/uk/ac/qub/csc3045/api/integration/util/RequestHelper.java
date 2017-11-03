@@ -84,4 +84,17 @@ public class RequestHelper {
         
         return r;
     }
+    
+    public Response SendPutRequestWithAuthHeader(String target, String authHeader, Object body) {
+    	Response r = given().log().everything(true).
+    			contentType("application/json").
+    			headers("Authorization", authHeader).
+    			when().
+    			body(body).
+    			put(target).
+    			then().log().everything(true).
+    			extract().response();
+    	
+    	return r;
+    }
 }
