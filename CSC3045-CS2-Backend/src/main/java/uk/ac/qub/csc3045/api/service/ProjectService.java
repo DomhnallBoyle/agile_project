@@ -11,6 +11,7 @@ import uk.ac.qub.csc3045.api.exception.ResponseErrorException;
 import uk.ac.qub.csc3045.api.mapper.ProjectMapper;
 import uk.ac.qub.csc3045.api.model.Project;
 import uk.ac.qub.csc3045.api.model.User;
+import uk.ac.qub.csc3045.api.utility.EmailUtility;
 import uk.ac.qub.csc3045.api.utility.ValidationUtility;
 
 @Service
@@ -24,9 +25,14 @@ public class ProjectService {
 	}
 
 	public Project create(Project project) {
-		mapper.createProject(project);
+		try {
+			mapper.createProject(project);
+			return mapper.getProjectById(project.getId());
 
-		return mapper.getProjectById(project.getId());
+		} catch (DataIntegrityViolationException e) {
+			throw new ResponseErrorException("Project or User does not exist", HttpStatus.NOT_FOUND);
+		}
+
 	}
 
 	public Project update(Project project) {
@@ -44,10 +50,24 @@ public class ProjectService {
 		throw new ResponseErrorException("Project does not exist", HttpStatus.NOT_FOUND);
 	}
 
+	public List<Project> getProjectsForUser(long userId) {
+	    List<Project> projects = mapper.getProjectsForUser(userId);
+
+	    if (projects.isEmpty()) {
+	        throw new ResponseErrorException("You are currently not assigned to any projects.", HttpStatus.NOT_FOUND);
+        }
+
+        return projects;
+	}
+
 	public Project addToTeam(Project project) {
 		try {
 			for (User user : project.getUsers()) {
 				mapper.addToProjectTeam(project.getId(), user.getId());
+
+				EmailUtility.sendEmail(user.getEmail(), "You have been added to a new Project - " + project.getName(),
+						"Hello " + user.getForename() +
+						", \n\nYou have been added to the Project Team for " + project.getName());
 			}
 		} catch (DataIntegrityViolationException e) {
 			throw new ResponseErrorException("Project or User does not exist", HttpStatus.NOT_FOUND);

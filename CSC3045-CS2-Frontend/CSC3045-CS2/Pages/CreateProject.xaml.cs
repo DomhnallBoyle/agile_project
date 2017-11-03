@@ -71,10 +71,16 @@ namespace CSC3045_CS2.Pages
                 return new RelayCommand(param =>
                 {
                     Project project = new Project(currentUser, ProjectNameTextContent, DescriptionTextContent);
+                    project.Manager = (User)Application.Current.Properties["user"];
 
                     try
                     {
                         _client.CreateProject(project);
+                        MessageBox.Show("Project creation successful!");
+
+                        Page projectDashboard = new UserDashboard();
+
+                        NavigationService.GetNavigationService(this).Navigate(projectDashboard);
                     }
                     catch (RestResponseErrorException ex)
                     {

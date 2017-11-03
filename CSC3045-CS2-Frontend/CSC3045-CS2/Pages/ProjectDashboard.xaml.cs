@@ -4,6 +4,7 @@ using CSC3045_CS2.Service;
 using CSC3045_CS2.Utility;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -27,7 +28,6 @@ namespace CSC3045_CS2.Pages
         #region Private Variables
 
         private List<Project> _projects;
-        private List<User> _user;
         private int _currentProjectNumber;
         private MenuItem _projectName;
         private ProjectClient _client;
@@ -35,11 +35,16 @@ namespace CSC3045_CS2.Pages
         #endregion
 
         #region Public Variables
+
+        public Project SelectedProject { get; set; }
+
         User currentUser = (User)Application.Current.Properties["user"];
 
         public string TitleLabel { get; set; } = "Project Team Members";
 
         public string UserDashboardButtonLabel { get; set; } = "User Dashboard";
+
+        public string UpdateProjectButtonLabel { get; set; } = "Update";
 
         public string ProductBacklogButtonLabel { get; set; } = "Product Backlog";
 
@@ -47,15 +52,19 @@ namespace CSC3045_CS2.Pages
 
         public string ProjectTeamMembersLabel { get; set; } = "Project Team Members";
 
-        public String setProductManagerName { get; set; } = "";
+        public string ProjectManagerName { get; set; } = "";
 
-        public String setProductManagerEmail { get; set; } = "";
+        public string ProjectManagerEmail { get; set; } = "";
 
-        public String DeveloperValueLabel { get; set; } = "Developer";
+        public string DeveloperValueLabel { get; set; } = "Developer";
 
-        public String ScrumMasterValueLabel { get; set; } = "Scrum Master";
+        public string ScrumMasterValueLabel { get; set; } = "Scrum Master";
 
-        public String ProductOwnerValueLabel { get; set; } = "Product Owner";
+        public string ProductOwnerValueLabel { get; set; } = "Product Owner";
+
+        public string SetAsButtonText { get; set; } = "Set As";
+
+        public string AddTeamMemberButtonLabel { get; set; } = "Add Team Member";
 
         #endregion
 
@@ -63,28 +72,23 @@ namespace CSC3045_CS2.Pages
         {
             InitializeComponent();
             DataContext = this;
+
+            _client = new ProjectClient();
+
             this._projects = projects;
             this._currentProjectNumber = currentProjectNumber;
             ProjectDropDownButton.Content = this._projects[currentProjectNumber].Name;
 
-            Project project = this._projects[currentProjectNumber];
+            SelectedProject = this._projects[currentProjectNumber];
             
-            addProjectstoList();
-            pageSetup();
-            _client = new ProjectClient();
-            ProjectTeamMembers.ItemsSource = _client.GetProjectTeam(project.Id);
+            AddProjectsToDropdownList();
+            ProjectTeamMembers.ItemsSource = _client.GetProjectTeam(SelectedProject.Id);
 
         }
 
         #region Class methods
 
-        public void pageSetup()
-        {
-            setProductManagerName = currentUser.Forename + " " + currentUser.Surname;
-            setProductManagerEmail = currentUser.Email;
-        }
-
-        private void addProjectstoList()
+        private void AddProjectsToDropdownList()
         {
             for (int i = 0; i < _projects.Count; i++)
             {
@@ -129,7 +133,7 @@ namespace CSC3045_CS2.Pages
             {
                 return new RelayCommand(param =>
                 {
-                    Page productBacklog = new ProductBacklog();
+                    Page productBacklog = new ProductBacklog(SelectedProject);
 
                     NavigationService.GetNavigationService(this).Navigate(productBacklog);
                 });
@@ -163,7 +167,6 @@ namespace CSC3045_CS2.Pages
         }
 
         public ICommand goToCommand
-
         {
             get
             {
@@ -184,6 +187,50 @@ namespace CSC3045_CS2.Pages
             }
         }
 
+        public ICommand SetScrumMasterCommand
+        {
+            get
+            {
+                return new RelayCommand(param =>
+                {
+                    SelectedProject.ScrumMaster = ((User)param);
+                });
+            }
+        }
+
+        public ICommand SetProductOwnerCommand
+        {
+            get
+            {
+                return new RelayCommand(param =>
+                {
+                    SelectedProject.ProductOwner = ((User)param);
+                });
+            }
+        }
+
+        public ICommand UpdateProjectCommand
+        {
+            get
+            {
+                return new RelayCommand(param =>
+                {
+                    try
+                    {
+                        SelectedProject = _client.UpdateProject(SelectedProject);
+
+                        Page ProjectDashboard = new ProjectDashboard(_projects, _currentProjectNumber);
+                        NavigationService.GetNavigationService(this).Navigate(ProjectDashboard);
+                    }
+                    catch (RestResponseErrorException ex)
+                    {
+                        MessageBox.Show(ex.Message);
+                    }
+                });
+            }
+        }
+
         #endregion
+
     }
 }
