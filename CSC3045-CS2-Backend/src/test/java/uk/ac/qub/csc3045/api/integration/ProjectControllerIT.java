@@ -28,6 +28,8 @@ public class ProjectControllerIT {
 	
 	private String projectDoesNotExistErrorMessage = "Project does not exist";
 	private String referentialIntegrityErrorMessage = "Project Manager does not exist in the database";
+	private String dataIntegrityErrorMessage = "User for Product Owner or Scrum Master does not exist";
+
 	
 	public static final String BASE_PATH = "/project";
 	public static final String TEAM_PATH = BASE_PATH + "/team";
@@ -135,6 +137,79 @@ public class ProjectControllerIT {
 		for (int i = 0; i < returnedTeam.size(); i++) {
 		    assertTrue(returnedTeam.get(i).equals(projectTeam.get(i)));
 		}
+	}
+	
+	/**
+     * Update Data Tests
+     */
+	@Test
+	public void updateProjectWithScrumMasterShouldReturn200() {
+		User scrumMaster = new User("Forename5", "Surname5", "user5@email.com", new Roles(true, true, false));
+		scrumMaster.setId(5l);	
+		
+		User projectManager = new User("Forename1", "Surname1", "user1@email.com", new Roles(false, false, false));
+		projectManager.setId(1L);
+				
+		Project validProjectScrumMaster = new Project("ProjectName1", "Project Description1", projectManager, null, null, null, null);	
+		validProjectScrumMaster.setId(1l);		
+		validProjectScrumMaster.setScrumMaster(scrumMaster);
+    	
+		Response r = requestHelper.sendPutRequestWithAuthHeader(BASE_PATH, authHeader, validProjectScrumMaster);
+		r.then().assertThat().statusCode(200);
+		
+		Project returnedProject = r.body().jsonPath().getObject("", Project.class);
+		assertTrue(validProjectScrumMaster.getId().equals(returnedProject.getId()));
+		assertTrue(validProjectScrumMaster.getScrumMaster().getId().equals(returnedProject.getScrumMaster().getId()));
+	}
+	
+	@Test
+	public void updateProjectWithProductOwnerShouldReturn200() {
+		User productOwner = new User("Forename5", "Surname5", "user5@email.com", new Roles(true, true, false));
+		productOwner.setId(5l);	
+		
+		User projectManager = new User("Forename1", "Surname1", "user1@email.com", new Roles(false, false, true));
+		projectManager.setId(1L);;
+    	
+		Project validProjectProductOwner = new Project("ProjectName1", "Project Description1", projectManager, null, null, null, null);	
+		validProjectProductOwner.setId(1l);		
+		validProjectProductOwner.setProductOwner(productOwner);
+    	
+		Response r = requestHelper.sendPutRequestWithAuthHeader(BASE_PATH, authHeader, validProjectProductOwner);
+		r.then().assertThat().statusCode(200);
+		
+		Project returnedProject = r.body().jsonPath().getObject("", Project.class);
+		assertTrue(validProjectProductOwner.getId().equals(returnedProject.getId()));
+		assertTrue(validProjectProductOwner.getProductOwner().getId().equals(returnedProject.getProductOwner().getId()));;
+	}
+
+	@Test
+	public void updateProjectProductOwnerWithAUserThatDoesntExistShouldReturn404() {
+		User productOwner = new User("Harry", "Potter", "Harry@Potter.com", new Roles(false, false, false));
+		productOwner.setId(6500l);	
+		
+		User projectManager = new User("Forename1", "Surname1", "user1@email.com", new Roles(false, false, true));
+		projectManager.setId(1L);;
+		
+		Project notValidProjectProductOwner = new Project("ProjectName1", "Project Description1", projectManager, null, null, null, null);	
+		notValidProjectProductOwner.setId(1l);		
+		notValidProjectProductOwner.setProductOwner(productOwner);
+    	
+		Response r = requestHelper.sendPutRequestWithAuthHeader(BASE_PATH, authHeader, notValidProjectProductOwner);
+		r.then().assertThat().statusCode(404);
+		assertEquals(dataIntegrityErrorMessage, r.getBody().asString());
+	}
+	
+	@Test
+	public void updateProjectProjectDoesNotExistShouldReturn404() {
+		User projectManager = new User("Forename1", "Surname1", "user1@email.com", new Roles(false, false, true));
+		projectManager.setId(1L);;
+		
+		Project invalidProject = new Project("ProjectName6500", "Project Description6500", projectManager, null, null, null, null);
+		invalidProject.setId(6500L);
+		
+		Response r = requestHelper.sendPutRequestWithAuthHeader(BASE_PATH, authHeader, invalidProject);
+		r.then().assertThat().statusCode(404);
+		assertEquals(projectDoesNotExistErrorMessage, r.getBody().asString());
 	}
 	
 	/**
