@@ -38,6 +38,10 @@ public class Project {
 	public Project() {
 
 	}
+	
+	public Project(long id) {
+		this.id = id;
+	}
 
     public Project(String name, String description, User manager, User productOwner, List<User>users, List<UserStory> userStories) {
     	this.name = name;

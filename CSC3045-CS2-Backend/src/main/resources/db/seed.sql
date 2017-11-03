@@ -7,8 +7,16 @@ INSERT INTO USER (FORENAME, SURNAME, EMAIL, ROLES_ID) VALUES ('Daenerys', 'Targa
 INSERT INTO USER (FORENAME, SURNAME, EMAIL, ROLES_ID) VALUES ('Jon', 'Snow', 'jon.snow@got.wes', 2);
 INSERT INTO USER (FORENAME, SURNAME, EMAIL, ROLES_ID) VALUES ('Tyrion', 'Lannister', 'tyrion.lannister@got.wes', 3);
 INSERT INTO USER (FORENAME, SURNAME, EMAIL, ROLES_ID) VALUES ('Eddard', 'Stark', 'ned.stark@got.wes', 4);
+INSERT INTO USER (FORENAME, SURNAME, EMAIL, ROLES_ID) VALUES ('Qyburn', 'The Alchemist', 'qyburn@got.wes', 2);
+INSERT INTO USER (FORENAME, SURNAME, EMAIL, ROLES_ID) VALUES ('Cersei', 'Lannister', 'cersei.lannister@got.wes', 1);
 
 INSERT INTO ACCOUNT (USERNAME, PASSWORD, USER_ID) VALUES ('dany.targaryen', 'drakaris', 1);
 INSERT INTO ACCOUNT (USERNAME, PASSWORD, USER_ID) VALUES ('jon.snow', 'iknownothing', 2);
 INSERT INTO ACCOUNT (USERNAME, PASSWORD, USER_ID) VALUES ('tyrion.lannister', 'idrinkandiknowthings', 3);
 INSERT INTO ACCOUNT (USERNAME, PASSWORD, USER_ID) VALUES ('ned.stark', 'winteriscoming', 4);
+
+INSERT INTO PROJECT (NAME, DESCRIPTION, MANAGER_ID, PRODUCT_OWNER_ID) VALUES ('Resurrecting Sir Gregor', 'Poisoned', 5, 6); 
+INSERT INTO PROJECT (NAME, DESCRIPTION, MANAGER_ID, PRODUCT_OWNER_ID) VALUES ('Destroying the Sept', 'Kill everyone', 5, 6); 
+
+INSERT INTO USER_STORY (NAME, DESCRIPTION, POINTS, MARKET_VALUE, ASSIGNED, PROJECT_ID) VALUES ('Light Wildfire', 'With candle', 9, 100, true, 2);
+INSERT INTO USER_STORY (NAME, DESCRIPTION, POINTS, MARKET_VALUE, ASSIGNED, PROJECT_ID) VALUES ('Find Wildfire', 'Under Sept', 40, 200, true, 2);

@@ -31,16 +31,14 @@ public class UserStoryController {
     public ResponseEntity<UserStory> create(@Valid @RequestBody UserStory userStory) {
         return new ResponseEntity<>(this.userStoryService.create(userStory), HttpStatus.CREATED);
     }
+    
     @RequestMapping(value = "/{id}", method = GET)
     public ResponseEntity<UserStory> getUserStory(@PathVariable("id") long id) {
-    	
         return new ResponseEntity<>(this.userStoryService.getUserStory(id), HttpStatus.OK);
     }
+    
     @RequestMapping(value = "/project/{id}", method = GET)
     public ResponseEntity<List<UserStory>> getUserStoriesByProject(@PathVariable("id") long id) {
-    	
         return new ResponseEntity<>(this.userStoryService.getAllUserStories(id), HttpStatus.OK);
     }
-
-     
 }
