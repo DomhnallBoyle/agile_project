@@ -153,13 +153,13 @@ public class UserStoryControllerIT {
 		project.setManager(user);
 		project.setProductOwner(user);
 		
-		UserStory story1 = new UserStory("Defend the Nights Watch", "The wall must be defended", 15L, 40L, false, project);
+		UserStory story1 = new UserStory("Defend the Nights Watch", "The wall must be defended", 15, 40, false, project);
 		story1.setId(4L);
 		story1.setIndex(0);
-		UserStory story2 = new UserStory("Kill wights", "Wights must be burned", 10L, 21L, false, project);
+		UserStory story2 = new UserStory("Kill wights", "Wights must be burned", 10, 21, false, project);
 		story2.setId(5L);
 		story2.setIndex(1);
-		UserStory story3 = new UserStory("Kill White Walkers", "Walkers must be killed with dragonglass", 5L, 30L, false, project);
+		UserStory story3 = new UserStory("Kill White Walkers", "Walkers must be killed with dragonglass", 5, 30, false, project);
 		story3.setId(6L);
 		story3.setIndex(2);
 		
