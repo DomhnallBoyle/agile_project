@@ -19,9 +19,9 @@ public class UserStory {
 
 	private String description;
 
-	private Long points;
+	private Integer points;
 
-	private Long marketValue;
+	private Integer marketValue;
 
 	private Boolean assigned;
 
@@ -34,8 +34,8 @@ public class UserStory {
 
 	}
 
-	public UserStory(String name, String description, long points, long marketValue, Boolean assigned,
-			Project project) {
+	public UserStory(String name, String description, Integer points, Integer marketValue, Boolean assigned,
+					 Project project) {
 		this.name = name;
 		this.description = description;
 		this.points = points;
@@ -68,19 +68,19 @@ public class UserStory {
 		this.description = description;
 	}
 
-	public Long getPoints() {
+	public Integer getPoints() {
 		return points;
 	}
 
-	public void setPoints(Long points) {
+	public void setPoints(Integer points) {
 		this.points = points;
 	}
 
-	public Long getMarketValue() {
+	public Integer getMarketValue() {
 		return marketValue;
 	}
 
-	public void setMarketValue(Long marketValue) {
+	public void setMarketValue(Integer marketValue) {
 		this.marketValue = marketValue;
 	}
 

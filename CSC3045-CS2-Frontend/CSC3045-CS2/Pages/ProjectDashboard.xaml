@@ -19,6 +19,7 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
@@ -74,7 +75,9 @@
 
         <TextBlock Grid.Row="9" Text="{Binding ProjectTeamMembersLabel, FallbackValue='Project Team Members'}" TextAlignment="Left" FontWeight="Bold" FontSize="16" Margin="10"></TextBlock>
 
-        <ListBox Grid.Row="10" Name="ProjectTeamMembers" HorizontalContentAlignment="Stretch">
+        <Button Grid.Row="10" Content="{Binding AddTeamMemberButtonLabel, FallbackValue='Add Team Member'}" Command="{Binding GoToAddTeamMemberCommand}"/>
+        
+        <ListBox Grid.Row="11" Name="ProjectTeamMembers" HorizontalContentAlignment="Stretch">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Margin="0,0,0,10">

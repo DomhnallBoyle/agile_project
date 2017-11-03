@@ -31,6 +31,8 @@ namespace CSC3045_CS2
 
         private List<UserStory> _backlog;
 
+        private Project _currentProject;
+
         #endregion
 
         #region Public Variables
@@ -45,16 +47,17 @@ namespace CSC3045_CS2
 
         #endregion
 
-        public ProductBacklog()
+        public ProductBacklog(Project project)
         {
             InitializeComponent();
             DataContext = this;
             _client = new UserStoryClient();
 
+            _currentProject = project;
+
             try
             {
-                // TODO:: Get project ID from current project via constructor
-                _backlog = _client.GetUserStories(0);
+                _backlog = _client.GetUserStories(project.Id);
             }
             catch (RestResponseErrorException ex)
             {
@@ -75,9 +78,9 @@ namespace CSC3045_CS2
             {
                 return new RelayCommand(param =>
                 {
-                    Page register = new Register();
+                    Page userDashboard = new UserDashboard();
 
-                    NavigationService.GetNavigationService(this).Navigate(register);
+                    NavigationService.GetNavigationService(this).Navigate(userDashboard);
                 });
             }
         }
@@ -91,7 +94,7 @@ namespace CSC3045_CS2
             {
                 return new RelayCommand(param =>
                 {
-                    Page createUserStoryPage = new CreateUserStory();
+                    Page createUserStoryPage = new CreateUserStory(_currentProject);
 
                     NavigationService.GetNavigationService(this).Navigate(createUserStoryPage);
                 });

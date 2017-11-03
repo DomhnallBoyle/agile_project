@@ -52,8 +52,9 @@
     <select id="getProjectsForUser" resultMap="projectResultMap">
         SELECT *
         FROM PROJECT
-          JOIN PROJECT_USER ON PROJECT.ID = PROJECT_USER.PROJECT_ID
+          LEFT JOIN PROJECT_USER ON PROJECT.ID = PROJECT_USER.PROJECT_ID
         WHERE USER_ID = #{userId}
+          OR MANAGER_ID = #{userId}
     </select>
     
     <select id="selectManager" resultMap="userResultMap">

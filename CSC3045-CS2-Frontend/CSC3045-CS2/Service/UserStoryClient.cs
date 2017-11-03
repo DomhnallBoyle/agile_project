@@ -18,7 +18,7 @@ namespace CSC3045_CS2.Service
         /// <returns>The created User Story if successful, or will throw RestResponseException if error</returns>
         public UserStory CreateUserStory(UserStory userStory)
         {
-            var request = new RestRequest(BASE_ENDPOINT + "/create", Method.POST);
+            var request = new RestRequest(BASE_ENDPOINT, Method.POST);
             request.AddHeader("Content-Type", "application/json");
             request.RequestFormat = DataFormat.Json;
             SimpleJson.CurrentJsonSerializerStrategy = new CamelCaseSerializationStrategy();
@@ -35,7 +35,7 @@ namespace CSC3045_CS2.Service
         /// <returns>The user stories for the specified project, or will throw RestResponseException if error</returns>
         public List<UserStory> GetUserStories(long projectId)
         {
-            var request = new RestRequest(BASE_ENDPOINT + "/" + projectId, Method.GET);
+            var request = new RestRequest(BASE_ENDPOINT + "/project/" + projectId, Method.GET);
             request.AddHeader("Content-Type", "application/json");
             request.RequestFormat = DataFormat.Json;
             SimpleJson.CurrentJsonSerializerStrategy = new CamelCaseSerializationStrategy();

@@ -21,6 +21,8 @@ namespace CSC3045_CS2.Models
         public User ProductOwner { get; set; }
         [DeserializeAs(Name = "scrumMaster")]
         public User ScrumMaster { get; set; }
+        [DeserializeAs(Name = "users")]
+        public List<User> Users { get; set; }
 
         public Project()
         {

@@ -64,6 +64,8 @@ namespace CSC3045_CS2.Pages
 
         public string SetAsButtonText { get; set; } = "Set As";
 
+        public string AddTeamMemberButtonLabel { get; set; } = "Add Team Member";
+
         #endregion
 
         public ProjectDashboard(List<Project> projects, int currentProjectNumber)
@@ -131,7 +133,7 @@ namespace CSC3045_CS2.Pages
             {
                 return new RelayCommand(param =>
                 {
-                    Page productBacklog = new ProductBacklog();
+                    Page productBacklog = new ProductBacklog(SelectedProject);
 
                     NavigationService.GetNavigationService(this).Navigate(productBacklog);
                 });
@@ -151,8 +153,20 @@ namespace CSC3045_CS2.Pages
             }
         }
 
-        public ICommand goToCommand
+        public ICommand GoToAddTeamMemberCommand
+        {
+            get
+            {
+                return new RelayCommand(param =>
+                {
+                    Page addProjectMember = new AddProjectTeamMember(_projects[_currentProjectNumber]);
 
+                    NavigationService.GetNavigationService(this).Navigate(addProjectMember);
+                });
+            }
+        }
+
+        public ICommand goToCommand
         {
             get
             {

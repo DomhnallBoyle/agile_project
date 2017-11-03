@@ -4,22 +4,22 @@
 <!-- Set the namespace below to the interface side of the mapper -->
 <mapper namespace="uk.ac.qub.csc3045.api.mapper.AuthenticationMapper">
     <resultMap id="accountResultMap" type="Account">
-        <id column="id" property="id"/>
+        <id column="account_id" property="id"/>
         <result column="username" property="username"/>
         <result column="password" property="password"/>
-        <association property="user" resultMap="userResultMap"/>
+        <association property="user" column="user_id" javaType="User" resultMap="userResultMap"/>
     </resultMap>
 
     <resultMap id="userResultMap" type="User">
-        <id column="id" property="id"/>
+        <id column="user_id" property="id"/>
         <result column="forename" property="forename"/>
         <result column="surname" property="surname"/>
         <result column="email" property="email"/>
-        <association property="roles" resultMap="rolesResultMap"/>
+        <association property="roles" column="roles_id" javaType="Roles" resultMap="rolesResultMap"/>
     </resultMap>
 
     <resultMap id="rolesResultMap" type="Roles">
-        <id column="id" property="id"/>
+        <id column="roles_id" property="id"/>
         <result column="developer" property="developer"/>
         <result column="scrum_master" property="scrumMaster"/>
         <result column="product_owner" property="productOwner"/>
@@ -41,7 +41,18 @@
     </insert>
     
     <select id="findAccountByUsername" resultMap="accountResultMap">
-    	SELECT *
+    	SELECT
+            ACCOUNT.ID AS account_id,
+            ACCOUNT.USERNAME,
+            ACCOUNT.PASSWORD,
+            USER.ID AS user_id,
+            USER.FORENAME,
+            USER.SURNAME,
+            USER.EMAIL,
+            ROLES.ID as roles_id,
+            ROLES.DEVELOPER,
+            ROLES.SCRUM_MASTER,
+            ROLES.PRODUCT_OWNER
         FROM account
             JOIN user ON account.user_id = user.id
             JOIN roles ON user.roles_id = roles.id

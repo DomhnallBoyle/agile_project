@@ -49,7 +49,6 @@ namespace CSC3045_CS2.Pages
             _client = new ProjectClient();
 
             GetProjects();
-            AddProjectsToUIList();
         }
 
         #region Class methods
@@ -84,6 +83,7 @@ namespace CSC3045_CS2.Pages
             try
             {
                 _projectList = _client.GetProjectsForUser(((User)Application.Current.Properties["user"]).Id);
+                AddProjectsToUIList();
             }
             catch (RestResponseErrorException ex)
             {
