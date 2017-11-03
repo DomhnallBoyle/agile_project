@@ -38,6 +38,8 @@ namespace CSC3045_CS2
 
         #region Public Variables
 
+        public Permissions Permissions { get; set; }
+
         public string PageLabel { get; set; } = "Product Backlog";
 
         public string MarketValueLabel { get; set; } = "Market Value";
@@ -55,6 +57,8 @@ namespace CSC3045_CS2
             _client = new UserStoryClient();
 
             _currentProject = project;
+
+            Permissions = new Permissions((User)Application.Current.Properties["user"], project);
 
             try
             {
@@ -86,9 +90,9 @@ namespace CSC3045_CS2
             {
                 return new RelayCommand(param =>
                 {
-                    Page userDashboard = new UserDashboard();
+                    Page projectDashboard = new ProjectDashboard(_currentProject);
 
-                    NavigationService.GetNavigationService(this).Navigate(userDashboard);
+                    NavigationService.GetNavigationService(this).Navigate(projectDashboard);
                 });
             }
         }
@@ -148,7 +152,7 @@ namespace CSC3045_CS2
         /// <param name="e"></param>
         public void MouseLeftDown(object sender, MouseButtonEventArgs e)
         {
-            if (sender is ListBoxItem)
+            if (sender is ListBoxItem && Permissions.ProductOwner)
             {
                 ListBoxItem draggedItem = sender as ListBoxItem;
                 DragDrop.DoDragDrop(draggedItem, draggedItem.DataContext, DragDropEffects.Move);

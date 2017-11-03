@@ -36,12 +36,14 @@
     </insert>
     
     <update id="updateProject" parameterType="Project">
-        UPDATE project SET 
-            name = #{name}, 
-            description = #{description}, 
-            manager_id = #{manager.id}, 
-            product_owner_id = #{productOwner.id},
-            scrum_master_id = #{scrumMaster.id}
+        UPDATE project
+            <set>
+                name = #{name},
+                description = #{description},
+                manager_id = #{manager.id},
+                <if test="productOwner != null">product_owner_id = #{productOwner.id},</if>
+                <if test="scrumMaster != null">scrum_master_id = #{scrumMaster.id},</if>
+            </set>
         WHERE id = #{id};
     </update>
     

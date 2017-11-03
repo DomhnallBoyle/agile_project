@@ -53,17 +53,19 @@ public class ProjectService {
 
     public Project update(Project project) {
         if (ValidationUtility.validateProjectExists(project.getId(), mapper)) {
+            Project oldProject = mapper.getProjectById(project.getId());
+
             mapper.updateProject(project);
 
             Project updatedProject = mapper.getProjectById(project.getId());
 
-            if (!updatedProject.getProductOwner().equals(project.getProductOwner())) {
+            if (updatedProject.getProductOwner() != null && !updatedProject.getProductOwner().equals(oldProject.getProductOwner())) {
                 EmailUtility.sendEmail(updatedProject.getProductOwner().getEmail(), "You Have been added as a Product Owner",
                         "Hello " + updatedProject.getProductOwner().getForename() +
                                 "You are now the Product Owner for " + updatedProject.getName());
 
             }
-            if (!updatedProject.getScrumMaster().equals(project.getScrumMaster())) {
+            if (updatedProject.getScrumMaster() != null && !updatedProject.getScrumMaster().equals(oldProject.getScrumMaster())) {
                 EmailUtility.sendEmail(updatedProject.getScrumMaster().getEmail(), "You Have been added as a Scrum Master",
                         "Hello " + updatedProject.getScrumMaster().getForename() +
                                 " You are now the Scrum Master for " + updatedProject.getScrumMaster().getForename());

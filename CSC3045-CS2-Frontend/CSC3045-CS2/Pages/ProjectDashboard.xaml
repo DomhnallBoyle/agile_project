@@ -19,7 +19,6 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
@@ -32,6 +31,9 @@
         <TextBlock Grid.Row="1" Text="{Binding TitleLabel, FallbackValue='Project Team Members'}" TextAlignment="Center" FontWeight="Bold" FontSize="16" Margin="10"></TextBlock>
 
         <Grid Grid.Row="2">
+            <Grid.Resources>
+                <BooleanToVisibilityConverter x:Key="BoolToVisConverter"/>
+            </Grid.Resources>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
@@ -39,8 +41,11 @@
             </Grid.ColumnDefinitions>
 
             <Button Grid.Column="0" Content="{Binding UserDashboardButtonLabel, FallbackValue='User Dashboard'}" Command="{Binding GoToUserDashboardCommand}"/>
-            <Button Grid.Column="1" Content="{Binding UpdateProjectButtonLabel, FallbackValue='Update'}" Command="{Binding UpdateProjectCommand}"/>
-            <Button Grid.Column="2" Content="{Binding ProductBacklogButtonLabel, FallbackValue='Product Backlog'}" Command="{Binding GoToProductBacklogCommand}"/>
+            <Button Grid.Column="1" Content="{Binding AddTeamMemberButtonLabel, FallbackValue='Add Team Member'}"
+                    Command="{Binding GoToAddTeamMemberCommand}"
+                    Visibility="{Binding RelativeSource={RelativeSource AncestorType={x:Type Page}}, Path=DataContext.Permissions.Manager, Converter={StaticResource BoolToVisConverter}}"/>
+            <Button Grid.Column="2" Content="{Binding ProductBacklogButtonLabel, FallbackValue='Product Backlog'}"
+                    Command="{Binding GoToProductBacklogCommand}"/>
         </Grid>
 
         <TextBlock Grid.Row="3" Text="{Binding ProjectManagerLabel, FallbackValue='Project Manager'}" TextAlignment="Left" FontWeight="Bold" FontSize="16" Margin="10"></TextBlock>
@@ -71,13 +76,11 @@
             </StackPanel>
         </Grid>
         
-        <Separator  Grid.Row="8" ></Separator> 
+        <Separator  Grid.Row="8" ></Separator>
 
         <TextBlock Grid.Row="9" Text="{Binding ProjectTeamMembersLabel, FallbackValue='Project Team Members'}" TextAlignment="Left" FontWeight="Bold" FontSize="16" Margin="10"></TextBlock>
 
-        <Button Grid.Row="10" Content="{Binding AddTeamMemberButtonLabel, FallbackValue='Add Team Member'}" Command="{Binding GoToAddTeamMemberCommand}"/>
-        
-        <ListBox Grid.Row="11" Name="ProjectTeamMembers" HorizontalContentAlignment="Stretch">
+        <ListBox Grid.Row="10" Name="ProjectTeamMembers" HorizontalContentAlignment="Stretch">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Margin="0,0,0,10">
@@ -118,12 +121,20 @@
 
                             <StackPanel Grid.Column="2" Visibility="{Binding Roles.ScrumMaster, Converter={StaticResource BoolToVisConverter}}">
                                 <TextBlock Text="{Binding RelativeSource={RelativeSource AncestorType={x:Type Page}}, Path=DataContext.ScrumMasterValueLabel, FallbackValue='Scrum Master'}" HorizontalAlignment="Center" FontWeight="Bold" FontSize="12"/>
-                                <Button Content="{Binding RelativeSource={RelativeSource AncestorType={x:Type Page}}, Path=DataContext.SetAsButtonText, FallbackValue='Set As'}" HorizontalAlignment="Center" Command="{Binding RelativeSource={RelativeSource AncestorType={x:Type Page}}, Path=DataContext.SetScrumMasterCommand}" CommandParameter="{Binding}"/>
+                                <Button Content="{Binding RelativeSource={RelativeSource AncestorType={x:Type Page}}, Path=DataContext.SetAsButtonText, FallbackValue='Set As'}"
+                                        HorizontalAlignment="Center"
+                                        Command="{Binding RelativeSource={RelativeSource AncestorType={x:Type Page}}, Path=DataContext.SetScrumMasterCommand}"
+                                        CommandParameter="{Binding}"
+                                        Visibility="{Binding RelativeSource={RelativeSource AncestorType={x:Type Page}}, Path=DataContext.Permissions.Manager, Converter={StaticResource BoolToVisConverter}}"/>
                             </StackPanel>
 
                             <StackPanel Grid.Column="3" Visibility="{Binding Roles.ProductOwner, Converter={StaticResource BoolToVisConverter}}">
                                 <TextBlock Text="{Binding RelativeSource={RelativeSource AncestorType={x:Type Page}}, Path=DataContext.ProductOwnerValueLabel, FallbackValue='Product Owner'}" HorizontalAlignment="Right" FontWeight="Bold" FontSize="12"/>
-                                <Button Content="{Binding RelativeSource={RelativeSource AncestorType={x:Type Page}}, Path=DataContext.SetAsButtonText, FallbackValue='Set As'}" HorizontalAlignment="Right" Command="{Binding RelativeSource={RelativeSource AncestorType={x:Type Page}}, Path=DataContext.SetProductOwnerCommand}" CommandParameter="{Binding}"/>
+                                <Button Content="{Binding RelativeSource={RelativeSource AncestorType={x:Type Page}}, Path=DataContext.SetAsButtonText, FallbackValue='Set As'}"
+                                        HorizontalAlignment="Right"
+                                        Command="{Binding RelativeSource={RelativeSource AncestorType={x:Type Page}}, Path=DataContext.SetProductOwnerCommand}"
+                                        CommandParameter="{Binding}"
+                                        Visibility="{Binding RelativeSource={RelativeSource AncestorType={x:Type Page}}, Path=DataContext.Permissions.Manager, Converter={StaticResource BoolToVisConverter}}"/>
                             </StackPanel>
                         </Grid>
                     </StackPanel>

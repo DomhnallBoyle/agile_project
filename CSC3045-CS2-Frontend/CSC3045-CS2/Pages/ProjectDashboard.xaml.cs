@@ -28,7 +28,6 @@ namespace CSC3045_CS2.Pages
         #region Private Variables
 
         private List<Project> _projects;
-        private int _currentProjectNumber;
         private MenuItem _projectName;
         private ProjectClient _client;
 
@@ -38,13 +37,11 @@ namespace CSC3045_CS2.Pages
 
         public Project SelectedProject { get; set; }
 
-        User currentUser = (User)Application.Current.Properties["user"];
+        public Permissions Permissions { get; set; }
 
         public string TitleLabel { get; set; } = "Project Team Members";
 
         public string UserDashboardButtonLabel { get; set; } = "User Dashboard";
-
-        public string UpdateProjectButtonLabel { get; set; } = "Update";
 
         public string ProductBacklogButtonLabel { get; set; } = "Product Backlog";
 
@@ -68,20 +65,21 @@ namespace CSC3045_CS2.Pages
 
         #endregion
 
-        public ProjectDashboard(List<Project> projects, int currentProjectNumber)
+        public ProjectDashboard(Project selectedProject)
         {
             InitializeComponent();
             DataContext = this;
 
             _client = new ProjectClient();
 
-            this._projects = projects;
-            this._currentProjectNumber = currentProjectNumber;
-            ProjectDropDownButton.Content = this._projects[currentProjectNumber].Name;
+            Permissions = new Permissions((User)Application.Current.Properties["user"], selectedProject);
 
-            SelectedProject = this._projects[currentProjectNumber];
-            
+            SelectedProject = selectedProject;
+
+            _projects = _client.GetProjectsForUser(((User)Application.Current.Properties["user"]).Id);
+            ProjectDropDownButton.Content = selectedProject.Name;
             AddProjectsToDropdownList();
+
             ProjectTeamMembers.ItemsSource = _client.GetProjectTeam(SelectedProject.Id);
         }
 
@@ -95,16 +93,31 @@ namespace CSC3045_CS2.Pages
                 {
                     Header = _projects[i].Name,
                     Command = goToCommand,
-                    CommandParameter = i
+                    CommandParameter = _projects[i]
                 };
 
-                if (this._currentProjectNumber == i)
+                if (this.SelectedProject.Id == _projects[i].Id)
                 {
                     _projectName.Background = Brushes.Wheat;
                     _projectName.IsChecked = true;
                 }
 
                 menuItems.Items.Add(_projectName);
+            }
+        }
+
+        public void UpdateProject()
+        {
+            try
+            {
+                SelectedProject = _client.UpdateProject(SelectedProject);
+
+                Page ProjectDashboard = new ProjectDashboard(SelectedProject);
+                NavigationService.GetNavigationService(this).Navigate(ProjectDashboard);
+            }
+            catch (RestResponseErrorException ex)
+            {
+                MessageBox.Show(ex.Message);
             }
         }
 
@@ -158,7 +171,7 @@ namespace CSC3045_CS2.Pages
             {
                 return new RelayCommand(param =>
                 {
-                    Page addProjectMember = new AddProjectTeamMember(_projects[_currentProjectNumber]);
+                    Page addProjectMember = new AddProjectTeamMember(SelectedProject);
 
                     NavigationService.GetNavigationService(this).Navigate(addProjectMember);
                 });
@@ -173,8 +186,8 @@ namespace CSC3045_CS2.Pages
                 {
                     try
                     {
-                        var projectNumber = ((int)param);
-                        Page projectDashboard = new ProjectDashboard(_projects, projectNumber);
+                        var newProject = ((Project)param);
+                        Page projectDashboard = new ProjectDashboard(newProject);
 
                         NavigationService.GetNavigationService(this).Navigate(projectDashboard);
                     }
@@ -193,6 +206,7 @@ namespace CSC3045_CS2.Pages
                 return new RelayCommand(param =>
                 {
                     SelectedProject.ScrumMaster = ((User)param);
+                    UpdateProject();
                 });
             }
         }
@@ -204,27 +218,7 @@ namespace CSC3045_CS2.Pages
                 return new RelayCommand(param =>
                 {
                     SelectedProject.ProductOwner = ((User)param);
-                });
-            }
-        }
-
-        public ICommand UpdateProjectCommand
-        {
-            get
-            {
-                return new RelayCommand(param =>
-                {
-                    try
-                    {
-                        SelectedProject = _client.UpdateProject(SelectedProject);
-
-                        Page ProjectDashboard = new ProjectDashboard(_projects, _currentProjectNumber);
-                        NavigationService.GetNavigationService(this).Navigate(ProjectDashboard);
-                    }
-                    catch (RestResponseErrorException ex)
-                    {
-                        MessageBox.Show(ex.Message);
-                    }
+                    UpdateProject();
                 });
             }
         }

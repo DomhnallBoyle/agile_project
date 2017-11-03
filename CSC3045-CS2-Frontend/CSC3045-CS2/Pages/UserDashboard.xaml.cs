@@ -37,6 +37,8 @@ namespace CSC3045_CS2.Pages
 
         public String UserLabel { get; set; }
 
+        public String LogoutButtonLabel { get; set; } = "Logout";
+
         #endregion
 
         public UserDashboard()
@@ -69,7 +71,7 @@ namespace CSC3045_CS2.Pages
                 {
                     Content = "Go to Project",
                     Command = GoToCommand,
-                    CommandParameter = i
+                    CommandParameter = _projectList[i]
                 };
 
                 ProjectNamePanel.Children.Add(_projectName);
@@ -103,8 +105,8 @@ namespace CSC3045_CS2.Pages
                 {
                     try
                     {
-                        var projectIndex = (int) param;
-                        Page projectDashboardPage = new ProjectDashboard(_projectList, projectIndex);
+                        var selectedProject = (Project) param;
+                        Page projectDashboardPage = new ProjectDashboard(selectedProject);
 
                         NavigationService.GetNavigationService(this).Navigate(projectDashboardPage);
                     }
@@ -126,6 +128,24 @@ namespace CSC3045_CS2.Pages
                     Page createProjectPage = new CreateProject();
 
                     NavigationService.GetNavigationService(this).Navigate(createProjectPage);
+                });
+            }
+        }
+
+        public ICommand LogoutCommand
+        {
+            get
+            {
+                return new RelayCommand(param =>
+                {
+                    if (Application.Current.Properties.Contains("user"))
+                    {
+                        Application.Current.Properties.Remove("user");
+                    }
+
+                    Page loginPage = new Login();
+
+                    NavigationService.GetNavigationService(this).Navigate(loginPage);
                 });
             }
         }
