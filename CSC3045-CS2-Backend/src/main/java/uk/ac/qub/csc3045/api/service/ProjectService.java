@@ -17,69 +17,100 @@ import uk.ac.qub.csc3045.api.utility.ValidationUtility;
 @Service
 public class ProjectService {
 
-	private ProjectMapper mapper;
+    private ProjectMapper mapper;
 
-	@Autowired
-	public ProjectService(ProjectMapper mapper) {
-		this.mapper = mapper;
-	}
+    @Autowired
+    public ProjectService(ProjectMapper mapper) {
+        this.mapper = mapper;
+    }
 
-	public Project create(Project project) {
-		try {
-			mapper.createProject(project);
-			return mapper.getProjectById(project.getId());
+    public Project create(Project project) {
+        try {
+            mapper.createProject(project);
 
-		} catch (DataIntegrityViolationException e) {
-			throw new ResponseErrorException("Project or User does not exist", HttpStatus.NOT_FOUND);
-		}
+            Project newProject = mapper.getProjectById(project.getId());
 
-	}
+            if (newProject.getProductOwner() != null) {
+                EmailUtility.sendEmail(newProject.getProductOwner().getEmail(), "You Have been added as a Product Owner",
+                        "Hello " + newProject.getProductOwner().getForename() +
+                                " You are now the Product Owner for " + newProject.getName());
+            }
 
-	public Project update(Project project) {
-		if (ValidationUtility.validateProjectExists(project.getId(), mapper)) {
-			mapper.updateProject(project);
-			return mapper.getProjectById(project.getId());
-		}
-		throw new ResponseErrorException("Project does not exist", HttpStatus.NOT_FOUND);
-	}
-	
-	public Project get(long projectId) {
-		if (ValidationUtility.validateProjectExists(projectId, mapper)) {
-			return mapper.getProjectById(projectId);
-		}
-		throw new ResponseErrorException("Project does not exist", HttpStatus.NOT_FOUND);
-	}
+            if (newProject.getScrumMaster() != null) {
 
-	public List<Project> getProjectsForUser(long userId) {
-	    List<Project> projects = mapper.getProjectsForUser(userId);
+                EmailUtility.sendEmail(newProject.getScrumMaster().getEmail(), "You Have been added as a Scrum Master",
+                        "Hello " + newProject.getScrumMaster().getForename() +
+                                " You are now the Scrum Master for " + newProject.getName());
+            }
 
-	    if (projects.isEmpty()) {
-	        throw new ResponseErrorException("You are currently not assigned to any projects.", HttpStatus.NOT_FOUND);
+            return newProject;
+
+        } catch (DataIntegrityViolationException e) {
+            throw new ResponseErrorException("Project or User does not exist", HttpStatus.NOT_FOUND);
+        }
+
+    }
+
+    public Project update(Project project) {
+        if (ValidationUtility.validateProjectExists(project.getId(), mapper)) {
+            mapper.updateProject(project);
+
+            Project updatedProject = mapper.getProjectById(project.getId());
+
+            if (!updatedProject.getProductOwner().equals(project.getProductOwner())) {
+                EmailUtility.sendEmail(updatedProject.getProductOwner().getEmail(), "You Have been added as a Product Owner",
+                        "Hello " + updatedProject.getProductOwner().getForename() +
+                                "You are now the Product Owner for " + updatedProject.getName());
+
+            }
+            if (!updatedProject.getScrumMaster().equals(project.getScrumMaster())) {
+                EmailUtility.sendEmail(updatedProject.getScrumMaster().getEmail(), "You Have been added as a Scrum Master",
+                        "Hello " + updatedProject.getScrumMaster().getForename() +
+                                " You are now the Scrum Master for " + updatedProject.getScrumMaster().getForename());
+
+            }
+            return updatedProject;
+        }
+        throw new ResponseErrorException("Project does not exist", HttpStatus.NOT_FOUND);
+    }
+
+    public Project get(long projectId) {
+        if (ValidationUtility.validateProjectExists(projectId, mapper)) {
+            return mapper.getProjectById(projectId);
+        }
+        throw new ResponseErrorException("Project does not exist", HttpStatus.NOT_FOUND);
+    }
+
+    public List<Project> getProjectsForUser(long userId) {
+        List<Project> projects = mapper.getProjectsForUser(userId);
+
+        if (projects.isEmpty()) {
+            throw new ResponseErrorException("You are currently not assigned to any projects.", HttpStatus.NOT_FOUND);
         }
 
         return projects;
-	}
+    }
 
-	public Project addToTeam(Project project) {
-		try {
-			for (User user : project.getUsers()) {
-				mapper.addToProjectTeam(project.getId(), user.getId());
+    public Project addToTeam(Project project) {
+        try {
+            for (User user : project.getUsers()) {
+                mapper.addToProjectTeam(project.getId(), user.getId());
 
-				EmailUtility.sendEmail(user.getEmail(), "You have been added to a new Project - " + project.getName(),
-						"Hello " + user.getForename() +
-						", \n\nYou have been added to the Project Team for " + project.getName());
-			}
-		} catch (DataIntegrityViolationException e) {
-			throw new ResponseErrorException("Project or User does not exist", HttpStatus.NOT_FOUND);
-		}
-		return project;
-	}
+                EmailUtility.sendEmail(user.getEmail(), "You have been added to a new Project - " + project.getName(),
+                        "Hello " + user.getForename() +
+                                ", \n\nYou have been added to the Project Team for " + project.getName());
+            }
+        } catch (DataIntegrityViolationException e) {
+            throw new ResponseErrorException("Project or User does not exist", HttpStatus.NOT_FOUND);
+        }
+        return project;
+    }
 
-	public List<User> getTeamMembers(long projectId) {
-		if (ValidationUtility.validateProjectExists(projectId, mapper)) {
-			return mapper.getUsersOnProject(projectId);
-		}
-		throw new ResponseErrorException("Project with specified ID does not exist", HttpStatus.NOT_FOUND);
-	}
+    public List<User> getTeamMembers(long projectId) {
+        if (ValidationUtility.validateProjectExists(projectId, mapper)) {
+            return mapper.getUsersOnProject(projectId);
+        }
+        throw new ResponseErrorException("Project with specified ID does not exist", HttpStatus.NOT_FOUND);
+    }
 
 }
