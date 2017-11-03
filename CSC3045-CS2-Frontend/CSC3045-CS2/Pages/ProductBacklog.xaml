@@ -69,7 +69,12 @@
             </ListBox.ItemTemplate>
         </ListBox>
         <StackPanel>
-            <Button Content="Save Order" Command="{Binding SaveOrder}"></Button>
+            <StackPanel.Resources>
+                <BooleanToVisibilityConverter x:Key="BoolToVisConverter"/>
+            </StackPanel.Resources>
+            <Button Content="Save Order"
+                    Command="{Binding SaveOrder}"
+                    Visibility="{Binding Permissions.ProductOwner, Converter={StaticResource BoolToVisConverter}}"></Button>
         </StackPanel>
     </Grid>
 
