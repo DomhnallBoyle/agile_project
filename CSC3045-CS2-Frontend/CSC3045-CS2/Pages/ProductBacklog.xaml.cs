@@ -43,7 +43,7 @@ namespace CSC3045_CS2
         public string PageLabel { get; set; } = "Product Backlog";
 
         public string MarketValueLabel { get; set; } = "Market Value";
-        
+
         public string BackButtonLabel { get; set; } = "Back";
 
         public string CreateStoryButtonLabel { get; set; } = "Create Story";
@@ -107,9 +107,9 @@ namespace CSC3045_CS2
             {
                 return new RelayCommand(param =>
                 {
-                    for (int i=0; i<_backlog.Count; i++)
+                    for (int i = 0; i < _backlog.Count; i++)
                     {
-                        _backlog[i].Index = i+1;
+                        _backlog[i].Index = i + 1;
                     }
 
                     try
@@ -117,7 +117,8 @@ namespace CSC3045_CS2
                         _client.SaveOrder(_backlog.ToList());
                         MessageBox.Show("User stories updated successfully");
                     }
-                    catch (RestResponseErrorException) {
+                    catch (RestResponseErrorException)
+                    {
                         MessageBox.Show("Error saving story order");
                     }
                 });

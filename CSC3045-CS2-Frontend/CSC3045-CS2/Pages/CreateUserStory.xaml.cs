@@ -37,7 +37,7 @@ namespace CSC3045_CS2.Pages
         public String NameTextContent { get; set; }
 
         public String StoryPointsTextContent { get; set; }
-        
+
         public String MarketValueTextContent { get; set; }
 
         public String DescriptionTextContent { get; set; }

@@ -21,21 +21,21 @@ namespace CSC3045_CS2.Pages
     /// <summary>
     /// Interaction logic for Register.xaml
     /// </summary>
-    public partial class test: Page
+    public partial class test : Page
     {
         private AuthenticationClient client;
-       
+
         public test()
         {
             InitializeComponent();
             client = new AuthenticationClient();
         }
-        public void  RegisterButton_Click(Object sender, EventArgs e)
+        public void RegisterButton_Click(Object sender, EventArgs e)
         {
-            
 
-           
-         
+
+
+
 
         }
 
@@ -51,27 +51,27 @@ namespace CSC3045_CS2.Pages
                 a.Background = Brushes.White;
                 return true;
             }
-            
-            
+
+
         }
         public Boolean checkPasswordNotEmpty(PasswordBox a)
         {
-            if (a.Password.ToString()== "")
+            if (a.Password.ToString() == "")
             {
-              a.Background = Brushes.Red;
-              return false;
+                a.Background = Brushes.Red;
+                return false;
             }
             else
             {
                 a.Background = Brushes.White;
                 return true;
             }
-            
-            
+
+
         }
         public Boolean checkPasswordsMatch(PasswordBox a, PasswordBox b)
         {
-            
+
             if (a.Password.ToString() != b.Password.ToString())
             {
                 String text = "Passwords Dont Match";
@@ -86,9 +86,9 @@ namespace CSC3045_CS2.Pages
                 a.Background = Brushes.White;
                 return true;
             }
-             
+
         }
-        
-        
+
+
     }
 }

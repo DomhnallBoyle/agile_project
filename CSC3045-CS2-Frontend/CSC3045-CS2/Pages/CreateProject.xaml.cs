@@ -60,7 +60,7 @@ namespace CSC3045_CS2.Pages
         #region Command methods
 
         public void pageSetup()
-        {     
+        {
             ProjectManagerNameLabel = currentUser.Forename + " " + currentUser.Surname;
         }
 

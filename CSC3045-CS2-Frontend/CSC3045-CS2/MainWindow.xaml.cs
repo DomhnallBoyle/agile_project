@@ -26,7 +26,7 @@ namespace CSC3045_CS2
         {
             InitializeComponent();
         }
-         
+
 
     }
 }

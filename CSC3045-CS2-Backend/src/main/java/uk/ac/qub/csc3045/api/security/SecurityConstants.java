@@ -8,5 +8,5 @@ public class SecurityConstants {
     public static final String SIGN_UP_URL = "/authentication/register";
     public static final String LOGIN_URL = "/authentication/login";
     public static final String SERVER_USERNAME = "csc3045cs2test@gmail.com";
-	public static final String SERVER_PASSWORD = "CR8xbre8";
+    public static final String SERVER_PASSWORD = "CR8xbre8";
 }

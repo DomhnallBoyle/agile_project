@@ -10,10 +10,11 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-
 import uk.ac.qub.csc3045.api.mapper.AuthenticationMapper;
 import uk.ac.qub.csc3045.api.service.AuthenticationService;
-import static uk.ac.qub.csc3045.api.security.SecurityConstants.*;
+
+import static uk.ac.qub.csc3045.api.security.SecurityConstants.LOGIN_URL;
+import static uk.ac.qub.csc3045.api.security.SecurityConstants.SIGN_UP_URL;
 
 @EnableWebSecurity
 public class WebSecurity extends WebSecurityConfigurerAdapter {
@@ -44,20 +45,20 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
         auth.userDetailsService(authenticationService).passwordEncoder(bCryptPasswordEncoder);
     }
 
-  @Bean
-  CorsConfigurationSource corsConfigurationSource() {
-	  CorsConfiguration configuration = new CorsConfiguration();
-	  configuration.applyPermitDefaultValues();
-	  configuration.addAllowedMethod(HttpMethod.DELETE);
-	  UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-      source.registerCorsConfiguration("/**", configuration);
-    return source;
-  }
+    @Bean
+    CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration configuration = new CorsConfiguration();
+        configuration.applyPermitDefaultValues();
+        configuration.addAllowedMethod(HttpMethod.DELETE);
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration);
+        return source;
+    }
 
-  @Bean
-  public JWTAuthenticationFilter getJWTAuthenticationFilter() throws Exception {
-      final JWTAuthenticationFilter filter = new JWTAuthenticationFilter(authenticationManager(), mapper);
-      filter.setFilterProcessesUrl(LOGIN_URL);
-      return filter;
-  }
+    @Bean
+    public JWTAuthenticationFilter getJWTAuthenticationFilter() throws Exception {
+        final JWTAuthenticationFilter filter = new JWTAuthenticationFilter(authenticationManager(), mapper);
+        filter.setFilterProcessesUrl(LOGIN_URL);
+        return filter;
+    }
 }

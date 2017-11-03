@@ -25,6 +25,6 @@ namespace CSC3045_CS2.Models
             this.Username = username;
             this.Password = password;
         }
-        
+
     }
 }

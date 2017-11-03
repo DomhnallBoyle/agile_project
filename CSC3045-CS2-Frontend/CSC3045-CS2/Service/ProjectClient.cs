@@ -21,7 +21,7 @@ namespace CSC3045_CS2.Service
 
         public string CreateProject(Project project)
         {
-           var request = new RestRequest(BASE_ENDPOINT, Method.POST);
+            var request = new RestRequest(BASE_ENDPOINT, Method.POST);
             request.AddHeader("Content-Type", "application/json");
             request.RequestFormat = DataFormat.Json;
             SimpleJson.CurrentJsonSerializerStrategy = new CamelCaseSerializationStrategy();
@@ -36,7 +36,7 @@ namespace CSC3045_CS2.Service
             var request = new RestRequest(BASE_ENDPOINT + "/team/" + projectId, Method.GET);
             request.AddHeader("Content-Type", "application/json");
             request.RequestFormat = DataFormat.Json;
- 
+
             return Execute<List<User>>(request);
         }
 

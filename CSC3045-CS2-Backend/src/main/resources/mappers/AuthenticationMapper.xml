@@ -26,30 +26,30 @@
     </resultMap>
 
     <insert id="createUser" parameterType="User" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
-        INSERT INTO user(forename, surname, email, roles_id)
-        VALUES(#{forename}, #{surname}, #{email}, #{roles.id})
+        INSERT INTO user (forename, surname, email, roles_id)
+        VALUES (#{forename}, #{surname}, #{email}, #{roles.id})
     </insert>
 
     <insert id="createAccount" parameterType="Account" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
-        INSERT INTO account(user_id, username, password)
-        VALUES(#{user.id}, #{username}, #{password})
+        INSERT INTO account (user_id, username, password)
+        VALUES (#{user.id}, #{username}, #{password})
     </insert>
 
     <insert id="createRoles" parameterType="Roles" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
-        INSERT INTO roles(developer, scrum_master, product_owner)
-        VALUES(#{developer}, #{scrumMaster}, #{productOwner})
+        INSERT INTO roles (developer, scrum_master, product_owner)
+        VALUES (#{developer}, #{scrumMaster}, #{productOwner})
     </insert>
-    
+
     <select id="findAccountByUsername" resultMap="accountResultMap">
-    	SELECT
+        SELECT
             ACCOUNT.ID AS account_id,
             ACCOUNT.USERNAME,
             ACCOUNT.PASSWORD,
-            USER.ID AS user_id,
+            USER.ID    AS user_id,
             USER.FORENAME,
             USER.SURNAME,
             USER.EMAIL,
-            ROLES.ID as roles_id,
+            ROLES.ID   AS roles_id,
             ROLES.DEVELOPER,
             ROLES.SCRUM_MASTER,
             ROLES.PRODUCT_OWNER
@@ -58,8 +58,10 @@
             JOIN roles ON user.roles_id = roles.id
         WHERE username = #{username}
     </select>
-    
+
     <select id="findUserByEmail" resultType="User">
-        SELECT email FROM user WHERE email = #{email} 
+        SELECT email
+        FROM user
+        WHERE email = #{email}
     </select>
 </mapper>

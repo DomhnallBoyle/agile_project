@@ -5,10 +5,10 @@ using RestSharp;
 namespace CSC3045_CS2.Service
 {
     class AuthenticationClient : ServiceClient
-    { 
+    {
         const string BASE_ENDPOINT = "authentication";
 
-        public AuthenticationClient() : base () { }
+        public AuthenticationClient() : base() { }
 
         /// <summary>
         /// Creates a request object with register endpoint details.

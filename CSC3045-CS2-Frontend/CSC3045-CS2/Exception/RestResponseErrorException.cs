@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace CSC3045_CS2.Exception
 {
-   
+
     class RestResponseErrorException : System.Exception
     {
         public HttpStatusCode StatusCode { get; set; }

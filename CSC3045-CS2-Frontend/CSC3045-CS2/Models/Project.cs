@@ -41,7 +41,7 @@ namespace CSC3045_CS2.Models
         {
             this.Manager = projectManager;
             this.Name = projectName;
-            this.Description = description;          
+            this.Description = description;
         }
     }
 }
