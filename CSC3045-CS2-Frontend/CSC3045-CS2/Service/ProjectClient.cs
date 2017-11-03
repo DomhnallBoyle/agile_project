@@ -9,18 +9,19 @@ using System.Windows.Navigation;
 using CSC3045_CS2.Models;
 using System.Net.Http;
 using Newtonsoft.Json;
+using CSC3045_CS2.Utility;
 
 namespace CSC3045_CS2.Service
 {
     class ProjectClient : ServiceClient
     {
 
-        const string BASE_ENDPOINT = "project/";
+        const string BASE_ENDPOINT = "project";
         public ProjectClient() : base() { }
 
         public string CreateProject(Project project)
         {
-           var request = new RestRequest(BASE_ENDPOINT + "create", Method.POST);
+           var request = new RestRequest(BASE_ENDPOINT + "/create", Method.POST);
             request.AddHeader("Content-Type", "application/json");
             request.RequestFormat = DataFormat.Json;
             request.AddBody(project);
@@ -30,11 +31,32 @@ namespace CSC3045_CS2.Service
 
         public List<User> GetProjectTeam(long projectId)
         {
-            var request = new RestRequest(BASE_ENDPOINT + "team/" + projectId, Method.POST);
+            var request = new RestRequest(BASE_ENDPOINT + "/team/" + projectId, Method.GET);
             request.AddHeader("Content-Type", "application/json");
             request.RequestFormat = DataFormat.Json;
  
             return Execute<List<User>>(request);
+        }
+
+        public List<Project> GetProjectsForUser(long userId)
+        {
+            var request = new RestRequest(BASE_ENDPOINT + "/user/" + userId, Method.GET);
+            request.AddHeader("Content-Type", "application/json");
+            request.RequestFormat = DataFormat.Json;
+
+            return Execute<List<Project>>(request);
+        }
+
+        public Project UpdateProject(Project project)
+        {
+            var request = new RestRequest(BASE_ENDPOINT, Method.PUT);
+            request.AddHeader("Content-Type", "application/json");
+            request.RequestFormat = DataFormat.Json;
+            SimpleJson.CurrentJsonSerializerStrategy = new CamelCaseSerializationStrategy();
+
+            request.AddBody(project);
+
+            return Execute<Project>(request);
         }
     }
 }
