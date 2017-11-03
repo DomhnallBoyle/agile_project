@@ -1,13 +1,24 @@
 package uk.ac.qub.csc3045.api.integration;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
+import static org.springframework.web.bind.annotation.RequestMethod.GET;
+import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Random;
+
+import javax.validation.Valid;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import io.restassured.response.Response;
 import uk.ac.qub.csc3045.api.integration.util.RequestHelper;
@@ -15,6 +26,7 @@ import uk.ac.qub.csc3045.api.model.Account;
 import uk.ac.qub.csc3045.api.model.Project;
 import uk.ac.qub.csc3045.api.model.Roles;
 import uk.ac.qub.csc3045.api.model.User;
+import uk.ac.qub.csc3045.api.model.UserStory;
 
 public class ProjectControllerIT {
 	private Account account;
@@ -89,17 +101,42 @@ public class ProjectControllerIT {
 		Response r = request.SendPostRequestWithAuthHeader("/project", authHeader, validProject);
 		r.then().assertThat().statusCode(404);
 	}
+	@Test
+	public void getProjectTeamThatDoesntExistsShouldReturn404() {
+		double invalidNumber = 100000+validProject.getId();
+		Response r = request.SendGetRequestWithAuthHeader("/team/" +invalidNumber, authHeader);
+		r.then().assertThat().statusCode(404);
+	}
+	@Test
+	public void getProjectTeamThatDoesExistShouldReturn200() {
+		Response r = request.SendGetRequestWithAuthHeader("/project/team/"+validProject.getId(), authHeader);
+		r.then().assertThat().statusCode(200);
+		List<User> users = Arrays.asList(r.getBody().as(User[].class));
+		assertEquals(users.size(), 2);
+	}
+	@Test
+	public void addUsersToProjectTeamShouldReturn200() {
+		User teamMember = new User("Ragnar", "Lothbrok", "ragnar.lothbrok@valhalla.odin", new Roles(true, true, false));
+    	ArrayList<User> teamMembers = new ArrayList<User>();
+    	teamMember.setId(1l);
+    	teamMembers.add(teamMember);
+    	validProject.setUsers(teamMembers);
+		Response r = request.SendPostRequestWithAuthHeader("/project/team/", authHeader, validProject);
+		r.then().assertThat().statusCode(200);
+		assertEquals(r.getBody().as(Project.class).getName(), "Kingdom");
+	}
 	
 	/**
      * Setup Test Data
      */
 
     public void setupTestProject() {
+    //	Roles validRoles = new Roles();
     	User projectManager = new User();
     	projectManager.setId(1l);
     	User productOwner = new User();
     	productOwner.setId(2l);
-    	User teamMember = new User();
+    	User teamMember = new User("Ragnar", "Lothbrok", "ragnar.lothbrok@valhalla.odin", new Roles(true, true, false));
     	ArrayList<User> teamMembers = new ArrayList<User>();
     	teamMembers.add(teamMember);
     	
