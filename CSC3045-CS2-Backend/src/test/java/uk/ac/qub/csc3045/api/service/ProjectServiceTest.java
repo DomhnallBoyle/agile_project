@@ -1,6 +1,7 @@
 package uk.ac.qub.csc3045.api.service;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static org.mockito.Mockito.doThrow;
@@ -48,22 +49,50 @@ public class ProjectServiceTest {
     }
 	
 	@Test
-	public void handleAddToTeamRequestSuccessful() throws Exception{
+	public void handleUpdateProjectRequestSuccessful() {
+		when(projectMapperMock.getProjectById(project.getId())).thenReturn(project);
+		Project response = projectService.update(project);
+		
+		assertTrue(response.equals(project));
+	}
+	
+	@Test(expected = ResponseErrorException.class)
+	public void handleUpdateProjectRequestFailure() {
+		when(projectMapperMock.getProjectById(project.getId())).thenReturn(null);
+		projectService.update(project);
+	}
+	
+	@Test
+	public void handleGetProjectRequestSuccessful() {
+		when(projectMapperMock.getProjectById(project.getId())).thenReturn(project);
+		Project response = projectService.get(project.getId());
+		
+		assertTrue(response.equals(project));
+	}
+	
+	@Test(expected = ResponseErrorException.class)
+	public void handleGetProjectRequestFailure() {
+		when(projectMapperMock.getProjectById(project.getId())).thenReturn(null);
+		projectService.get(project.getId());
+	}
+	
+	@Test
+	public void handleAddToTeamRequestSuccessful() {
 		Project response = projectService.addToTeam(project);
 		
 		assertEquals(project.getUsers(), response.getUsers());
 	}
 	
 	@Test(expected = ResponseErrorException.class)
-	public void handleAddToTeamRequestFailure() throws Exception{
+	public void handleAddToTeamRequestFailure() {
 		doThrow(new DataIntegrityViolationException("")).when(projectMapperMock).addToProjectTeam(project.getId(), user.getId());	
 		projectService.addToTeam(project);
 	}
 	
 	@Test
-	public void getTeamRequestSuccessful() throws Exception{
+	public void handleGetTeamRequestSuccessful() {
 		when(projectMapperMock.getUsersOnProject(project.getId())).thenReturn(project.getUsers());
-		when(projectMapperMock.findProjectByProjectId(project.getId())).thenReturn(project);
+		when(projectMapperMock.getProjectById(project.getId())).thenReturn(project);
 		
 		List<User> response = projectService.getTeamMembers(project.getId());
 		
@@ -71,8 +100,8 @@ public class ProjectServiceTest {
 	}
 	
 	@Test(expected = ResponseErrorException.class)
-	public void getTeamRequestFailure() throws Exception{
-		when(projectMapperMock.findProjectByProjectId(project.getId())).thenReturn(null);
+	public void handleGetTeamRequestFailure() {
+		when(projectMapperMock.getProjectById(project.getId())).thenReturn(null);
 		projectService.getTeamMembers(project.getId());	
 	}
 }

@@ -31,10 +31,20 @@ public class ProjectController {
     public ResponseEntity<Project> create(@Valid @RequestBody Project project) {
         return new ResponseEntity<>(this.projectService.create(project), HttpStatus.CREATED);
     }
-    
+
     @PutMapping()
     public ResponseEntity<Project> update(@Valid @RequestBody Project project){
     	return new ResponseEntity<>(this.projectService.update(project), HttpStatus.OK);
+    }
+    
+    @RequestMapping(value = "/{projectId}", method = GET)
+    public ResponseEntity<Project> get(@Valid @PathVariable("projectId") long projectId) {
+    	return new ResponseEntity<>(this.projectService.get(projectId), HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/user/{userId}", method = GET)
+    public ResponseEntity<List<Project>> getProjectsForUser(@Valid @PathVariable("userId") long userId) {
+        return new ResponseEntity<>(this.projectService.getProjectsForUser(userId), HttpStatus.OK);
     }
     
     @RequestMapping(value = "/team", method = POST)

@@ -20,6 +20,8 @@ namespace CSC3045_CS2.Pages
 
         private UserStoryClient _client;
 
+        private Project _currentProject;
+
         #endregion
 
         #region Public Variables
@@ -46,11 +48,13 @@ namespace CSC3045_CS2.Pages
 
         #endregion
 
-        public CreateUserStory()
+        public CreateUserStory(Project project)
         {
             InitializeComponent();
             DataContext = this;
             _client = new UserStoryClient();
+
+            _currentProject = project;
         }
 
         #region Command Methods
@@ -64,7 +68,7 @@ namespace CSC3045_CS2.Pages
             {
                 return new RelayCommand(param =>
                 {
-                    Page productBacklogPage = new ProductBacklog();
+                    Page productBacklogPage = new ProductBacklog(_currentProject);
 
                     NavigationService.GetNavigationService(this).Navigate(productBacklogPage);
                 });
@@ -81,17 +85,14 @@ namespace CSC3045_CS2.Pages
                             NameTextContent,
                             DescriptionTextContent,
                             int.Parse(StoryPointsTextContent),
-                            int.Parse(MarketValueTextContent));
+                            int.Parse(MarketValueTextContent),
+                            _currentProject);
 
                     try
                     {
                         _client.CreateUserStory(userStory);
 
-                        //TODO: Make this change to the correct page (the previous one)
-                        //TODO: Identical to CancelCommand - look at making use of that command (storing as property?)
-                        Page registrationPage = new Register();
-
-                        NavigationService.GetNavigationService(this).Navigate(registrationPage);
+                        CancelCommand.Execute(null);
                     }
                     catch (RestResponseErrorException ex)
                     {

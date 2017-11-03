@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RestSharp.Deserializers;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,27 +9,38 @@ namespace CSC3045_CS2.Models
 {
     public class Project
     {
-        public User ProjectManager { get; set; }
-        public string ProjectName { get; set; }
+        [DeserializeAs(Name = "id")]
+        public long Id { get; set; }
+        [DeserializeAs(Name = "manager")]
+        public User Manager { get; set; }
+        [DeserializeAs(Name = "name")]
+        public string Name { get; set; }
+        [DeserializeAs(Name = "description")]
         public string Description { get; set; }
+        [DeserializeAs(Name = "productOwner")]
         public User ProductOwner { get; set; }
+        [DeserializeAs(Name = "scrumMaster")]
+        public User ScrumMaster { get; set; }
+        [DeserializeAs(Name = "users")]
+        public List<User> Users { get; set; }
 
         public Project()
         {
 
         }
-        public Project(User projectManager, String projectName, String description, User productOwner)
+        public Project(User projectManager, String projectName, String description, User productOwner, User scrumMaster)
         {
-            this.ProjectManager = projectManager;
-            this.ProjectName = projectName;
+            this.Manager = projectManager;
+            this.Name = projectName;
             this.Description = description;
             this.ProductOwner = productOwner;
+            this.ScrumMaster = scrumMaster;
         }
 
         public Project(User projectManager, String projectName, String description)
         {
-            this.ProjectManager = projectManager;
-            this.ProjectName = projectName;
+            this.Manager = projectManager;
+            this.Name = projectName;
             this.Description = description;          
         }
     }

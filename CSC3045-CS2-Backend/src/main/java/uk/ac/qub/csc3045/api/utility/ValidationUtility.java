@@ -8,9 +8,11 @@ import org.springframework.http.HttpStatus;
 import uk.ac.qub.csc3045.api.exception.ResponseErrorException;
 import uk.ac.qub.csc3045.api.mapper.AuthenticationMapper;
 import uk.ac.qub.csc3045.api.mapper.ProjectMapper;
+import uk.ac.qub.csc3045.api.mapper.UserStoryMapper;
 import uk.ac.qub.csc3045.api.model.Account;
 import uk.ac.qub.csc3045.api.model.Project;
 import uk.ac.qub.csc3045.api.model.User;
+import uk.ac.qub.csc3045.api.model.UserStory;
 
 public class ValidationUtility {
 
@@ -80,9 +82,21 @@ public class ValidationUtility {
     }
     
     public static boolean validateProjectExists(long projectId, ProjectMapper mapper) {
-        return (mapper.findProjectByProjectId(projectId) != null);
+        return (mapper.getProjectById(projectId) != null);
     }
 
+    public static boolean validateProjectContainsUserStory(long storyId, long projectId, UserStoryMapper userStoryMapper) {
+    	UserStory story = userStoryMapper.getUserStoryById(storyId);
+    	List<UserStory> projectBacklog = userStoryMapper.getUserStoriesByProject(projectId);
+
+    	for (int i = 0; i < projectBacklog.size(); i++) {
+    		if (story.equals(projectBacklog.get(i))) {
+    			return true;
+    		}
+    	}
+    	return false;
+    }
+    
 	/**
 	 * Validates the username against the length requirements and the regex
 	 * @param - username the username to be validated
@@ -124,5 +138,8 @@ public class ValidationUtility {
         }
 
         return false;
+    }
+    public static boolean validateUserStoryExists(long id, UserStoryMapper mapper) {
+        return (mapper.getUserStoryById(id) != null);
     }
 }
