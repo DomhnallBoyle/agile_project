@@ -83,7 +83,6 @@ namespace CSC3045_CS2.Pages
             
             AddProjectsToDropdownList();
             ProjectTeamMembers.ItemsSource = _client.GetProjectTeam(SelectedProject.Id);
-
         }
 
         #region Class methods

@@ -5,6 +5,7 @@ using CSC3045_CS2.Service;
 using CSC3045_CS2.Utility;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -29,7 +30,7 @@ namespace CSC3045_CS2
 
         private UserStoryClient _client;
 
-        private List<UserStory> _backlog;
+        private ObservableCollection<UserStory> _backlog = new ObservableCollection<UserStory>();
 
         private Project _currentProject;
 
@@ -57,13 +58,20 @@ namespace CSC3045_CS2
 
             try
             {
-                _backlog = _client.GetUserStories(project.Id);
+                // TODO:: Get project ID from current project via constructor
+                var sortedOC = from item in _client.GetUserStories(project.Id) orderby item.Index select item;
+                _backlog = new ObservableCollection<UserStory>(sortedOC.ToList());
             }
             catch (RestResponseErrorException ex)
             {
                 MessageBox.Show(ex.Message);
             }
 
+            Style itemContainerStyle = new Style(typeof(ListBoxItem));
+            itemContainerStyle.Setters.Add(new Setter(ListBoxItem.AllowDropProperty, true));
+            itemContainerStyle.Setters.Add(new EventSetter(ListBoxItem.PreviewMouseLeftButtonDownEvent, new MouseButtonEventHandler(MouseLeftDown)));
+            itemContainerStyle.Setters.Add(new EventSetter(ListBoxItem.DropEvent, new DragEventHandler(StoryListDrop)));
+            StoryList.ItemContainerStyle = itemContainerStyle;
             StoryList.ItemsSource = _backlog;
         }
 
@@ -86,6 +94,33 @@ namespace CSC3045_CS2
         }
 
         /// <summary>
+        /// Changes order of user stories before
+        /// sending the updated list to the backend
+        /// </summary>
+        public ICommand SaveOrder
+        {
+            get
+            {
+                return new RelayCommand(param =>
+                {
+                    for (int i=0; i<_backlog.Count; i++)
+                    {
+                        _backlog[i].Index = i+1;
+                    }
+
+                    try
+                    {
+                        _client.SaveOrder(_backlog.ToList());
+                        MessageBox.Show("User stories updated successfully");
+                    }
+                    catch (RestResponseErrorException) {
+                        MessageBox.Show("Error saving story order");
+                    }
+                });
+            }
+        }
+
+        /// <summary>
         /// Navigates to the Story creation page
         /// </summary>
         public ICommand CreateStoryCommand
@@ -102,5 +137,59 @@ namespace CSC3045_CS2
         }
 
         #endregion
+
+        #region drag & drop functionality
+
+        /// <summary>
+        /// Method to run on mouse left click
+        /// Checks to see if a list box item was clicked 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        public void MouseLeftDown(object sender, MouseButtonEventArgs e)
+        {
+            if (sender is ListBoxItem)
+            {
+                ListBoxItem draggedItem = sender as ListBoxItem;
+                DragDrop.DoDragDrop(draggedItem, draggedItem.DataContext, DragDropEffects.Move);
+                draggedItem.IsSelected = true;
+            }
+        }
+
+        /// <summary>
+        /// Function to run on dropping a Story list after dragging
+        /// Gets index of dropped Story and target story, 
+        /// and switches their positions in the observable list
+        /// </summary>
+        /// <param name="sender">Target user story</param>
+        /// <param name="e">Dropped user story</param>
+        public void StoryListDrop(object sender, DragEventArgs e)
+        {
+            UserStory droppedData = e.Data.GetData(typeof(UserStory)) as UserStory;
+            ListBoxItem targetItem = ((ListBoxItem)sender);
+            UserStory target = ((UserStory)targetItem.Content);
+
+            int removedIdx = StoryList.Items.IndexOf(droppedData);
+            int targetIdx = StoryList.Items.IndexOf(target);
+
+            if (removedIdx < targetIdx)
+            {
+                _backlog.Insert(targetIdx + 1, droppedData);
+                _backlog.RemoveAt(removedIdx);
+            }
+            else
+            {
+                int remIdx = removedIdx + 1;
+                if (_backlog.Count + 1 > remIdx)
+                {
+                    _backlog.Insert(targetIdx, droppedData);
+                    _backlog.RemoveAt(remIdx);
+                }
+            }
+        }
+
+        #endregion drag & drop functionality
     }
+
+
 }
