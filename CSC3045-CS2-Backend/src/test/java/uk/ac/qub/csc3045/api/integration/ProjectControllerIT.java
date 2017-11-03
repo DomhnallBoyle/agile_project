@@ -29,7 +29,7 @@ public class ProjectControllerIT {
 	@Before
     public void setup() throws IOException {
         request = new RequestHelper();
-        
+        setupTestAccount();
         setupTestProject();
         request.SendPostRequest(REGISTER_PATH, account);
 		Response r = request.SendPostRequest(LOGIN_PATH, account);
@@ -73,21 +73,21 @@ public class ProjectControllerIT {
 	}
 	
 	@Test
-	public void createProjectWithInvalidOwnerShouldReturn400() {
+	public void createProjectWithInvalidOwnerShouldReturn404() {
 		User invalidManager = new User();
 		invalidManager.setId(2000l);
 		validProject.setManager(invalidManager);
 		Response r = request.SendPostRequestWithAuthHeader("/project", authHeader, validProject);
-		r.then().assertThat().statusCode(400);
+		r.then().assertThat().statusCode(404);
 	}
 	
 	@Test
-	public void createProjectWithInvalidManagerShouldReturn400() {
+	public void createProjectWithInvalidManagerShouldReturn404() {
 		User invalidManager = new User();
 		invalidManager.setId(2000l);
 		validProject.setManager(invalidManager);
 		Response r = request.SendPostRequestWithAuthHeader("/project", authHeader, validProject);
-		r.then().assertThat().statusCode(400);
+		r.then().assertThat().statusCode(404);
 	}
 	
 	/**
@@ -111,5 +111,31 @@ public class ProjectControllerIT {
     	validProject.setUsers(teamMembers);
     	validProject.setManager(projectManager);
     }
+    
+    public void setupTestAccount() {
+		Roles validRoles = new Roles();
+		User validUser = new User("Forename", "Surname", generateEmail(), validRoles);
+		account = new Account(validUser, generateUsername(), "Password1");
+	}
+
+	/**
+	 * Generates a random username
+	 * 
+	 * @return the username generated
+	 */
+	private String generateUsername() {
+		Random random = new Random();
+		return "test" + random.nextInt(5000);
+	}
+
+	/**
+	 * Generates a random email
+	 * 
+	 * @return the email generated
+	 */
+	private String generateEmail() {
+		Random random = new Random();
+		return "testing" + random.nextInt(5000) + "@testing.com";
+	}
 
 }
