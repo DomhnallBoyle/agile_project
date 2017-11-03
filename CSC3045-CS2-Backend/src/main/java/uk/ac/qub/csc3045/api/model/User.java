@@ -83,43 +83,68 @@ public class User {
 
 	@Override
 	public boolean equals(Object obj) {
-		if (this == obj)
+		if (this == obj) {
 			return true;
-		if (obj == null)
+		}
+		
+		if (obj == null) {
 			return false;
-		if (getClass() != obj.getClass())
+		}
+		
+		if (getClass() != obj.getClass()) {
 			return false;
+		}
+		
 		User other = (User) obj;
-		if (email == null) {
-			if (other.email != null)
-				return false;
-		} else if (!email.equals(other.email))
-			return false;
-		if (forename == null) {
-			if (other.forename != null)
-				return false;
-		} else if (!forename.equals(other.forename))
-			return false;
+				
 		if (id == null) {
-			if (other.id != null)
-				return false;
-		} else if (!id.equals(other.id))
-			return false;
-		if (projects == null) {
-			if (other.projects != null)
-				return false;
-		} else if (!projects.equals(other.projects))
-			return false;
-		if (roles == null) {
-			if (other.roles != null)
-				return false;
-		} else if (!roles.equals(other.roles))
-			return false;
+            if (other.id != null) {
+                return false;
+            }
+        } else if (!id.equals(other.id)) {
+            return false;
+        }
+		
+		if (forename == null) {
+            if (other.forename != null) {
+                return false;
+            }
+        } else if (!forename.equals(other.forename)) {
+            return false;
+        }
+		
 		if (surname == null) {
-			if (other.surname != null)
+            if (other.surname != null) {
+                return false;
+            }
+        } else if (!surname.equals(other.surname)) {
+            return false;
+        }
+		
+		if (email == null) {
+			if (other.email != null) {
 				return false;
-		} else if (!surname.equals(other.surname))
+			}
+		} else if (!email.equals(other.email)) {
 			return false;
+		}
+				
+		if (projects == null) {
+			if (other.projects != null) {
+				return false;
+			}
+		} else if (!projects.equals(other.projects)) {
+			return false;
+		}
+		
+		if (roles == null) {
+			if (other.roles != null) {
+				return false;
+			}
+		} else if (!roles.equals(other.roles)) {
+			return false;
+		}
+
 		return true;
 	}
 

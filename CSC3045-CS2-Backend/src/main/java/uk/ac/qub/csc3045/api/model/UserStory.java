@@ -13,7 +13,7 @@ public class UserStory {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Long Id;
+	private Long id;
 
 	private String name;
 
@@ -45,11 +45,11 @@ public class UserStory {
 	}
 
 	public Long getId() {
-		return Id;
+		return id;
 	}
 
 	public void setId(Long id) {
-		Id = id;
+		this.id = id;
 	}
 
 	public String getName() {
@@ -123,7 +123,15 @@ public class UserStory {
 		}
 		
 		UserStory other = (UserStory) obj;
-		
+	      
+		if (id == null) {
+		    if (other.name != null) {
+		        return false;
+		    }
+		} else if (!id.equals(other.id)) {
+		    return false;
+		}
+          
 		if (name == null) {
 			if (other.name != null) {
 				return false;

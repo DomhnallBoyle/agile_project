@@ -136,37 +136,58 @@ public class Project {
 		
 		Project other = (Project) obj;
 		
+		if (id == null) {
+            if (other.id != null) {
+                return false;
+            }
+        } else if (!id.equals(other.id)) {
+            return false;
+        }
+		
 		if (name == null) {
-			if (other.name != null)
+			if (other.name != null) {
 				return false;
+			}
 		} else if (!name.equals(other.name)) {
 			return false;
 		}
 		
+        if (description == null) {
+            if (other.description != null) {
+                return false;
+            }
+        } else if (!description.equals(other.description)) {
+            return false;
+        }
+		
 		if (manager == null) {
-			if (other.manager != null)
+			if (other.manager != null) {
 				return false;
+			}
 		} else if (!manager.equals(other.manager)) {
 			return false;
 		}
-		
-		if (description == null) {
-			if (other.description != null)
-				return false;
-		} else if (!description.equals(other.description)) {
-			return false;
-		}
-		
+
 		if (productOwner == null) {
-			if (other.productOwner != null)
+			if (other.productOwner != null) {
 				return false;
+			}
 		} else if (!productOwner.equals(other.productOwner)) {
 			return false;
 		}
 		
+		if (scrumMaster == null) {
+            if (other.scrumMaster != null) {
+                return false;
+            }
+        } else if (!scrumMaster.equals(other.scrumMaster)) {
+            return false;
+        }
+		
 		if (users == null) {
-			if (other.users != null)
+			if (other.users != null) {
 				return false;
+			}
 		} else {
 			for (User user : users) {
 				if (!other.users.contains(user)) {

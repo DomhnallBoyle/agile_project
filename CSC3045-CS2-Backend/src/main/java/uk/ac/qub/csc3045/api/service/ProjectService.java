@@ -44,9 +44,8 @@ public class ProjectService {
             }
 
             return newProject;
-
         } catch (DataIntegrityViolationException e) {
-            throw new ResponseErrorException("Project or User does not exist", HttpStatus.NOT_FOUND);
+            throw new ResponseErrorException("Project Manager does not exist in the database", HttpStatus.NOT_FOUND);
         }
 
     }
@@ -110,7 +109,7 @@ public class ProjectService {
         if (ValidationUtility.validateProjectExists(projectId, mapper)) {
             return mapper.getUsersOnProject(projectId);
         }
-        throw new ResponseErrorException("Project with specified ID does not exist", HttpStatus.NOT_FOUND);
+        throw new ResponseErrorException("Project does not exist", HttpStatus.NOT_FOUND);
     }
 
 }

@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Random;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -31,7 +32,6 @@ public class UserStoryControllerIT {
 	
 	private Account account;
 	private List<UserStory> backlog;
-	private UserStory userStory;
 
 	private String projectDoesNotExist = "Project does not exist";
 	private String projectUserStoriesDontMatch = "These User Stories don't exist on the given Project";
@@ -41,13 +41,10 @@ public class UserStoryControllerIT {
 	public void setup() throws IOException {
 		requestHelper = new RequestHelper();
 		
-		User user = new User("Forename", "Surname", "fake_email@hotmail.com", new Roles());
-		account = new Account(user, "Username1", "Password1");
-		userStory = new UserStory("Create UI", "Create UI using WPF", 10, 200, false, new Project(1));
-		
-		authHeader = requestHelper.GetAuthHeader(account);
-		
-		setupBacklog();
+		setupTestAccount();
+	    setupBacklog();
+
+		authHeader = requestHelper.getAuthHeader(account);
 	}
 
 	/*
@@ -55,28 +52,33 @@ public class UserStoryControllerIT {
 	 */
 	@Test
 	public void createUserStoryShouldReturn201() {
-		Response r = requestHelper.SendPostRequestWithAuthHeader(STORY_BASE_PATH, authHeader, userStory);
+	    UserStory newStory = new UserStory("NewStory", "NewStoryDescription", 3, 30, false, new Project(2));
+	    
+		Response r = requestHelper.sendPostRequestWithAuthHeader(STORY_BASE_PATH, authHeader, newStory);
 		assertEquals(201, r.statusCode());
-		assertEquals(userStory.getName(), r.getBody().as(UserStory.class).getName());
+		assertEquals(newStory.getName(), r.getBody().as(UserStory.class).getName());
 	}
 	
 	@Test
 	public void getUserStoryByIdShouldReturn200() {
-		Response r = requestHelper.SendGetRequestWithAuthHeader(STORY_BASE_PATH + "/1", authHeader);
+		Response r = requestHelper.sendGetRequestWithAuthHeader(STORY_BASE_PATH + "/" + backlog.get(0).getId(), authHeader);
+		
 		assertEquals(200, r.statusCode());
-		assertEquals("Light Wildfire", r.getBody().as(UserStory.class).getName());
+		assertTrue(backlog.get(0).equals(r.getBody().as(UserStory.class)));
 	}
 	
 	@Test
 	public void getUserStoriesShouldReturn200() {
-		Response r = requestHelper.SendGetRequestWithAuthHeader(GET_STORIES_PATH + "/2", authHeader);
+		Response r = requestHelper.sendGetRequestWithAuthHeader(GET_STORIES_PATH + "/1", authHeader);
 		List<UserStory> userStories = Arrays.asList(r.getBody().as(UserStory[].class));
 
 		assertEquals(200, r.statusCode());
-		assertEquals(3, userStories.size());
-		for (int i=0; i<userStories.size(); i++) {
-			assertEquals(userStories.get(i).getProject().getId().intValue(), 2);
-			assertTrue(userStories.get(i).getName().contains("Wildfire"));
+		assertEquals(backlog.size(), userStories.size());
+		for (int i = 0; i < userStories.size(); i++) {
+		    assertTrue(backlog.get(i).equals(userStories.get(i)));
+		    
+//			assertEquals(userStories.get(i).getProject().getId().intValue(), 2);
+//			assertTrue(userStories.get(i).getName().contains("Wildfire"));
 		}
 	}
 	
@@ -84,7 +86,7 @@ public class UserStoryControllerIT {
 	public void updateBacklogOrderShouldReturn200() {
 		Collections.shuffle(backlog);
 		
-		Response r = requestHelper.SendPutRequestWithAuthHeader(UPDATE_BACKLOG_PATH, authHeader, backlog);
+		Response r = requestHelper.sendPutRequestWithAuthHeader(UPDATE_BACKLOG_PATH, authHeader, backlog);
 		List<UserStory> returnedBacklog = Arrays.asList(r.getBody().as(UserStory[].class));
 		
 		assertEquals(200, r.statusCode());
@@ -98,7 +100,7 @@ public class UserStoryControllerIT {
 	 */
 	@Test
 	public void getUserStoryByIdDoesNotExistShouldReturn404() {
-		Response r = requestHelper.SendGetRequestWithAuthHeader(STORY_BASE_PATH + "/100", authHeader);
+		Response r = requestHelper.sendGetRequestWithAuthHeader(STORY_BASE_PATH + "/100", authHeader);
 		
 		assertEquals(404, r.statusCode());
 		assertEquals(userStoryDoesNotExist, r.body().asString());
@@ -106,9 +108,9 @@ public class UserStoryControllerIT {
 	
 	@Test
 	public void createUserStoryProjectDoesNotExistShouldReturn404() {
-		userStory.getProject().setId(100L);
+	    UserStory newStory = new UserStory("NewStory", "NewStoryDescription", 3, 30, false, new Project(100));
 		
-		Response r = requestHelper.SendPostRequestWithAuthHeader(STORY_BASE_PATH, authHeader, userStory);
+		Response r = requestHelper.sendPostRequestWithAuthHeader(STORY_BASE_PATH, authHeader, newStory);
 		
 		assertEquals(404, r.statusCode());
 		assertEquals(projectDoesNotExist, r.body().asString());
@@ -116,7 +118,7 @@ public class UserStoryControllerIT {
 	
 	@Test
 	public void getAllStoriesProjectDoesNotExistShouldReturn404() {
-		Response r = requestHelper.SendGetRequestWithAuthHeader(GET_STORIES_PATH + "/100", authHeader);
+		Response r = requestHelper.sendGetRequestWithAuthHeader(GET_STORIES_PATH + "/100", authHeader);
 
 		assertEquals(404, r.statusCode());
 		assertEquals(projectDoesNotExist, r.body().asString());
@@ -126,7 +128,7 @@ public class UserStoryControllerIT {
 	public void updateBacklogOrderProjectDoesNotExistShouldReturn404() {
 		backlog.get(0).getProject().setId(100L);
 		
-		Response r = requestHelper.SendPutRequestWithAuthHeader(UPDATE_BACKLOG_PATH, authHeader, backlog);
+		Response r = requestHelper.sendPutRequestWithAuthHeader(UPDATE_BACKLOG_PATH, authHeader, backlog);
 		
 		assertEquals(404, r.statusCode());
 		assertEquals(projectDoesNotExist, r.body().asString());
@@ -136,36 +138,61 @@ public class UserStoryControllerIT {
 	public void updateBacklogOrderProjectDoesNotContainUserStoriesShouldReturn404() {
 		backlog.get(0).getProject().setId(2L);
 		
-		Response r = requestHelper.SendPutRequestWithAuthHeader(UPDATE_BACKLOG_PATH, authHeader, backlog);
+		Response r = requestHelper.sendPutRequestWithAuthHeader(UPDATE_BACKLOG_PATH, authHeader, backlog);
 		
 		assertEquals(404, r.statusCode());
 		assertEquals(projectUserStoriesDontMatch, r.body().asString());
 	}
 	
 	private void setupBacklog() {	
-		Roles roles = new Roles();		
-		User user = new User("Daenerys", "Targaryen", "dany.targaryen@got.wes", roles);
-		
-		Project project = new Project();
-		project.setId(1L);
-		project.setName("Winter is Coming");
-		project.setDescription("Defend Westeros from the White Walkers");
-		project.setManager(user);
-		project.setProductOwner(user);
-		
-		UserStory story1 = new UserStory("Defend the Nights Watch", "The wall must be defended", 15, 40, false, project);
-		story1.setId(4L);
-		story1.setIndex(0);
-		UserStory story2 = new UserStory("Kill wights", "Wights must be burned", 10, 21, false, project);
-		story2.setId(5L);
-		story2.setIndex(1);
-		UserStory story3 = new UserStory("Kill White Walkers", "Walkers must be killed with dragonglass", 5, 30, false, project);
-		story3.setId(6L);
-		story3.setIndex(2);
-		
+	    User existingUser = new User("Forename1", "Surname1", "user1@email.com", new Roles(false, false, false));
+	    
+	    List<User> users = new ArrayList<>();
+        users.add(existingUser);
+        Project existingProject = new Project("ProjectName1", "Project Description1", existingUser, existingUser, existingUser, users, new ArrayList<UserStory>());
+        existingProject.setId(1L);
+	    
+        UserStory story1 = new UserStory("StoryName1", "StoryDescription1", 1, 10, false, existingProject);
+        story1.setId(1L);
+        story1.setIndex(0);
+        UserStory story2 = new UserStory("StoryName2", "StoryDescription2", 3, 15, false, existingProject);
+        story2.setId(2L);
+        story2.setIndex(1);
+        UserStory story3 = new UserStory("StoryName3", "StoryDescription3", 5, 25, false, existingProject);
+        story3.setId(3L);
+        story3.setIndex(2);
+        UserStory story4 = new UserStory("StoryName4", "StoryDescription4", 7, 30, false, existingProject);
+        story4.setId(4L);
+        story4.setIndex(3);
+        		
 		backlog = new ArrayList<>();
 		backlog.add(story1);
 		backlog.add(story2);
 		backlog.add(story3);
+		backlog.add(story4);
 	}
+	
+    private void setupTestAccount() {
+        Roles validRoles = new Roles();
+        User validUser = new User("Forename", "Surname", generateEmail(), validRoles);
+        account = new Account(validUser, generateUsername(), "Password1");
+    }
+
+    /**
+     * Generates a random username
+     * @return the username generated
+     */
+    private String generateUsername() {
+        Random random = new Random();
+        return "test" + random.nextInt(5000);
+    }
+
+    /**
+     * Generates a random email
+     * @return the email generated
+     */
+    private String generateEmail() {
+        Random random = new Random();
+        return "testing" + random.nextInt(5000) + "@testing.com";
+    }
 }
