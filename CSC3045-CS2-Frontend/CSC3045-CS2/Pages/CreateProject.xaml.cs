@@ -78,9 +78,9 @@ namespace CSC3045_CS2.Pages
                         _client.CreateProject(project);
                         MessageBox.Show("Project creation successful!");
 
-                        Page projectDashboard = new UserDashboard();
+                        Page userDashboard = new UserDashboard();
 
-                        NavigationService.GetNavigationService(this).Navigate(projectDashboard);
+                        NavigationService.GetNavigationService(this).Navigate(userDashboard);
                     }
                     catch (RestResponseErrorException ex)
                     {

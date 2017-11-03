@@ -34,7 +34,7 @@ public class UserStory {
 
 	}
 
-	public UserStory(String name, String description, int points, Integer marketValue, Boolean assigned,
+	public UserStory(String name, String description, Integer points, Integer marketValue, Boolean assigned,
 					 Project project) {
 		this.name = name;
 		this.description = description;
