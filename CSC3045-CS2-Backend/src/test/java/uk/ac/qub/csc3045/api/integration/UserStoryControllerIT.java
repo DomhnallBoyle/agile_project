@@ -76,9 +76,6 @@ public class UserStoryControllerIT {
 		assertEquals(backlog.size(), userStories.size());
 		for (int i = 0; i < userStories.size(); i++) {
 		    assertTrue(backlog.get(i).equals(userStories.get(i)));
-		    
-//			assertEquals(userStories.get(i).getProject().getId().intValue(), 2);
-//			assertTrue(userStories.get(i).getName().contains("Wildfire"));
 		}
 	}
 	
