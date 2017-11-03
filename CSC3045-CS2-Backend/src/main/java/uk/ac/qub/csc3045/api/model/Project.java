@@ -25,33 +25,37 @@ public class Project {
 	@OneToOne
 	private User productOwner;
 
+    @OneToOne
+    private User scrumMaster;
+
 	@ManyToMany
 	@JoinTable(
 			name = "PROJECT_USER", 
 			joinColumns = @JoinColumn(name = "PROJECT_ID", referencedColumnName = "ID"), 
 			inverseJoinColumns = @JoinColumn(name = "USER_ID", referencedColumnName = "ID"))
 	private List<User> users;
-	
+
     @OneToMany(mappedBy = "project")
     private List<UserStory>userStories;
 
 	public Project() {
 
 	}
-	
+
 	public Project(long id) {
 		this.id = id;
 	}
 
-    public Project(String name, String description, User manager, User productOwner, List<User>users, List<UserStory> userStories) {
-    	this.name = name;
-    	this.description = description;
-    	this.manager = manager;
-    	this.productOwner = productOwner;
-    	this.users = users;
-    	this.userStories = userStories;
-    }
-    
+	public Project(String name, String description, User manager, User productOwner, User scrumMaster, List<User> users, List<UserStory> userStories) {
+		this.name = name;
+		this.description = description;
+		this.manager = manager;
+		this.productOwner = productOwner;
+        this.scrumMaster = scrumMaster;
+		this.users = users;
+        this.userStories = userStories;
+	}
+	
 	public Long getId() {
 		return id;
 	}
@@ -92,7 +96,15 @@ public class Project {
 		this.productOwner = productOwner;
 	}
 
-	public List<User> getUsers() {
+    public User getScrumMaster() {
+        return scrumMaster;
+    }
+
+    public void setScrumMaster(User scrumMaster) {
+        this.scrumMaster = scrumMaster;
+    }
+
+    public List<User> getUsers() {
 		return users;
 	}
 
@@ -103,11 +115,11 @@ public class Project {
 	public List<UserStory> getUserStories() {
 		return userStories;
 	}
-	
+
 	public void setUserStories(List<UserStory> userStories) {
 		this.userStories = userStories;
 	}
-	
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj) {

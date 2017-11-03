@@ -27,7 +27,7 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
         this.mapper = mapper;
     }
 
-    //configures security filters, SIGN_UP_URL and LOGIN_URL are allowed to be hit with no token, all other endpoints must receive a token that is 
+    //configures security filters, SIGN_UP_URL and LOGIN_URL are allowed to be hit with no token, all other endpoints must receive a token that is
     //checked by the authorization filter
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -53,7 +53,7 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
       source.registerCorsConfiguration("/**", configuration);
     return source;
   }
-  
+
   @Bean
   public JWTAuthenticationFilter getJWTAuthenticationFilter() throws Exception {
       final JWTAuthenticationFilter filter = new JWTAuthenticationFilter(authenticationManager(), mapper);

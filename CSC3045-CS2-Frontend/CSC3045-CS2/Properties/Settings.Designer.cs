@@ -26,5 +26,7 @@ namespace CSC3045_CS2.Properties
                 return defaultInstance;
             }
         }
+
+        public string AuthToken { get; internal set; }
     }
 }

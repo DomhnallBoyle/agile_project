@@ -10,6 +10,7 @@
         <result column="description" property="description"/>
         <association property="manager" column="manager_id" javaType="User" select="selectManager"/>
         <association property="productOwner" column="product_owner_id" javaType="User" select="selectProductOwner"/>
+        <association property="scrumMaster" column="scrum_master_id" javaType="User" select="selectScrumMaster"/>
         <collection property="users" javaType="List" resultMap="userResultMap"/>
         <collection property="userStories" javaType="List" resultMap="uk.ac.qub.csc3045.api.mapper.UserStoryMapper.userStoryResultMap"/>
     </resultMap>
@@ -39,12 +40,21 @@
             name = #{name}, 
             description = #{description}, 
             manager_id = #{manager.id}, 
-            product_owner_id = #{productOwner.id}
+            product_owner_id = #{productOwner.id},
+            scrum_master_id = #{scrumMaster.id}
         WHERE id = #{id};
     </update>
     
     <select id="getProjectById" resultMap="projectResultMap">
     	SELECT * FROM PROJECT WHERE id = #{id}
+    </select>
+
+    <select id="getProjectsForUser" resultMap="projectResultMap">
+        SELECT *
+        FROM PROJECT
+          LEFT JOIN PROJECT_USER ON PROJECT.ID = PROJECT_USER.PROJECT_ID
+        WHERE USER_ID = #{userId}
+          OR MANAGER_ID = #{userId}
     </select>
     
     <select id="selectManager" resultMap="userResultMap">
@@ -57,6 +67,12 @@
     	SELECT * FROM USER
     	JOIN roles ON roles_id = roles.id
     	WHERE user.id = #{project.product_owner_id}
+    </select>
+
+    <select id="selectScrumMaster" resultMap="userResultMap">
+        SELECT * FROM USER
+        JOIN roles ON roles_id = roles.id
+        WHERE user.id = #{project.scrum_master_id}
     </select>
 
     <select id="getUsersOnProject" resultMap="userResultMap">
