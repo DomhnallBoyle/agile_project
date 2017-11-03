@@ -15,8 +15,8 @@
     </resultMap>
 
    	<insert id="createUserStory" parameterType="UserStory" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
-        INSERT INTO user_story(name, description, points, market_value, assigned, project_id)
-        VALUES(#{name}, #{description}, #{points}, #{marketValue}, #{assigned},#{project.id} )
+        INSERT INTO user_story(name, description, index, points, market_value, assigned, project_id)
+        VALUES(#{name}, #{description}, #{index}, #{points}, #{marketValue}, #{assigned},#{project.id} )
     </insert>
     
     <select id="getUserStoryById" resultMap="userStoryResultMap">

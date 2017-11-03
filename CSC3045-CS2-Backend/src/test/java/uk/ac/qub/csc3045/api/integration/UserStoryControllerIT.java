@@ -35,6 +35,7 @@ public class UserStoryControllerIT {
 		User user = new User("Forename", "Surname", "fake_email@hotmail.com", new Roles());
 		account = new Account(user, "Username1", "Password1");
 		userStory = new UserStory("Create UI", "Create UI using WPF", 10, 200, false, new Project(1));
+		userStory.setIndex(6);
 	}
 
 	/*
