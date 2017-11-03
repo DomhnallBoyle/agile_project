@@ -24,9 +24,14 @@ public class ProjectService {
 	}
 
 	public Project create(Project project) {
-		mapper.createProject(project);
-
-		return mapper.getProjectById(project.getId());
+		try {
+			mapper.createProject(project);
+			return mapper.getProjectById(project.getId());
+			
+		} catch (DataIntegrityViolationException e) {
+			throw new ResponseErrorException("Project or User does not exist", HttpStatus.NOT_FOUND);
+		}
+		
 	}
 
 	public Project update(Project project) {
