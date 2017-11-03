@@ -69,7 +69,7 @@ namespace CSC3045_CS2.Pages
                 {
                     Content = "Go to Project",
                     Command = GoToCommand,
-                    CommandParameter = i
+                    CommandParameter = _projectList[i]
                 };
 
                 ProjectNamePanel.Children.Add(_projectName);
@@ -103,8 +103,8 @@ namespace CSC3045_CS2.Pages
                 {
                     try
                     {
-                        var projectIndex = (int) param;
-                        Page projectDashboardPage = new ProjectDashboard(_projectList, projectIndex);
+                        var selectedProject = (Project) param;
+                        Page projectDashboardPage = new ProjectDashboard(selectedProject);
 
                         NavigationService.GetNavigationService(this).Navigate(projectDashboardPage);
                     }

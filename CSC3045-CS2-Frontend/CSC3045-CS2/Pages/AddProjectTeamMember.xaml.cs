@@ -153,7 +153,7 @@ namespace CSC3045_CS2.Pages
                         _projectClient.Add(_addedTeamMembers, _currentProject);
                         List<Project> projects = new List<Project>();
                         projects.Add(_currentProject);
-                        Page projectDashboard = new ProjectDashboard(projects, 0);
+                        Page projectDashboard = new ProjectDashboard(_currentProject);
                         NavigationService.GetNavigationService(this).Navigate(projectDashboard);
                     }
                     catch (RestResponseErrorException ex)
