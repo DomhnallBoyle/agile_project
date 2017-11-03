@@ -263,16 +263,15 @@ public class AuthenticationControllerIT {
 	/**
 	 * Successful Authorization Tests
 	 */
-	// TODO: Change endpoint to get projects
-	// @Test
-	// public void successfulAuthorizationShouldReturn200() {
-	// request.SendPostRequest(REGISTER_PATH, account);
-	// Response r = request.SendPostRequest(LOGIN_PATH, account);
-	// String authHeader = r.getHeader("Authorization");
-	//
-	// r = request.SendGetRequestWithAuthHeader("/project", authHeader);
-	// r.then().assertThat().statusCode(200);
-	// }
+	 @Test
+	 public void successfulAuthorizationShouldNotReturn403() {
+		 request.SendPostRequest(REGISTER_PATH, account);
+		 Response r = request.SendPostRequest(LOGIN_PATH, account);
+		 String authHeader = r.getHeader("Authorization");
+		
+		 r = request.SendGetRequestWithAuthHeader("/project/1", authHeader);
+		 assertFalse(r.statusCode() == 403);
+	 }
 
 	/**
 	 * Unsuccessful Authorization Tests
