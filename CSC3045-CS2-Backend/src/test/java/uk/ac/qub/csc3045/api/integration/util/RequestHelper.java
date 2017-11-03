@@ -22,14 +22,14 @@ public class RequestHelper {
         RestAssured.basePath = environmentProperties.getProperty("basePath");
     }
     
-    public String GetAuthHeader(Account account) {
-    	SendPostRequest("/authentication/register", account);
-    	Response r = SendPostRequest("/authentication/login", account);
+    public String getAuthHeader(Account account) {
+    	sendPostRequest("/authentication/register", account);
+    	Response r = sendPostRequest("/authentication/login", account);
     	
     	return r.getHeader("Authorization");
     }
 
-    public Response SendGetRequest(String target){
+    public Response sendGetRequest(String target){
         Response r =
                 given().log().everything(true).
                         when().get(target).
@@ -38,7 +38,7 @@ public class RequestHelper {
         return r;
     }
     
-    public Response SendGetRequestWithAuthHeader(String target, String authHeader){
+    public Response sendGetRequestWithAuthHeader(String target, String authHeader){
         Response r =
                 given().log().everything(true).
                 		headers("Authorization", authHeader).
@@ -49,7 +49,7 @@ public class RequestHelper {
         return r;
     }
 
-    public Response SendDeleteRequest(String target){
+    public Response sendDeleteRequest(String target){
         Response r = given().log().everything(true).
                 contentType(MediaType.TEXT_PLAIN_VALUE).
                 when().
@@ -60,7 +60,7 @@ public class RequestHelper {
         return r;
     }
 
-    public Response SendPostRequest(String target, Object body){
+    public Response sendPostRequest(String target, Object body){
         Response r  = given().log().everything(true).
                 contentType("application/json").
                 when().
@@ -72,7 +72,7 @@ public class RequestHelper {
         return r;
     }
     
-    public Response SendPostRequestWithAuthHeader(String target, String authHeader, Object body){
+    public Response sendPostRequestWithAuthHeader(String target, String authHeader, Object body){
         Response r  = given().log().everything(true).
                 contentType("application/json").
                 headers("Authorization", authHeader).
@@ -85,7 +85,7 @@ public class RequestHelper {
         return r;
     }
     
-    public Response SendPutRequestWithAuthHeader(String target, String authHeader, Object body) {
+    public Response sendPutRequestWithAuthHeader(String target, String authHeader, Object body) {
     	Response r = given().log().everything(true).
     			contentType("application/json").
     			headers("Authorization", authHeader).

@@ -55,33 +55,52 @@ public class Roles {
 
 	@Override
 	public boolean equals(Object obj) {
-		if (this == obj)
+		if (this == obj) {
 			return true;
-		if (obj == null)
+		}
+		
+		if (obj == null) {
 			return false;
-		if (getClass() != obj.getClass())
+		}
+		
+		if (getClass() != obj.getClass()) {
 			return false;
+		}
+		
 		Roles other = (Roles) obj;
+		
 		if (developer == null) {
-			if (other.developer != null)
+			if (other.developer != null) {
 				return false;
-		} else if (!developer.equals(other.developer))
+			}
+		} else if (!developer.equals(other.developer)) {
 			return false;
+		}
+		
 		if (id == null) {
-			if (other.id != null)
+			if (other.id != null) {
 				return false;
-		} else if (!id.equals(other.id))
+			}
+		} else if (!id.equals(other.id)) {
 			return false;
+		}
+		
 		if (productOwner == null) {
-			if (other.productOwner != null)
+			if (other.productOwner != null) {
 				return false;
-		} else if (!productOwner.equals(other.productOwner))
+			}
+		} else if (!productOwner.equals(other.productOwner)) {
 			return false;
+		}
+		
 		if (scrumMaster == null) {
-			if (other.scrumMaster != null)
+			if (other.scrumMaster != null) {
 				return false;
-		} else if (!scrumMaster.equals(other.scrumMaster))
+			}
+		} else if (!scrumMaster.equals(other.scrumMaster)) {
 			return false;
+		}
+		
 		return true;
 	}
 	

@@ -37,7 +37,7 @@ public class AuthenticationControllerIT {
 	 */
 	@Test
 	public void registerAccountShouldReturn201() throws Exception {
-		Response r = request.SendPostRequest(REGISTER_PATH, account);
+		Response r = request.sendPostRequest(REGISTER_PATH, account);
 		
 		assertEquals(account.getUsername(), r.getBody().as(Account.class).getUsername());
 		r.then().assertThat().statusCode(201);
@@ -49,7 +49,7 @@ public class AuthenticationControllerIT {
 		newRoles.setProductOwner(true);
 		account.getUser().setRoles(newRoles);
 		
-		Response r = request.SendPostRequest(REGISTER_PATH, account);
+		Response r = request.sendPostRequest(REGISTER_PATH, account);
 		
 		assertEquals(account.getUsername(), r.getBody().as(Account.class).getUsername());
 		r.then().assertThat().statusCode(201);
@@ -61,7 +61,7 @@ public class AuthenticationControllerIT {
 		newRoles.setScrumMaster(true);
 		account.getUser().setRoles(newRoles);
 		
-		Response r = request.SendPostRequest(REGISTER_PATH, account);
+		Response r = request.sendPostRequest(REGISTER_PATH, account);
 		
 		assertEquals(account.getUsername(), r.getBody().as(Account.class).getUsername());
 		r.then().assertThat().statusCode(201);
@@ -73,7 +73,7 @@ public class AuthenticationControllerIT {
 		newRoles.setDeveloper(true);
 		account.getUser().setRoles(newRoles);
 		
-		Response r = request.SendPostRequest(REGISTER_PATH, account);
+		Response r = request.sendPostRequest(REGISTER_PATH, account);
 		
 		assertEquals(account.getUsername(), r.getBody().as(Account.class).getUsername());
 		r.then().assertThat().statusCode(201);
@@ -87,7 +87,7 @@ public class AuthenticationControllerIT {
 		newRoles.setDeveloper(true);
 		account.getUser().setRoles(newRoles);
 		
-		Response r = request.SendPostRequest(REGISTER_PATH, account);
+		Response r = request.sendPostRequest(REGISTER_PATH, account);
 
 		assertEquals(account.getUsername(), r.getBody().as(Account.class).getUsername());
 		r.then().assertThat().statusCode(201);
@@ -100,7 +100,7 @@ public class AuthenticationControllerIT {
 	public void missingUsernameShouldReturn400() {
 		account.setUsername(null);
 
-		Response r = request.SendPostRequest(REGISTER_PATH, account);
+		Response r = request.sendPostRequest(REGISTER_PATH, account);
 
 		r.then().assertThat().statusCode(400);
 	}
@@ -109,7 +109,7 @@ public class AuthenticationControllerIT {
 	public void missingPasswordShouldReturn400() {
 		account.setPassword(null);
 
-		Response r = request.SendPostRequest(REGISTER_PATH, account);
+		Response r = request.sendPostRequest(REGISTER_PATH, account);
 
 		r.then().assertThat().statusCode(400);
 	}
@@ -118,7 +118,7 @@ public class AuthenticationControllerIT {
 	public void missingEmailShouldReturn400() {
 		account.getUser().setEmail(null);
 
-		Response r = request.SendPostRequest(REGISTER_PATH, account);
+		Response r = request.sendPostRequest(REGISTER_PATH, account);
 
 		r.then().assertThat().statusCode(400);
 	}
@@ -127,7 +127,7 @@ public class AuthenticationControllerIT {
 	public void missingForenameShouldReturn400() {
 		account.getUser().setForename(null);
 
-		Response r = request.SendPostRequest(REGISTER_PATH, account);
+		Response r = request.sendPostRequest(REGISTER_PATH, account);
 
 		r.then().assertThat().statusCode(400);
 	}
@@ -136,7 +136,7 @@ public class AuthenticationControllerIT {
 	public void missingSurnameShouldReturn400() {
 		account.getUser().setSurname(null);
 
-		Response r = request.SendPostRequest(REGISTER_PATH, account);
+		Response r = request.sendPostRequest(REGISTER_PATH, account);
 
 		r.then().assertThat().statusCode(400);
 	}
@@ -145,7 +145,7 @@ public class AuthenticationControllerIT {
 	public void missingUserShouldReturn400() {
 		account.setUser(null);
 
-		Response r = request.SendPostRequest(REGISTER_PATH, account);
+		Response r = request.sendPostRequest(REGISTER_PATH, account);
 
 		r.then().assertThat().statusCode(400);
 	}
@@ -157,7 +157,7 @@ public class AuthenticationControllerIT {
 	public void invalidUsernameShouldReturn400() {
 		account.setUsername("sh");
 
-		Response r = request.SendPostRequest(REGISTER_PATH, account);
+		Response r = request.sendPostRequest(REGISTER_PATH, account);
 
 		assertEquals(invalidUsernameErrorMessage, r.body().asString());
 		r.then().assertThat().statusCode(400);
@@ -167,7 +167,7 @@ public class AuthenticationControllerIT {
 	public void invalidEmailShouldReturn400() {
 		account.getUser().setEmail("wrong");
 
-		Response r = request.SendPostRequest(REGISTER_PATH, account);
+		Response r = request.sendPostRequest(REGISTER_PATH, account);
 
 		assertEquals(invalidEmailErrorMessage, r.body().asString());
 		r.then().assertThat().statusCode(400);
@@ -177,7 +177,7 @@ public class AuthenticationControllerIT {
 	public void invalidPasswordShouldReturn400() {
 		account.setPassword("a");
 
-		Response r = request.SendPostRequest(REGISTER_PATH, account);
+		Response r = request.sendPostRequest(REGISTER_PATH, account);
 
 		assertEquals(invalidPasswordErrorMessage, r.body().asString());
 		r.then().assertThat().statusCode(400);
@@ -189,7 +189,7 @@ public class AuthenticationControllerIT {
 		account.getUser().setEmail("wrong");
 		account.setUsername("sh");
 
-		Response r = request.SendPostRequest(REGISTER_PATH, account);
+		Response r = request.sendPostRequest(REGISTER_PATH, account);
 
 		assertTrue(r.body().asString().contains(invalidUsernameErrorMessage));
 		assertTrue(r.body().asString().contains(invalidEmailErrorMessage));
@@ -202,8 +202,8 @@ public class AuthenticationControllerIT {
 	 */
 	@Test
 	public void registerExistingAccountShouldReturn409() {
-		request.SendPostRequest(REGISTER_PATH, account);
-		Response r = request.SendPostRequest(REGISTER_PATH, account);
+		request.sendPostRequest(REGISTER_PATH, account);
+		Response r = request.sendPostRequest(REGISTER_PATH, account);
 
 		assertEquals(usernameConflictErrorMessage, r.body().asString());
 		r.then().assertThat().statusCode(409);
@@ -211,10 +211,10 @@ public class AuthenticationControllerIT {
 
 	@Test
 	public void registerExistingEmailShouldReturn409() {
-		request.SendPostRequest(REGISTER_PATH, account);
+		request.sendPostRequest(REGISTER_PATH, account);
 		account.setUsername(generateUsername());
 
-		Response r = request.SendPostRequest(REGISTER_PATH, account);
+		Response r = request.sendPostRequest(REGISTER_PATH, account);
 
 		assertEquals(emailConflictErrorMessage, r.body().asString());
 		r.then().assertThat().statusCode(409);
@@ -225,16 +225,16 @@ public class AuthenticationControllerIT {
 	 */
 	@Test
 	public void loginShouldReturn200() {
-		request.SendPostRequest(REGISTER_PATH, account);
+	    Account existingAccount = new Account(new User("Forename1", "Surname1", "user1@email.com", new Roles(false, false, false)), "Username1", "Passw0rd1");
 
-		Response r = request.SendPostRequest(LOGIN_PATH, account);
-		User returnedUser = r.body().jsonPath().getObject("", User.class);
+		Response r = request.sendPostRequest(LOGIN_PATH, existingAccount);
+		User returnedUser = r.getBody().as(User.class);
 
 		r.then().assertThat().statusCode(200);
 		assertTrue(r.getHeader("Authorization").matches("Bearer [a-zA-Z0-9_-]+.[a-zA-Z0-9_-]+.[a-zA-Z0-9_-]+"));
-		account.getUser().setId(returnedUser.getId());
-		account.getUser().getRoles().setId(returnedUser.getRoles().getId());
-		assertTrue(account.getUser().equals(returnedUser));
+		existingAccount.getUser().setId(returnedUser.getId());
+		existingAccount.getUser().setRoles(returnedUser.getRoles());
+		assertTrue(existingAccount.getUser().equals(returnedUser));
 	}
 
 	/**
@@ -243,7 +243,7 @@ public class AuthenticationControllerIT {
 	@Test
 	public void loginMissingUsernameShouldReturn401() {
 		account.setPassword(null);
-		Response r = request.SendPostRequest(LOGIN_PATH, account);
+		Response r = request.sendPostRequest(LOGIN_PATH, account);
 
 		assertTrue(r.body().asString().contains(loginBadCredentials));
 		r.then().assertThat().statusCode(401);
@@ -253,7 +253,7 @@ public class AuthenticationControllerIT {
 	@Test
 	public void loginMissingPasswordShouldReturn401() {
 		account.setPassword(null);
-		Response r = request.SendPostRequest(LOGIN_PATH, account);
+		Response r = request.sendPostRequest(LOGIN_PATH, account);
 
 		assertTrue(r.body().asString().contains(loginBadCredentials));
 		r.then().assertThat().statusCode(401);
@@ -265,11 +265,11 @@ public class AuthenticationControllerIT {
 	 */
 	 @Test
 	 public void successfulAuthorizationShouldNotReturn403() {
-		 request.SendPostRequest(REGISTER_PATH, account);
-		 Response r = request.SendPostRequest(LOGIN_PATH, account);
+	     Account existingAccount = new Account(new User("Forename1", "Surname1", "user1@gmail.com", new Roles(false, false, false)), "Username1", "Passw0rd1");
+		 Response r = request.sendPostRequest(LOGIN_PATH, existingAccount);
 		 String authHeader = r.getHeader("Authorization");
 		
-		 r = request.SendGetRequestWithAuthHeader("/project/1", authHeader);
+		 r = request.sendGetRequestWithAuthHeader("/project/1", authHeader);
 		 assertFalse(r.statusCode() == 403);
 	 }
 
@@ -278,7 +278,7 @@ public class AuthenticationControllerIT {
 	 */
 	@Test
 	public void unsuccessfulGetAuthorizationShouldReturn403() {
-		Response r = request.SendGetRequest("/project");
+		Response r = request.sendGetRequest("/project");
 
 		assertTrue(r.body().asString().contains("Access Denied"));
 		r.then().assertThat().statusCode(403);
@@ -286,7 +286,7 @@ public class AuthenticationControllerIT {
 
 	@Test
 	public void unsuccessfulPostAuthorizationShouldReturn403() {
-		Response r = request.SendPostRequest("/project", account);
+		Response r = request.sendPostRequest("/project", account);
 
 		assertTrue(r.body().asString().contains("Access Denied"));
 		r.then().assertThat().statusCode(403);

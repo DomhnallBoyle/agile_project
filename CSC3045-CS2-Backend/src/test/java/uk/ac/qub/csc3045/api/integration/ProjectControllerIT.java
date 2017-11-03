@@ -1,8 +1,6 @@
 package uk.ac.qub.csc3045.api.integration;
 
 import static org.junit.Assert.*;
-import static org.springframework.web.bind.annotation.RequestMethod.GET;
-import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -10,15 +8,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
-import javax.validation.Valid;
-
 import org.junit.Before;
 import org.junit.Test;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 import io.restassured.response.Response;
 import uk.ac.qub.csc3045.api.integration.util.RequestHelper;
@@ -29,23 +20,26 @@ import uk.ac.qub.csc3045.api.model.User;
 import uk.ac.qub.csc3045.api.model.UserStory;
 
 public class ProjectControllerIT {
+    
 	private Account account;
-	private RequestHelper request;
-	private Project validProject;
+	private Project existingProject;
+	private RequestHelper requestHelper;
 	private String authHeader;
-	public static final String BASE_PATH = "/projects";
-	public static final String AUTHENTICATION_PATH = "/authentication";
-	public static final String REGISTER_PATH = AUTHENTICATION_PATH + "/register";
-    public static final String LOGIN_PATH = AUTHENTICATION_PATH + "/login";
+	
+	private String projectDoesNotExistErrorMessage = "Project does not exist";
+	private String referentialIntegrityErrorMessage = "Project Manager does not exist in the database";
+	
+	public static final String BASE_PATH = "/project";
+	public static final String TEAM_PATH = BASE_PATH + "/team";
 	
 	@Before
     public void setup() throws IOException {
-        request = new RequestHelper();
+        requestHelper = new RequestHelper();
+        
         setupTestAccount();
         setupTestProject();
-        request.SendPostRequest(REGISTER_PATH, account);
-		Response r = request.SendPostRequest(LOGIN_PATH, account);
-		authHeader = r.getHeader("Authorization");
+        
+		authHeader = requestHelper.getAuthHeader(account);
     }
 	
 	/**
@@ -53,20 +47,19 @@ public class ProjectControllerIT {
      */
 	@Test
 	public void getProjectThatExistsShouldReturn200() {
-		Response r = request.SendGetRequestWithAuthHeader("/project/" + validProject.getId(), authHeader);
-		Project returnedProject = r.body().jsonPath().getObject("", Project.class);
-		r.then().assertThat().statusCode(200);
+		Response r = requestHelper.sendGetRequestWithAuthHeader(BASE_PATH + "/" + existingProject.getId(), authHeader);
+		Project returnedProject = r.getBody().as(Project.class);
 		
-		assertTrue(validProject.getName().equals(returnedProject.getName()));
-		assertTrue(validProject.getDescription().equals(returnedProject.getDescription()));
-		assertTrue(validProject.getProductOwner().getId().equals(returnedProject.getProductOwner().getId()));
-		assertTrue(validProject.getManager().getId().equals(returnedProject.getManager().getId()));
+		r.then().assertThat().statusCode(200);
+		assertTrue(existingProject.getId() == returnedProject.getId());
 	}
 	
 	@Test
 	public void getProjectThatDoesntExistShouldReturn404() {
-		Response r = request.SendGetRequestWithAuthHeader("/project/100", authHeader);
+		Response r = requestHelper.sendGetRequestWithAuthHeader(BASE_PATH + "/6500", authHeader);
+		
 		r.then().assertThat().statusCode(404);
+		assertEquals(projectDoesNotExistErrorMessage, r.getBody().asString());
 	}
 	
 	/**
@@ -74,82 +67,88 @@ public class ProjectControllerIT {
      */
 	@Test
 	public void createProjectShouldReturn201() {
-		Response r = request.SendPostRequestWithAuthHeader("/project", authHeader, validProject);
-		Project returnedProject = r.body().jsonPath().getObject("", Project.class);
+	    Project newProject = new Project();
+	    newProject.setName("ProjectName5000");
+	    newProject.setDescription("Project Description5000");
+	    User newUser = new User();
+	    newUser.setId(1L);
+	    newProject.setManager(newUser);
+	    
+		Response r = requestHelper.sendPostRequestWithAuthHeader(BASE_PATH, authHeader, newProject);
+		Project returnedProject = r.getBody().as(Project.class);
+
 		r.then().assertThat().statusCode(201);
+		assertEquals(newProject.getName(), returnedProject.getName());
+		assertEquals(newProject.getDescription(), returnedProject.getDescription());
+	}
+	
+	@Test
+	public void createProjectWithInvalidUserReferenceShouldReturn404() {
+		User invalidManager = new User();
+		invalidManager.setId(2000l);
+		existingProject.setManager(invalidManager);
+		Response r = requestHelper.sendPostRequestWithAuthHeader(BASE_PATH, authHeader, existingProject);
 		
-		assertTrue(validProject.getName().equals(returnedProject.getName()));
-		assertTrue(validProject.getDescription().equals(returnedProject.getDescription()));
-		assertTrue(validProject.getProductOwner().getId().equals(returnedProject.getProductOwner().getId()));
-		assertTrue(validProject.getManager().getId().equals(returnedProject.getManager().getId()));
+		r.then().assertThat().statusCode(404);
+		assertEquals(referentialIntegrityErrorMessage, r.getBody().asString());
 	}
 	
 	@Test
-	public void createProjectWithInvalidOwnerShouldReturn404() {
-		User invalidManager = new User();
-		invalidManager.setId(2000l);
-		validProject.setManager(invalidManager);
-		Response r = request.SendPostRequestWithAuthHeader("/project", authHeader, validProject);
+	public void getProjectTeamThatDoesNotExistShouldReturn404() {
+		Response r = requestHelper.sendGetRequestWithAuthHeader(TEAM_PATH + "/6500", authHeader);
+		
 		r.then().assertThat().statusCode(404);
+		assertEquals(projectDoesNotExistErrorMessage, r.getBody().asString());
 	}
 	
-	@Test
-	public void createProjectWithInvalidManagerShouldReturn404() {
-		User invalidManager = new User();
-		invalidManager.setId(2000l);
-		validProject.setManager(invalidManager);
-		Response r = request.SendPostRequestWithAuthHeader("/project", authHeader, validProject);
-		r.then().assertThat().statusCode(404);
-	}
-	@Test
-	public void getProjectTeamThatDoesntExistsShouldReturn404() {
-		double invalidNumber = 100000+validProject.getId();
-		Response r = request.SendGetRequestWithAuthHeader("/team/" +invalidNumber, authHeader);
-		r.then().assertThat().statusCode(404);
-	}
 	@Test
 	public void getProjectTeamThatDoesExistShouldReturn200() {
-		Response r = request.SendGetRequestWithAuthHeader("/project/team/"+validProject.getId(), authHeader);
+		Response r = requestHelper.sendGetRequestWithAuthHeader(TEAM_PATH + "/" + existingProject.getId(), authHeader);
+		
 		r.then().assertThat().statusCode(200);
 		List<User> users = Arrays.asList(r.getBody().as(User[].class));
-		assertEquals(users.size(), 2);
+		assertEquals(2, users.size());
 	}
+	
 	@Test
 	public void addUsersToProjectTeamShouldReturn200() {
-		User teamMember = new User("Ragnar", "Lothbrok", "ragnar.lothbrok@valhalla.odin", new Roles(true, true, false));
-    	ArrayList<User> teamMembers = new ArrayList<User>();
-    	teamMember.setId(1l);
-    	teamMembers.add(teamMember);
-    	validProject.setUsers(teamMembers);
-		Response r = request.SendPostRequestWithAuthHeader("/project/team/", authHeader, validProject);
+	    User existingUser1 = new User("Forename1", "Surname1", "user1@email.com", new Roles(false, false, false));
+	    existingUser1.setId(1L);
+	    User existingUser2 = new User("Forename2", "Surname2", "user2@email.com", new Roles(false, false, false));
+	    existingUser2.setId(2L);
+	    User existingUser3 = new User("Forename3", "Surname3", "user3@email.com", new Roles(false, false, false));
+	    existingUser3.setId(3L);
+	    
+	    ArrayList<User> projectTeam = new ArrayList<>();
+	    projectTeam.add(existingUser1);
+	    projectTeam.add(existingUser2);
+	    projectTeam.add(existingUser3);
+	    
+	    existingProject.setUsers(projectTeam);
+	    existingProject.setId(3L);
+
+		Response r = requestHelper.sendPostRequestWithAuthHeader(TEAM_PATH, authHeader, existingProject);
+		Project returnedProject = r.getBody().as(Project.class);
+		List<User> returnedTeam = returnedProject.getUsers();
+		
 		r.then().assertThat().statusCode(200);
-		assertEquals(r.getBody().as(Project.class).getName(), "Kingdom");
+		for (int i = 0; i < returnedTeam.size(); i++) {
+		    assertTrue(returnedTeam.get(i).equals(projectTeam.get(i)));
+		}
 	}
 	
 	/**
      * Setup Test Data
      */
-
     public void setupTestProject() {
-    //	Roles validRoles = new Roles();
-    	User projectManager = new User();
-    	projectManager.setId(1l);
-    	User productOwner = new User();
-    	productOwner.setId(2l);
-    	User teamMember = new User("Ragnar", "Lothbrok", "ragnar.lothbrok@valhalla.odin", new Roles(true, true, false));
-    	ArrayList<User> teamMembers = new ArrayList<User>();
-    	teamMembers.add(teamMember);
-    	
-    	validProject = new Project();
-    	validProject.setName("Kingdom");
-    	validProject.setDescription("Command 7 kingdoms");
-    	validProject.setId(3l);
-    	validProject.setProductOwner(productOwner);
-    	validProject.setUsers(teamMembers);
-    	validProject.setManager(projectManager);
+        User existingUser = new User("Forename1", "Surname1", "user1@email.com", new Roles(false, false, false));
+        List<User> users = new ArrayList<>();
+        users.add(existingUser);
+        existingProject = new Project("ProjectName1", "Project Description1", existingUser, existingUser, existingUser, users, new ArrayList<UserStory>());
+        existingProject.setId(1L);
     }
     
-    public void setupTestAccount() {
+    private void setupTestAccount() {
 		Roles validRoles = new Roles();
 		User validUser = new User("Forename", "Surname", generateEmail(), validRoles);
 		account = new Account(validUser, generateUsername(), "Password1");
@@ -157,7 +156,6 @@ public class ProjectControllerIT {
 
 	/**
 	 * Generates a random username
-	 * 
 	 * @return the username generated
 	 */
 	private String generateUsername() {
@@ -167,7 +165,6 @@ public class ProjectControllerIT {
 
 	/**
 	 * Generates a random email
-	 * 
 	 * @return the email generated
 	 */
 	private String generateEmail() {
