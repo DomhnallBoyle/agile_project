@@ -14,7 +14,7 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        
+
         <TextBlock Grid.Row="0" Text="{Binding PageLabel, FallbackValue='Product Backlog'}" TextAlignment="Center"></TextBlock>
 
         <Grid Grid.Row="1">
@@ -58,11 +58,14 @@
 
                             <TextBlock Grid.Column="1" Text="{Binding Description}"/>
                         </Grid>
-   
+
                     </StackPanel>
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
+        <StackPanel>
+            <Button Content="Save Order" Command="{Binding SaveOrder}"></Button>
+        </StackPanel>
     </Grid>
-    
+
 </Page>

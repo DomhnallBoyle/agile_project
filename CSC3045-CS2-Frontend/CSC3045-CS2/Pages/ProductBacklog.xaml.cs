@@ -58,7 +58,9 @@ namespace CSC3045_CS2
 
             try
             {
-                _backlog = _client.GetUserStories(project.Id);
+                // TODO:: Get project ID from current project via constructor
+                var sortedOC = from item in _client.GetUserStories(project.Id) orderby item.Index select item;
+                _backlog = new ObservableCollection<UserStory>(sortedOC.ToList());
             }
             catch (RestResponseErrorException ex)
             {
@@ -87,6 +89,33 @@ namespace CSC3045_CS2
                     Page userDashboard = new UserDashboard();
 
                     NavigationService.GetNavigationService(this).Navigate(userDashboard);
+                });
+            }
+        }
+
+        /// <summary>
+        /// Changes order of user stories before
+        /// sending the updated list to the backend
+        /// </summary>
+        public ICommand SaveOrder
+        {
+            get
+            {
+                return new RelayCommand(param =>
+                {
+                    for (int i=0; i<_backlog.Count; i++)
+                    {
+                        _backlog[i].Index = i+1;
+                    }
+
+                    try
+                    {
+                        _client.SaveOrder(_backlog.ToList());
+                        MessageBox.Show("User stories updated successfully");
+                    }
+                    catch (RestResponseErrorException) {
+                        MessageBox.Show("Error saving story order");
+                    }
                 });
             }
         }

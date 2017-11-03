@@ -12,6 +12,9 @@ namespace CSC3045_CS2.Models
         [DeserializeAs(Name = "id")]
         public long Id { get; set; }
 
+        [DeserializeAs(Name = "index")]
+        public long Index { get; set; }
+
         [DeserializeAs(Name = "name")]
         public string Name { get; set; }
 
