@@ -44,11 +44,6 @@ namespace CSC3045_CS2.Pages
             InitializeComponent();
             DataContext = this;
 
-            User lel = new User("Darren", "McGarry", "darren.mcgarry@outlook.com", new Roles(false, true, true));
-            lel.Id = 4;
-
-            Application.Current.Properties["user"] = lel;
-
             UserLabel = ((User)Application.Current.Properties["user"]).FullName;
 
             _client = new ProjectClient();
