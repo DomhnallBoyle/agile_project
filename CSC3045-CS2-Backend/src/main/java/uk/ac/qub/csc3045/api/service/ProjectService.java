@@ -16,38 +16,48 @@ import uk.ac.qub.csc3045.api.utility.ValidationUtility;
 @Service
 public class ProjectService {
 
-	private ProjectMapper mapper;
+	private ProjectMapper projectMapper;
 
 	@Autowired
-	public ProjectService(ProjectMapper mapper) {
-		this.mapper = mapper;
+	public ProjectService(ProjectMapper  projectMapper) {
+		this.projectMapper =  projectMapper;
 	}
 
 	public Project create(Project project) {
-		mapper.createProject(project);
+		projectMapper.createProject(project);
 
-		return mapper.getProjectById(project.getId());
+		return projectMapper.getProjectById(project.getId());
 	}
 
 	public Project update(Project project) {
-		if (ValidationUtility.validateProjectExists(project.getId(), mapper)) {
-			mapper.updateProject(project);
-			return mapper.getProjectById(project.getId());
+		if (ValidationUtility.validateProjectExists(project.getId(), projectMapper)) {
+			projectMapper.updateProject(project);
+			return projectMapper.getProjectById(project.getId());
 		}
 		throw new ResponseErrorException("Project does not exist", HttpStatus.NOT_FOUND);
 	}
 	
 	public Project get(long projectId) {
-		if (ValidationUtility.validateProjectExists(projectId, mapper)) {
-			return mapper.getProjectById(projectId);
+		if (ValidationUtility.validateProjectExists(projectId, projectMapper)) {
+			return projectMapper.getProjectById(projectId);
 		}
 		throw new ResponseErrorException("Project does not exist", HttpStatus.NOT_FOUND);
+	}
+
+	public List<Project> getProjectsForUser(long userId) {
+	    List<Project> projects = projectMapper.getProjectsForUser(userId);
+
+	    if (projects.isEmpty()) {
+	        throw new ResponseErrorException("You are currently not assigned to any projects.", HttpStatus.NOT_FOUND);
+        }
+
+        return projects;
 	}
 
 	public Project addToTeam(Project project) {
 		try {
 			for (User user : project.getUsers()) {
-				mapper.addToProjectTeam(project.getId(), user.getId());
+				projectMapper.addToProjectTeam(project.getId(), user.getId());
 			}
 		} catch (DataIntegrityViolationException e) {
 			throw new ResponseErrorException("Project or User does not exist", HttpStatus.NOT_FOUND);
@@ -56,8 +66,8 @@ public class ProjectService {
 	}
 
 	public List<User> getTeamMembers(long projectId) {
-		if (ValidationUtility.validateProjectExists(projectId, mapper)) {
-			return mapper.getUsersOnProject(projectId);
+		if (ValidationUtility.validateProjectExists(projectId, projectMapper)) {
+			return projectMapper.getUsersOnProject(projectId);
 		}
 		throw new ResponseErrorException("Project with specified ID does not exist", HttpStatus.NOT_FOUND);
 	}

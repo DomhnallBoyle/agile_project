@@ -25,6 +25,9 @@ public class Project {
 	@OneToOne
 	private User productOwner;
 
+    @OneToOne
+    private User scrumMaster;
+
 	@ManyToMany
 	@JoinTable(
 			name = "PROJECT_USER", 
@@ -36,11 +39,12 @@ public class Project {
 
 	}
 
-	public Project(String name, String description, User manager, User productOwner, List<User> users) {
+	public Project(String name, String description, User manager, User productOwner, User scrumMaster, List<User> users) {
 		this.name = name;
 		this.description = description;
 		this.manager = manager;
 		this.productOwner = productOwner;
+		this.scrumMaster = scrumMaster;
 		this.users = users;
 	}
 	
@@ -84,7 +88,15 @@ public class Project {
 		this.productOwner = productOwner;
 	}
 
-	public List<User> getUsers() {
+    public User getScrumMaster() {
+        return scrumMaster;
+    }
+
+    public void setScrumMaster(User scrumMaster) {
+        this.scrumMaster = scrumMaster;
+    }
+
+    public List<User> getUsers() {
 		return users;
 	}
 

@@ -1,5 +1,6 @@
 ﻿using CSC3045_CS2.Exception;
 using CSC3045_CS2.Models;
+using CSC3045_CS2.Service;
 using CSC3045_CS2.Utility;
 using System;
 using System.Collections.Generic;
@@ -28,12 +29,13 @@ namespace CSC3045_CS2.Pages
         private List<Project> _projectList;
         private TextBlock _projectName, _projectDescription;
         private Button _toProjectDashboard;
+        private ProjectClient _client;
 
         #endregion
 
         #region Public variables
 
-        public String UserLabel { get; set; } = ((User)Application.Current.Properties["user"]).GetFullName();
+        public String UserLabel { get; set; }
 
         #endregion
 
@@ -41,17 +43,29 @@ namespace CSC3045_CS2.Pages
         {
             InitializeComponent();
             DataContext = this;
-            _projectList = setTestData();
-            addProjectsToUIList();
+
+            User lel = new User("Darren", "McGarry", "darren.mcgarry@outlook.com", new Roles(false, true, true));
+            lel.Id = 4;
+
+            Application.Current.Properties["user"] = lel;
+
+            UserLabel = ((User)Application.Current.Properties["user"]).FullName;
+
+            _client = new ProjectClient();
+
+            GetProjects();
+            AddProjectsToUIList();
         }
 
-        private void addProjectsToUIList()
+        #region Class methods
+
+        private void AddProjectsToUIList()
         {
             for (int i=0; i<_projectList.Count; i++)
             {
                 _projectName = new TextBlock
                 {
-                    Text = _projectList[i].ProjectName
+                    Text = _projectList[i].Name
                 };
                 _projectDescription = new TextBlock
                 {
@@ -70,21 +84,16 @@ namespace CSC3045_CS2.Pages
             }
         }
 
-        #region Class methods
-
-        private List<Project> setTestData()
+        private void GetProjects()
         {
-            User user1 = new User("Ji", "Ming", "ji.ming@gmail.com", null);
-            User user2 = new User("John", "Bustard", "jbustard@gmail.com", null);
-            User user3 = new User("Pat", "Mustard", "milkman@gmail.com", null);
-            User user4 = new User("Ted", "Crilly", "itwasonlyrestinginmyaccount@gmail.com", null);
-            User user5 = new User("Todd", "Umptious", "goldencleric@gmail.com", null);
-
-            Project projectOne = new Project(user1, "Calypso", "Android App", user2);
-            Project projectTwo = new Project(user2, "Cornetto", "Java app", user3);
-            Project projectThree = new Project(user5, "Twister", "c# app", user4);
-     
-            return new List<Project> { projectOne, projectTwo, projectThree };
+            try
+            {
+                _projectList = _client.GetProjectsForUser(((User)Application.Current.Properties["user"]).Id);
+            }
+            catch (RestResponseErrorException ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
 
         #endregion
@@ -99,10 +108,10 @@ namespace CSC3045_CS2.Pages
                 {
                     try
                     {
-                        var projectNumber = ((int)param);
-                        Page projectDashboard = new ProjectDashboard(_projectList, projectNumber);
+                        var projectIndex = (int) param;
+                        Page projectDashboardPage = new ProjectDashboard(_projectList, projectIndex);
 
-                        NavigationService.GetNavigationService(this).Navigate(projectDashboard);
+                        NavigationService.GetNavigationService(this).Navigate(projectDashboardPage);
                     }
                     catch (RestResponseErrorException ex)
                     {

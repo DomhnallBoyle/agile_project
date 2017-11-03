@@ -6,5 +6,5 @@
         xmlns:local="clr-namespace:CSC3045_CS2"
         mc:Ignorable="d"
         Title="MainWindow" Height="350" Width="525">
-    <Frame x:Name="frame" Content="Frame" Margin="0" Source="Pages/Login.xaml"/>
+    <Frame x:Name="frame" Content="Frame" Margin="0" Source="Pages/UserDashboard.xaml"/>
 </Window>
