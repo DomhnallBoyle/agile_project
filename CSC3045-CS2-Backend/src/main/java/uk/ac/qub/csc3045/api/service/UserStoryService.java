@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import uk.ac.qub.csc3045.api.exception.ResponseErrorException;
 import uk.ac.qub.csc3045.api.mapper.ProjectMapper;
 import uk.ac.qub.csc3045.api.mapper.UserStoryMapper;
+import uk.ac.qub.csc3045.api.model.Project;
 import uk.ac.qub.csc3045.api.model.UserStory;
 import uk.ac.qub.csc3045.api.utility.ValidationUtility;
 
@@ -27,6 +28,10 @@ public class UserStoryService {
 
 	public UserStory create(UserStory userStory) {
 		if (ValidationUtility.validateProjectExists(userStory.getProject().getId(), projectMapper)) {
+			long projectId = userStory.getProject().getId();
+			List<UserStory> backlog = userStoryMapper.getUserStoriesByProject(projectId);
+			userStory.setIndex(backlog.size());
+			
 			userStoryMapper.createUserStory(userStory);
 			return userStoryMapper.getUserStoryById(userStory.getId());
 		}
@@ -48,16 +53,22 @@ public class UserStoryService {
 	}
 
 	public List<UserStory> updateBacklogOrder(List<UserStory> backlog) {
-		if(ValidationUtility.validateProjectExists(backlog.get(0).getProject().getId(), projectMapper)) {
-			for (int i = 0; i < backlog.size(); i++) {
-				userStoryMapper.updateUserStoryIndex(backlog.get(i).getId(), i);
+		UserStory firstStory = backlog.get(0);
+		long projectId = firstStory.getProject().getId();
+		
+		if(ValidationUtility.validateProjectExists(projectId, projectMapper)) {
+			if(ValidationUtility.validateProjectContainsUserStory(firstStory.getId(), projectId, userStoryMapper)) {
+				for (int i = 0; i < backlog.size(); i++) {
+					userStoryMapper.updateUserStoryIndex(backlog.get(i).getId(), i);
+				}
+		
+				backlog = userStoryMapper.getUserStoriesByProject(backlog.get(0).getProject().getId());
+				backlog.sort(Comparator.comparing(UserStory::getIndex));
+		
+				return backlog;
 			}
-	
-			backlog = userStoryMapper.getUserStoriesByProject(backlog.get(0).getProject().getId());
-			backlog.sort(Comparator.comparing(UserStory::getIndex));
-	
-			return backlog;
+			throw new ResponseErrorException("These User Stories don't exist on the given Project", HttpStatus.NOT_FOUND);
 		}
-		throw new ResponseErrorException("Project for these user stories does not exist", HttpStatus.NOT_FOUND);
+		throw new ResponseErrorException("Project does not exist", HttpStatus.NOT_FOUND);
 	}
 }

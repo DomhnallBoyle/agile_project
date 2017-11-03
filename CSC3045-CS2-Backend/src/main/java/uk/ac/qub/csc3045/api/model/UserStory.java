@@ -107,4 +107,63 @@ public class UserStory {
 	public void setIndex(int index) {
 		this.index = index;
 	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		
+		if (obj == null) {
+			return false;
+		}
+		
+		if (getClass() != obj.getClass()) {
+			return false;
+		}
+		
+		UserStory other = (UserStory) obj;
+		
+		if (name == null) {
+			if (other.name != null) {
+				return false;
+			}
+		} else if (!name.equals(other.name)) {
+			return false;
+		}
+		
+		if (description == null) {
+			if (other.description != null) {
+				return false;
+			}
+		} else if (!description.equals(other.description)) {
+			return false;
+		}
+		
+		if (points == null) {
+			if (other.points != null) {
+				return false;
+			}
+		} else if (!points.equals(other.points)) {
+			return false;
+		}
+		
+		if (marketValue == null) {
+			if (other.marketValue != null) {
+				return false;
+			}
+		} else if (!marketValue.equals(other.marketValue)) {
+			return false;
+		}
+		
+		if (assigned == null) {
+			if (other.assigned != null) {
+				return false;
+			}
+		} else if (!assigned.equals(other.assigned)) {
+			return false;
+		}
+				
+		return true;
+	}
 }
