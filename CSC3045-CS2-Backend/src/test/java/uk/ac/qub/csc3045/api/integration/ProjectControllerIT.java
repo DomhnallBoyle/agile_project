@@ -41,7 +41,7 @@ public class ProjectControllerIT {
      */
 	@Test
 	public void getProjectThatExistsShouldReturn200() {
-		Response r = request.SendGetRequestWithAuthHeader("/project/" + 1, authHeader);
+		Response r = request.SendGetRequestWithAuthHeader("/project/" + validProject.getId(), authHeader);
 		Project returnedProject = r.body().jsonPath().getObject("", Project.class);
 		r.then().assertThat().statusCode(200);
 		
@@ -106,7 +106,7 @@ public class ProjectControllerIT {
     	validProject = new Project();
     	validProject.setName("Kingdom");
     	validProject.setDescription("Command 7 kingdoms");
-    	validProject.setId(1l);
+    	validProject.setId(3l);
     	validProject.setProductOwner(productOwner);
     	validProject.setUsers(teamMembers);
     	validProject.setManager(projectManager);
