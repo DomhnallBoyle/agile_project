@@ -14,4 +14,5 @@ public interface UserStoryMapper {
 	void createUserStory(UserStory userStory);
 	UserStory getUserStoryById(@Param("id")long id);
 	List<UserStory> getUserStoriesByProject(@Param("id")long id);
+	void updateUserStoryIndex(@Param("userStoryId") long userStoryId, @Param("index") int index);
 }
