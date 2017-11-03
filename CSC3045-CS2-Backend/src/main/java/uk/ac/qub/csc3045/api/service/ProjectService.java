@@ -33,6 +33,7 @@ public class ProjectService {
 			EmailUtility.sendEmail(newProject.getProductOwner().getEmail(), "You Have been added as a Product Owner",
 					"Hello "+newProject.getProductOwner().getForename()+
 					" You are now the Product Owner for "+newProject.getName());
+
 		}
 		
 		/*if ( newProject.getScrumMaster() != null) {
