@@ -37,6 +37,8 @@ namespace CSC3045_CS2.Pages
 
         public String UserLabel { get; set; }
 
+        public String LogoutButtonLabel { get; set; } = "Logout";
+
         #endregion
 
         public UserDashboard()
@@ -126,6 +128,24 @@ namespace CSC3045_CS2.Pages
                     Page createProjectPage = new CreateProject();
 
                     NavigationService.GetNavigationService(this).Navigate(createProjectPage);
+                });
+            }
+        }
+
+        public ICommand LogoutCommand
+        {
+            get
+            {
+                return new RelayCommand(param =>
+                {
+                    if (Application.Current.Properties.Contains("user"))
+                    {
+                        Application.Current.Properties.Remove("user");
+                    }
+
+                    Page loginPage = new Login();
+
+                    NavigationService.GetNavigationService(this).Navigate(loginPage);
                 });
             }
         }

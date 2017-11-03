@@ -18,6 +18,7 @@ namespace CSC3045_CS2.Properties
     {
 
         private static Settings defaultInstance = ((Settings)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new Settings())));
+        public string AuthToken { get; internal set; }
 
         public static Settings Default
         {
@@ -26,7 +27,5 @@ namespace CSC3045_CS2.Properties
                 return defaultInstance;
             }
         }
-
-        public string AuthToken { get; internal set; }
     }
 }

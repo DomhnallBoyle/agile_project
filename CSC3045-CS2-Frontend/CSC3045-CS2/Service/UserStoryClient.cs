@@ -43,5 +43,22 @@ namespace CSC3045_CS2.Service
             return Execute<List<UserStory>>(request);
         }
 
+        /// <summary>
+        /// Sends PUT request to save order of product backlog for a project
+        /// Returns new list of ordered user stories
+        /// </summary>
+        /// <param name="userStories">New Ordered User Stories</param>
+        /// <returns>List of user stories</returns>
+        public List<UserStory> SaveOrder(List<UserStory> userStories)
+        {
+            var request = new RestRequest(BASE_ENDPOINT + "/backlog/order", Method.PUT);
+            request.AddHeader("Content-Type", "application/json");
+            request.RequestFormat = DataFormat.Json;
+            request.AddBody(userStories);
+            SimpleJson.CurrentJsonSerializerStrategy = new CamelCaseSerializationStrategy();
+
+            return Execute<List<UserStory>>(request);
+        }
+
     }
 }

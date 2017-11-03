@@ -76,6 +76,7 @@ namespace CSC3045_CS2.Pages
                     try
                     {
                         _client.CreateProject(project);
+
                         MessageBox.Show("Project creation successful!");
 
                         Page userDashboard = new UserDashboard();

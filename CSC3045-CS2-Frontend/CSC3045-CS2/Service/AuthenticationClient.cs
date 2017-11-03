@@ -6,7 +6,7 @@ namespace CSC3045_CS2.Service
 {
     class AuthenticationClient : ServiceClient
     { 
-        const string BASE_ENDPOINT = "authentication/";
+        const string BASE_ENDPOINT = "authentication";
 
         public AuthenticationClient() : base () { }
 
@@ -19,7 +19,7 @@ namespace CSC3045_CS2.Service
         /// <returns>string containing message result from backend</returns>
         public Account Register(Account account)
         {
-            var request = new RestRequest(BASE_ENDPOINT + "register", Method.POST);
+            var request = new RestRequest(BASE_ENDPOINT + "/register", Method.POST);
             request.AddHeader("Content-Type", "application/json");
             request.RequestFormat = DataFormat.Json;
             SimpleJson.CurrentJsonSerializerStrategy = new CamelCaseSerializationStrategy();
@@ -36,7 +36,7 @@ namespace CSC3045_CS2.Service
         /// <returns>Returns a string with information on the request response</returns>
         public User Login(Account account)
         {
-            var request = new RestRequest(BASE_ENDPOINT + "login", Method.POST);
+            var request = new RestRequest(BASE_ENDPOINT + "/login", Method.POST);
             request.AddHeader("Content-Type", "application/json");
             request.RequestFormat = DataFormat.Json;
             SimpleJson.CurrentJsonSerializerStrategy = new CamelCaseSerializationStrategy();

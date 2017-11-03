@@ -14,7 +14,7 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        
+
         <TextBlock Grid.Row="0" Text="{Binding PageLabel, FallbackValue='Product Backlog'}" TextAlignment="Center"></TextBlock>
 
         <Grid Grid.Row="1">
@@ -31,8 +31,8 @@
                     Command="{Binding CreateStoryCommand}"
                     Visibility="{Binding Permissions.ProductOwner, Converter={StaticResource BoolToVisConverter}}"/>
         </Grid>
-        
-        <ListBox Grid.Row="2" Margin="10" Name="StoryList" HorizontalContentAlignment="Stretch">
+
+        <ListBox Grid.Row="2" Margin="10" Name="StoryList" HorizontalContentAlignment="Stretch" AllowDrop="True">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Margin="0,0,0,10">
@@ -63,11 +63,14 @@
 
                             <TextBlock Grid.Column="1" Text="{Binding Description}"/>
                         </Grid>
-   
+
                     </StackPanel>
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
+        <StackPanel>
+            <Button Content="Save Order" Command="{Binding SaveOrder}"></Button>
+        </StackPanel>
     </Grid>
-    
+
 </Page>

@@ -15,8 +15,8 @@ namespace CSC3045_CS2.Service
 {
     class ProjectClient : ServiceClient
     {
-
         const string BASE_ENDPOINT = "project";
+
         public ProjectClient() : base() { }
 
         public string CreateProject(Project project)

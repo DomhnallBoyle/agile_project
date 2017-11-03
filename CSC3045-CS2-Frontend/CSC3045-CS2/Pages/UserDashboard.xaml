@@ -34,6 +34,7 @@
 
         <StackPanel>
             <Button Content="{Binding CreateProjectButtonLabel, FallbackValue='Create Project'}" HorizontalAlignment="Center" Command="{Binding NavigateToCreateProjectCommand}"/>
+            <Button Content="{Binding LogoutButtonLabel, FallbackValue='Logout'}" HorizontalAlignment="Left" Command="{Binding LogoutCommand}"/>
         </StackPanel>
     </StackPanel>
 </Page>
