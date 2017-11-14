@@ -9,9 +9,8 @@
         WindowStartupLocation="CenterScreen"
         MinWidth="400"
         MinHeight="300"
-        Title="MainWindow" Height="350" Width="525">
+        Title="MainWindow" Height="400" Width="600">
     <!-- Min and Max Width/Height of the window can be specified here in the above tag-->
-    
     
     <Frame x:Name="frame" Content="Frame" Margin="0" Source="Pages/Login.xaml"/>
 </Window>

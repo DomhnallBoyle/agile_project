@@ -5,16 +5,16 @@
     <!-- Format is define a Color, with the hexcode, and then create the SolidColorBrush set to use the Color as a StaticResource -->
     <!-- You use the ColorBrush to get access to the colour and apply it to various components -->
 
-    <Color x:Key="ButtonBackground">#ad9f75</Color>
-    <SolidColorBrush x:Key="ButtonBackgroundBrush" Color="{StaticResource ButtonBackground}" />
+    <Color x:Key="DarkGray">#c9c9c9</Color>
+    <SolidColorBrush x:Key="DarkGrayBrush" Color="{StaticResource DarkGray}"/>
 
-    <Color x:Key="ButtonHover">#ddecec</Color>
-    <SolidColorBrush x:Key="ButtonHoverBrush" Color="{StaticResource ButtonHover}" />
+    <Color x:Key="LightGray">#e3e3e3</Color>
+    <SolidColorBrush x:Key="LightGrayBrush" Color="{StaticResource LightGray}"/>
 
-    <Color x:Key="ButtonForeground">#000000</Color>
-    <SolidColorBrush x:Key="ButtonForegroundBrush" Color="{StaticResource ButtonForeground}" />
+    <Color x:Key="LightBlue">#9ad3de</Color>
+    <SolidColorBrush x:Key="LightBlueBrush" Color="{StaticResource LightBlue}"/>
 
-    <Color x:Key="TextColour">#cdcdcd</Color>
-    <SolidColorBrush x:Key="TextColourBrush" Color="{StaticResource TextColour}" />
+    <Color x:Key="DarkBlue">#89bdd3</Color>
+    <SolidColorBrush x:Key="DarkBlueBrush" Color="{StaticResource DarkBlue}"/>
 
 </ResourceDictionary>
