@@ -1,17 +1,15 @@
 package uk.ac.qub.csc3045.api.model;
 
-import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
-@Entity
-@Table
 public class UserStory {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    @NotNull
     private String name;
 
+    @NotNull
     private String description;
 
     private Integer points;
@@ -22,7 +20,6 @@ public class UserStory {
 
     private int index;
 
-    @ManyToOne
     private Project project;
 
     public UserStory() {
