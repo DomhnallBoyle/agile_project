@@ -28,15 +28,11 @@ namespace CSC3045_CS2.Pages
 
         public String NameLabel { get; set; } = "Story Name";
 
-        public String StoryPointsLabel { get; set; } = "Story Points";
-
         public String MarketValueLabel { get; set; } = "Market Value";
 
         public String DescriptionLabel { get; set; } = "Description";
 
         public String NameTextContent { get; set; }
-
-        public String StoryPointsTextContent { get; set; }
 
         public String MarketValueTextContent { get; set; }
 
@@ -84,7 +80,6 @@ namespace CSC3045_CS2.Pages
                     UserStory userStory = new UserStory(
                             NameTextContent,
                             DescriptionTextContent,
-                            int.Parse(StoryPointsTextContent),
                             int.Parse(MarketValueTextContent),
                             _currentProject);
 

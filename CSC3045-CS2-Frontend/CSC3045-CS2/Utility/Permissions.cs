@@ -20,9 +20,34 @@ namespace CSC3045_CS2.Utility
         public Permissions(User user, Project project)
         {
             this.Developer = user.Roles.Developer;
-            this.ScrumMaster = project.ScrumMaster != null && project.ScrumMaster.Id == user.Id ? true : false;
+
+            this.ScrumMaster = false;
+            if (project.ScrumMasters != null)
+            {
+                foreach (User scrumMaster in project.ScrumMasters)
+                {
+                    if (scrumMaster.Id == user.Id)
+                    {
+                        this.ScrumMaster = true;
+                        break;
+                    }
+                }
+            }
+
             this.ProductOwner = project.ProductOwner != null && project.ProductOwner.Id == user.Id ? true : false;
             this.Manager = project.Manager.Id == user.Id ? true : false;
+        }
+
+        public string getPermissionsAsString()
+        {
+            string permissions = "";
+
+            if (Developer) permissions += "D ";
+            if (ScrumMaster) permissions += "SM ";
+            if (ProductOwner) permissions += "PO ";
+            if (Manager) permissions += "M ";
+
+            return permissions;
         }
     }
 }

@@ -22,7 +22,6 @@
             <!-- Left Column for Labels -->
             <StackPanel Grid.Column="0" Margin="0,0,12,0">
                 <TextBlock Text="{Binding NameLabel, FallbackValue='Story Name'}" HorizontalAlignment="Right" Margin="0,0,0,15"/>
-                <TextBlock Text="{Binding StoryPointsLabel, FallbackValue='Story Points'}" HorizontalAlignment="Right" Margin="0,0,0,15"/>
                 <TextBlock Text="{Binding MarketValueLabel, FallbackValue='Market Value'}" HorizontalAlignment="Right" Margin="0,0,0,15"/>
                 <TextBlock Text="{Binding DescriptionLabel, FallbackValue='Description'}" HorizontalAlignment="Right"/>
             </StackPanel>
@@ -30,7 +29,6 @@
             <!-- Right Column for Entry Fields -->
             <StackPanel Grid.Column="1" Margin="12,0,25,0">
                 <TextBox Text="{Binding NameTextContent}" MaxLength="25" Width="175" HorizontalAlignment="Left" Margin="0,0,0,15"/>
-                <TextBox Text="{Binding StoryPointsTextContent}" PreviewTextInput="NumberOnlyTextBoxValidation" Width="175" HorizontalAlignment="Left" Margin="0,0,0,15"/>
                 <TextBox Text="{Binding MarketValueTextContent}" PreviewTextInput="NumberOnlyTextBoxValidation" Width="175" HorizontalAlignment="Left" Margin="0,0,0,15"/>
                 <TextBox Text="{Binding DescriptionTextContent}" MaxLength="25" Width="175" Height="75" HorizontalAlignment="Left" Margin="0,0,0,15"/>
 

@@ -10,8 +10,6 @@ import uk.ac.qub.csc3045.api.service.UserStoryService;
 import javax.validation.Valid;
 import java.util.List;
 
-import static org.springframework.web.bind.annotation.RequestMethod.GET;
-
 @RestController
 @RequestMapping(value = "/story")
 public class UserStoryController {
@@ -28,13 +26,13 @@ public class UserStoryController {
         return new ResponseEntity<>(this.userStoryService.create(userStory), HttpStatus.CREATED);
     }
 
-    @RequestMapping(value = "/{id}", method = GET)
+    @GetMapping(value = "/{id}")
     public ResponseEntity<UserStory> getUserStory(@PathVariable("id") long id) {
 
         return new ResponseEntity<>(this.userStoryService.getUserStory(id), HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/project/{id}", method = GET)
+    @GetMapping(value = "/project/{id}")
     public ResponseEntity<List<UserStory>> getUserStoriesByProject(@PathVariable("id") long id) {
 
         return new ResponseEntity<>(this.userStoryService.getAllUserStories(id), HttpStatus.OK);

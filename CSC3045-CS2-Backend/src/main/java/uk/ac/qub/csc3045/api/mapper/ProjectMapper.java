@@ -12,15 +12,24 @@ import java.util.List;
 @Mapper
 @Repository
 public interface ProjectMapper {
-    void addToProjectTeam(@Param("projectId") long projectId, @Param("userId") long userId);
 
-    List<User> getUsersOnProject(@Param("projectId") long projectId);
-
-    void createProject(Project project);
-
-    void updateProject(Project project);
+    // SELECT Queries
 
     Project getProjectById(@Param("id") long id);
 
     List<Project> getProjectsForUser(@Param("userId") long userId);
+
+    List<User> getUsersOnProject(@Param("projectId") long projectId);
+
+    // INSERT Queries
+
+    void createProject(Project project);
+
+    void addToProjectTeam(@Param("projectId") long projectId, @Param("userId") long userId);
+
+    // UPDATE Queries
+
+    void updateProject(Project project);
+
+    void setUserAsScrumMaster(@Param("projectId") long projectId, @Param("userId") long userId, @Param("value") boolean value);
 }

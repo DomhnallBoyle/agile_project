@@ -18,7 +18,7 @@ public class Project {
 
     private User productOwner;
 
-    private User scrumMaster;
+    private List<User> scrumMasters;
 
     private List<User> users;
 
@@ -32,12 +32,12 @@ public class Project {
         this.id = id;
     }
 
-    public Project(String name, String description, User manager, User productOwner, User scrumMaster, List<User> users, List<UserStory> userStories) {
+    public Project(String name, String description, User manager, User productOwner, List<User> scrumMasters, List<User> users, List<UserStory> userStories) {
         this.name = name;
         this.description = description;
         this.manager = manager;
         this.productOwner = productOwner;
-        this.scrumMaster = scrumMaster;
+        this.scrumMasters = scrumMasters;
         this.users = users;
         this.userStories = userStories;
     }
@@ -82,12 +82,12 @@ public class Project {
         this.productOwner = productOwner;
     }
 
-    public User getScrumMaster() {
-        return scrumMaster;
+    public List<User> getScrumMasters() {
+        return scrumMasters;
     }
 
-    public void setScrumMaster(User scrumMaster) {
-        this.scrumMaster = scrumMaster;
+    public void setScrumMasters(List<User> scrumMasters) {
+        this.scrumMasters = scrumMasters;
     }
 
     public List<User> getUsers() {
@@ -162,11 +162,11 @@ public class Project {
             return false;
         }
 
-        if (scrumMaster == null) {
-            if (other.scrumMaster != null) {
+        if (scrumMasters == null) {
+            if (other.scrumMasters != null) {
                 return false;
             }
-        } else if (!scrumMaster.equals(other.scrumMaster)) {
+        } else if (!scrumMasters.equals(other.scrumMasters)) {
             return false;
         }
 

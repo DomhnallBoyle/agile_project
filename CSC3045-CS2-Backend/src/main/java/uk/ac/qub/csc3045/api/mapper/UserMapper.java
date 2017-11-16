@@ -9,5 +9,8 @@ import java.util.List;
 @Mapper
 @Repository
 public interface UserMapper {
+
+    // SELECT Queries
+
     List<User> searchUsers(User user);
 }

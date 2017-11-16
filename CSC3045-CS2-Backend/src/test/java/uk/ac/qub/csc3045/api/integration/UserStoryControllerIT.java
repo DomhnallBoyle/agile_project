@@ -137,7 +137,7 @@ public class UserStoryControllerIT {
 
         List<User> users = new ArrayList<>();
         users.add(existingUser);
-        Project existingProject = new Project("ProjectName1", "Project Description1", existingUser, existingUser, existingUser, users, new ArrayList<UserStory>());
+        Project existingProject = new Project("ProjectName1", "Project Description1", existingUser, existingUser, users, users, new ArrayList<>());
         existingProject.setId(1L);
 
         UserStory story1 = new UserStory("StoryName1", "StoryDescription1", 1, 10, false, existingProject);

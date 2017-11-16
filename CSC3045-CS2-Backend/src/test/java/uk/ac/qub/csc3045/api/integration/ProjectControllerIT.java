@@ -105,7 +105,7 @@ public class ProjectControllerIT {
 		
 		r.then().assertThat().statusCode(200);
 		List<User> users = Arrays.asList(r.getBody().as(User[].class));
-		assertEquals(2, users.size());
+		assertEquals(3, users.size());
 	}
 	
 	@Test
@@ -140,22 +140,25 @@ public class ProjectControllerIT {
      */
 	@Test
 	public void updateProjectWithScrumMasterShouldReturn200() {
-		User scrumMaster = new User("Forename5", "Surname5", "user5@email.com", new Roles(true, true, false));
-		scrumMaster.setId(5l);	
+		List<User> scrumMasters = new ArrayList<>();
+		User scrumMaster1 = new User("Forename6", "Surname6", "user6@email.com", new Roles(true, true, false));
+		scrumMaster1.setId(6l);
+
+		scrumMasters.add(scrumMaster1);
 		
 		User projectManager = new User("Forename1", "Surname1", "user1@email.com", new Roles(false, false, false));
 		projectManager.setId(1L);
 				
 		Project validProjectScrumMaster = new Project("ProjectName1", "Project Description1", projectManager, null, null, null, null);	
 		validProjectScrumMaster.setId(1l);		
-		validProjectScrumMaster.setScrumMaster(scrumMaster);
+		validProjectScrumMaster.setScrumMasters(scrumMasters);
     	
 		Response r = requestHelper.sendPutRequestWithAuthHeader(BASE_PATH, authHeader, validProjectScrumMaster);
 		r.then().assertThat().statusCode(200);
 		
 		Project returnedProject = r.body().jsonPath().getObject("", Project.class);
 		assertTrue(validProjectScrumMaster.getId().equals(returnedProject.getId()));
-		assertTrue(validProjectScrumMaster.getScrumMaster().getId().equals(returnedProject.getScrumMaster().getId()));
+		assertTrue(validProjectScrumMaster.getScrumMasters().get(0).getId().equals(returnedProject.getScrumMasters().get(0).getId()));
 	}
 	
 	@Test
@@ -164,7 +167,7 @@ public class ProjectControllerIT {
 		productOwner.setId(5l);	
 		
 		User projectManager = new User("Forename1", "Surname1", "user1@email.com", new Roles(false, false, true));
-		projectManager.setId(1L);;
+		projectManager.setId(1L);
     	
 		Project validProjectProductOwner = new Project("ProjectName1", "Project Description1", projectManager, null, null, null, null);	
 		validProjectProductOwner.setId(1l);		
@@ -215,7 +218,7 @@ public class ProjectControllerIT {
         User existingUser = new User("Forename1", "Surname1", "user1@email.com", new Roles(false, false, false));
         List<User> users = new ArrayList<>();
         users.add(existingUser);
-        existingProject = new Project("ProjectName1", "Project Description1", existingUser, existingUser, existingUser, users, new ArrayList<UserStory>());
+        existingProject = new Project("ProjectName1", "Project Description1", existingUser, existingUser, users, users, new ArrayList<>());
         existingProject.setId(1L);
     }
 
