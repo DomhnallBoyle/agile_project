@@ -16,19 +16,17 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
             <StackPanel Grid.Column="0" Margin="20,0,0,0" HorizontalAlignment="Center" >
-                <TextBlock Text="Username" Style="{StaticResource Label}" Grid.Column="0"/>
+                <TextBlock Text="Email" Style="{StaticResource Label}" Grid.Column="0" Margin="0,10,0,0"/>
                 <TextBlock Text="First name" Style="{StaticResource Label}" Grid.Column="0" Margin="0,10,0,0"/>
                 <TextBlock Text="Surname" Style="{StaticResource Label}" Grid.Column="0" Margin="0,10,0,0"/>
-                <TextBlock Text="Email" Style="{StaticResource Label}" Grid.Column="0" Margin="0,10,0,0"/>
                 <TextBlock Text="Password" Style="{StaticResource Label}" Grid.Column="0" Margin="0,10,0,0"/>
                 <TextBlock Text="Confirm Password" Style="{StaticResource Label}" Grid.Column="0" Margin="0,10,0,0"/>
                 <TextBlock Text="Role" Style="{StaticResource Label}" Grid.Column="0" Margin="0,10,0,0"/>
             </StackPanel>
             <StackPanel Grid.Column="1" Margin="10,0,10,0">
-                <TextBox Name="UsernameTextBox"/>
+                <TextBox Name="EmailTextBox" Margin="0,10,0,0"/>
                 <TextBox Name="FirstnameTextBox" Margin="0,10,0,0"/>
                 <TextBox Name="SurnameTextBox" Margin="0,10,0,0"/>
-                <TextBox Name="EmailTextBox" Margin="0,10,0,0"/>
                 <PasswordBox Name="PasswordTextBox" Margin="0,10,0,0" />
                 <PasswordBox Name="ConfirmPasswordTextBox" Margin="0,10,0,0" ToolTip="Passwords Must Match"/>
 

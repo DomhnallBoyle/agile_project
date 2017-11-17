@@ -13,7 +13,7 @@ public interface AuthenticationMapper {
 
     // SELECT Queries
 
-    Account findAccountByUsername(@Param("username") String username);
+    Account findAccountByEmail(@Param("email") String email);
 
     User findUserByEmail(@Param("email") String email);
 

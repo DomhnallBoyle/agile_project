@@ -18,8 +18,6 @@ public class AuthenticationControllerIT {
     private Account account;
     private String invalidPasswordErrorMessage = "The Password does not meet the requirements:\n\tPassword length must be between 4 and 25 characters\n\tPassword must contain at least 1 uppercase letter, 1 lowercase letter and 1 digit\n";
     private String invalidEmailErrorMessage = "The Email does not meet the requirements:\n\tEmail identifier must be at least 4 letters and have a valid domain\n\tEmail identifier can only contain the following special characters '.', '_', '%', '+', '$'\n";
-    private String invalidUsernameErrorMessage = "The Username does not meet the requirements:\n\tUsername length must be between 3 and 15 characters\n\tUsername can only contain the following special characters '_', '-', '.'\n";
-    private String usernameConflictErrorMessage = "This username already exists, please select another one";
     private String emailConflictErrorMessage = "This email already exists, please select another one";
     private String loginBadCredentials = "Authentication Failed: Bad credentials";
 
@@ -41,7 +39,7 @@ public class AuthenticationControllerIT {
     public void registerAccountShouldReturn201() throws Exception {
         Response r = request.sendPostRequest(REGISTER_PATH, account);
 
-        assertEquals(account.getUsername(), r.getBody().as(Account.class).getUsername());
+        assertEquals(account.getUser().getEmail(), r.getBody().as(Account.class).getUser().getEmail());
         r.then().assertThat().statusCode(201);
     }
 
@@ -53,7 +51,7 @@ public class AuthenticationControllerIT {
 
         Response r = request.sendPostRequest(REGISTER_PATH, account);
 
-        assertEquals(account.getUsername(), r.getBody().as(Account.class).getUsername());
+        assertEquals(account.getUser().getEmail(), r.getBody().as(Account.class).getUser().getEmail());
         r.then().assertThat().statusCode(201);
     }
 
@@ -65,7 +63,7 @@ public class AuthenticationControllerIT {
 
         Response r = request.sendPostRequest(REGISTER_PATH, account);
 
-        assertEquals(account.getUsername(), r.getBody().as(Account.class).getUsername());
+        assertEquals(account.getUser().getEmail(), r.getBody().as(Account.class).getUser().getEmail());
         r.then().assertThat().statusCode(201);
     }
 
@@ -77,7 +75,7 @@ public class AuthenticationControllerIT {
 
         Response r = request.sendPostRequest(REGISTER_PATH, account);
 
-        assertEquals(account.getUsername(), r.getBody().as(Account.class).getUsername());
+        assertEquals(account.getUser().getEmail(), r.getBody().as(Account.class).getUser().getEmail());
         r.then().assertThat().statusCode(201);
     }
 
@@ -91,22 +89,13 @@ public class AuthenticationControllerIT {
 
         Response r = request.sendPostRequest(REGISTER_PATH, account);
 
-        assertEquals(account.getUsername(), r.getBody().as(Account.class).getUsername());
+        assertEquals(account.getUser().getEmail(), r.getBody().as(Account.class).getUser().getEmail());
         r.then().assertThat().statusCode(201);
     }
 
     /**
      * Missing Field Tests
      */
-    @Test
-    public void missingUsernameShouldReturn400() {
-        account.setUsername(null);
-
-        Response r = request.sendPostRequest(REGISTER_PATH, account);
-
-        r.then().assertThat().statusCode(400);
-    }
-
     @Test
     public void missingPasswordShouldReturn400() {
         account.setPassword(null);
@@ -155,15 +144,6 @@ public class AuthenticationControllerIT {
     /**
      * Invalid Input Tests
      */
-    @Test
-    public void invalidUsernameShouldReturn400() {
-        account.setUsername("sh");
-
-        Response r = request.sendPostRequest(REGISTER_PATH, account);
-
-        assertEquals(invalidUsernameErrorMessage, r.body().asString());
-        r.then().assertThat().statusCode(400);
-    }
 
     @Test
     public void invalidEmailShouldReturn400() {
@@ -189,11 +169,8 @@ public class AuthenticationControllerIT {
     public void multipleInvalidDetailsShouldReturn400WithMultipleErrors() {
         account.setPassword("a");
         account.getUser().setEmail("wrong");
-        account.setUsername("sh");
 
-        Response r = request.sendPostRequest(REGISTER_PATH, account);
-
-        assertTrue(r.body().asString().contains(invalidUsernameErrorMessage));
+        Response r = request.sendPostRequest(REGISTER_PATH, account);;
         assertTrue(r.body().asString().contains(invalidEmailErrorMessage));
         assertTrue(r.body().asString().contains(invalidPasswordErrorMessage));
         r.then().assertThat().statusCode(400);
@@ -203,18 +180,8 @@ public class AuthenticationControllerIT {
      * Conflict Tests
      */
     @Test
-    public void registerExistingAccountShouldReturn409() {
-        request.sendPostRequest(REGISTER_PATH, account);
-        Response r = request.sendPostRequest(REGISTER_PATH, account);
-
-        assertEquals(usernameConflictErrorMessage, r.body().asString());
-        r.then().assertThat().statusCode(409);
-    }
-
-    @Test
     public void registerExistingEmailShouldReturn409() {
         request.sendPostRequest(REGISTER_PATH, account);
-        account.setUsername(generateUsername());
 
         Response r = request.sendPostRequest(REGISTER_PATH, account);
 
@@ -227,7 +194,7 @@ public class AuthenticationControllerIT {
      */
     @Test
     public void loginShouldReturn200() {
-        Account existingAccount = new Account(new User("Forename1", "Surname1", "user1@email.com", new Roles(false, false, false)), "Username1", "Passw0rd1");
+        Account existingAccount = new Account(new User("Forename1", "Surname1", "user1@email.com", new Roles(false, false, false)), "Passw0rd1");
 
         Response r = request.sendPostRequest(LOGIN_PATH, existingAccount);
         User returnedUser = r.getBody().as(User.class);
@@ -243,8 +210,8 @@ public class AuthenticationControllerIT {
      * Unsuccessful Authentication Tests
      */
     @Test
-    public void loginMissingUsernameShouldReturn401() {
-        account.setUsername(null);
+    public void loginMissingEmailShouldReturn401() {
+        account.getUser().setEmail(null);
         Response r = request.sendPostRequest(LOGIN_PATH, account);
 
         assertTrue(r.body().asString().contains(loginBadCredentials));
@@ -267,7 +234,7 @@ public class AuthenticationControllerIT {
      */
     @Test
     public void successfulAuthorizationShouldNotReturn403() {
-        Account existingAccount = new Account(new User("Forename1", "Surname1", "user1@gmail.com", new Roles(false, false, false)), "Username1", "Passw0rd1");
+        Account existingAccount = new Account(new User("Forename1", "Surname1", "user1@gmail.com", new Roles(false, false, false)), "Passw0rd1");
         Response r = request.sendPostRequest(LOGIN_PATH, existingAccount);
         String authHeader = r.getHeader("Authorization");
 
@@ -300,17 +267,7 @@ public class AuthenticationControllerIT {
     public void setupTestAccount() {
         Roles validRoles = new Roles();
         User validUser = new User("Forename", "Surname", generateEmail(), validRoles);
-        account = new Account(validUser, generateUsername(), "Password1");
-    }
-
-    /**
-     * Generates a random username
-     *
-     * @return the username generated
-     */
-    private String generateUsername() {
-        Random random = new Random();
-        return "test" + random.nextInt(5000);
+        account = new Account(validUser, "Password1");
     }
 
     /**

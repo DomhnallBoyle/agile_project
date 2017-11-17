@@ -14,16 +14,6 @@ import java.util.List;
 public class ValidationUtility {
 
     /**
-     * Username must start and end with an Alphanumeric character
-     * Username may contain any of the following special characters: '_', '-', '.'
-     * Username can't contain 2 of the above special characters in a row
-     * Username must be between 5 and 15 characters in length
-     */
-    private static final String USERNAME_VALIDATION_REGEX = "^[a-zA-Z0-9]+([-_\\.][a-zA-Z0-9]+)*$";
-    private static final int USERNAME_MIN_LENGTH = 3;
-    private static final int USERNAME_MAX_LENGTH = 15;
-
-    /**
      * Password must contain a lowercase letter, an uppercase letter and a digit
      * Password must be between 8 and 25 characters in length
      */
@@ -42,16 +32,13 @@ public class ValidationUtility {
      * Validates a user account
      *
      * @param account the account to be validated
-     * @param mapper  db access
-     * @return a String with the response message
+     * @param mapper db access
+     * @return a boolean showing true if the details provided were true
      */
     public static boolean validateAccount(Account account, AuthenticationMapper mapper) {
         List<String> errorMessages = new ArrayList<>();
         StringBuilder sb = new StringBuilder();
 
-        if (!validateUsername(account.getUsername())) {
-            errorMessages.add(ErrorMessages.INVALID_USERNAME);
-        }
         if (!validatePassword(account.getPassword())) {
             errorMessages.add(ErrorMessages.INVALID_PASSWORD);
         }
@@ -66,11 +53,6 @@ public class ValidationUtility {
             throw new ResponseErrorException(sb.toString(), HttpStatus.BAD_REQUEST);
         }
 
-        if (mapper.findAccountByUsername(account.getUsername()) != null) {
-            sb.append(ErrorMessages.USERNAME_ALREADY_EXISTS);
-            throw new ResponseErrorException(sb.toString(), HttpStatus.CONFLICT);
-        }
-
         if (mapper.findUserByEmail(account.getUser().getEmail()) != null) {
             sb.append(ErrorMessages.EMAIL_ALREADY_EXISTS);
             throw new ResponseErrorException(sb.toString(), HttpStatus.CONFLICT);
@@ -79,10 +61,36 @@ public class ValidationUtility {
         return true;
     }
 
+    /**
+     * Validates that a Project with the specified Project ID exists within the database
+     * 
+     * @param projectId the Project ID to search for
+     * @param mapper db access
+     * @return a boolean showing true if the Project was found
+     */
     public static boolean validateProjectExists(long projectId, ProjectMapper mapper) {
         return (mapper.getProjectById(projectId) != null);
     }
 
+    /**
+     * Validates that User Story with the specified User Story ID exists within the database
+     * 
+     * @param storyId the User Story ID to search for 
+     * @param mapper db access
+     * @return a boolean showing true if the User Story was found
+     */
+    public static boolean validateUserStoryExists(long storyId, UserStoryMapper mapper) {
+        return (mapper.getUserStoryById(storyId) != null);
+    }
+    
+    /**
+     * Validates that a User Story exists within a given Project
+     * 
+     * @param storyId the User Story ID we are searching the Project Backlog for
+     * @param projectId The Project ID representing the Project we are searching in
+     * @param userStoryMapper db access
+     * @return a boolean showing true if the Project Backlog contained the specified User Story ID
+     */
     public static boolean validateProjectContainsUserStory(long storyId, long projectId, UserStoryMapper userStoryMapper) {
         UserStory story = userStoryMapper.getUserStoryById(storyId);
         List<UserStory> projectBacklog = userStoryMapper.getUserStoriesByProject(projectId);
@@ -92,22 +100,6 @@ public class ValidationUtility {
                 return true;
             }
         }
-        return false;
-    }
-
-    /**
-     * Validates the username against the length requirements and the regex
-     *
-     * @param - username the username to be validated
-     * @return a boolean if the username meets the requirements
-     */
-    private static boolean validateUsername(String username) {
-        if (username.length() >= USERNAME_MIN_LENGTH && username.length() <= USERNAME_MAX_LENGTH) {
-            if (username.matches(USERNAME_VALIDATION_REGEX)) {
-                return true;
-            }
-        }
-
         return false;
     }
 
@@ -141,7 +133,4 @@ public class ValidationUtility {
         return false;
     }
 
-    public static boolean validateUserStoryExists(long id, UserStoryMapper mapper) {
-        return (mapper.getUserStoryById(id) != null);
-    }
 }

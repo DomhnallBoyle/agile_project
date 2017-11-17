@@ -37,11 +37,11 @@ public class AuthenticationService implements UserDetailsService {
     }
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Account account = mapper.findAccountByUsername(username);
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        Account account = mapper.findAccountByEmail(email);
         if (account == null) {
-            throw new UsernameNotFoundException(username);
+            throw new UsernameNotFoundException(email);
         }
-        return new User(account.getUsername(), account.getPassword(), emptyList());
+        return new User(account.getUser().getEmail(), account.getPassword(), emptyList());
     }
 }

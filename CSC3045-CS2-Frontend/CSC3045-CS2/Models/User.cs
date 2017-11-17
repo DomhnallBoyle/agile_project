@@ -31,6 +31,11 @@ namespace CSC3045_CS2.Models
             this.Id = id;
         }
 
+        public User(string email)
+        {
+            this.Email = email;
+        }
+
         public User(string forename, string surname, string email, Roles roles)
         {
             this.Forename = forename;

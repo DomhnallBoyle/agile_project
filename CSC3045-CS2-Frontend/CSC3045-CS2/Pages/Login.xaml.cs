@@ -25,11 +25,11 @@ namespace CSC3045_CS2.Pages
 
         public String LoginTitle { get; set; } = "Login";
 
-        public String LoginUsernameLabel { get; set; } = "Username: ";
+        public String LoginEmailLabel { get; set; } = "Email: ";
 
         public String LoginPasswordLabel { get; set; } = "Password: ";
 
-        public String UsernameTextContent { get; set; }
+        public String EmailTextContent { get; set; }
 
         public String LoginButtonText { get; set; } = "Login";
 
@@ -56,20 +56,20 @@ namespace CSC3045_CS2.Pages
             {
                 return new RelayCommand(param =>
                 {
+                    User user = new User(EmailTextContent);
                     Account account = new Account();
-                    account.Username = UsernameTextContent;
                     account.Password = PasswordBox.Password.ToString();
 
                     try
                     {
-                        User user = _client.Login(account);
+                        User returnedUser = _client.Login(account);
 
                         if (Application.Current.Properties.Contains("user"))
                         {
                             Application.Current.Properties.Remove("user");
                         }
 
-                        Application.Current.Properties.Add("user", user);
+                        Application.Current.Properties.Add("user", returnedUser);
 
                         Page userDashboard = new UserDashboard();
 
