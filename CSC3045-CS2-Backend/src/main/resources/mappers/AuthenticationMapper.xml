@@ -3,27 +3,44 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <!-- Set the namespace below to the interface side of the mapper -->
 <mapper namespace="uk.ac.qub.csc3045.api.mapper.AuthenticationMapper">
+
+    <!-- Result Maps -->
+
     <resultMap id="accountResultMap" type="Account">
         <id column="account_id" property="id"/>
         <result column="username" property="username"/>
         <result column="password" property="password"/>
-        <association property="user" column="user_id" javaType="User" resultMap="userResultMap"/>
+        <association property="user" column="user_id" javaType="User" resultMap="uk.ac.qub.csc3045.api.mapper.UserMapper.userResultMap"/>
     </resultMap>
 
-    <resultMap id="userResultMap" type="User">
-        <id column="user_id" property="id"/>
-        <result column="forename" property="forename"/>
-        <result column="surname" property="surname"/>
-        <result column="email" property="email"/>
-        <association property="roles" column="roles_id" javaType="Roles" resultMap="rolesResultMap"/>
-    </resultMap>
+    <!-- SELECT Queries -->
 
-    <resultMap id="rolesResultMap" type="Roles">
-        <id column="roles_id" property="id"/>
-        <result column="developer" property="developer"/>
-        <result column="scrum_master" property="scrumMaster"/>
-        <result column="product_owner" property="productOwner"/>
-    </resultMap>
+    <select id="findAccountByUsername" resultMap="accountResultMap">
+        SELECT
+        ACCOUNT.ID AS account_id,
+        ACCOUNT.USERNAME,
+        ACCOUNT.PASSWORD,
+        USER.ID    AS user_id,
+        USER.FORENAME,
+        USER.SURNAME,
+        USER.EMAIL,
+        ROLES.ID   AS roles_id,
+        ROLES.DEVELOPER,
+        ROLES.SCRUM_MASTER,
+        ROLES.PRODUCT_OWNER
+        FROM account
+        JOIN user ON account.user_id = user.id
+        JOIN roles ON user.roles_id = roles.id
+        WHERE username = #{username}
+    </select>
+
+    <select id="findUserByEmail" resultType="User">
+        SELECT email
+        FROM user
+        WHERE email = #{email}
+    </select>
+
+    <!-- INSERT Queries -->
 
     <insert id="createUser" parameterType="User" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
         INSERT INTO user (forename, surname, email, roles_id)
@@ -40,28 +57,4 @@
         VALUES (#{developer}, #{scrumMaster}, #{productOwner})
     </insert>
 
-    <select id="findAccountByUsername" resultMap="accountResultMap">
-        SELECT
-            ACCOUNT.ID AS account_id,
-            ACCOUNT.USERNAME,
-            ACCOUNT.PASSWORD,
-            USER.ID    AS user_id,
-            USER.FORENAME,
-            USER.SURNAME,
-            USER.EMAIL,
-            ROLES.ID   AS roles_id,
-            ROLES.DEVELOPER,
-            ROLES.SCRUM_MASTER,
-            ROLES.PRODUCT_OWNER
-        FROM account
-            JOIN user ON account.user_id = user.id
-            JOIN roles ON user.roles_id = roles.id
-        WHERE username = #{username}
-    </select>
-
-    <select id="findUserByEmail" resultType="User">
-        SELECT email
-        FROM user
-        WHERE email = #{email}
-    </select>
 </mapper>

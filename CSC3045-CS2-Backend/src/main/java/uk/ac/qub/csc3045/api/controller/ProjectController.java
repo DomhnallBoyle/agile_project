@@ -11,9 +11,6 @@ import uk.ac.qub.csc3045.api.service.ProjectService;
 import javax.validation.Valid;
 import java.util.List;
 
-import static org.springframework.web.bind.annotation.RequestMethod.GET;
-import static org.springframework.web.bind.annotation.RequestMethod.POST;
-
 @RestController
 @RequestMapping(value = "/project")
 public class ProjectController {
@@ -35,22 +32,22 @@ public class ProjectController {
         return new ResponseEntity<>(this.projectService.update(project), HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/{projectId}", method = GET)
+    @GetMapping(value = "/{projectId}")
     public ResponseEntity<Project> get(@Valid @PathVariable("projectId") long projectId) {
         return new ResponseEntity<>(this.projectService.get(projectId), HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/user/{userId}", method = GET)
+    @GetMapping(value = "/user/{userId}")
     public ResponseEntity<List<Project>> getProjectsForUser(@Valid @PathVariable("userId") long userId) {
         return new ResponseEntity<>(this.projectService.getProjectsForUser(userId), HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/team", method = POST)
+    @PostMapping(value = "/team")
     public ResponseEntity<Project> addToTeam(@Valid @RequestBody Project project) {
         return new ResponseEntity<>(this.projectService.addToTeam(project), HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/team/{projectId}", method = GET)
+    @GetMapping(value = "/team/{projectId}")
     public ResponseEntity<List<User>> getTeamMembers(@Valid @PathVariable("projectId") long projectId) {
         return new ResponseEntity<>(this.projectService.getTeamMembers(projectId), HttpStatus.OK);
     }

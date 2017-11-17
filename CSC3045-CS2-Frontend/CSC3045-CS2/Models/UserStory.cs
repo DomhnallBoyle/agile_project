@@ -32,19 +32,17 @@ namespace CSC3045_CS2.Models
 
         public UserStory() { }
 
-        public UserStory(String name, String description, int points, int marketValue)
+        public UserStory(String name, String description, int marketValue)
         {
             this.Name = name;
             this.Description = description;
-            this.Points = points;
             this.MarketValue = marketValue;
         }
 
-        public UserStory(String name, String description, int points, int marketValue, Project project)
+        public UserStory(String name, String description, int marketValue, Project project)
         {
             this.Name = name;
             this.Description = description;
-            this.Points = points;
             this.MarketValue = marketValue;
             this.Project = project;
         }

@@ -19,8 +19,8 @@ namespace CSC3045_CS2.Models
         public string Description { get; set; }
         [DeserializeAs(Name = "productOwner")]
         public User ProductOwner { get; set; }
-        [DeserializeAs(Name = "scrumMaster")]
-        public User ScrumMaster { get; set; }
+        [DeserializeAs(Name = "scrumMasters")]
+        public List<User> ScrumMasters { get; set; }
         [DeserializeAs(Name = "users")]
         public List<User> Users { get; set; }
 
@@ -28,13 +28,13 @@ namespace CSC3045_CS2.Models
         {
 
         }
-        public Project(User projectManager, String projectName, String description, User productOwner, User scrumMaster)
+        public Project(User projectManager, String projectName, String description, User productOwner, List<User> scrumMasters)
         {
             this.Manager = projectManager;
             this.Name = projectName;
             this.Description = description;
             this.ProductOwner = productOwner;
-            this.ScrumMaster = scrumMaster;
+            this.ScrumMasters = scrumMasters;
         }
 
         public Project(User projectManager, String projectName, String description)
