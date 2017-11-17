@@ -10,11 +10,18 @@ import java.util.List;
 @Mapper
 @Repository
 public interface UserStoryMapper {
-    void createUserStory(UserStory userStory);
+
+    // SELECT Queries
 
     UserStory getUserStoryById(@Param("id") long id);
 
     List<UserStory> getUserStoriesByProject(@Param("id") long id);
+
+    // INSERT Queries
+
+    void createUserStory(UserStory userStory);
+
+    // UPDATE Queries
 
     void updateUserStoryIndex(@Param("userStoryId") long userStoryId, @Param("index") int index);
 }

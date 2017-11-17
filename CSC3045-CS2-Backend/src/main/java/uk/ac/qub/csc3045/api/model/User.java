@@ -1,15 +1,10 @@
 package uk.ac.qub.csc3045.api.model;
 
-import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 
-@Entity
-@Table
 public class User {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     @NotNull
@@ -21,10 +16,8 @@ public class User {
     @NotNull
     private String email;
 
-    @OneToOne
     private Roles roles = new Roles();
 
-    @ManyToMany(mappedBy = "users")
     private List<Project> projects;
 
     public User() {

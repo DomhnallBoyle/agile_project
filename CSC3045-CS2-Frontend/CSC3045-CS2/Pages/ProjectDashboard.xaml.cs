@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -23,45 +24,33 @@ namespace CSC3045_CS2.Pages
     /// <summary>
     /// Interaction logic for ProjectDashboard.xaml
     /// </summary>
-    public partial class ProjectDashboard : Page
+    public partial class ProjectDashboard : Page, INotifyPropertyChanged
     {
         #region Private Variables
 
         private List<Project> _projects;
-        private MenuItem _projectName;
+
+        private MenuItem _projectMenu;
+
         private ProjectClient _client;
+
+        private Project _selectedProject;
 
         #endregion
 
         #region Public Variables
 
-        public Project SelectedProject { get; set; }
+        public Project SelectedProject
+        {
+            get { return _selectedProject; }
+            set
+            {
+                _selectedProject = value;
+                OnPropertyChanged();
+            }
+        }
 
         public Permissions Permissions { get; set; }
-
-        public string TitleLabel { get; set; } = "Project Team Members";
-
-        public string UserDashboardButtonLabel { get; set; } = "User Dashboard";
-
-        public string ProductBacklogButtonLabel { get; set; } = "Product Backlog";
-
-        public string ProjectManagerLabel { get; set; } = "Project Manager";
-
-        public string ProjectTeamMembersLabel { get; set; } = "Project Team Members";
-
-        public string ProjectManagerName { get; set; } = "";
-
-        public string ProjectManagerEmail { get; set; } = "";
-
-        public string DeveloperValueLabel { get; set; } = "Developer";
-
-        public string ScrumMasterValueLabel { get; set; } = "Scrum Master";
-
-        public string ProductOwnerValueLabel { get; set; } = "Product Owner";
-
-        public string SetAsButtonText { get; set; } = "Set As";
-
-        public string AddTeamMemberButtonLabel { get; set; } = "Add Team Member";
 
         #endregion
 
@@ -87,22 +76,22 @@ namespace CSC3045_CS2.Pages
 
         private void AddProjectsToDropdownList()
         {
-            for (int i = 0; i < _projects.Count; i++)
+            foreach (Project project in _projects)
             {
-                _projectName = new MenuItem
+                _projectMenu = new MenuItem
                 {
-                    Header = _projects[i].Name,
+                    Header = project.Name,
                     Command = goToCommand,
-                    CommandParameter = _projects[i]
+                    CommandParameter = project
                 };
 
-                if (this.SelectedProject.Id == _projects[i].Id)
+                if (SelectedProject.Id == project.Id)
                 {
-                    _projectName.Background = Brushes.Wheat;
-                    _projectName.IsChecked = true;
+                    _projectMenu.Background = Brushes.Wheat;
+                    _projectMenu.IsChecked = true;
                 }
 
-                menuItems.Items.Add(_projectName);
+                projectMenuItems.Items.Add(_projectMenu);
             }
         }
 
@@ -111,9 +100,6 @@ namespace CSC3045_CS2.Pages
             try
             {
                 SelectedProject = _client.UpdateProject(SelectedProject);
-
-                Page ProjectDashboard = new ProjectDashboard(SelectedProject);
-                NavigationService.GetNavigationService(this).Navigate(ProjectDashboard);
             }
             catch (RestResponseErrorException ex)
             {
@@ -205,7 +191,19 @@ namespace CSC3045_CS2.Pages
             {
                 return new RelayCommand(param =>
                 {
-                    SelectedProject.ScrumMaster = ((User)param);
+                    SelectedProject.ScrumMasters.Add((User)param);
+                    UpdateProject();
+                });
+            }
+        }
+
+        public ICommand RemoveScrumMasterCommand
+        {
+            get
+            {
+                return new RelayCommand(param =>
+                {
+                    SelectedProject.ScrumMasters.Remove((User)param);
                     UpdateProject();
                 });
             }
@@ -225,5 +223,15 @@ namespace CSC3045_CS2.Pages
 
         #endregion
 
+        #region Binding
+
+        private void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        #endregion
     }
 }

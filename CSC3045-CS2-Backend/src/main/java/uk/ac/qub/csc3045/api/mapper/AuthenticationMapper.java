@@ -10,15 +10,18 @@ import uk.ac.qub.csc3045.api.model.User;
 @Mapper
 @Repository
 public interface AuthenticationMapper {
-    void createUser(User user);
 
-    void createAccount(Account account);
-
-    void createRoles(Roles roles);
+    // SELECT Queries
 
     Account findAccountByUsername(@Param("username") String username);
 
     User findUserByEmail(@Param("email") String email);
 
-    Account findAccountById(@Param("id") Long id);
+    // INSERT Queries
+
+    void createUser(User user);
+
+    void createAccount(Account account);
+
+    void createRoles(Roles roles);
 }

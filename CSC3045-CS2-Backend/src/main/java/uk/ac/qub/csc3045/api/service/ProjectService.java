@@ -29,19 +29,6 @@ public class ProjectService {
 
             Project newProject = mapper.getProjectById(project.getId());
 
-            if (newProject.getProductOwner() != null) {
-                EmailUtility.sendEmail(newProject.getProductOwner().getEmail(), "You Have been added as a Product Owner",
-                        "Hello " + newProject.getProductOwner().getForename() +
-                                " You are now the Product Owner for " + newProject.getName());
-            }
-
-            if (newProject.getScrumMaster() != null) {
-
-                EmailUtility.sendEmail(newProject.getScrumMaster().getEmail(), "You Have been added as a Scrum Master",
-                        "Hello " + newProject.getScrumMaster().getForename() +
-                                " You are now the Scrum Master for " + newProject.getName());
-            }
-
             return newProject;
         } catch (DataIntegrityViolationException e) {
             throw new ResponseErrorException("Project Manager does not exist in the database", HttpStatus.NOT_FOUND);
@@ -50,39 +37,29 @@ public class ProjectService {
     }
 
     public Project update(Project project) {
-		try {
-			if (ValidationUtility.validateProjectExists(project.getId(), mapper)) {
-				Project oldProject = mapper.getProjectById(project.getId());
+        try {
+            if (ValidationUtility.validateProjectExists(project.getId(), mapper)) {
+                Project oldProject = mapper.getProjectById(project.getId());
 
-				mapper.updateProject(project);
+                mapper.updateProject(project);
 
-				Project updatedProject = mapper.getProjectById(project.getId());
+                if (project.getScrumMasters() != null) {
+                    updateScrumMasters(oldProject, project);
+                }
 
-				if (updatedProject.getProductOwner() != null
-						&& !updatedProject.getProductOwner().equals(oldProject.getProductOwner())) {
-					EmailUtility.sendEmail(updatedProject.getProductOwner().getEmail(),
-							"You Have been added as a Product Owner",
-							"Hello " + updatedProject.getProductOwner().getForename()
-									+ "You are now the Product Owner for " + updatedProject.getName());
+                Project updatedProject = mapper.getProjectById(project.getId());
 
-				}
-				if (updatedProject.getScrumMaster() != null
-						&& !updatedProject.getScrumMaster().equals(oldProject.getScrumMaster())) {
-					EmailUtility.sendEmail(updatedProject.getScrumMaster().getEmail(),
-							"You Have been added as a Scrum Master",
-							"Hello " + updatedProject.getScrumMaster().getForename()
-									+ " You are now the Scrum Master for "
-									+ updatedProject.getScrumMaster().getForename());
+                sendProductOwnerEmail(oldProject, updatedProject);
+                sendScrumMasterEmails(oldProject, updatedProject);
 
-				}
-				return updatedProject;
-			}
-			throw new ResponseErrorException("Project does not exist", HttpStatus.NOT_FOUND);
-		} catch (DataIntegrityViolationException e) {
-			throw new ResponseErrorException("User for Product Owner or Scrum Master does not exist", HttpStatus.NOT_FOUND);
-		}
-		
-	}
+                return updatedProject;
+            }
+            throw new ResponseErrorException("Project does not exist", HttpStatus.NOT_FOUND);
+        } catch (DataIntegrityViolationException e) {
+            throw new ResponseErrorException("User for Product Owner or Scrum Master does not exist", HttpStatus.NOT_FOUND);
+        }
+
+    }
 
     public Project get(long projectId) {
         if (ValidationUtility.validateProjectExists(projectId, mapper)) {
@@ -105,10 +82,7 @@ public class ProjectService {
         try {
             for (User user : project.getUsers()) {
                 mapper.addToProjectTeam(project.getId(), user.getId());
-
-                EmailUtility.sendEmail(user.getEmail(), "You have been added to a new Project - " + project.getName(),
-                        "Hello " + user.getForename() +
-                                ", \n\nYou have been added to the Project Team for " + project.getName());
+                sendAddedToTeamEmail(project.getName(), user);
             }
         } catch (DataIntegrityViolationException e) {
             throw new ResponseErrorException("Project or User does not exist", HttpStatus.NOT_FOUND);
@@ -123,4 +97,47 @@ public class ProjectService {
         throw new ResponseErrorException("Project does not exist", HttpStatus.NOT_FOUND);
     }
 
+    // #####################
+    // ## Private methods ##
+    // #####################
+
+    private void updateScrumMasters(Project oldProject, Project inboundProject) {
+        for (User user : oldProject.getScrumMasters()) {
+            mapper.setUserAsScrumMaster(oldProject.getId(), user.getId(), false);
+        }
+
+        for (User user : inboundProject.getScrumMasters()) {
+            mapper.setUserAsScrumMaster(inboundProject.getId(), user.getId(), true);
+        }
+    }
+
+    private void sendAddedToTeamEmail(String projectName, User user) {
+        EmailUtility.sendEmail(user.getEmail(), "You have been added to a new Project",
+                "Hello " + user.getForename() +
+                        ",\n\nYou have been added to the Project Team for " + projectName + ".");
+    }
+
+    private void sendProductOwnerEmail(Project oldProject, Project updatedProject) {
+        if (updatedProject.getProductOwner() != null
+                && !updatedProject.getProductOwner().equals(oldProject.getProductOwner())) {
+            EmailUtility.sendEmail(updatedProject.getProductOwner().getEmail(),
+                    "You Have been assigned as a Product Owner",
+                    "Hello " + updatedProject.getProductOwner().getForename()
+                            + ",\n\nYou are now the Product Owner for " + updatedProject.getName() + ".");
+        }
+    }
+
+    private void sendScrumMasterEmails(Project oldProject, Project updatedProject) {
+        if (updatedProject.getScrumMasters() != null) {
+            for (User scrumMaster : updatedProject.getScrumMasters()) {
+                if (!oldProject.getScrumMasters().contains(scrumMaster)) {
+                    EmailUtility.sendEmail(scrumMaster.getEmail(),
+                            "You Have been assigned as a Scrum Master",
+                            "Hello " + scrumMaster.getForename()
+                                    + ",\n\nYou are now a Scrum Master for "
+                                    + updatedProject.getName() + ".");
+                }
+            }
+        }
+    }
 }

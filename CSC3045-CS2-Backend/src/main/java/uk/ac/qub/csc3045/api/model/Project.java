@@ -1,15 +1,10 @@
 package uk.ac.qub.csc3045.api.model;
 
-import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 
-@Entity
-@Table
 public class Project {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     @NotNull
@@ -18,24 +13,15 @@ public class Project {
     @NotNull
     private String description;
 
-    @OneToOne
     @NotNull
     private User manager;
 
-    @OneToOne
     private User productOwner;
 
-    @OneToOne
-    private User scrumMaster;
+    private List<User> scrumMasters;
 
-    @ManyToMany
-    @JoinTable(
-            name = "PROJECT_USER",
-            joinColumns = @JoinColumn(name = "PROJECT_ID", referencedColumnName = "ID"),
-            inverseJoinColumns = @JoinColumn(name = "USER_ID", referencedColumnName = "ID"))
     private List<User> users;
 
-    @OneToMany(mappedBy = "project")
     private List<UserStory> userStories;
 
     public Project() {
@@ -46,12 +32,12 @@ public class Project {
         this.id = id;
     }
 
-    public Project(String name, String description, User manager, User productOwner, User scrumMaster, List<User> users, List<UserStory> userStories) {
+    public Project(String name, String description, User manager, User productOwner, List<User> scrumMasters, List<User> users, List<UserStory> userStories) {
         this.name = name;
         this.description = description;
         this.manager = manager;
         this.productOwner = productOwner;
-        this.scrumMaster = scrumMaster;
+        this.scrumMasters = scrumMasters;
         this.users = users;
         this.userStories = userStories;
     }
@@ -96,12 +82,12 @@ public class Project {
         this.productOwner = productOwner;
     }
 
-    public User getScrumMaster() {
-        return scrumMaster;
+    public List<User> getScrumMasters() {
+        return scrumMasters;
     }
 
-    public void setScrumMaster(User scrumMaster) {
-        this.scrumMaster = scrumMaster;
+    public void setScrumMasters(List<User> scrumMasters) {
+        this.scrumMasters = scrumMasters;
     }
 
     public List<User> getUsers() {
@@ -176,11 +162,11 @@ public class Project {
             return false;
         }
 
-        if (scrumMaster == null) {
-            if (other.scrumMaster != null) {
+        if (scrumMasters == null) {
+            if (other.scrumMasters != null) {
                 return false;
             }
-        } else if (!scrumMaster.equals(other.scrumMaster)) {
+        } else if (!scrumMasters.equals(other.scrumMasters)) {
             return false;
         }
 
