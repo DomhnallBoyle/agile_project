@@ -30,7 +30,7 @@
 
         <StackPanel Margin="0,20,0,20">
             <Button Content="{Binding LoginButtonText, FallbackValue='Login'}" HorizontalAlignment="Center" Margin="0,0,0,15" Command="{Binding LoginCommand}"/>
-            <Button Content="{Binding RegisterButtonText, FallbackValue='Register'}" HorizontalAlignment="Center" Margin="0,0,0,0" Command="{Binding NavigateToRegistrationCommand}"/>
+            <Button Name="RegisterButton" Content="{Binding RegisterButtonText, FallbackValue='Register'}" HorizontalAlignment="Center" Margin="0,0,0,0" Command="{Binding NavigateToRegistrationCommand}"/>
         </StackPanel>
         
     </StackPanel>
