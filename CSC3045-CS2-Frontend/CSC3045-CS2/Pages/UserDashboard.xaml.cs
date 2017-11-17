@@ -27,7 +27,7 @@ namespace CSC3045_CS2.Pages
         #region Private variables
 
         private List<Project> _projectList;
-        private TextBlock _projectName, _projectDescription;
+        private TextBlock _projectName, _projectDescription, _projectRoles;
         private Button _toProjectDashboard;
         private ProjectClient _client;
 
@@ -67,6 +67,10 @@ namespace CSC3045_CS2.Pages
                 {
                     Text = _projectList[i].Description
                 };
+                _projectRoles = new TextBlock
+                {
+                    Text = new Permissions((User)Application.Current.Properties["user"], _projectList[i]).getPermissionsAsString()
+                };
                 _toProjectDashboard = new Button
                 {
                     Content = "Go to Project",
@@ -76,6 +80,7 @@ namespace CSC3045_CS2.Pages
 
                 ProjectNamePanel.Children.Add(_projectName);
                 DetailsPanel.Children.Add(_projectDescription);
+                RolesPanel.Children.Add(_projectRoles);
                 ButtonPanel.Children.Add(_toProjectDashboard);
             }
         }

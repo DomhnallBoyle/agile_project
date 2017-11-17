@@ -1,13 +1,7 @@
 package uk.ac.qub.csc3045.api.model;
 
-import javax.persistence.*;
-
-@Entity
-@Table
 public class Roles {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     private Boolean developer = false;

@@ -1,18 +1,12 @@
 package uk.ac.qub.csc3045.api.model;
 
-import javax.persistence.*;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
-@Entity
-@Table
 public class Account {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @OneToOne
     @NotNull
     @Valid
     private User user;

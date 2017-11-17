@@ -11,7 +11,7 @@
         <StackPanel>
             <TextBlock Text="User Dashboard" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center"></TextBlock>
         </StackPanel>
-        
+
         <StackPanel Background="CadetBlue">
             <TextBlock FontSize ="14" Text="{Binding UserLabel}" HorizontalAlignment="Left" />
         </StackPanel>
@@ -22,12 +22,15 @@
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
                 <StackPanel Name="ProjectNamePanel" Margin="10,0,0,2">
                 </StackPanel>
                 <StackPanel Name="DetailsPanel" Grid.Column="1">
                 </StackPanel>
-                <StackPanel Name="ButtonPanel" Grid.Column="2" Margin="10,0,10,0">
+                <StackPanel Name="RolesPanel" Grid.Column="2">
+                </StackPanel>
+                <StackPanel Name="ButtonPanel" Grid.Column="3" Margin="10,0,10,0">
                 </StackPanel>
             </Grid>
         </ScrollViewer>
