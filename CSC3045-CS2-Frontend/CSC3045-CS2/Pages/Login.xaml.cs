@@ -21,22 +21,6 @@ namespace CSC3045_CS2.Pages
 
         #endregion
 
-        #region Public Variables
-
-        public String LoginTitle { get; set; } = "Login";
-
-        public String LoginUsernameLabel { get; set; } = "Username: ";
-
-        public String LoginPasswordLabel { get; set; } = "Password: ";
-
-        public String UsernameTextContent { get; set; }
-
-        public String LoginButtonText { get; set; } = "Login";
-
-        public String RegisterButtonText { get; set; } = "Register";
-
-        #endregion
-
         public Login()
         {
             InitializeComponent();
@@ -57,8 +41,8 @@ namespace CSC3045_CS2.Pages
                 return new RelayCommand(param =>
                 {
                     Account account = new Account();
-                    account.Username = UsernameTextContent;
-                    account.Password = PasswordBox.Password.ToString();
+                    account.Username = UsernameTextBox.Text;
+                    account.Password = PasswordTextBox.Password.ToString();
 
                     try
                     {
@@ -79,7 +63,7 @@ namespace CSC3045_CS2.Pages
                     {
                         if (ex.StatusCode == System.Net.HttpStatusCode.Unauthorized)
                         {
-                            MessageBox.Show("Invalid username or password");
+                            MessageBox.Show("Invalid username or password.", "Error");
                         }
                         else
                         {

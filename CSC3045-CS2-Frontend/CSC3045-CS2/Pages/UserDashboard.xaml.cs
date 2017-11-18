@@ -27,8 +27,6 @@ namespace CSC3045_CS2.Pages
         #region Private variables
 
         private List<Project> _projectList;
-        private TextBlock _projectName, _projectDescription, _projectRoles;
-        private Button _toProjectDashboard;
         private ProjectClient _client;
 
         #endregion
@@ -36,8 +34,6 @@ namespace CSC3045_CS2.Pages
         #region Public variables
 
         public String UserLabel { get; set; }
-
-        public String LogoutButtonLabel { get; set; } = "Logout";
 
         #endregion
 
@@ -59,19 +55,19 @@ namespace CSC3045_CS2.Pages
         {
             for (int i = 0; i < _projectList.Count; i++)
             {
-                _projectName = new TextBlock
+                TextBlock _projectName = new TextBlock
                 {
                     Text = _projectList[i].Name
                 };
-                _projectDescription = new TextBlock
+                TextBlock _projectDescription = new TextBlock
                 {
                     Text = _projectList[i].Description
                 };
-                _projectRoles = new TextBlock
+                TextBlock _projectRoles = new TextBlock
                 {
                     Text = new Permissions((User)Application.Current.Properties["user"], _projectList[i]).getPermissionsAsString()
                 };
-                _toProjectDashboard = new Button
+                Button _toProjectDashboard = new Button
                 {
                     Content = "Go to Project",
                     Command = GoToCommand,

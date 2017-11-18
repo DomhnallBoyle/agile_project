@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using AutomationTests.PageTemplates;
+using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -7,21 +8,35 @@ using System.Text;
 using System.Threading.Tasks;
 using TestStack.White;
 using TestStack.White.Factory;
+using TestStack.White.InputDevices;
 using TestStack.White.UIItems.WindowItems;
 
 namespace AutomationTests
 {
     public abstract class BaseTestClass
     {
-        private TestContext _context;
+        protected Window MainWindow { get; private set; }
 
-        public Window MainWindow { get; private set; }
+        protected Keyboard Keyboard { get; private set; }
 
-        protected BaseTestClass()
+        protected LoginPage LoginPage { get; private set; }
+        
+        [OneTimeSetUp]
+        public void BaseTestFixtureSetup()
         {
-            var appPath = Path.Combine(_context.TestDirectory, "csc3045-cs2.exe");
+            Keyboard = Keyboard.Instance;
+
+            var appPath = Path.Combine(TestContext.CurrentContext.TestDirectory, "csc3045-cs2.exe");
             Application application = Application.Launch(appPath);
             MainWindow = application.GetWindow("MainWindow", InitializeOption.NoCache);
+
+            LoginPage = new LoginPage(MainWindow);
+        }
+
+        [OneTimeTearDown]
+        public void BaseTestFixtureTeardown()
+        {
+            MainWindow.Dispose();
         }
     }
 }

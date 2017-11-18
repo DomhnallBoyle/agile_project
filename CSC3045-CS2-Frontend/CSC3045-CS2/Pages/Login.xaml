@@ -9,7 +9,7 @@
       Title="Login">
 
     <StackPanel>
-        <TextBlock Text="{Binding LoginTitle, FallbackValue='Login'}" HorizontalAlignment="Center" Margin="0,10,0,25"/>
+        <TextBlock Name="PageTitle" Text="Login" HorizontalAlignment="Center" Margin="0,10,0,25"/>
 
         <Grid>
             <Grid.ColumnDefinitions>
@@ -18,19 +18,19 @@
             </Grid.ColumnDefinitions>
 
             <StackPanel Grid.Column="0" Margin="0,0,12,0">
-                <TextBlock Text="{Binding LoginUsernameLabel, FallbackValue='Username:'}" HorizontalAlignment="Right" Margin="0,0,0,15"/>
-                <TextBlock Text="{Binding LoginPasswordLabel, FallbackValue='Password:'}" HorizontalAlignment="Right"/>
+                <TextBlock Text="Username:" HorizontalAlignment="Right" Margin="0,0,0,15"/>
+                <TextBlock Text="Password:" HorizontalAlignment="Right"/>
             </StackPanel>
 
             <StackPanel Grid.Column="1" Margin="12,0,25,0">
-                <TextBox Text="{Binding UsernameTextContent}"  MaxLength="25" MaxWidth="125" MinWidth="125" HorizontalAlignment="Left" Margin="0,0,0,15"/>
-                <PasswordBox Name="PasswordBox" MaxLength="25" MaxWidth="125" MinWidth="125" HorizontalAlignment="Left"/>
+                <TextBox Name="UsernameTextBox"  MaxLength="25" MaxWidth="125" MinWidth="125" HorizontalAlignment="Left" Margin="0,0,0,15"/>
+                <PasswordBox Name="PasswordTextBox" MaxLength="25" MaxWidth="125" MinWidth="125" HorizontalAlignment="Left"/>
             </StackPanel>
         </Grid>
 
         <StackPanel Margin="0,20,0,20">
-            <Button Content="{Binding LoginButtonText, FallbackValue='Login'}" HorizontalAlignment="Center" Margin="0,0,0,15" Command="{Binding LoginCommand}"/>
-            <Button Name="RegisterButton" Content="{Binding RegisterButtonText, FallbackValue='Register'}" HorizontalAlignment="Center" Margin="0,0,0,0" Command="{Binding NavigateToRegistrationCommand}"/>
+            <Button Name="LoginButton" Content="Login" HorizontalAlignment="Center" Margin="0,0,0,15" Command="{Binding LoginCommand}"/>
+            <Button Name="RegisterButton" Content="Register" HorizontalAlignment="Center" Margin="0,0,0,0" Command="{Binding NavigateToRegistrationCommand}"/>
         </StackPanel>
         
     </StackPanel>
