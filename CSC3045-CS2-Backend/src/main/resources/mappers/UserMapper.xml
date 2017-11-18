@@ -23,21 +23,19 @@
 
     <!-- SELECT Queries -->
 
-    <select id="searchUsers" parameterType="User" resultMap="userResultMap">
+    <select id="findUserByEmail" resultMap="userResultMap">
         SELECT
-            USER.ID  AS user_id,
+            USER.ID     AS user_id,
             USER.FORENAME,
             USER.SURNAME,
             USER.EMAIL,
-            ROLES.ID AS roles_id,
+            ROLES.ID    AS roles_id,
             ROLES.DEVELOPER,
             ROLES.SCRUM_MASTER,
-            ROLES.PRODUCT_OWNER
-        FROM user
-            JOIN roles ON roles.ID = user.ROLES_ID
-        WHERE FORENAME LIKE '%' || '${forename}' || '%'
-              AND SURNAME LIKE '%' || '${surname}' || '%'
-              AND EMAIL LIKE '%' || '${email}' || '%'
+            ROLES.PRODUCT_OWNER        
+        FROM user 
+            JOIN roles ON user.roles_id = roles.id
+        WHERE email = #{email}
     </select>
 
 </mapper>

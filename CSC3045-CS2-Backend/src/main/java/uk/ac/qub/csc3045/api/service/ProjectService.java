@@ -80,10 +80,15 @@ public class ProjectService {
 
     public Project addToTeam(Project project) {
         try {
+        	Project oldProject = mapper.getProjectById(project.getId());
+        	
             for (User user : project.getUsers()) {
                 mapper.addToProjectTeam(project.getId(), user.getId());
-                sendAddedToTeamEmail(project.getName(), user);
             }
+            
+            Project updatedProject = mapper.getProjectById(project.getId());
+            
+            sendTeamMemberEmails(oldProject, updatedProject);
         } catch (DataIntegrityViolationException e) {
             throw new ResponseErrorException("Project or User does not exist", HttpStatus.NOT_FOUND);
         }
@@ -97,10 +102,6 @@ public class ProjectService {
         throw new ResponseErrorException("Project does not exist", HttpStatus.NOT_FOUND);
     }
 
-    // #####################
-    // ## Private methods ##
-    // #####################
-
     private void updateScrumMasters(Project oldProject, Project inboundProject) {
         for (User user : oldProject.getScrumMasters()) {
             mapper.setUserAsScrumMaster(oldProject.getId(), user.getId(), false);
@@ -109,12 +110,6 @@ public class ProjectService {
         for (User user : inboundProject.getScrumMasters()) {
             mapper.setUserAsScrumMaster(inboundProject.getId(), user.getId(), true);
         }
-    }
-
-    private void sendAddedToTeamEmail(String projectName, User user) {
-        EmailUtility.sendEmail(user.getEmail(), "You have been added to a new Project",
-                "Hello " + user.getForename() +
-                        ",\n\nYou have been added to the Project Team for " + projectName + ".");
     }
 
     private void sendProductOwnerEmail(Project oldProject, Project updatedProject) {
@@ -139,5 +134,17 @@ public class ProjectService {
                 }
             }
         }
+    }
+    
+    private void sendTeamMemberEmails(Project oldProject, Project updatedProject) {
+    	if (updatedProject.getUsers() != null) {
+    		for (User teamMember : updatedProject.getUsers()) {
+    			if (!oldProject.getUsers().contains(teamMember)) {
+    				EmailUtility.sendEmail(teamMember.getEmail(), "You have been added to a new Project",
+    		                "Hello " + teamMember.getForename() +
+    		                        ",\n\nYou have been added to the Project Team for " + updatedProject.getName() + ".");
+    			}
+    		}
+    	}
     }
 }

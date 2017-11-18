@@ -56,8 +56,8 @@ namespace CSC3045_CS2.Pages
             {
                 return new RelayCommand(param =>
                 {
-                    User user = new User(EmailTextContent);
                     Account account = new Account();
+                    account.User = new User(null, null, EmailTextContent, new Roles(false, false, false));
                     account.Password = PasswordBox.Password.ToString();
 
                     try
@@ -79,7 +79,7 @@ namespace CSC3045_CS2.Pages
                     {
                         if (ex.StatusCode == System.Net.HttpStatusCode.Unauthorized)
                         {
-                            MessageBox.Show("Invalid username or password");
+                            MessageBox.Show("Invalid email or password");
                         }
                         else
                         {

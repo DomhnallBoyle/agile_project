@@ -5,114 +5,107 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:CSC3045_CS2.Pages"
       mc:Ignorable="d" 
+      x:Name="Page"
       d:DesignHeight="600" d:DesignWidth="800"
       Title="AddProjectTeamMember">
+
+    <Page.Resources>
+        <BooleanToVisibilityConverter x:Key="BoolToVisConverter"/>
+    </Page.Resources>
+
     <StackPanel>
-        <TextBlock Text="Add Project Team Member" HorizontalAlignment="Center" FontWeight="Bold" FontSize="20" Margin="0,10,0,10"/>
+        <TextBlock Style="{StaticResource Title}" Text="Manage Project Team" HorizontalAlignment="Center" Margin="0,10,0,10"/>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="0.4*"/>
+                <ColumnDefinition Width="0.6*"/>
+            </Grid.ColumnDefinitions>
+
+            <StackPanel Grid.Column="0" HorizontalAlignment="Right">
+                <TextBlock Style="{StaticResource Label}" Text="Email" Grid.Column="0" Margin="0,10,0,0"/>
+            </StackPanel>
+
+            <StackPanel Grid.Column="1" Margin="10,0,10,0">
+                <TextBox Name="EmailTextBox" Margin="0,10,0,0"/>
+                <Button Style="{StaticResource StandardButton}" Name="SearchButton" Margin="10,10,10,10" Content="Search" Command="{Binding SearchCommand}" IsDefault="True"/>
+            </StackPanel>
+        </Grid>
+
+        <TextBlock Style="{StaticResource Header}" Text="Search Result" HorizontalAlignment="Left" Margin="0,10,0,10"/>
+        
+        <Border BorderBrush="{StaticResource DarkGrayBrush}" BorderThickness="2">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                
+                <TextBlock Grid.Column="0" HorizontalAlignment="Center" Margin="10,0,10,0">
+                    <TextBlock.Text>
+                        <MultiBinding StringFormat="{}{0} {1}">
+                            <Binding Path="SearchResultUser.Forename" Mode="OneWay"/>
+                            <Binding Path="SearchResultUser.Surname" Mode="OneWay"/>
+                        </MultiBinding>
+                    </TextBlock.Text>
+                </TextBlock>
+                
+                <TextBlock Grid.Column="1" Text="{Binding SearchResultUser.Email, Mode=OneWay}" HorizontalAlignment="Center" Margin="10,0,10,0"/>
+                
+                <Grid Grid.Column="2" HorizontalAlignment="Stretch" Margin="10,0,10,0">
+                    <StackPanel>
+                        <TextBlock Text="Developer" Visibility="{Binding SearchResultUser.Roles.Developer, Converter={StaticResource BoolToVisConverter}, FallbackValue=Collapsed}"/>
+                        <TextBlock Text="Scrum Master" Visibility="{Binding SearchResultUser.Roles.ScrumMaster, Converter={StaticResource BoolToVisConverter}, FallbackValue=Collapsed}"/>
+                        <TextBlock Text="Product Owner" Visibility="{Binding SearchResultUser.Roles.ProductOwner, Converter={StaticResource BoolToVisConverter}, FallbackValue=Collapsed}"/>
+                    </StackPanel>
+                    <Button Content="Add to Team" HorizontalAlignment="Right" Command="{Binding AddToTeamCommand}" Visibility="{Binding SearchResultUser, TargetNullValue=Collapsed}"/>
+                </Grid>
+            </Grid>
+        </Border>
+
+        <TextBlock Style="{StaticResource Header}" Text="Current Project Team" HorizontalAlignment="Left" Margin="0,10,0,10"/>
+        
+        <ListBox Name="TeamMembersListBox" HorizontalContentAlignment="Stretch" ItemsSource="{Binding TeamMembers}" Height="150">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        
+                        <TextBlock Grid.Column="0" HorizontalAlignment="Stretch" Margin="10,0,10,0">
+                            <TextBlock.Text>
+                                <MultiBinding StringFormat="{}{0} {1}">
+                                    <Binding Path="Forename"/>
+                                    <Binding Path="Surname"/>
+                                </MultiBinding>
+                            </TextBlock.Text>
+                        </TextBlock>
+                        
+                        <TextBlock Grid.Column="1" Text="{Binding Email}" HorizontalAlignment="Stretch" Margin="10,0,10,0"/>
+                       
+                        <Grid Grid.Column="2" HorizontalAlignment="Stretch" Margin="10,0,10,0">
+                            <StackPanel>
+                                <TextBlock Text="Developer" Visibility="{Binding Roles.Developer, Converter={StaticResource BoolToVisConverter}, FallbackValue=Collapsed}"/>
+                                <TextBlock Text="Scrum Master" Visibility="{Binding Roles.ScrumMaster, Converter={StaticResource BoolToVisConverter}, FallbackValue=Collapsed}"/>
+                                <TextBlock Text="Product Owner" Visibility="{Binding Roles.ProductOwner, Converter={StaticResource BoolToVisConverter}, FallbackValue=Collapsed}"/>
+                            </StackPanel>
+                        </Grid>
+                    </Grid>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <StackPanel Grid.Column="0" Margin="20,0,0,0" HorizontalAlignment="Center" >
-                <TextBlock Text="Username" Grid.Column="0" FontSize="14" />
-                <TextBlock Text="First name" Grid.Column="0" FontSize="14" Margin="0,10,0,0"/>
-                <TextBlock Text="Surname" Grid.Column="0" FontSize="14" Margin="0,10,0,0"/>
-                <TextBlock Text="Email" Grid.Column="0" FontSize="14" Margin="0,10,0,0"/>
-                <TextBlock Text="Role" Grid.Column="0" FontSize="14" Margin="0,10,0,0"/>
-            </StackPanel>
-            <StackPanel Grid.Column="1" Margin="10,0,10,0">
-                <TextBox Name="UsernameTextBox" />
-                <TextBox Name ="FirstnameTextBox" Margin="0,10,0,0"/>
-                <TextBox Name ="SurnameTextBox" Margin="0,10,0,0"/>
-                <TextBox Name ="EmailTextBox" Margin="0,10,0,0"/>
-                <Grid Margin="0,10">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition></ColumnDefinition>
-                        <ColumnDefinition></ColumnDefinition>
-                    </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition></RowDefinition>
-                        <RowDefinition></RowDefinition>
-                    </Grid.RowDefinitions>
-                    <CheckBox Name="ProductOwnerCheckBox" IsChecked="True" Grid.Column="0" Grid.Row="0" Margin="0,5" HorizontalAlignment="Left">Product Owner</CheckBox>
-                    <CheckBox Name="ScrumMasterCheckBox" IsChecked="True" Grid.Column="1" Grid.Row="0" Margin="0,5" HorizontalAlignment="Right">Scrum Master</CheckBox>
-                    <CheckBox Name="DeveloperCheckBox" IsChecked="True" Grid.ColumnSpan="2" Grid.Row="1" HorizontalAlignment="Center" Margin="0,5">Developer</CheckBox>
-                </Grid>
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="1"/>
-                        <ColumnDefinition Width="*"/>
-                    </Grid.ColumnDefinitions>
-                    <Button Name="SearchButton" Margin="10,10,10,10" Grid.Column="1" Background="Green" Content="Search" Command="{Binding SearchCommand}" />
-                </Grid>
-            </StackPanel>
+
+            <Button Grid.Column="0" Style="{StaticResource StandardButton}" Content="Cancel" HorizontalAlignment="Right" Command="{Binding CancelCommand}" Margin="5,0,5,0"/>
+            <Button Grid.Column="1" Style="{StaticResource StandardButton}" Content="Save Changes" HorizontalAlignment="Left" Command="{Binding SaveCommand}" Margin="5,0,5,0"/>
         </Grid>
-        <StackPanel>
-        </StackPanel >
-        <TextBlock Text="Results" Name="ResultsHeader" Visibility="Hidden" HorizontalAlignment="Center" FontWeight="Bold" FontSize="20" Margin="0,10,0,10"/>
-        <TextBlock Name="noResultsMessage" Text="No Results Found" HorizontalAlignment="Center" FontWeight="Bold" FontSize="20" Visibility="Hidden"/>
-
-        <StackPanel>
-
-            <Grid>
-                <Grid.ColumnDefinitions >
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
-                <StackPanel Name="nameHeaderPanel" Margin="10,0,0,0">
-                    <TextBlock Text="Name" Grid.Column="0" FontSize="14"  FontWeight="Bold" Name="nameLabel"  Visibility="Hidden" />
-                </StackPanel>
-                <StackPanel Name="emailHeaderPanel" Grid.Column="1" >
-                    <TextBlock Text="Email" Grid.Column="0" FontSize="14"   FontWeight="Bold" Name="emailLabel"  Visibility="Hidden"/>
-                </StackPanel>
-                <StackPanel Name="addButtonHeaderPanel" Grid.Column="2" Margin="10,0,10,0">
-                    <TextBlock Text="" Grid.Column="0" FontSize="14" HorizontalAlignment="Center"  FontWeight="Bold"/>
-                </StackPanel>
-                <StackPanel Grid.Column="2" Margin="10,0,10,0">
-                    <Grid Margin="0,10">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition></ColumnDefinition>
-                            <ColumnDefinition></ColumnDefinition>
-                        </Grid.ColumnDefinitions>
-                        <Grid.RowDefinitions>
-                            <RowDefinition></RowDefinition>
-                            <RowDefinition></RowDefinition>
-                        </Grid.RowDefinitions>
-                    </Grid>
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="1"/>
-                            <ColumnDefinition Width="*"/>
-                        </Grid.ColumnDefinitions>
-                    </Grid>
-                </StackPanel>
-            </Grid>
-            <ScrollViewer VerticalScrollBarVisibility="Visible" Height="100">
-                <Grid>
-                    <Grid.ColumnDefinitions >
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="*" />
-                    </Grid.ColumnDefinitions>
-                    <StackPanel Name="namePanel" Margin="10,0,0,2">
-
-                    </StackPanel>
-                    <StackPanel Name="emailPanel" Grid.Column="1"  >
-
-                    </StackPanel>
-                    <StackPanel Name="addButtonPanel" Grid.Column="2" Margin="10,0,10,0">
-
-                    </StackPanel>
-
-                    <StackPanel Grid.Column="2" Margin="10,0,10,0">
-                    </StackPanel>
-
-                </Grid>
-            </ScrollViewer>
-        </StackPanel>
-        <Button Name="SaveButton" Visibility="Hidden" Margin="100,10,100,0" Grid.Column="1" Background="Green" Content="Save" Command="{Binding SaveCommand}" />
     </StackPanel>
-
 </Page>

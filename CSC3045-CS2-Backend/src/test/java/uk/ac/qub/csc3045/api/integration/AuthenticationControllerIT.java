@@ -234,7 +234,7 @@ public class AuthenticationControllerIT {
      */
     @Test
     public void successfulAuthorizationShouldNotReturn403() {
-        Account existingAccount = new Account(new User("Forename1", "Surname1", "user1@gmail.com", new Roles(false, false, false)), "Passw0rd1");
+        Account existingAccount = new Account(new User("Forename1", "Surname1", "user1@email.com", new Roles(false, false, false)), "Passw0rd1");
         Response r = request.sendPostRequest(LOGIN_PATH, existingAccount);
         String authHeader = r.getHeader("Authorization");
 

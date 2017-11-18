@@ -8,6 +8,12 @@
         <Setter Property="TextDecorations" Value="Underline"/>
     </Style>
 
+    <Style TargetType="{x:Type TextBlock}" x:Key="Header">
+        <Setter Property="FontFamily" Value="{StaticResource LatoRegular}"/>
+        <Setter Property="FontSize" Value="14"/>
+        <Setter Property="Foreground" Value="{StaticResource DarkBlueBrush}"/>
+    </Style>
+
     <Style TargetType="{x:Type TextBlock}" x:Key="Label">
         <Setter Property="FontFamily" Value="{StaticResource LatoRegular}"/>
         <Setter Property="FontSize" Value="12"/>

@@ -15,8 +15,6 @@ public interface AuthenticationMapper {
 
     Account findAccountByEmail(@Param("email") String email);
 
-    User findUserByEmail(@Param("email") String email);
-
     // INSERT Queries
 
     void createUser(User user);

@@ -27,112 +27,8 @@ public class ValidationUtilityTest {
         user.setEmail("abcdef@gmail.com");
 
         account = new Account();
-        account.setUsername("abcdef");
         account.setPassword("Abc1");
         account.setUser(user);
-    }
-
-    @Test
-    public void usernameMinLengthTest() {
-        try {
-            account.setUsername("ab");
-
-            ValidationUtility.validateAccount(account, authenticationMapperMock);
-            fail("An exception was not thrown by validateAccount");
-        } catch (ResponseErrorException e) {
-            assertThat(e.getMessage(), containsString("The Username does not meet the requirements"));
-        }
-    }
-
-    @Test
-    public void usernameMaxLengthTest() {
-        try {
-            account.setUsername("abcdefghijklmnopqrstuvwxyz1234567890");
-
-            ValidationUtility.validateAccount(account, authenticationMapperMock);
-            fail("An exception was not thrown by validateAccount");
-        } catch (ResponseErrorException e) {
-            assertThat(e.getMessage(), containsString("The Username does not meet the requirements"));
-        }
-    }
-
-    @Test
-    public void usernameStartSpecialCharacterTest() {
-        try {
-            account.setUsername("_abc1");
-
-            ValidationUtility.validateAccount(account, authenticationMapperMock);
-            fail("An exception was not thrown by validateAccount");
-        } catch (ResponseErrorException e) {
-            assertThat(e.getMessage(), containsString("The Username does not meet the requirements"));
-        }
-    }
-
-    @Test
-    public void usernameEndSpecialCharacterTest() {
-        try {
-            account.setUsername("abc1_");
-
-            ValidationUtility.validateAccount(account, authenticationMapperMock);
-            fail("An exception was not thrown by validateAccount");
-        } catch (ResponseErrorException e) {
-            assertThat(e.getMessage(), containsString("The Username does not meet the requirements"));
-        }
-    }
-
-    @Test
-    public void usernameIllegalSpecialCharactersTest() {
-        try {
-            account.setUsername("a%b c-d#e");
-
-            ValidationUtility.validateAccount(account, authenticationMapperMock);
-            fail("An exception was not thrown by validateAccount");
-        } catch (ResponseErrorException e) {
-            assertThat(e.getMessage(), containsString("The Username does not meet the requirements"));
-        }
-    }
-
-    @Test
-    public void usernameSuccessiveSpecialCharactersTest() {
-        try {
-            account.setUsername("a__bcd1");
-
-            ValidationUtility.validateAccount(account, authenticationMapperMock);
-            fail("An exception was not thrown by validateAccount");
-        } catch (ResponseErrorException e) {
-            assertThat(e.getMessage(), containsString("The Username does not meet the requirements"));
-        }
-    }
-
-    @Test
-    public void usernameValidTest() {
-        try {
-            account.setUsername("abc123");
-            boolean validated = ValidationUtility.validateAccount(account, authenticationMapperMock);
-            assertTrue(validated);
-
-            account.setUsername("abc_123-cba");
-            validated = ValidationUtility.validateAccount(account, authenticationMapperMock);
-            assertTrue(validated);
-
-            account.setUsername("1_2-3-4_5-6_abc");
-            validated = ValidationUtility.validateAccount(account, authenticationMapperMock);
-            assertTrue(validated);
-        } catch (ResponseErrorException e) {
-            fail("An unexpected exception was thrown by validateAccount");
-        }
-    }
-
-    @Test
-    public void usernameAlreadyExists() {
-        try {
-            when(authenticationMapperMock.findAccountByUsername(account.getUsername())).thenReturn(account);
-
-            ValidationUtility.validateAccount(account, authenticationMapperMock);
-            fail("An exception was not thrown by validateAccount");
-        } catch (ResponseErrorException e) {
-            assertThat(e.getMessage(), containsString("username already exists"));
-        }
     }
 
     @Test
@@ -241,7 +137,7 @@ public class ValidationUtilityTest {
     @Test
     public void emailAlreadyExists() {
         try {
-            when(authenticationMapperMock.findUserByEmail(account.getUser().getEmail())).thenReturn(account.getUser());
+            when(authenticationMapperMock.findAccountByEmail(account.getUser().getEmail())).thenReturn(account);
 
             ValidationUtility.validateAccount(account, authenticationMapperMock);
             fail("An exception was not thrown by validateAccount");

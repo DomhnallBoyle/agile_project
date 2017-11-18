@@ -81,9 +81,6 @@
     <Compile Include="Pages\ProjectDashboard.xaml.cs">
       <DependentUpon>ProjectDashboard.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Pages\test.xaml.cs">
-      <DependentUpon>test.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Pages\UserDashboard.xaml.cs">
       <DependentUpon>UserDashboard.xaml</DependentUpon>
     </Compile>
@@ -129,10 +126,6 @@
     <Page Include="Pages\ProjectDashboard.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Pages\test.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
     </Page>
     <Page Include="Pages\Register.xaml">
       <SubType>Designer</SubType>

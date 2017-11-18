@@ -46,7 +46,7 @@ namespace CSC3045_CS2.Pages
             InitializeComponent();
             DataContext = this;
 
-            UserLabel = ((User)Application.Current.Properties["user"]).FullName;
+            UserLabel = ((User)Application.Current.Properties["user"]).GetFullName();
 
             _client = new ProjectClient();
 

@@ -2,9 +2,6 @@
 
 namespace CSC3045_CS2.Models
 {
-    /// <summary>
-    /// 
-    /// </summary>
     public class User
     {
         [DeserializeAs(Name = "id")]
@@ -22,18 +19,11 @@ namespace CSC3045_CS2.Models
         [DeserializeAs(Name = "roles")]
         public Roles Roles { get; set; }
 
-        public string FullName { get { return Forename + " " + Surname; } }
-
         public User() { }
 
         public User(long id)
         {
             this.Id = id;
-        }
-
-        public User(string email)
-        {
-            this.Email = email;
         }
 
         public User(string forename, string surname, string email, Roles roles)
@@ -42,6 +32,11 @@ namespace CSC3045_CS2.Models
             this.Surname = surname;
             this.Email = email;
             this.Roles = roles;
+        }
+
+        public string GetFullName()
+        {
+            return this.Forename + this.Surname;
         }
     }
 }

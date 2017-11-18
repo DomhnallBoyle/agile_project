@@ -8,9 +8,11 @@
       d:DesignHeight="100" d:DesignWidth="100"
       x:Name="Page"
       Title="ProjectDashboard" Height="500" Width="500">
+    
     <Page.Resources>
         <BooleanToVisibilityConverter x:Key="BoolToVisConverter"/>
     </Page.Resources>
+    
     <Grid Margin="10,0,10,0">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -42,7 +44,7 @@
             </Grid.ColumnDefinitions>
 
             <Button Grid.Column="0" Content="User Dashboard" Command="{Binding GoToUserDashboardCommand}"/>
-            <Button Grid.Column="1" Content="Add Team Member"
+            <Button Grid.Column="1" Content="Manage Project Team"
                     Command="{Binding GoToAddTeamMemberCommand}"
                     Visibility="{Binding Path=Permissions.Manager, Converter={StaticResource BoolToVisConverter}}"/>
             <Button Grid.Column="2" Content="Product Backlog"
@@ -52,7 +54,14 @@
         <TextBlock Grid.Row="3" Text="Project Manager" TextAlignment="Left" FontWeight="Bold" FontSize="16" Margin="10"></TextBlock>
 
         <Separator  Grid.Row="4" ></Separator>
-        <TextBlock Grid.Row="5" Text="{Binding SelectedProject.Manager.FullName, FallbackValue=''}" TextAlignment="Left" FontWeight="Bold" FontSize="14"></TextBlock>
+        <TextBlock Grid.Row="5" TextAlignment="Left" FontWeight="Bold" FontSize="14">
+            <TextBlock.Text>
+                <MultiBinding StringFormat="{}{0} {1}">
+                    <Binding Path="SelectedProject.Manager.Forename"/>
+                    <Binding Path="SelectedProject.Manager.Surname"/>
+                </MultiBinding>
+            </TextBlock.Text>
+        </TextBlock>
 
         <TextBlock Grid.Row="5" Text="{Binding SelectedProject.Manager.Email, FallbackValue=''}" TextAlignment="Center" FontWeight="Bold" FontSize="12"></TextBlock>
         
@@ -74,7 +83,14 @@
                                         Command="{Binding ElementName=Page, Path=DataContext.RemoveScrumMasterCommand}"
                                         CommandParameter="{Binding}"
                                         Visibility="{Binding ElementName=Page, Path=Permissions.Manager, Converter={StaticResource BoolToVisConverter}}"/>
-                                <TextBlock Text="{Binding FullName, FallbackValue=''}" TextAlignment="Center" FontSize="12"></TextBlock>
+                                <TextBlock TextAlignment="Center" FontSize="12">
+                                    <TextBlock.Text>
+                                        <MultiBinding StringFormat="{}{0} {1}">
+                                            <Binding Path="Forename"/>
+                                            <Binding Path="Surname"/>
+                                        </MultiBinding>
+                                    </TextBlock.Text>
+                                </TextBlock>
                                 <TextBlock Text="{Binding Email, FallbackValue=''}" TextAlignment="Center" FontSize="12"></TextBlock>
                             </StackPanel>
                         </DataTemplate>
@@ -84,7 +100,14 @@
 
             <StackPanel Grid.Column="1">
                 <TextBlock Text="Product Owner" TextAlignment="Center" FontWeight="Bold" FontSize="14"></TextBlock>
-                <TextBlock Text="{Binding SelectedProject.ProductOwner.FullName, Mode=OneWay, FallbackValue=''}" TextAlignment="Center" FontSize="12"></TextBlock>
+                <TextBlock TextAlignment="Center" FontSize="12">
+                    <TextBlock.Text>
+                        <MultiBinding StringFormat="{}{0} {1}">
+                            <Binding Path="SelectedProject.ProductOwner.Forename" Mode="OneWay"/>
+                            <Binding Path="SelectedProject.ProductOwner.Surname" Mode="OneWay"/>
+                        </MultiBinding>
+                    </TextBlock.Text>
+                </TextBlock>
                 <TextBlock Text="{Binding SelectedProject.ProductOwner.Email, Mode=OneWay, FallbackValue=''}" TextAlignment="Center" FontSize="12"></TextBlock>
             </StackPanel>
         </Grid>
@@ -97,21 +120,14 @@
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Margin="0,0,0,10">
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="*"/>
-                            </Grid.ColumnDefinitions>
-
-                            <TextBlock Grid.Column="0" Text="{Binding Forename}" FontWeight="Bold" FontSize="16" HorizontalAlignment="Left"/>
-                            <TextBlock Grid.Column="1" Text="{Binding Surname}" FontWeight="Bold" FontSize="16" HorizontalAlignment="Center"/>
-
-                        </Grid>
+                        <TextBlock Grid.Column="0" FontWeight="Bold" FontSize="16" HorizontalAlignment="Left">
+                            <TextBlock.Text>
+                                <MultiBinding StringFormat="{}{0} {1}">
+                                    <Binding Path="Forename"/>
+                                    <Binding Path="Surname"/>
+                                </MultiBinding>
+                            </TextBlock.Text>
+                        </TextBlock>
 
                         <Separator/>
 
@@ -150,7 +166,6 @@
                     </StackPanel>
                 </DataTemplate>
             </ListBox.ItemTemplate>
-
         </ListBox>
     </Grid>
 </Page>

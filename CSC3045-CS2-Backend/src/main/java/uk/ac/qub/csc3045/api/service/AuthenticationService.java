@@ -33,6 +33,8 @@ public class AuthenticationService implements UserDetailsService {
         mapper.createUser(account.getUser());
         mapper.createAccount(account);
 
+        Account createdAccount = mapper.findAccountByEmail(account.getUser().getEmail());
+        
         return account;
     }
 

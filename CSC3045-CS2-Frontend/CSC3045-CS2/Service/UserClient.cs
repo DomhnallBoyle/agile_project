@@ -11,15 +11,20 @@ namespace CSC3045_CS2.Service
     class UserClient : ServiceClient
     {
         const string BASE_ENDPOINT = "user";
+
         public UserClient() : base() { }
-        public List<User> Search(User user)
+
+        public User Search(User user)
         {
             var request = new RestRequest(BASE_ENDPOINT + "/search", Method.POST);
+
             request.AddHeader("Content-Type", "application/json");
             request.RequestFormat = DataFormat.Json;
             SimpleJson.CurrentJsonSerializerStrategy = new CamelCaseSerializationStrategy();
+
             request.AddBody(user);
-            return Execute<List<User>>(request);
+
+            return Execute<User>(request);
         }
     }
 }

@@ -53,7 +53,7 @@ public class ValidationUtility {
             throw new ResponseErrorException(sb.toString(), HttpStatus.BAD_REQUEST);
         }
 
-        if (mapper.findUserByEmail(account.getUser().getEmail()) != null) {
+        if (mapper.findAccountByEmail(account.getUser().getEmail()) != null) {
             sb.append(ErrorMessages.EMAIL_ALREADY_EXISTS);
             throw new ResponseErrorException(sb.toString(), HttpStatus.CONFLICT);
         }
@@ -71,7 +71,7 @@ public class ValidationUtility {
     public static boolean validateProjectExists(long projectId, ProjectMapper mapper) {
         return (mapper.getProjectById(projectId) != null);
     }
-
+    
     /**
      * Validates that User Story with the specified User Story ID exists within the database
      * 

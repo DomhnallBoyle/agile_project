@@ -140,8 +140,7 @@ namespace CSC3045_CS2.Pages
         /// <returns></returns>
         private Boolean CheckValidation()
         {
-            return CheckRequiredValues(UsernameTextBox) &&
-             CheckRequiredValues(FirstnameTextBox) &&
+            return CheckRequiredValues(FirstnameTextBox) &&
              CheckRequiredValues(EmailTextBox) &&
              CheckPasswordNotEmpty(PasswordTextBox) &&
              CheckPasswordNotEmpty(ConfirmPasswordTextBox) &&

@@ -32,12 +32,6 @@
         WHERE email = #{email}
     </select>
 
-    <select id="findUserByEmail" resultType="User">
-        SELECT email
-        FROM user
-        WHERE email = #{email}
-    </select>
-
     <!-- INSERT Queries -->
 
     <insert id="createUser" parameterType="User" useGeneratedKeys="true" keyProperty="id" keyColumn="id">

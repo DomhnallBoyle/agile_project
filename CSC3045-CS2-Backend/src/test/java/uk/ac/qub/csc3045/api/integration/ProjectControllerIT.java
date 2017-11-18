@@ -225,17 +225,7 @@ public class ProjectControllerIT {
     private void setupTestAccount() {
         Roles validRoles = new Roles();
         User validUser = new User("Forename", "Surname", generateEmail(), validRoles);
-        account = new Account(validUser, generateUsername(), "Password1");
-    }
-
-    /**
-     * Generates a random username
-     *
-     * @return the username generated
-     */
-    private String generateUsername() {
-        Random random = new Random();
-        return "test" + random.nextInt(5000);
+        account = new Account(validUser, "Password1");
     }
 
     /**
