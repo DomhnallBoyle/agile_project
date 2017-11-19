@@ -1,13 +1,12 @@
 package uk.ac.qub.csc3045.api.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import uk.ac.qub.csc3045.api.mapper.UserMapper;
-import uk.ac.qub.csc3045.api.model.Roles;
-import uk.ac.qub.csc3045.api.model.User;
 
-import java.util.List;
-import java.util.stream.Collectors;
+import uk.ac.qub.csc3045.api.exception.ResponseErrorException;
+import uk.ac.qub.csc3045.api.mapper.UserMapper;
+import uk.ac.qub.csc3045.api.model.User;
 
 @Service
 public class UserService {
@@ -19,14 +18,12 @@ public class UserService {
         this.userMapper = userMapper;
     }
 
-    public List<User> search(User user) {
-        Roles rolesCriteria = user.getRoles();
-
-        return userMapper.searchUsers(user).stream()
-                .filter(foundUser ->
-                        (rolesCriteria.isDeveloper() && foundUser.getRoles().isDeveloper() == rolesCriteria.isDeveloper())
-                                || (rolesCriteria.isScrumMaster() && foundUser.getRoles().isScrumMaster() == rolesCriteria.isScrumMaster())
-                                || (rolesCriteria.isProductOwner() && foundUser.getRoles().isProductOwner() == rolesCriteria.isProductOwner()))
-                .collect(Collectors.toList());
+    public User search(User searchedUser) {
+    	User returnedUser = userMapper.findUserByEmail(searchedUser.getEmail());
+    	
+    	if (returnedUser != null) {
+    		return returnedUser;
+    	}
+        throw new ResponseErrorException("User with the specified email does not exist", HttpStatus.NOT_FOUND);
     }
 }

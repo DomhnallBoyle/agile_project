@@ -11,7 +11,6 @@ import uk.ac.qub.csc3045.api.model.User;
 import uk.ac.qub.csc3045.api.service.UserService;
 
 import javax.validation.Valid;
-import java.util.List;
 
 @RestController
 @RequestMapping(value = "/user")
@@ -25,7 +24,7 @@ public class UserController {
     }
 
     @PostMapping(value = "/search")
-    public ResponseEntity<List<User>> search(@Valid @RequestBody User user) {
+    public ResponseEntity<User> search(@Valid @RequestBody User user) {
         return new ResponseEntity<>(userService.search(user), HttpStatus.OK);
     }
 }

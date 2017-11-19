@@ -21,7 +21,7 @@ public class AuthenticationServiceTest {
     private User user;
 
     @Before
-    public void setUp() throws Exception {
+    public void setup() throws Exception {
         authenticationMapperMock = mock(AuthenticationMapper.class);
         BCryptPasswordEncoder passwordEncoderMock = mock(BCryptPasswordEncoder.class);
         authenticationService = new AuthenticationService(authenticationMapperMock, passwordEncoderMock);
@@ -30,7 +30,6 @@ public class AuthenticationServiceTest {
         user.setEmail("abcdef@gmail.com");
 
         account = new Account();
-        account.setUsername("abcdef");
         account.setPassword("Abc1");
         account.setUser(user);
     }
@@ -39,13 +38,13 @@ public class AuthenticationServiceTest {
     public void handleRegisterRequestSuccessful() throws Exception {
         Account response = authenticationService.register(account);
 
-        assertEquals(account.getUsername(), response.getUsername());
+        assertEquals(account.getUser().getEmail(), response.getUser().getEmail());
         assertEquals(account.getPassword(), response.getPassword());
     }
 
     @Test(expected = ResponseErrorException.class)
     public void handleRegisterRequestFailed() throws Exception {
-        when(authenticationMapperMock.findAccountByUsername(account.getUsername())).thenReturn(account);
+        when(authenticationMapperMock.findAccountByEmail(account.getUser().getEmail())).thenReturn(account);
 
         authenticationService.register(account);
     }
