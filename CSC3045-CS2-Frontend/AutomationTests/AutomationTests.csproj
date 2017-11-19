@@ -53,9 +53,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="PageTemplates\BasePage.cs" />
+    <Compile Include="PageTemplates\UserDashboardPage.cs" />
     <Compile Include="Tests\Authentication\Login.cs" />
     <Compile Include="Tests\Authentication\Registration.cs" />
-    <Compile Include="BaseTestClass.cs" />
+    <Compile Include="Tests\BaseTestClass.cs" />
     <Compile Include="PageTemplates\LoginPage.cs" />
     <Compile Include="PageTemplates\RegisterPage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
