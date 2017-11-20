@@ -13,6 +13,7 @@
         <association property="manager" column="manager_id" javaType="User" select="selectManager"/>
         <association property="productOwner" column="product_owner_id" javaType="User" select="selectProductOwner"/>
         <collection property="scrumMasters" column="id" javaType="List" ofType="User" select="selectScrumMasters"/>
+        <collection property="users" column="id" javaType="List" ofType="User" select="getUsersOnProject"/>
     </resultMap>
 
     <!-- SELECT Queries -->

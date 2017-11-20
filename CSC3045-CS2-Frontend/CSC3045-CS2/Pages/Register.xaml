@@ -10,8 +10,8 @@
       Title="Register">
 
     <StackPanel>
-        <TextBlock Text="Registration" HorizontalAlignment="Center" Margin="0,10,0,10"/>
-        <Grid>
+        <TextBlock Name="PageTitle" Text="Registration" Style="{StaticResource Title}" HorizontalAlignment="Center" Margin="0,10,0,10"/>
+            <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>

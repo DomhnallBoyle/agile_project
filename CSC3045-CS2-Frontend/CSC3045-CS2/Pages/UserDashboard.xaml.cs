@@ -26,18 +26,15 @@ namespace CSC3045_CS2.Pages
     {
         #region Private variables
 
-        private List<Project> _projectList;
-        private TextBlock _projectName, _projectDescription, _projectRoles;
-        private Button _toProjectDashboard;
         private ProjectClient _client;
 
         #endregion
 
         #region Public variables
 
-        public String UserLabel { get; set; }
+        public List<ProjectPermissions> ProjectList { get; set; }
 
-        public String LogoutButtonLabel { get; set; } = "Logout";
+        public String UserLabel { get; set; }
 
         #endregion
 
@@ -50,79 +47,49 @@ namespace CSC3045_CS2.Pages
 
             _client = new ProjectClient();
 
-            GetProjects();
+            InitialiseProjects();
         }
 
         #region Class methods
 
-        private void AddProjectsToUIList()
-        {
-            for (int i = 0; i < _projectList.Count; i++)
-            {
-                _projectName = new TextBlock
-                {
-                    Text = _projectList[i].Name
-                };
-                _projectDescription = new TextBlock
-                {
-                    Text = _projectList[i].Description
-                };
-                _projectRoles = new TextBlock
-                {
-                    Text = new Permissions((User)Application.Current.Properties["user"], _projectList[i]).getPermissionsAsString()
-                };
-                _toProjectDashboard = new Button
-                {
-                    Content = "Go to Project",
-                    Command = GoToCommand,
-                    CommandParameter = _projectList[i]
-                };
-
-                ProjectNamePanel.Children.Add(_projectName);
-                DetailsPanel.Children.Add(_projectDescription);
-                RolesPanel.Children.Add(_projectRoles);
-                ButtonPanel.Children.Add(_toProjectDashboard);
-            }
-        }
-
-        private void GetProjects()
+        private void InitialiseProjects()
         {
             try
             {
-                _projectList = _client.GetProjectsForUser(((User)Application.Current.Properties["user"]).Id);
-                AddProjectsToUIList();
+                List<Project> inboundProjects = _client.GetProjectsForUser(((User)Application.Current.Properties["user"]).Id);
+                List<ProjectPermissions> projectList = new List<ProjectPermissions>();
+
+                foreach (Project project in inboundProjects)
+                {
+                    projectList.Add(new ProjectPermissions(project, (User)Application.Current.Properties["user"]));
+                }
+
+                ProjectList = projectList;
+            }
+            catch (RestResponseErrorException ex)
+            {
+                MessageBox.Show(ex.Message, "Info");
+            }
+        }
+
+        #endregion
+
+        #region Command and Event methods
+
+        private void ProjectListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            try
+            {
+                Project selectedProject = ((ProjectPermissions)ProjectListBox.SelectedItem).Project;
+                Page projectDashboardPage = new ProjectDashboard(selectedProject);
+
+                NavigationService.GetNavigationService(this).Navigate(projectDashboardPage);
             }
             catch (RestResponseErrorException ex)
             {
                 MessageBox.Show(ex.Message);
             }
         }
-
-        #endregion
-
-        #region Command methods
-
-        public ICommand GoToCommand
-        {
-            get
-            {
-                return new RelayCommand(param =>
-                {
-                    try
-                    {
-                        var selectedProject = (Project)param;
-                        Page projectDashboardPage = new ProjectDashboard(selectedProject);
-
-                        NavigationService.GetNavigationService(this).Navigate(projectDashboardPage);
-                    }
-                    catch (RestResponseErrorException ex)
-                    {
-                        MessageBox.Show(ex.Message);
-                    }
-                });
-            }
-        }
-
 
         public ICommand NavigateToCreateProjectCommand
         {

@@ -8,37 +8,47 @@
       Background="{StaticResource LightBlueBrush}"
       Title="UserDashboard" Height="475.182" Width="456.569">
 
+    <Page.Resources>
+        <BooleanToVisibilityConverter x:Key="BoolToVisConverter"/>
+    </Page.Resources>
+
     <StackPanel>
         <StackPanel>
-            <TextBlock Text="User Dashboard" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center"></TextBlock>
+            <TextBlock Name="PageTitle" Text="User Dashboard" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center"></TextBlock>
         </StackPanel>
 
         <StackPanel Background="CadetBlue">
             <TextBlock FontSize ="14" Text="{Binding UserLabel}" HorizontalAlignment="Left" />
         </StackPanel>
 
-        <ScrollViewer VerticalScrollBarVisibility="Visible" Height="100">
-            <Grid>
-                <Grid.ColumnDefinitions >
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions>
-                <StackPanel Name="ProjectNamePanel" Margin="10,0,0,2">
-                </StackPanel>
-                <StackPanel Name="DetailsPanel" Grid.Column="1">
-                </StackPanel>
-                <StackPanel Name="RolesPanel" Grid.Column="2">
-                </StackPanel>
-                <StackPanel Name="ButtonPanel" Grid.Column="3" Margin="10,0,10,0">
-                </StackPanel>
-            </Grid>
-        </ScrollViewer>
+        <ListBox Name="ProjectListBox" ItemsSource="{Binding ProjectList}" SelectionChanged="ProjectListBox_SelectionChanged" HorizontalContentAlignment="Center">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <Grid>
+                        <Grid.ColumnDefinitions >
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" Text="{Binding Project.Name}"/>
+                        <TextBlock Grid.Column="1" Text="{Binding Project.Description}"/>
+
+                        <TextBlock Grid.Column="2" Text="M" Visibility="{Binding Path=Permissions.Manager, Converter={StaticResource BoolToVisConverter}}"/>
+                        <TextBlock Grid.Column="3" Text="D" Visibility="{Binding Path=Permissions.Developer, Converter={StaticResource BoolToVisConverter}}"/>
+                        <TextBlock Grid.Column="4" Text="SM" Visibility="{Binding Path=Permissions.ScrumMaster, Converter={StaticResource BoolToVisConverter}}"/>
+                        <TextBlock Grid.Column="5" Text="PO" Visibility="{Binding Path=Permissions.ProductOwner, Converter={StaticResource BoolToVisConverter}}"/>
+                    </Grid>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
 
         <StackPanel>
-            <Button Content="{Binding CreateProjectButtonLabel, FallbackValue='Create Project'}" HorizontalAlignment="Center" Command="{Binding NavigateToCreateProjectCommand}"/>
-            <Button Content="{Binding LogoutButtonLabel, FallbackValue='Logout'}" HorizontalAlignment="Left" Command="{Binding LogoutCommand}"/>
+            <Button Name="CreateProjectButton" Content="Create Project" HorizontalAlignment="Center" Command="{Binding NavigateToCreateProjectCommand}"/>
+            <Button Name="LogoutButton" Content="Logout" HorizontalAlignment="Left" Command="{Binding LogoutCommand}"/>
         </StackPanel>
     </StackPanel>
 </Page>
