@@ -4,20 +4,20 @@
 
     <Style TargetType="{x:Type TextBlock}" x:Key="Title">
         <Setter Property="FontFamily" Value="{StaticResource LatoBold}"/>
-        <Setter Property="FontSize" Value="16"/>
-        <Setter Property="TextDecorations" Value="Underline"/>
+        <Setter Property="FontSize" Value="32"/>
+        <Setter Property="Foreground" Value="White"/>
     </Style>
 
     <Style TargetType="{x:Type TextBlock}" x:Key="Header">
         <Setter Property="FontFamily" Value="{StaticResource LatoRegular}"/>
-        <Setter Property="FontSize" Value="14"/>
+        <Setter Property="FontSize" Value="24"/>
         <Setter Property="Foreground" Value="{StaticResource DarkBlueBrush}"/>
     </Style>
 
     <Style TargetType="{x:Type TextBlock}" x:Key="Label">
         <Setter Property="FontFamily" Value="{StaticResource LatoRegular}"/>
-        <Setter Property="FontSize" Value="12"/>
-        <Setter Property="Foreground" Value="{StaticResource DarkBlueBrush}"/>
+        <Setter Property="FontSize" Value="16"/>
+        <Setter Property="Foreground" Value="White"/>
     </Style>
     
 </ResourceDictionary>

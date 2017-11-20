@@ -11,10 +11,18 @@
     <Color x:Key="LightGray">#e3e3e3</Color>
     <SolidColorBrush x:Key="LightGrayBrush" Color="{StaticResource LightGray}"/>
 
-    <Color x:Key="LightBlue">#9ad3de</Color>
+    <Color x:Key="LightBlue">#99ccff</Color>
     <SolidColorBrush x:Key="LightBlueBrush" Color="{StaticResource LightBlue}"/>
 
-    <Color x:Key="DarkBlue">#89bdd3</Color>
-    <SolidColorBrush x:Key="DarkBlueBrush" Color="{StaticResource DarkBlue}"/>
+    <Color x:Key="BrightBlue">#66b2ff</Color>
+    <SolidColorBrush x:Key="BrightBlueBrush" Color="{StaticResource BrightBlue}"/>
 
+    <Color x:Key="Red">#ff6666</Color>
+    <SolidColorBrush x:Key="RedBrush" Color="{StaticResource Red}"/>
+
+    <LinearGradientBrush x:Key="BackgroundGradient" StartPoint="0.5,0" EndPoint="0.5,1.5">
+        <GradientStop Color="{StaticResource LightBlue}" Offset="0"/>
+        <GradientStop Color="White" Offset="0.8"/>
+    </LinearGradientBrush>
+    
 </ResourceDictionary>

@@ -3,8 +3,8 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-      xmlns:local="clr-namespace:CSC3045_CS2.Pages"
       mc:Ignorable="d" 
+      Background="{StaticResource BackgroundGradient}"
       d:DesignHeight="300" d:DesignWidth="300"
       Title="Login">
 
@@ -18,13 +18,13 @@
             </Grid.ColumnDefinitions>
 
             <StackPanel Grid.Column="0" Margin="0,0,12,0">
-                <TextBlock Text="{Binding LoginEmailLabel, FallbackValue='Email:'}" Style="{StaticResource Label}" HorizontalAlignment="Right" Margin="0,0,0,15"/>
-                <TextBlock Text="{Binding LoginPasswordLabel, FallbackValue='Password:'}" Style="{StaticResource Label}" HorizontalAlignment="Right"/>
+                <TextBlock Text="{Binding LoginEmailLabel, FallbackValue='Email'}" Style="{StaticResource Label}" HorizontalAlignment="Right" Margin="0,0,0,15"/>
+                <TextBlock Text="{Binding LoginPasswordLabel, FallbackValue='Password'}" Style="{StaticResource Label}" HorizontalAlignment="Right"/>
             </StackPanel>
 
             <StackPanel Grid.Column="1" Margin="12,0,25,0">
-                <TextBox Text="{Binding EmailTextContent}"  MaxLength="25" MaxWidth="125" MinWidth="125" HorizontalAlignment="Left" Margin="0,0,0,15"/>
-                <PasswordBox Name="PasswordBox" MaxLength="25" MaxWidth="125" MinWidth="125" HorizontalAlignment="Left"/>
+                <TextBox Text="{Binding EmailTextContent}" Style="{StaticResource DefaultTextBox}" MaxLength="25" MaxWidth="125" MinWidth="125" HorizontalAlignment="Left" Margin="0,0,0,15"/>
+                <PasswordBox Name="PasswordBox" Style="{StaticResource DefaultPasswordBox}" MaxLength="25" MaxWidth="125" MinWidth="125" HorizontalAlignment="Left"/>
             </StackPanel>
         </Grid>
 

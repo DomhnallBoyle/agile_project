@@ -25,9 +25,9 @@ namespace CSC3045_CS2.Pages
 
         public String LoginTitle { get; set; } = "Login";
 
-        public String LoginEmailLabel { get; set; } = "Email: ";
+        public String LoginEmailLabel { get; set; } = "Email ";
 
-        public String LoginPasswordLabel { get; set; } = "Password: ";
+        public String LoginPasswordLabel { get; set; } = "Password ";
 
         public String EmailTextContent { get; set; }
 
