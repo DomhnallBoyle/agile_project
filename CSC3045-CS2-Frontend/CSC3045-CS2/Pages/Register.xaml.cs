@@ -14,13 +14,13 @@ namespace CSC3045_CS2.Pages
 
     public partial class Register : Page
     {
-        private AuthenticationClient client;
+        private AuthenticationClient _client;
 
         public Register()
         {
             InitializeComponent();
             DataContext = this;
-            client = new AuthenticationClient();
+            _client = new AuthenticationClient();
         }
 
         /// <summary>
@@ -41,7 +41,7 @@ namespace CSC3045_CS2.Pages
 
                 try
                 {
-                    this.client.Register(account);
+                    this._client.Register(account);
 
                     MessageBox.Show("Registration successful!", "Success");
                     Page loginPage = new Login();
@@ -104,12 +104,12 @@ namespace CSC3045_CS2.Pages
             {
                 String text = "Password cannot be empty.";
                 MessageBox.Show(text, "Warning");
-                passwordBox.Background = Brushes.Red;
+                passwordBox.Style = (Style)FindResource("InvalidPasswordBox");
                 return false;
             }
             else
             {
-                passwordBox.Background = Brushes.White;
+                passwordBox.Style = (Style)FindResource("DefaultPasswordBox");
                 return true;
             }
         }

@@ -3,16 +3,20 @@
                     xmlns:local="clr-namespace:CSC3045_CS2.Resources.Styles">
 
     <Style TargetType="{x:Type Button}" x:Key="StandardButton">
-        <Setter Property="Background" Value="{StaticResource LightBlueBrush}"/>
+        <Setter Property="Background" Value="White"/>
         <Setter Property="BorderBrush" Value="{StaticResource LightGrayBrush}"/> 
-        <Setter Property="Height" Value="35"/>
+        
+        <Setter Property="Height" Value="30"/>
         <Setter Property="Width" Value="75"/>
+        
+        <Setter Property="FontFamily" Value="{StaticResource LatoRegular}"/>
+        <Setter Property="FontSize" Value="14"/>
 
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Button}">
-                    <Border CornerRadius="15" BorderThickness="2" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}">
-                        <ContentPresenter VerticalAlignment="Center" HorizontalAlignment="Center" />
+                    <Border CornerRadius="4" BorderThickness="2" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}">
+                        <ContentPresenter VerticalAlignment="Center" HorizontalAlignment="Center"/>
                     </Border>
                 </ControlTemplate>
             </Setter.Value>
@@ -20,7 +24,7 @@
 
         <Style.Triggers>
             <Trigger Property="IsMouseOver" Value="True">
-                <Setter Property="Background" Value="{StaticResource DarkBlueBrush}"/>
+                <Setter Property="Background" Value="{StaticResource BrightBlueBrush}"/>
                 <Setter Property="BorderBrush" Value="{StaticResource DarkGrayBrush}"/>
             </Trigger>
         </Style.Triggers>

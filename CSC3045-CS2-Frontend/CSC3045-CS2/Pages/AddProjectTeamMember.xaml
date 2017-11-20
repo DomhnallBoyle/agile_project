@@ -6,6 +6,7 @@
       xmlns:local="clr-namespace:CSC3045_CS2.Pages"
       mc:Ignorable="d" 
       x:Name="Page"
+      Background="{StaticResource LightBlueBrush}"
       d:DesignHeight="600" d:DesignWidth="800"
       Title="AddProjectTeamMember">
 
