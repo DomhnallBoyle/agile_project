@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace CSC3045_CS2.Models
 {
-    class UserStory
+    public class UserStory
     {
         [DeserializeAs(Name = "id")]
         public long Id { get; set; }
@@ -29,6 +29,12 @@ namespace CSC3045_CS2.Models
 
         [DeserializeAs(Name = "project")]
         public Project Project { get; set; }
+
+        [DeserializeAs(Name = "sprint")]
+        public Sprint Sprint { get; set; }
+
+        [DeserializeAs(Name = "tasks")]
+        public List<Task> Tasks { get; set; }
 
         public UserStory() { }
 

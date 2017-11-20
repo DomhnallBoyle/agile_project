@@ -20,6 +20,8 @@ public class User {
 
     private List<Project> projects;
 
+    private List<Sprint> sprints;
+
     public User() {
     }
 
@@ -76,6 +78,14 @@ public class User {
 
     public void setProjects(List<Project> projects) {
         this.projects = projects;
+    }
+
+    public List<Sprint> getSprints() {
+        return sprints;
+    }
+
+    public void setSprints(List<Sprint> sprints) {
+        this.sprints = sprints;
     }
 
     @Override

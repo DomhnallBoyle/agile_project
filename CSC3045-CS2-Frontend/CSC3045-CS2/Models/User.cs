@@ -1,4 +1,5 @@
 ﻿using RestSharp.Deserializers;
+using System.Collections.Generic;
 
 namespace CSC3045_CS2.Models
 {
@@ -18,6 +19,12 @@ namespace CSC3045_CS2.Models
 
         [DeserializeAs(Name = "roles")]
         public Roles Roles { get; set; }
+
+        [DeserializeAs(Name = "projects")]
+        public List<Project> Projects { get; set; }
+
+        [DeserializeAs(Name = "sprints")]
+        public List<Sprint> Sprints { get; set; }
 
         public User() { }
 
