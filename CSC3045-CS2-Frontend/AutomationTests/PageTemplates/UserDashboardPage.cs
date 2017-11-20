@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TestStack.White.UIItems;
+using TestStack.White.UIItems.ListBoxItems;
 using TestStack.White.UIItems.WindowItems;
 
 namespace AutomationTests.PageTemplates
@@ -18,6 +19,10 @@ namespace AutomationTests.PageTemplates
         public Button LogoutButton
         {
             get { return MainWindow.Get<Button>("LogoutButton"); }
+        }
+        public ListBox ProjectListBox
+        {
+            get { return MainWindow.Get<ListBox>("ProjectListBox"); }
         }
 
         public UserDashboardPage(Window window) : base(window)

@@ -21,7 +21,8 @@ namespace CSC3045_CS2.Utility
 
         public Permissions(User user, Project project)
         {
-            this.Developer = user.Roles.Developer;
+            User userInProject = project.Users.Find(userOnProject => user.Id == userOnProject.Id);
+            this.Developer = user.Roles.Developer == true && userInProject != null;
 
             this.ScrumMaster = false;
             if (project.ScrumMasters != null)

@@ -44,6 +44,7 @@ namespace AutomationTests.Tests.Authentication
             LoginPage.Login("user1@email.com", "Passw0rd1");
 
             Assert.IsTrue(UserDashboardPage.IsCurrentPage());
+            Assert.That(UserDashboardPage.ProjectListBox.Items.Count, Is.EqualTo(4));
 
             UserDashboardPage.LogoutButton.Click();
         }
