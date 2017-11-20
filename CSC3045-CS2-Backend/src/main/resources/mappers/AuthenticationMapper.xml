@@ -8,35 +8,27 @@
 
     <resultMap id="accountResultMap" type="Account">
         <id column="account_id" property="id"/>
-        <result column="username" property="username"/>
         <result column="password" property="password"/>
         <association property="user" column="user_id" javaType="User" resultMap="uk.ac.qub.csc3045.api.mapper.UserMapper.userResultMap"/>
     </resultMap>
 
     <!-- SELECT Queries -->
 
-    <select id="findAccountByUsername" resultMap="accountResultMap">
+    <select id="findAccountByEmail" resultMap="accountResultMap">
         SELECT
-        ACCOUNT.ID AS account_id,
-        ACCOUNT.USERNAME,
-        ACCOUNT.PASSWORD,
-        USER.ID    AS user_id,
-        USER.FORENAME,
-        USER.SURNAME,
-        USER.EMAIL,
-        ROLES.ID   AS roles_id,
-        ROLES.DEVELOPER,
-        ROLES.SCRUM_MASTER,
-        ROLES.PRODUCT_OWNER
+	        ACCOUNT.ID AS account_id,
+	        ACCOUNT.PASSWORD,
+	        USER.ID    AS user_id,
+	        USER.FORENAME,
+	        USER.SURNAME,
+	        USER.EMAIL,
+	        ROLES.ID   AS roles_id,
+	        ROLES.DEVELOPER,
+	        ROLES.SCRUM_MASTER,
+	        ROLES.PRODUCT_OWNER
         FROM account
-        JOIN user ON account.user_id = user.id
-        JOIN roles ON user.roles_id = roles.id
-        WHERE username = #{username}
-    </select>
-
-    <select id="findUserByEmail" resultType="User">
-        SELECT email
-        FROM user
+	        JOIN user ON account.user_id = user.id
+	        JOIN roles ON user.roles_id = roles.id
         WHERE email = #{email}
     </select>
 
@@ -48,8 +40,8 @@
     </insert>
 
     <insert id="createAccount" parameterType="Account" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
-        INSERT INTO account (user_id, username, password)
-        VALUES (#{user.id}, #{username}, #{password})
+        INSERT INTO account (user_id, password)
+        VALUES (#{user.id}, #{password})
     </insert>
 
     <insert id="createRoles" parameterType="Roles" useGeneratedKeys="true" keyProperty="id" keyColumn="id">

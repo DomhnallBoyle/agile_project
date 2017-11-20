@@ -25,7 +25,7 @@ namespace AutomationTests.PageTemplates
 
         public override bool IsCurrentPage()
         {
-            return PageTitle.Equals("User Dashboard");
+            return PageTitle.Text.Equals("User Dashboard");
         }
 
         public void DismissNoProjectsMsgBox()

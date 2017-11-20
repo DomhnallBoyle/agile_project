@@ -10,9 +10,9 @@ namespace AutomationTests.PageTemplates
 {
     public class RegisterPage : BasePage
     {
-        public TextBox UsernameTextBox
+        public TextBox EmailTextBox
         {
-            get { return MainWindow.Get<TextBox>("UsernameTextBox"); }
+            get { return MainWindow.Get<TextBox>("EmailTextBox"); }
         }
         public TextBox FirstnameTextBox
         {
@@ -21,10 +21,6 @@ namespace AutomationTests.PageTemplates
         public TextBox SurnameTextBox
         {
             get { return MainWindow.Get<TextBox>("SurnameTextBox"); }
-        }
-        public TextBox EmailTextBox
-        {
-            get { return MainWindow.Get<TextBox>("EmailTextBox"); }
         }
         public TextBox PasswordTextBox
         {
@@ -58,7 +54,7 @@ namespace AutomationTests.PageTemplates
 
         public override bool IsCurrentPage()
         {
-            return PageTitle.Text.Equals("Login");
+            return PageTitle.Text.Equals("Registration");
         }
     }
 }

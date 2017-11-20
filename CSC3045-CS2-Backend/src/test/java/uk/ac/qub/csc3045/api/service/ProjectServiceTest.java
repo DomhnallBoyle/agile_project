@@ -76,6 +76,7 @@ public class ProjectServiceTest {
 
     @Test
     public void handleAddToTeamRequestSuccessful() {
+    	when(projectMapperMock.getProjectById(project.getId())).thenReturn(project);
         Project response = projectService.addToTeam(project);
 
         assertEquals(project.getUsers(), response.getUsers());

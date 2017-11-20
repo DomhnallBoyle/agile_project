@@ -26,16 +26,16 @@ namespace AutomationTests.Authentication
             
             RegisterPage = new RegisterPage(MainWindow);
 
-            NavigateToRegisterPage();
+            LoginPage.RegisterButton.Click();
             Assert.IsTrue(RegisterPage.IsCurrentPage());
         }
 
         [Test]
-        public void ShouldFailRegistrationWithEmptyUsername()
+        public void ShouldFailRegistrationWithEmptyEmail()
         {
             EnterValidCredentials();
 
-            RegisterPage.UsernameTextBox.Text = "";
+            RegisterPage.EmailTextBox.Text = "";
             RegisterPage.RegisterButton.Click();
 
             var messageBox = MainWindow.MessageBox("Warning");
@@ -51,21 +51,6 @@ namespace AutomationTests.Authentication
             EnterValidCredentials();
 
             RegisterPage.FirstnameTextBox.Text = "";
-            RegisterPage.RegisterButton.Click();
-
-            var messageBox = MainWindow.MessageBox("Warning");
-            Assert.NotNull(messageBox);
-            Assert.IsTrue(MessageBoxUtil.GetTextContent(messageBox).Contains("empty"));
-
-            MessageBoxUtil.ClickOKButton(messageBox);
-        }
-
-        [Test]
-        public void ShouldFailRegistrationWithEmptyEmail()
-        {
-            EnterValidCredentials();
-
-            RegisterPage.EmailTextBox.Text = "";
             RegisterPage.RegisterButton.Click();
 
             var messageBox = MainWindow.MessageBox("Warning");
@@ -141,7 +126,7 @@ namespace AutomationTests.Authentication
             MessageBoxUtil.ClickOKButton(messageBox);
             Assert.IsTrue(LoginPage.IsCurrentPage());
 
-            NavigateToRegisterPage();
+            LoginPage.RegisterButton.Click();
         }
 
         // ###############
@@ -152,17 +137,11 @@ namespace AutomationTests.Authentication
         {
             string password = "E2Euserpassw0rd";
 
-            RegisterPage.UsernameTextBox.Text = "E2E" + _guid;
+            RegisterPage.EmailTextBox.Text = "e2e.user.email." + _guid + "@cs2.test";
             RegisterPage.FirstnameTextBox.Text = "E2EUserFirstName";
             RegisterPage.SurnameTextBox.Text = "E2EUserSurname";
-            RegisterPage.EmailTextBox.Text = "e2e.user.email." + _guid + "@cs2.test";
             RegisterPage.PasswordTextBox.Text = password;
             RegisterPage.ConfirmPasswordTextBox.Text = password;
-        }
-
-        private void NavigateToRegisterPage()
-        {
-            LoginPage.RegisterButton.Click();
         }
     }
 }

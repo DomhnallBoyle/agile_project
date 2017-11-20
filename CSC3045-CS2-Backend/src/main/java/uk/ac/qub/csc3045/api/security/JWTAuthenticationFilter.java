@@ -43,7 +43,7 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
             return authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(
-                            creds.getUsername(),
+                            creds.getUser().getEmail(),
                             creds.getPassword(),
                             new ArrayList<>())
             );
@@ -74,7 +74,7 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
         //add user object for the account to body
         res.setContentType("application/json");
-        Account account = authenticationMapper.findAccountByUsername(((User) auth.getPrincipal()).getUsername());
+        Account account = authenticationMapper.findAccountByEmail(((User) auth.getPrincipal()).getUsername());
         ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
         String json = ow.writeValueAsString(account.getUser());
         res.getWriter().write(json);

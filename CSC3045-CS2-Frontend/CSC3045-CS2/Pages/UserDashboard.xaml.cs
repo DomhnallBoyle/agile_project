@@ -42,7 +42,7 @@ namespace CSC3045_CS2.Pages
             InitializeComponent();
             DataContext = this;
 
-            UserLabel = ((User)Application.Current.Properties["user"]).FullName;
+            UserLabel = ((User)Application.Current.Properties["user"]).GetFullName();
 
             _client = new ProjectClient();
 
@@ -65,10 +65,11 @@ namespace CSC3045_CS2.Pages
                 };
                 TextBlock _projectRoles = new TextBlock
                 {
-                    Text = new Permissions((User)Application.Current.Properties["user"], _projectList[i]).getPermissionsAsString()
+                    Text = new Permissions((User)Application.Current.Properties["user"], _projectList[i]).AsString
                 };
                 Button _toProjectDashboard = new Button
                 {
+                    Name = "GoToProject" + _projectList[i].Id + "Button",
                     Content = "Go to Project",
                     Command = GoToCommand,
                     CommandParameter = _projectList[i]

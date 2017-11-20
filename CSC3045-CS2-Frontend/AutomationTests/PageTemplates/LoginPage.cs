@@ -10,13 +10,13 @@ namespace AutomationTests.PageTemplates
 {
     public class LoginPage : BasePage
     {
-        public TextBox UsernameTextBox
+        public TextBox EmailTextBox
         {
-            get { return MainWindow.Get<TextBox>("UsernameTextBox"); }
+            get { return MainWindow.Get<TextBox>("EmailTextBox"); }
         }
         public TextBox PasswordTextBox
         {
-            get { return MainWindow.Get<TextBox>("PasswordTextBox"); }
+            get { return MainWindow.Get<TextBox>("PasswordBox"); }
         }
         public Button RegisterButton
         {
@@ -34,12 +34,12 @@ namespace AutomationTests.PageTemplates
 
         public override bool IsCurrentPage()
         {
-            return PageTitle.Text.Equals("Registration");
+            return PageTitle.Text.Equals("Login");
         }
         
-        public void Login(string username, string password)
+        public void Login(string email, string password)
         {
-            UsernameTextBox.Text = username;
+            EmailTextBox.Text = email;
             PasswordTextBox.Text = password;
 
             LoginButton.Click();

@@ -41,19 +41,19 @@ namespace CSC3045_CS2.Pages
                 return new RelayCommand(param =>
                 {
                     Account account = new Account();
-                    account.Username = UsernameTextBox.Text;
-                    account.Password = PasswordTextBox.Password.ToString();
+                    account.User = new User(null, null, EmailTextBox.Text, new Roles(false, false, false));
+                    account.Password = PasswordBox.Password.ToString();
 
                     try
                     {
-                        User user = _client.Login(account);
+                        User returnedUser = _client.Login(account);
 
                         if (Application.Current.Properties.Contains("user"))
                         {
                             Application.Current.Properties.Remove("user");
                         }
 
-                        Application.Current.Properties.Add("user", user);
+                        Application.Current.Properties.Add("user", returnedUser);
 
                         Page userDashboard = new UserDashboard();
 

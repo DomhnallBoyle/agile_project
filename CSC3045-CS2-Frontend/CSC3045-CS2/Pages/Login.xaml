@@ -9,7 +9,7 @@
       Title="Login">
 
     <StackPanel>
-        <TextBlock Name="PageTitle" Text="Login" HorizontalAlignment="Center" Margin="0,10,0,25"/>
+        <TextBlock Name="PageTitle" Text="Login" Style="{StaticResource Title}" HorizontalAlignment="Center" Margin="0,10,0,25"/>
 
         <Grid>
             <Grid.ColumnDefinitions>
@@ -18,19 +18,19 @@
             </Grid.ColumnDefinitions>
 
             <StackPanel Grid.Column="0" Margin="0,0,12,0">
-                <TextBlock Text="Username:" HorizontalAlignment="Right" Margin="0,0,0,15"/>
-                <TextBlock Text="Password:" HorizontalAlignment="Right"/>
+                <TextBlock Text="Email:" Style="{StaticResource Label}" HorizontalAlignment="Right" Margin="0,0,0,15"/>
+                <TextBlock Text="Password:" Style="{StaticResource Label}" HorizontalAlignment="Right"/>
             </StackPanel>
 
             <StackPanel Grid.Column="1" Margin="12,0,25,0">
-                <TextBox Name="UsernameTextBox"  MaxLength="25" MaxWidth="125" MinWidth="125" HorizontalAlignment="Left" Margin="0,0,0,15"/>
-                <PasswordBox Name="PasswordTextBox" MaxLength="25" MaxWidth="125" MinWidth="125" HorizontalAlignment="Left"/>
+                <TextBox Name="EmailTextBox" MaxLength="25" MaxWidth="125" MinWidth="125" HorizontalAlignment="Left" Margin="0,0,0,15"/>
+                <PasswordBox Name="PasswordBox" MaxLength="25" MaxWidth="125" MinWidth="125" HorizontalAlignment="Left"/>
             </StackPanel>
         </Grid>
 
         <StackPanel Margin="0,20,0,20">
-            <Button Name="LoginButton" Content="Login" HorizontalAlignment="Center" Margin="0,0,0,15" Command="{Binding LoginCommand}"/>
-            <Button Name="RegisterButton" Content="Register" HorizontalAlignment="Center" Margin="0,0,0,0" Command="{Binding NavigateToRegistrationCommand}"/>
+            <Button Name="LoginButton" Content="Login" Style="{StaticResource StandardButton}" HorizontalAlignment="Center" Margin="0,0,0,15" Command="{Binding LoginCommand}" IsDefault="True"/>
+            <Button Name="RegisterButton" Content="Register" Style="{StaticResource StandardButton}" HorizontalAlignment="Center" Margin="0,0,0,0" Command="{Binding NavigateToRegistrationCommand}"/>
         </StackPanel>
         
     </StackPanel>

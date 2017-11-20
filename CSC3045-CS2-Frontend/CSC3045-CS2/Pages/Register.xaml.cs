@@ -35,12 +35,13 @@ namespace CSC3045_CS2.Pages
         {
             if (CheckValidation())
             {
+                Roles roles = new Roles(ProductOwnerCheckBox.IsChecked.Value, ScrumMasterCheckBox.IsChecked.Value, DeveloperCheckBox.IsChecked.Value);
+                User user = new User(FirstnameTextBox.Text, SurnameTextBox.Text, EmailTextBox.Text, roles);
+                Account account = new Account(user, PasswordTextBox.Password.ToString());
+
                 try
                 {
-                    Roles roles = new Roles(ProductOwnerCheckBox.IsChecked.Value, ScrumMasterCheckBox.IsChecked.Value, DeveloperCheckBox.IsChecked.Value);
-                    User user = new User(FirstnameTextBox.Text, SurnameTextBox.Text, EmailTextBox.Text, roles);
-                    Account account = new Account(user, UsernameTextBox.Text, PasswordTextBox.Password.ToString());
-                    Account response = this.client.Register(account);
+                    this.client.Register(account);
 
                     MessageBox.Show("Registration successful!", "Success");
                     Page loginPage = new Login();
@@ -143,8 +144,7 @@ namespace CSC3045_CS2.Pages
         /// <returns></returns>
         private Boolean CheckValidation()
         {
-            return CheckRequiredValues(UsernameTextBox) &&
-             CheckRequiredValues(FirstnameTextBox) &&
+            return CheckRequiredValues(FirstnameTextBox) &&
              CheckRequiredValues(EmailTextBox) &&
              CheckPasswordNotEmpty(PasswordTextBox) &&
              CheckPasswordNotEmpty(ConfirmPasswordTextBox) &&

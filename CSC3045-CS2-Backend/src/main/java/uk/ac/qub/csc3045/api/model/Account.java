@@ -12,17 +12,13 @@ public class Account {
     private User user;
 
     @NotNull
-    private String username;
-
-    @NotNull
     private String password;
 
     public Account() {
     }
 
-    public Account(User user, String username, String password) {
+    public Account(User user, String password) {
         this.user = user;
-        this.username = username;
         this.password = password;
     }
 
@@ -40,14 +36,6 @@ public class Account {
 
     public void setUser(User user) {
         this.user = user;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
     }
 
     public String getPassword() {
@@ -95,14 +83,6 @@ public class Account {
                 return false;
             }
         } else if (!user.equals(other.user)) {
-            return false;
-        }
-
-        if (username == null) {
-            if (other.username != null) {
-                return false;
-            }
-        } else if (!username.equals(other.username)) {
             return false;
         }
 

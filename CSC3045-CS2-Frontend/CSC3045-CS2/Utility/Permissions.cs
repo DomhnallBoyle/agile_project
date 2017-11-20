@@ -17,6 +17,8 @@ namespace CSC3045_CS2.Utility
 
         public bool Manager { get; set; }
 
+        public string AsString { get { return getPermissionsAsString(); } }
+
         public Permissions(User user, Project project)
         {
             this.Developer = user.Roles.Developer;
@@ -38,7 +40,7 @@ namespace CSC3045_CS2.Utility
             this.Manager = project.Manager.Id == user.Id ? true : false;
         }
 
-        public string getPermissionsAsString()
+        private string getPermissionsAsString()
         {
             string permissions = "";
 
