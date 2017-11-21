@@ -32,8 +32,7 @@ public class AuthenticationService implements UserDetailsService {
         mapper.createRoles(account.getUser().getRoles());
         mapper.createUser(account.getUser());
         mapper.createAccount(account);
-        
-        return account;
+        return mapper.findAccountByEmail(account.getUser().getEmail());
     }
 
     @Override

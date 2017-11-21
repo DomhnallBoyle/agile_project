@@ -22,6 +22,7 @@
 	        USER.FORENAME,
 	        USER.SURNAME,
 	        USER.EMAIL,
+	        USER.PROFILE_PICTURE,
 	        ROLES.ID   AS roles_id,
 	        ROLES.DEVELOPER,
 	        ROLES.SCRUM_MASTER,
@@ -35,8 +36,8 @@
     <!-- INSERT Queries -->
 
     <insert id="createUser" parameterType="User" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
-        INSERT INTO user (forename, surname, email, roles_id)
-        VALUES (#{forename}, #{surname}, #{email}, #{roles.id})
+        INSERT INTO user (forename, surname, email, profile_picture, roles_id)
+        VALUES (#{forename}, #{surname}, #{email}, #{profilePicture}, #{roles.id})
     </insert>
 
     <insert id="createAccount" parameterType="Account" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
