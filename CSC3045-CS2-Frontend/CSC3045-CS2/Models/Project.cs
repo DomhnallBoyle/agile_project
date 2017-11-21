@@ -24,10 +24,8 @@ namespace CSC3045_CS2.Models
         [DeserializeAs(Name = "users")]
         public List<User> Users { get; set; }
 
-        public Project()
-        {
+        public Project() { }
 
-        }
         public Project(User projectManager, String projectName, String description, User productOwner, List<User> scrumMasters)
         {
             this.Manager = projectManager;

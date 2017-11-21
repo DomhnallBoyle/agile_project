@@ -12,7 +12,6 @@
         <result column="description" property="description"/>
         <result column="points" property="points"/>
         <result column="market_value" property="marketValue"/>
-        <result column="assigned" property="assigned"/>
         <association property="project" column="project_id" javaType="Project" select="selectProject"/>
     </resultMap>
 
@@ -33,8 +32,8 @@
     <!-- INSERT Queries -->
 
     <insert id="createUserStory" parameterType="UserStory" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
-        INSERT INTO user_story (name, description, index, points, market_value, assigned, project_id)
-        VALUES (#{name}, #{description}, #{index}, #{points}, #{marketValue}, #{assigned}, #{project.id})
+        INSERT INTO user_story (name, description, index, points, market_value, project_id)
+        VALUES (#{name}, #{description}, #{index}, #{points}, #{marketValue}, #{project.id})
     </insert>
 
     <!-- UPDATE Queries -->

@@ -1,6 +1,7 @@
 package uk.ac.qub.csc3045.api.model;
 
 import javax.validation.constraints.NotNull;
+import java.util.List;
 
 public class UserStory {
 
@@ -16,23 +17,24 @@ public class UserStory {
 
     private Integer marketValue;
 
-    private Boolean assigned;
-
     private int index;
 
     private Project project;
+
+    private Sprint sprint;
+
+    private List<Task> tasks;
 
     public UserStory() {
 
     }
 
-    public UserStory(String name, String description, Integer points, Integer marketValue, Boolean assigned,
+    public UserStory(String name, String description, Integer points, Integer marketValue,
                      Project project) {
         this.name = name;
         this.description = description;
         this.points = points;
         this.marketValue = marketValue;
-        this.assigned = assigned;
         this.project = project;
     }
 
@@ -76,14 +78,6 @@ public class UserStory {
         this.marketValue = marketValue;
     }
 
-    public Boolean getIsAssigned() {
-        return assigned;
-    }
-
-    public void setIsAssigned(boolean assigned) {
-        this.assigned = assigned;
-    }
-
     public Project getProject() {
         return project;
     }
@@ -92,12 +86,28 @@ public class UserStory {
         this.project = project;
     }
 
+    public Sprint getSprint() {
+        return sprint;
+    }
+
+    public void setSprint(Sprint sprint) {
+        this.sprint = sprint;
+    }
+
     public int getIndex() {
         return index;
     }
 
     public void setIndex(int index) {
         this.index = index;
+    }
+
+    public List<Task> getTasks() {
+        return tasks;
+    }
+
+    public void setTasks(List<Task> tasks) {
+        this.tasks = tasks;
     }
 
     @Override
@@ -153,14 +163,6 @@ public class UserStory {
                 return false;
             }
         } else if (!marketValue.equals(other.marketValue)) {
-            return false;
-        }
-
-        if (assigned == null) {
-            if (other.assigned != null) {
-                return false;
-            }
-        } else if (!assigned.equals(other.assigned)) {
             return false;
         }
 
