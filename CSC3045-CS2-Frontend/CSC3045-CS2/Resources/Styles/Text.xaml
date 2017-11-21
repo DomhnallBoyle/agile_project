@@ -11,7 +11,7 @@
     <Style TargetType="{x:Type TextBlock}" x:Key="Header">
         <Setter Property="FontFamily" Value="{StaticResource LatoRegular}"/>
         <Setter Property="FontSize" Value="24"/>
-        <Setter Property="Foreground" Value="{StaticResource DarkBlueBrush}"/>
+        <Setter Property="Foreground" Value="{StaticResource BrightBlueBrush}"/>
     </Style>
 
     <Style TargetType="{x:Type TextBlock}" x:Key="Label">
