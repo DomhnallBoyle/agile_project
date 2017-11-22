@@ -17,6 +17,9 @@ namespace CSC3045_CS2.Models
         [DeserializeAs(Name = "email")]
         public string Email { get; set; }
 
+        [DeserializeAs(Name = "profilePicture")]
+        public string ProfilePicture { get; set; }
+
         [DeserializeAs(Name = "roles")]
         public Roles Roles { get; set; }
 
@@ -41,9 +44,18 @@ namespace CSC3045_CS2.Models
             this.Roles = roles;
         }
 
+        public User(string forename, string surname, string email, string profilePicture, Roles roles)
+        {
+            this.Forename = forename;
+            this.Surname = surname;
+            this.Email = email;
+            this.Roles = roles;
+            this.ProfilePicture = profilePicture;
+        }
+
         public string GetFullName()
         {
-            return this.Forename + this.Surname;
+            return this.Forename + " " + this.Surname;
         }
     }
 }

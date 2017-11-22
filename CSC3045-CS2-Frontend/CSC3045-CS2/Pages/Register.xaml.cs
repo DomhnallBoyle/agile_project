@@ -8,6 +8,8 @@ using CSC3045_CS2.Exception;
 using CSC3045_CS2.Service;
 using CSC3045_CS2.Utility;
 using CSC3045_CS2.Models;
+using System.Windows.Media.Imaging;
+using System.IO;
 
 namespace CSC3045_CS2.Pages
 {
@@ -15,7 +17,7 @@ namespace CSC3045_CS2.Pages
     public partial class Register : Page
     {
         private AuthenticationClient _client;
-
+        private string profiler = "buckie.jpg";
         public Register()
         {
             InitializeComponent();
@@ -36,7 +38,7 @@ namespace CSC3045_CS2.Pages
             if (CheckValidation())
             {
                 Roles roles = new Roles(ProductOwnerCheckBox.IsChecked.Value, ScrumMasterCheckBox.IsChecked.Value, DeveloperCheckBox.IsChecked.Value);
-                User user = new User(FirstnameTextBox.Text, SurnameTextBox.Text, EmailTextBox.Text, roles);
+                User user = new User(FirstnameTextBox.Text, SurnameTextBox.Text, EmailTextBox.Text, profiler, roles);
                 Account account = new Account(user, PasswordTextBox.Password.ToString());
 
                 try
@@ -52,6 +54,49 @@ namespace CSC3045_CS2.Pages
                 {
                     MessageBox.Show(ex.Message, "Failure");
                 }
+            }
+        }
+
+        public void ProfileButton_Click(Object sender, EventArgs e)
+        {
+            // Create OpenFileDialog 
+            Microsoft.Win32.OpenFileDialog dlg = new Microsoft.Win32.OpenFileDialog();
+
+
+
+            // Set filter for file extension and default file extension 
+            dlg.DefaultExt = ".png";
+            dlg.Filter = "JPEG Files (*.jpeg)|*.jpeg|PNG Files (*.png)|*.png|JPG Files (*.jpg)|*.jpg|GIF Files (*.gif)|*.gif";
+
+
+            // Display OpenFileDialog by calling ShowDialog method 
+            Nullable<bool> result = dlg.ShowDialog();
+
+
+            // Get the selected file name and display in a TextBox 
+            if (result == true)
+            {
+                // Open document 
+                string filename = dlg.FileName;
+                BitmapImage profileImage  = new BitmapImage(new Uri(filename, UriKind.Absolute));
+
+
+                string path = Directory.GetCurrentDirectory();
+                string newPath = Path.GetFullPath(Path.Combine(path, @"..\..\profiles\"));
+                SaveImage(profileImage, newPath + "buckie.jpg");
+                profile.Source = new BitmapImage(new Uri(newPath + "buckie.jpg", UriKind.RelativeOrAbsolute));
+                ProfileButton.Content = filename;
+            }
+        }
+
+        public void SaveImage( BitmapImage image, string filePath)
+        {
+            BitmapEncoder encoder = new PngBitmapEncoder();
+            encoder.Frames.Add(BitmapFrame.Create(image));
+
+            using (var fileStream = new System.IO.FileStream(filePath, System.IO.FileMode.Create))
+            {
+                encoder.Save(fileStream);
             }
         }
 

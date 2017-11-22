@@ -30,7 +30,7 @@ namespace CSC3045_CS2.Pages
 
         private User _searchResultUser;
         private UserClient _userClient;
-
+        private string _profilePictureSource;
         #endregion
 
         #region Public Variables
@@ -41,6 +41,24 @@ namespace CSC3045_CS2.Pages
             set
             {
                 _searchResultUser = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public string ProfilePictureSource
+        {
+            get {
+                if (_searchResultUser != null) {
+                    return "pack://application:,,,/profiles/" + _searchResultUser.ProfilePicture;
+                }
+                else
+                {
+                    return "pack://application:,,,/profiles/default.png";
+                }
+            }
+            set
+            {
+                _profilePictureSource = value;
                 OnPropertyChanged();
             }
         }
@@ -75,6 +93,7 @@ namespace CSC3045_CS2.Pages
                     {
                         User searchUser = new User("", "", EmailTextBox.Text, new Roles(false, false, false));
                         SearchResultUser = _userClient.Search(searchUser);
+                        ProfilePictureSource = "pack://application:,,,/profiles/" + _searchResultUser.ProfilePicture;
                     }
                     catch (RestResponseErrorException ex)
                     {

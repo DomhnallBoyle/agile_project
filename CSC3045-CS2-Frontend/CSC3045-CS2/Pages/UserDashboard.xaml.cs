@@ -4,6 +4,7 @@ using CSC3045_CS2.Service;
 using CSC3045_CS2.Utility;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -44,7 +45,9 @@ namespace CSC3045_CS2.Pages
             DataContext = this;
 
             UserLabel = ((User)Application.Current.Properties["user"]).GetFullName();
-
+            string path = Directory.GetCurrentDirectory();
+            string newPath = System.IO.Path.GetFullPath(System.IO.Path.Combine(path, @"..\..\profiles\"));
+            ProfilePicture.Source = new BitmapImage(new Uri(newPath + ((User)Application.Current.Properties["user"]).ProfilePicture, UriKind.RelativeOrAbsolute));
             _client = new ProjectClient();
 
             InitialiseProjects();

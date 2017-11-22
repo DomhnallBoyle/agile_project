@@ -14,9 +14,11 @@
 
     <StackPanel>
         <StackPanel>
+            <Image  Height="40" Width="40" HorizontalAlignment="Right" Margin="57,1,0,0" Name="ProfilePicture" Stretch="Fill" VerticalAlignment="Top"/>
             <TextBlock Name="PageTitle" Text="User Dashboard" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center"></TextBlock>
+            
         </StackPanel>
-
+        
         <StackPanel Background="CadetBlue">
             <TextBlock FontSize ="14" Text="{Binding UserLabel}" HorizontalAlignment="Left" />
         </StackPanel>
