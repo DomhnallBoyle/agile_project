@@ -60,5 +60,38 @@ namespace CSC3045_CS2.Service
             return Execute<List<UserStory>>(request);
         }
 
+        public AcceptanceTest CreateAcceptanceTest(AcceptanceTest acceptanceTest)
+        {
+            var request = new RestRequest(BASE_ENDPOINT + "/" + acceptanceTest.UserStory.Id + "/acceptancetest/", Method.POST);
+            request.AddHeader("Content-Type", "application/json");
+            request.RequestFormat = DataFormat.Json;
+            SimpleJson.CurrentJsonSerializerStrategy = new CamelCaseSerializationStrategy();
+
+            request.AddBody(acceptanceTest);
+
+            return Execute<AcceptanceTest>(request);
+        }
+
+        public AcceptanceTest UpdateAcceptanceTest(AcceptanceTest acceptanceTest)
+        {
+            var request = new RestRequest(BASE_ENDPOINT + "/" + acceptanceTest.UserStory.Id + "/acceptancetest/", Method.PUT);
+            request.AddHeader("Content-Type", "application/json");
+            request.RequestFormat = DataFormat.Json;
+            SimpleJson.CurrentJsonSerializerStrategy = new CamelCaseSerializationStrategy();
+
+            request.AddBody(acceptanceTest);
+
+            return Execute<AcceptanceTest>(request);
+        }
+
+        public List<AcceptanceTest> GetAcceptanceTestsFromUserStory(long userStoryId)
+        {
+            var request = new RestRequest(BASE_ENDPOINT + "/" + userStoryId + "/acceptancetest/", Method.GET);
+            request.AddHeader("Content-Type", "application/json");
+            request.RequestFormat = DataFormat.Json;
+
+            return Execute<List<AcceptanceTest>>(request);
+        }
+
     }
 }

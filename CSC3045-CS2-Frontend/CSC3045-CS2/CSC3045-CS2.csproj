@@ -67,6 +67,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Exception\RestResponseErrorException.cs" />
+    <Compile Include="Models\AcceptanceTest.cs" />
     <Compile Include="Models\Account.cs" />
     <Compile Include="Models\Project.cs" />
     <Compile Include="Models\Roles.cs" />
@@ -75,6 +76,9 @@
     <Compile Include="Models\User.cs" />
     <Compile Include="Pages\AddProjectTeamMember.xaml.cs">
       <DependentUpon>AddProjectTeamMember.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\CreateAcceptanceTest.xaml.cs">
+      <DependentUpon>CreateAcceptanceTest.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\CreateProject.xaml.cs">
       <DependentUpon>CreateProject.xaml</DependentUpon>
@@ -94,6 +98,9 @@
     </Compile>
     <Compile Include="Pages\ProductBacklog.xaml.cs">
       <DependentUpon>ProductBacklog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\UserStoryDetails.xaml.cs">
+      <DependentUpon>UserStoryDetails.xaml</DependentUpon>
     </Compile>
     <Compile Include="Service\AuthenticationClient.cs" />
     <Compile Include="Service\ProjectClient.cs" />
@@ -120,6 +127,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Pages\CreateAcceptanceTest.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Pages\CreateUserStory.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -145,6 +156,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Pages\ProductBacklog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\UserStoryDetails.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

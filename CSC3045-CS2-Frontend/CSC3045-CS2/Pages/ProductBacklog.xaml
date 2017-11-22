@@ -53,6 +53,7 @@
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="0.25*"/>
                                 <ColumnDefinition Width="0.75*"/>
+                                <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
 
                             <Border BorderThickness="0,0,1,0" BorderBrush="Gray" Margin="0,0,10,0">
@@ -63,6 +64,8 @@
                             </Border>
 
                             <TextBlock Grid.Column="1" Text="{Binding Description}"/>
+                            <Button Grid.Column="2" Content="View Details" Command="{Binding RelativeSource={RelativeSource AncestorType={x:Type Page}}, Path=DataContext.ViewDetailsCommand}" CommandParameter="{Binding}" />
+
                         </Grid>
 
                     </StackPanel>

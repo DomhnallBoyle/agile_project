@@ -6,6 +6,7 @@ using CSC3045_CS2.Utility;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -58,6 +59,7 @@ namespace CSC3045_CS2
 
             _currentProject = project;
 
+
             Permissions = new Permissions((User)Application.Current.Properties["user"], project);
 
             try
@@ -75,7 +77,7 @@ namespace CSC3045_CS2
             itemContainerStyle.Setters.Add(new Setter(ListBoxItem.AllowDropProperty, true));
             itemContainerStyle.Setters.Add(new EventSetter(ListBoxItem.PreviewMouseLeftButtonDownEvent, new MouseButtonEventHandler(MouseLeftDown)));
             itemContainerStyle.Setters.Add(new EventSetter(ListBoxItem.DropEvent, new DragEventHandler(StoryListDrop)));
-            StoryList.ItemContainerStyle = itemContainerStyle;
+            //StoryList.ItemContainerStyle = itemContainerStyle;
             StoryList.ItemsSource = _backlog;
         }
 
@@ -92,7 +94,8 @@ namespace CSC3045_CS2
                 {
                     Page projectDashboard = new ProjectDashboard(_currentProject);
 
-                    NavigationService.GetNavigationService(this).Navigate(projectDashboard);
+                     NavigationService.GetNavigationService(this).Navigate(projectDashboard);
+
                 });
             }
         }
@@ -138,6 +141,38 @@ namespace CSC3045_CS2
 
                     NavigationService.GetNavigationService(this).Navigate(createUserStoryPage);
                 });
+            }
+        }
+
+        public ICommand ViewDetailsCommand
+        {
+            get
+            {
+                return new RelayCommand(param =>
+                {
+                    UserStory selectedStory = (UserStory)param;
+                    Page userStoryDetailsPage = new UserStoryDetails(selectedStory);
+
+                    NavigationService.GetNavigationService(this).Navigate(userStoryDetailsPage);
+                });
+            }
+        }
+
+        /// <summary>
+        /// When a user story is clicked, naviagate to the user story detail page for that user story
+        /// </summary>
+        private void StoryListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            try
+            {               
+                UserStory selectedStory = (UserStory)StoryList.SelectedItem;
+                Page userStoryDetailsPage = new UserStoryDetails(selectedStory);
+
+                NavigationService.GetNavigationService(this).Navigate(userStoryDetailsPage);
+            }
+            catch (RestResponseErrorException ex)
+            {
+                MessageBox.Show(ex.Message);
             }
         }
 
