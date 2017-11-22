@@ -36,18 +36,24 @@
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
-           
-                <Button Grid.Column="0" Content="Add Acceptance Test"
+
+                <Button Content="Add Acceptance Test" Style="{StaticResource StandardButton}"
                     Command="{Binding GoToCreateAcceptanceTestCommand}"
-                    Visibility="{Binding Permissions.ProductOwner, Converter={StaticResource BoolToVisConverter}}" Grid.ColumnSpan="2" Margin="0,0,69,0"/>
-                
-                <Button Grid.Column="2" Content="Product Backlog"
-                    Command="{Binding GoToProductBacklogCommand}"/>
+                    Visibility="{Binding Permissions.ProductOwner, Converter={StaticResource BoolToVisConverter}}" Grid.ColumnSpan="3" Margin="50,-1,50,1" Width="Auto" RenderTransformOrigin="0.5,0.5">
+                    <Button.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform/>
+                            <SkewTransform AngleY="0.319"/>
+                            <RotateTransform/>
+                            <TranslateTransform Y="0.407"/>
+                        </TransformGroup>
+                    </Button.RenderTransform>
+                </Button>
             </Grid>
 
             <Separator  Grid.Row="8" ></Separator>
 
-            <TextBlock Grid.Row="9" Text="Acceptance Tests" TextAlignment="Left" FontWeight="Bold" FontSize="16" Margin="10"></TextBlock>
+            <TextBlock Grid.Row="9" Text="Acceptance Tests" TextAlignment="Left" FontWeight="Bold" Style="{StaticResource Label}" FontSize="16" Margin="10"></TextBlock>
 
             <ListBox Grid.Row="10" Name="UserStoryAcceptanceTests" HorizontalContentAlignment="Stretch">
                 <ListBox.ItemTemplate>
@@ -75,10 +81,10 @@
                                     <CheckBox Margin="5, 0" IsChecked="{Binding Completed}"
                                               Command="{Binding RelativeSource={RelativeSource AncestorType={x:Type Page}}, Path=DataContext.UpdateCommand}"
                                               CommandParameter="{Binding}"/>
-                                    
+
 
                                 </StackPanel>
-                               
+
                             </Grid>
                         </StackPanel>
                     </DataTemplate>

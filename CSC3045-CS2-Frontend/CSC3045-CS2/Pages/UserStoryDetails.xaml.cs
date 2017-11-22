@@ -43,15 +43,7 @@ namespace CSC3045_CS2.Pages
 
             SelectedUserStory = selectedUserStory;
 
-            List<AcceptanceTest> acceptanceTest = new List<AcceptanceTest>();
-
-            acceptanceTest.Add(new AcceptanceTest("given", "when", "then", _selectedUserStory));
-
-            acceptanceTest.Add(new AcceptanceTest("given1", "when2", "then3", _selectedUserStory, true));
-
-            UserStoryAcceptanceTests.ItemsSource = acceptanceTest;
-
-           // UserStoryAcceptanceTests.ItemsSource = _client.GetAcceptanceTestsFromUserStory(_selectedUserStory.Id);
+            UserStoryAcceptanceTests.ItemsSource = _client.GetAcceptanceTestsFromUserStory(_selectedUserStory.Id);
         }
 
 
@@ -62,13 +54,7 @@ namespace CSC3045_CS2.Pages
                 return new RelayCommand(param =>
                 {
                     AcceptanceTest acceptanceTest = ((AcceptanceTest)param);
-                    // _client.UpdateAcceptanceTest(acceptanceTest);
-                    MessageBox.Show(acceptanceTest.Given);
-                    MessageBox.Show(acceptanceTest.Then);
-                    MessageBox.Show(acceptanceTest.When);
-                    MessageBox.Show(acceptanceTest.Completed.ToString());
-                    MessageBox.Show(acceptanceTest.Id.ToString());
-                    MessageBox.Show(acceptanceTest.UserStory.Id.ToString());
+                     _client.UpdateAcceptanceTest(acceptanceTest);
                 });
             }
         }
