@@ -29,5 +29,12 @@ namespace CSC3045_CS2.Models
 
         public Sprint() { }
 
+        public Sprint(DateTime startDate, DateTime endDate, Project project, User scrumMaster)
+        {
+            this.StartDate = startDate;
+            this.EndDate = endDate;
+            this.Project = project;
+            this.ScrumMaster = scrumMaster;
+        }
     }
 }

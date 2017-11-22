@@ -80,6 +80,9 @@
       <DependentUpon>CreateProject.xaml</DependentUpon>
     </Compile>
     <Compile Include="Models\UserStory.cs" />
+    <Compile Include="Pages\CreateSprint.xaml.cs">
+      <DependentUpon>CreateSprint.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\CreateUserStory.xaml.cs">
       <DependentUpon>CreateUserStory.xaml</DependentUpon>
     </Compile>
@@ -98,6 +101,7 @@
     <Compile Include="Service\AuthenticationClient.cs" />
     <Compile Include="Service\ProjectClient.cs" />
     <Compile Include="Service\ServiceClient.cs" />
+    <Compile Include="Service\SprintClient.cs" />
     <Compile Include="Service\UserClient.cs" />
     <Compile Include="Service\UserStoryClient.cs" />
     <Compile Include="Utility\CamelCaseSerializationStrategy.cs" />
@@ -117,6 +121,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="Pages\AddProjectTeamMember.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\CreateSprint.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
