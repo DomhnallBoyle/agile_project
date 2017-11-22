@@ -36,6 +36,7 @@ namespace CSC3045_CS2.Service
             var request = new RestRequest(BASE_ENDPOINT + "/team/" + projectId, Method.GET);
             request.AddHeader("Content-Type", "application/json");
             request.RequestFormat = DataFormat.Json;
+            SimpleJson.CurrentJsonSerializerStrategy = new CamelCaseSerializationStrategy();
 
             return Execute<List<User>>(request);
         }
@@ -45,6 +46,7 @@ namespace CSC3045_CS2.Service
             var request = new RestRequest(BASE_ENDPOINT + "/user/" + userId, Method.GET);
             request.AddHeader("Content-Type", "application/json");
             request.RequestFormat = DataFormat.Json;
+            SimpleJson.CurrentJsonSerializerStrategy = new CamelCaseSerializationStrategy();
 
             return Execute<List<Project>>(request);
         }
@@ -68,8 +70,19 @@ namespace CSC3045_CS2.Service
             request.AddHeader("Content-Type", "application/json");
             request.RequestFormat = DataFormat.Json;
             SimpleJson.CurrentJsonSerializerStrategy = new CamelCaseSerializationStrategy();
+
             request.AddBody(project);
             Execute(request);
+        }
+
+        public List<User> GetProjectAvailableDevelopers(long projectId)
+        {
+            var request = new RestRequest(BASE_ENDPOINT + "/team/" + projectId + "/available", Method.GET);
+            request.AddHeader("Content-Type", "application/json");
+            request.RequestFormat = DataFormat.Json;
+            SimpleJson.CurrentJsonSerializerStrategy = new CamelCaseSerializationStrategy();
+
+            return Execute<List<User>>(request);
         }
     }
 }

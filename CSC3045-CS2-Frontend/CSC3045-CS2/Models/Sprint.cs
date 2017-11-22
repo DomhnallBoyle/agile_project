@@ -25,7 +25,7 @@ namespace CSC3045_CS2.Models
         public User ScrumMaster { get; set; }
 
         [DeserializeAs(Name = "users")]
-        public List<User> users { get; set; }
+        public List<User> Users { get; set; }
 
         public Sprint() { }
 
