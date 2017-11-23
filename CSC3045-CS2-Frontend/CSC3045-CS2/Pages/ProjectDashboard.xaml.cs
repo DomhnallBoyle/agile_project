@@ -157,6 +157,19 @@ namespace CSC3045_CS2.Pages
             }
         }
 
+        public ICommand GoToCreateSprintCommand
+        {
+            get
+            {
+                return new RelayCommand(param =>
+                {
+                    Page createSprint = new CreateSprint(SelectedProject);
+
+                    NavigationService.GetNavigationService(this).Navigate(createSprint);
+                });
+            }
+        }
+
         public ICommand goToCommand
         {
             get
