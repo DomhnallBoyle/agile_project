@@ -39,6 +39,8 @@ namespace CSC3045_CS2
 
         public Permissions Permissions { get; set; }
 
+        public PermissonDragHandler PermissonDragHandler { get; set; }
+
         public ObservableCollection<UserStory> Backlog { get; set; }
 
         public string PageLabel { get; set; } = "Product Backlog";
@@ -60,6 +62,7 @@ namespace CSC3045_CS2
             _currentProject = project;
 
             Permissions = new Permissions((User)Application.Current.Properties["user"], project);
+            PermissonDragHandler = new PermissonDragHandler(Permissions.ProductOwner);
 
             try
             {
@@ -135,6 +138,9 @@ namespace CSC3045_CS2
             }
         }
 
+        /// <summary>
+        /// Navigates to the View Details for a User Story
+        /// </summary>
         public ICommand ViewDetailsCommand
         {
             get
@@ -151,6 +157,9 @@ namespace CSC3045_CS2
 
         #endregion
 
+        /// <summary>
+        /// Navigates to the View Details for a User Story
+        /// </summary>
         private void StoryList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             UserStory selectedStory = (UserStory)StoryList.SelectedItem;

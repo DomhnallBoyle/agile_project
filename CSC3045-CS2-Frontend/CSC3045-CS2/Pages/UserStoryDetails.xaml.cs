@@ -73,6 +73,19 @@ namespace CSC3045_CS2.Pages
                 });
             }
         }
+
+        public ICommand GoToUserStoryCommand
+        {
+            get
+            {
+                return new RelayCommand(param =>
+                {
+                    Page userStoryPage = new UserStoryDetails(_selectedUserStory);
+
+                    NavigationService.GetNavigationService(this).Navigate(userStoryPage);
+                });
+            }
+        }
         #endregion
 
         private void OnPropertyChanged([CallerMemberName] string propertyName = null)

@@ -112,6 +112,7 @@
     <Compile Include="Service\UserStoryClient.cs" />
     <Compile Include="Utility\CamelCaseSerializationStrategy.cs" />
     <Compile Include="Utility\Permissions.cs" />
+    <Compile Include="Utility\PermissonDragHandler.cs" />
     <Compile Include="Utility\ProjectPermissions.cs" />
     <Compile Include="Utility\RelayCommand.cs" />
     <Page Include="MainWindow.xaml">

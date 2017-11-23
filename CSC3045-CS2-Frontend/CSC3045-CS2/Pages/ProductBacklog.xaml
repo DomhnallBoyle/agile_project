@@ -34,7 +34,14 @@
                     Visibility="{Binding Permissions.ProductOwner, Converter={StaticResource BoolToVisConverter}}"/>
         </Grid>
 
-        <ListBox Grid.Row="2" ItemsSource="{Binding Backlog}" Margin="10" Name="StoryList" HorizontalContentAlignment="Stretch" dd:DragDrop.IsDragSource="True" dd:DragDrop.IsDropTarget="True">
+        <ListBox Grid.Row="2"
+                 ItemsSource="{Binding Backlog}"
+                 Margin="10"
+                 Name="StoryList"
+                 HorizontalContentAlignment="Stretch"
+                 dd:DragDrop.IsDragSource="True"
+                 dd:DragDrop.IsDropTarget="True"
+                 dd:DragDrop.DragHandler="{Binding PermissonDragHandler}">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Margin="0,0,0,10">

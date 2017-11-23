@@ -37,18 +37,12 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
 
-                <Button Content="Add Acceptance Test" Style="{StaticResource StandardButton}"
+                <Button Grid.Column="0" Content="Add Acceptance Test" Style="{StaticResource StandardButton}"
                     Command="{Binding GoToCreateAcceptanceTestCommand}"
-                    Visibility="{Binding Permissions.ProductOwner, Converter={StaticResource BoolToVisConverter}}" Grid.ColumnSpan="3" Margin="50,-1,50,1" Width="Auto" RenderTransformOrigin="0.5,0.5">
-                    <Button.RenderTransform>
-                        <TransformGroup>
-                            <ScaleTransform/>
-                            <SkewTransform AngleY="0.319"/>
-                            <RotateTransform/>
-                            <TranslateTransform Y="0.407"/>
-                        </TransformGroup>
-                    </Button.RenderTransform>
+                    Visibility="{Binding Permissions.ProductOwner, Converter={StaticResource BoolToVisConverter}}" Grid.ColumnSpan="2" Margin="0,0,0,0" Width="Auto">
                 </Button>
+
+                <Button Grid.Column="2" Content="Back" Style="{StaticResource StandardButton}" HorizontalAlignment="Center" Margin="0,0,0,0" Command="{Binding  GoToUserStoryCommand}" IsDefault="True"/>
             </Grid>
 
             <Separator  Grid.Row="8" ></Separator>
@@ -67,7 +61,6 @@
                                     <ColumnDefinition Width="*"/>
                                     <ColumnDefinition Width="*"/>
                                 </Grid.ColumnDefinitions>
-
                                 <StackPanel Grid.Column="0">
                                     <TextBlock Text="{Binding Given}" Margin="10" FontWeight="Bold" FontSize="12" HorizontalAlignment="Center"/>
                                 </StackPanel>
