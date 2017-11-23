@@ -8,8 +8,10 @@ import java.util.List;
 public class Sprint {
     private Long id;
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd@HH:mm:ssZ")
     private Date startDate;
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd@HH:mm:ssZ")
     private Date endDate;
 
     private Project project;

@@ -1,0 +1,45 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- Set the namespace below to the interface side of the mapper -->
+<mapper namespace="uk.ac.qub.csc3045.api.mapper.SprintMapper">
+
+    <!-- Result Maps -->
+
+    <resultMap id="sprintResultMap" type="Sprint">
+        <id column="id" property="id"/>
+        <result column="start_date" property="startDate"/>
+        <result column="end_date" property="endDate"/>
+        <association column="scrum_master_id" property="scrumMaster" javaType="User" select="selectScrumMaster"/>
+    </resultMap>
+
+    <!-- SELECT Queries -->
+    
+    <select id="getSprintsInProject" resultMap="sprintResultMap">
+        SELECT
+      		 SPRINT.ID AS ID,
+      		 START_DATE,
+      		 END_DATE,
+      		 SCRUM_MASTER_ID
+       FROM SPRINT 
+       JOIN PROJECT ON SPRINT.PROJECT_ID = PROJECT.ID
+       WHERE PROJECT.ID = #{projectId}    		 
+    </select>
+
+	<!-- Nested SELECT queries for Sprint -->
+	
+	<select id="selectScrumMaster" resultMap="uk.ac.qub.csc3045.api.mapper.UserMapper.userResultMap">
+        SELECT
+            USER.ID  AS user_id,
+            USER.FORENAME,
+            USER.SURNAME,
+            USER.EMAIL,
+            ROLES.ID AS roles_id,
+            ROLES.DEVELOPER,
+            ROLES.SCRUM_MASTER,
+            ROLES.PRODUCT_OWNER
+        FROM USER
+            JOIN roles ON roles_id = roles.id
+        WHERE user.id = #{sprint.scrum_master_id}
+    </select>
+</mapper>

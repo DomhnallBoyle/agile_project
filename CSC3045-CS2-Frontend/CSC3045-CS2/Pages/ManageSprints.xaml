@@ -26,11 +26,11 @@
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
                         <TextBlock Grid.Column="0" Text="{Binding Name}" Style="{StaticResource Label}"/>
-                        <TextBlock Grid.Row="1" Style="{StaticResource Label}">
+                        <TextBlock Grid.Row="1">
                             <TextBlock.Text>
                                 <MultiBinding StringFormat="{}{0} {1}">
-                                    <Binding Path="Sprint.ScrumMaster.Forename"/>
-                                    <Binding Path="Sprint.ScrumMaster.Surname"/>
+                                    <Binding Path="ScrumMaster.Forename"/>
+                                    <Binding Path="ScrumMaster.Surname"/>
                                 </MultiBinding>
                             </TextBlock.Text>
                         </TextBlock>
