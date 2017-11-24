@@ -194,7 +194,8 @@ public class AuthenticationControllerIT {
      */
     @Test
     public void loginShouldReturn200() {
-        Account existingAccount = new Account(new User("Forename1", "Surname1", "user1@email.com", new Roles(false, false, false)), "Passw0rd1");
+        Account existingAccount = new Account(new User("Forename1", "Surname1", "user1@email.com", new Roles(false, false, false)),  "Passw0rd1");
+        existingAccount.getUser().setProfilePicture("snoop.jpg");
 
         Response r = request.sendPostRequest(LOGIN_PATH, existingAccount);
         User returnedUser = r.getBody().as(User.class);

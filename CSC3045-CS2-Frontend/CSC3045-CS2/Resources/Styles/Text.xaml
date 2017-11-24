@@ -20,4 +20,9 @@
         <Setter Property="Foreground" Value="White"/>
     </Style>
     
+    <Style TargetType="{x:Type TextBlock}" x:Key="Watermark">
+        <Setter Property="FontFamily" Value="{StaticResource LatoRegular}"/>
+        <Setter Property="FontSize" Value="16"/>
+    </Style>
+    
 </ResourceDictionary>

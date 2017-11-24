@@ -8,21 +8,21 @@ INSERT INTO ROLES (DEVELOPER, SCRUM_MASTER, PRODUCT_OWNER) VALUES (TRUE, FALSE, 
 INSERT INTO ROLES (DEVELOPER, SCRUM_MASTER, PRODUCT_OWNER) VALUES (TRUE, TRUE, FALSE);
 
 INSERT INTO USER (FORENAME, SURNAME, EMAIL, PROFILE_PICTURE, ROLES_ID) VALUES ('Forename1', 'Surname1', 'user1@email.com', 'snoop.jpg', 1);
-INSERT INTO USER (FORENAME, SURNAME, EMAIL, ROLES_ID) VALUES ('Forename2', 'Surname2', 'user2@email.com', 1);
-INSERT INTO USER (FORENAME, SURNAME, EMAIL, ROLES_ID) VALUES ('Forename3', 'Surname3', 'user3@email.com', 2);
-INSERT INTO USER (FORENAME, SURNAME, EMAIL, ROLES_ID) VALUES ('Forename4', 'Surname4', 'user4@email.com', 2);
-INSERT INTO USER (FORENAME, SURNAME, EMAIL, ROLES_ID) VALUES ('Forename5', 'Surname5', 'user5@email.com', 3);
-INSERT INTO USER (FORENAME, SURNAME, EMAIL, ROLES_ID) VALUES ('Forename6', 'Surname6', 'user6@email.com', 3);
-INSERT INTO USER (FORENAME, SURNAME, EMAIL, ROLES_ID) VALUES ('Forename7', 'Surname7', 'user7@email.com', 4);
-INSERT INTO USER (FORENAME, SURNAME, EMAIL, ROLES_ID) VALUES ('Forename8', 'Surname8', 'user8@email.com', 4);
-INSERT INTO USER (FORENAME, SURNAME, EMAIL, ROLES_ID) VALUES ('Forename9', 'Surname9', 'user9@email.com', 5);
-INSERT INTO USER (FORENAME, SURNAME, EMAIL, ROLES_ID) VALUES ('Forename10', 'Surname10', 'user10@email.com', 5);
-INSERT INTO USER (FORENAME, SURNAME, EMAIL, ROLES_ID) VALUES ('Forename11', 'Surname11', 'user11@email.com', 6);
-INSERT INTO USER (FORENAME, SURNAME, EMAIL, ROLES_ID) VALUES ('Forename12', 'Surname12', 'user12@email.com', 6);
-INSERT INTO USER (FORENAME, SURNAME, EMAIL, ROLES_ID) VALUES ('Forename13', 'Surname13', 'user13@email.com', 7);
-INSERT INTO USER (FORENAME, SURNAME, EMAIL, ROLES_ID) VALUES ('Forename14', 'Surname14', 'user14@email.com', 7);
-INSERT INTO USER (FORENAME, SURNAME, EMAIL, ROLES_ID) VALUES ('Forename15', 'Surname15', 'user15@email.com', 8);
-INSERT INTO USER (FORENAME, SURNAME, EMAIL, ROLES_ID) VALUES ('Forename16', 'Surname16', 'user16@email.com', 8);
+INSERT INTO USER (FORENAME, SURNAME, EMAIL, PROFILE_PICTURE, ROLES_ID) VALUES ('Forename2', 'Surname2', 'user2@email.com', 'default.jpg', 1);
+INSERT INTO USER (FORENAME, SURNAME, EMAIL, PROFILE_PICTURE, ROLES_ID) VALUES ('Forename3', 'Surname3', 'user3@email.com', 'default.jpg', 2);
+INSERT INTO USER (FORENAME, SURNAME, EMAIL, PROFILE_PICTURE, ROLES_ID) VALUES ('Forename4', 'Surname4', 'user4@email.com', 'default.jpg', 2);
+INSERT INTO USER (FORENAME, SURNAME, EMAIL, PROFILE_PICTURE, ROLES_ID) VALUES ('Forename5', 'Surname5', 'user5@email.com', 'default.jpg', 3);
+INSERT INTO USER (FORENAME, SURNAME, EMAIL, PROFILE_PICTURE, ROLES_ID) VALUES ('Forename6', 'Surname6', 'user6@email.com', 'default.jpg', 3);
+INSERT INTO USER (FORENAME, SURNAME, EMAIL, PROFILE_PICTURE, ROLES_ID) VALUES ('Forename7', 'Surname7', 'user7@email.com', 'default.jpg', 4);
+INSERT INTO USER (FORENAME, SURNAME, EMAIL, PROFILE_PICTURE, ROLES_ID) VALUES ('Forename8', 'Surname8', 'user8@email.com', 'default.jpg', 4);
+INSERT INTO USER (FORENAME, SURNAME, EMAIL, PROFILE_PICTURE, ROLES_ID) VALUES ('Forename9', 'Surname9', 'user9@email.com', 'default.jpg', 5);
+INSERT INTO USER (FORENAME, SURNAME, EMAIL, PROFILE_PICTURE, ROLES_ID) VALUES ('Forename10', 'Surname10', 'user10@email.com', 'default.jpg', 5);
+INSERT INTO USER (FORENAME, SURNAME, EMAIL, PROFILE_PICTURE, ROLES_ID) VALUES ('Forename11', 'Surname11', 'user11@email.com', 'default.jpg', 6);
+INSERT INTO USER (FORENAME, SURNAME, EMAIL, PROFILE_PICTURE, ROLES_ID) VALUES ('Forename12', 'Surname12', 'user12@email.com', 'default.jpg', 6);
+INSERT INTO USER (FORENAME, SURNAME, EMAIL, PROFILE_PICTURE, ROLES_ID) VALUES ('Forename13', 'Surname13', 'user13@email.com', 'default.jpg', 7);
+INSERT INTO USER (FORENAME, SURNAME, EMAIL, PROFILE_PICTURE, ROLES_ID) VALUES ('Forename14', 'Surname14', 'user14@email.com', 'default.jpg', 7);
+INSERT INTO USER (FORENAME, SURNAME, EMAIL, PROFILE_PICTURE, ROLES_ID) VALUES ('Forename15', 'Surname15', 'user15@email.com', 'default.jpg', 8);
+INSERT INTO USER (FORENAME, SURNAME, EMAIL, PROFILE_PICTURE, ROLES_ID) VALUES ('Forename16', 'Surname16', 'user16@email.com', 'default.jpg', 8);
 
 -- All the passwords below are 'Passw0rd{user_id}'
 INSERT INTO ACCOUNT (PASSWORD, USER_ID)
