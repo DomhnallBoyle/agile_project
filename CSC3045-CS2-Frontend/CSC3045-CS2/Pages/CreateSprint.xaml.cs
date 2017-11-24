@@ -86,8 +86,8 @@ namespace CSC3045_CS2.Pages
                         try
                         {
                             _client.CreateSprint(sprint);
-
-                            MessageBox.Show("Sprint Creation Successful!");
+                            
+                            MessageBoxUtil.ShowSuccessBox("Sprint Creation Successful!");
 
                             Page manageSprintsPage = new ManageSprints(_currentProject);
 
@@ -95,11 +95,11 @@ namespace CSC3045_CS2.Pages
                         }
                         catch (RestResponseErrorException ex)
                         {
-                            MessageBox.Show(ex.Message);
+                            MessageBoxUtil.ShowErrorBox(ex.Message);
                         }
                     } else
                     {
-                        MessageBox.Show("Please select a Start and End Date for the Sprint");
+                        MessageBoxUtil.ShowWarningBox("Please select a Start and End Date for the Sprint");
                     }
                 });
             }

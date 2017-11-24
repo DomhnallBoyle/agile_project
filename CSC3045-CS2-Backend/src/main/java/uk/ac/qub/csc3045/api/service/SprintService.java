@@ -31,7 +31,7 @@ public class SprintService {
         this.projectMapper = projectMapper;
     }
     
-    public Sprint create(Sprint sprint) {
+    public Sprint createSprint(Sprint sprint) {
         try {
             sprintMapper.createSprint(sprint);
 

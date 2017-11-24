@@ -68,7 +68,7 @@ namespace CSC3045_CS2.Pages
 
                         _sprintClient.UpdateSprintTeam(CurrentSprint);
 
-                        MessageBox.Show("Team saved.", "success");
+                        MessageBoxUtil.ShowSuccessBox("Team saved");
 
                         Page sprintDashboardPage = new SprintDashboard(CurrentSprint, false);
 
@@ -76,7 +76,7 @@ namespace CSC3045_CS2.Pages
                     }
                     catch (RestResponseErrorException ex)
                     {
-                        MessageBox.Show(ex.Message, "error");
+                        MessageBoxUtil.ShowErrorBox(ex.Message);
                     }
                 });
             }
@@ -96,7 +96,7 @@ namespace CSC3045_CS2.Pages
                     }
                     catch (RestResponseErrorException ex)
                     {
-                        MessageBox.Show(ex.Message, "error");
+                        MessageBoxUtil.ShowErrorBox(ex.Message);
                     }
                 });
             }

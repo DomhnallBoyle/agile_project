@@ -23,12 +23,12 @@ public class SprintController {
     }
 		
     @PostMapping()
-    public ResponseEntity<Sprint> create(@Valid @RequestBody Sprint sprint) {
-        return new ResponseEntity<>(this.sprintService.create(sprint), HttpStatus.CREATED);
+    public ResponseEntity<Sprint> createSprint(@Valid @RequestBody Sprint sprint) {
+        return new ResponseEntity<>(this.sprintService.createSprint(sprint), HttpStatus.CREATED);
     }
 
     @GetMapping(value = "/project/{projectId}")
-    public ResponseEntity<List<Sprint>> get(@PathVariable("projectId") long projectId) {
+    public ResponseEntity<List<Sprint>> getProjectSprints(@PathVariable("projectId") long projectId) {
         return new ResponseEntity<>(this.sprintService.getSprintsInProject(projectId), HttpStatus.OK);
     }
 

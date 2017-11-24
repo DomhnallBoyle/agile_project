@@ -9,10 +9,6 @@
       d:DesignHeight="300" d:DesignWidth="300"
       Title="SprintDashboard">
 
-    <Page.Resources>
-        <BooleanToVisibilityConverter x:Key="BoolToVisConverter"/>
-    </Page.Resources>
-
     <StackPanel>
         <TextBlock Name="PageTitle" Text="Sprint Dashboard" Style="{StaticResource Title}" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center"></TextBlock>
 

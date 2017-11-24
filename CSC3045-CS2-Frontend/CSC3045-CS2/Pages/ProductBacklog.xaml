@@ -19,9 +19,6 @@
         <TextBlock Grid.Row="0" Text="{Binding PageLabel, FallbackValue='Product Backlog'}" TextAlignment="Center"></TextBlock>
 
         <Grid Grid.Row="1">
-            <Grid.Resources>
-                <BooleanToVisibilityConverter x:Key="BoolToVisConverter"/>
-            </Grid.Resources>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
@@ -70,9 +67,6 @@
             </ListBox.ItemTemplate>
         </ListBox>
         <StackPanel>
-            <StackPanel.Resources>
-                <BooleanToVisibilityConverter x:Key="BoolToVisConverter"/>
-            </StackPanel.Resources>
             <Button Content="Save Order"
                     Command="{Binding SaveOrder}"
                     Visibility="{Binding Permissions.ProductOwner, Converter={StaticResource BoolToVisConverter}}"></Button>

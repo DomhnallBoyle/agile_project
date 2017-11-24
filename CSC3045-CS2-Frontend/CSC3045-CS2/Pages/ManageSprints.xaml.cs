@@ -55,7 +55,14 @@ namespace CSC3045_CS2.Pages
             }
             catch (RestResponseErrorException ex)
             {
-                MessageBox.Show(ex.Message, "Info");
+                if (ex.StatusCode == System.Net.HttpStatusCode.NotFound)
+                {
+                    MessageBoxUtil.ShowInfoBox(ex.Message);
+                }
+                else
+                {
+                    MessageBoxUtil.ShowErrorBox(ex.Message);
+                }
             }
         }
 

@@ -68,7 +68,7 @@ namespace CSC3045_CS2
             }
             catch (RestResponseErrorException ex)
             {
-                MessageBox.Show(ex.Message);
+                MessageBoxUtil.ShowErrorBox(ex.Message);
             }
 
             Style itemContainerStyle = new Style(typeof(ListBoxItem));
@@ -115,11 +115,11 @@ namespace CSC3045_CS2
                     try
                     {
                         _client.SaveOrder(_backlog.ToList());
-                        MessageBox.Show("User stories updated successfully");
+                        MessageBoxUtil.ShowSuccessBox("User stories updated successfully");
                     }
-                    catch (RestResponseErrorException)
+                    catch (RestResponseErrorException ex)
                     {
-                        MessageBox.Show("Error saving story order");
+                        MessageBoxUtil.ShowErrorBox(ex.Message);
                     }
                 });
             }
