@@ -61,9 +61,9 @@ namespace CSC3045_CS2.Pages
             {
                 return new RelayCommand(param =>
                 {
-                    Page projectDashboard = new ProjectDashboard(_currentProject);
+                    Page manageSprintsPage = new ManageSprints(_currentProject);
 
-                    NavigationService.GetNavigationService(this).Navigate(projectDashboard);
+                    NavigationService.GetNavigationService(this).Navigate(manageSprintsPage);
                 });
             }
         }
@@ -77,6 +77,7 @@ namespace CSC3045_CS2.Pages
                     if (CheckFields())
                     {
                         Sprint sprint = new Sprint(
+                                "Sprint",
                                 _startDate,
                                 _endDate,
                                 _currentProject,
@@ -88,9 +89,9 @@ namespace CSC3045_CS2.Pages
 
                             MessageBox.Show("Sprint Creation Successful!");
 
-                            Page projectDashboard = new ProjectDashboard(_currentProject);
+                            Page manageSprintsPage = new ManageSprints(_currentProject);
 
-                            NavigationService.GetNavigationService(this).Navigate(projectDashboard);
+                            NavigationService.GetNavigationService(this).Navigate(manageSprintsPage);
                         }
                         catch (RestResponseErrorException ex)
                         {

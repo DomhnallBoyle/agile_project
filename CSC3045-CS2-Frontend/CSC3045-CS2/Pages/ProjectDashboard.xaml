@@ -50,7 +50,7 @@
                     Visibility="{Binding Path=Permissions.Manager, Converter={StaticResource BoolToVisConverter}}"/>
             <StackPanel Grid.Column="2">
                 <Button Content="Product Backlog" Command="{Binding GoToProductBacklogCommand}"/>
-                <Button Content="Manage Sprints" 
+                <Button Content="Sprints" 
                         Command="{Binding GoToManageSprintsCommand}"/>
             </StackPanel>
         </Grid>

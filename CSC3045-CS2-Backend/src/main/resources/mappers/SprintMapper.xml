@@ -1,34 +1,89 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<!-- Set the namespace below to the interface side of the mapper -->
+<!-- Set the namespace below to the interface side of the sprintMapper -->
 <mapper namespace="uk.ac.qub.csc3045.api.mapper.SprintMapper">
 
     <!-- Result Maps -->
 
     <resultMap id="sprintResultMap" type="Sprint">
         <id column="id" property="id"/>
+        <result column="name" property="name"/>
         <result column="start_date" property="startDate"/>
         <result column="end_date" property="endDate"/>
         <association column="scrum_master_id" property="scrumMaster" javaType="User" select="selectScrumMaster"/>
+        <association column="project_id" property="project" javaType="Project" select="selectProject"/>
     </resultMap>
 
     <!-- SELECT Queries -->
-    
+
     <select id="getSprintsInProject" resultMap="sprintResultMap">
         SELECT
-      		 SPRINT.ID AS ID,
-      		 START_DATE,
-      		 END_DATE,
-      		 SCRUM_MASTER_ID
-       FROM SPRINT 
-       JOIN PROJECT ON SPRINT.PROJECT_ID = PROJECT.ID
-       WHERE PROJECT.ID = #{projectId}    		 
+            SPRINT.ID   AS ID,
+            SPRINT.NAME AS NAME,
+            START_DATE,
+            END_DATE,
+            SCRUM_MASTER_ID,
+            PROJECT_ID
+        FROM SPRINT
+            JOIN PROJECT ON SPRINT.PROJECT_ID = PROJECT.ID
+        WHERE PROJECT.ID = #{projectId}
     </select>
 
-	<!-- Nested SELECT queries for Sprint -->
-	
-	<select id="selectScrumMaster" resultMap="uk.ac.qub.csc3045.api.mapper.UserMapper.userResultMap">
+    <select id="getSprintById" resultMap="sprintResultMap">
+        SELECT
+            ID,
+            NAME,
+            START_DATE,
+            END_DATE,
+            SCRUM_MASTER_ID,
+            PROJECT_ID
+        FROM SPRINT
+        WHERE ID = #{id}
+    </select>
+
+    <select id="getUsersOnSprint" resultMap="uk.ac.qub.csc3045.api.mapper.UserMapper.userResultMap">
+        SELECT *
+        FROM USER
+            JOIN ROLES ON USER.ROLES_ID = ROLES.ID
+            JOIN SPRINT_USER ON USER.ID = SPRINT_USER.USER_ID
+        WHERE SPRINT_USER.SPRINT_ID = #{sprintId}
+    </select>
+
+    <select id="getClashingSprintsForUser" resultMap="uk.ac.qub.csc3045.api.mapper.UserMapper.userResultMap">
+        SELECT
+            SPRINT.ID AS ID,
+            NAME,
+            START_DATE,
+            END_DATE,
+            SCRUM_MASTER_ID,
+            PROJECT_ID
+        FROM SPRINT
+            JOIN SPRINT_USER ON SPRINT.ID = SPRINT_USER.SPRINT_ID
+            JOIN USER ON SPRINT_USER.USER_ID = USER.ID
+        WHERE USER.ID = #{userId}
+              AND (#{startDate} BETWEEN SPRINT.START_DATE AND SPRINT.END_DATE
+                                                              OR
+                                                              #{endDate} BETWEEN SPRINT.START_DATE AND SPRINT.END_DATE)
+    </select>
+
+    <!-- INSERT Queries -->
+
+    <insert id="addToSprintTeam">
+        INSERT INTO SPRINT_USER (SPRINT_ID, USER_ID)
+        VALUES (#{sprintId}, #{userId})
+    </insert>
+
+    <!-- DELETE Queries -->
+
+    <delete id="resetSprintTeam">
+        DELETE FROM SPRINT_USER
+        WHERE SPRINT_ID = #{sprintId}
+    </delete>
+
+    <!-- Nested SELECT queries for Sprint -->
+
+    <select id="selectScrumMaster" resultMap="uk.ac.qub.csc3045.api.mapper.UserMapper.userResultMap">
         SELECT
             USER.ID  AS user_id,
             USER.FORENAME,
@@ -41,5 +96,16 @@
         FROM USER
             JOIN roles ON roles_id = roles.id
         WHERE user.id = #{sprint.scrum_master_id}
+    </select>
+
+    <select id="selectProject" resultMap="uk.ac.qub.csc3045.api.mapper.ProjectMapper.simpleProjectResultMap">
+        SELECT
+            ID,
+            NAME,
+            DESCRIPTION,
+            MANAGER_ID,
+            PRODUCT_OWNER_ID
+        FROM PROJECT
+        WHERE ID = #{sprint.project_id}
     </select>
 </mapper>

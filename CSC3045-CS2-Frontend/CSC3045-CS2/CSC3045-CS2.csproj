@@ -79,8 +79,8 @@
     <Compile Include="Pages\AddProjectTeamMember.xaml.cs">
       <DependentUpon>AddProjectTeamMember.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Pages\AddSprintTeamMember.xaml.cs">
-      <DependentUpon>AddSprintTeamMember.xaml</DependentUpon>
+    <Compile Include="Pages\EditSprintTeam.xaml.cs">
+      <DependentUpon>EditSprintTeam.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\CreateProject.xaml.cs">
       <DependentUpon>CreateProject.xaml</DependentUpon>
@@ -136,7 +136,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Pages\AddSprintTeamMember.xaml">
+    <Page Include="Pages\EditSprintTeam.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -23,12 +23,11 @@ namespace CSC3045_CS2.Pages
     /// <summary>
     /// Interaction logic for AddSprintTeamMember.xaml
     /// </summary>
-    public partial class AddSprintTeamMember : Page
+    public partial class EditSprintTeam : Page
     {
         #region Private variables
 
         private SprintClient _sprintClient;
-        private ProjectClient _projectClient;
 
         #endregion
 
@@ -42,17 +41,16 @@ namespace CSC3045_CS2.Pages
 
         #endregion
 
-        public AddSprintTeamMember(Sprint sprint)
+        public EditSprintTeam(Sprint sprint)
         {
             InitializeComponent();
             DataContext = this;
 
             _sprintClient = new SprintClient();
-            _projectClient = new ProjectClient();
 
             CurrentSprint = sprint;
             SprintTeam = new ObservableCollection<User>(sprint.Users);
-            AvailableDevelopers = new ObservableCollection<User>(_projectClient.GetProjectAvailableDevelopers(sprint.Project.Id));
+            AvailableDevelopers = new ObservableCollection<User>(_sprintClient.GetAvailableDevelopers(sprint.Id));
         }
 
         #region Command methods
@@ -71,6 +69,10 @@ namespace CSC3045_CS2.Pages
                         _sprintClient.UpdateSprintTeam(CurrentSprint);
 
                         MessageBox.Show("Team saved.", "success");
+
+                        Page sprintDashboardPage = new SprintDashboard(CurrentSprint, false);
+
+                        NavigationService.GetNavigationService(this).Navigate(sprintDashboardPage);
                     }
                     catch (RestResponseErrorException ex)
                     {

@@ -1,5 +1,6 @@
 package uk.ac.qub.csc3045.api.mapper;
 
+import java.util.Date;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
@@ -22,13 +23,15 @@ public interface SprintMapper {
     
     List<User> getUsersOnSprint(@Param("sprintId") long sprintId);
 
+    List<Sprint> getClashingSprintsForUser(@Param("userId") long userId, @Param("startDate") Date startDate, @Param("endDate") Date endDate);
+
     // INSERT Queries
 
     void createSprint(Sprint sprint);
     
     void addToSprintTeam(@Param("sprintId") long sprintId, @Param("userId") long userId);
-    
 
+    // DELETE Queries
 
-  
+    void resetSprintTeam(@Param("sprintId") long sprintId);
 }

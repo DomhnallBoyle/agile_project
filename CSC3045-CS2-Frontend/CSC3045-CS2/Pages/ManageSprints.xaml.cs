@@ -1,4 +1,5 @@
-﻿using CSC3045_CS2.Models;
+﻿using CSC3045_CS2.Exception;
+using CSC3045_CS2.Models;
 using CSC3045_CS2.Service;
 using CSC3045_CS2.Utility;
 using System;
@@ -33,6 +34,7 @@ namespace CSC3045_CS2.Pages
 
         public Project CurrentProject { get; set; }
         public List<Sprint> Sprints { get; set; }
+        public Permissions Permissions { get; set; }
 
         #endregion
 
@@ -43,11 +45,21 @@ namespace CSC3045_CS2.Pages
             
             _client = new SprintClient();
 
+            Permissions = new Permissions((User)Application.Current.Properties["user"], project);
+
             CurrentProject = project;
-            Sprints = _client.GetSprintsInProject(CurrentProject.Id);
+
+            try
+            {
+                Sprints = _client.GetSprintsInProject(CurrentProject.Id);
+            }
+            catch (RestResponseErrorException ex)
+            {
+                MessageBox.Show(ex.Message, "Info");
+            }
         }
 
-        #region Command methods
+        #region Command and Event methods
 
         public ICommand NavigateToCreateSprintCommand
         {
@@ -55,9 +67,9 @@ namespace CSC3045_CS2.Pages
             {
                 return new RelayCommand(param =>
                 {
-                    //Page createSprintPage = new CreateSprint(CurrentProject);
+                    Page createSprintPage = new CreateSprint(CurrentProject);
 
-                    //NavigationService.GetNavigationService(this).Navigate(createSprintPage);
+                    NavigationService.GetNavigationService(this).Navigate(createSprintPage);
                 });
             }
         }
@@ -73,6 +85,16 @@ namespace CSC3045_CS2.Pages
                     NavigationService.GetNavigationService(this).Navigate(projectDashboardPage);
                 });
             }
+        }
+
+        private void SprintListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            Sprint selectedSprint = (Sprint)SprintListBox.SelectedItem;
+            selectedSprint.Project = CurrentProject;
+
+            Page sprintDashboardPage = new SprintDashboard(selectedSprint, false);
+
+            NavigationService.GetNavigationService(this).Navigate(sprintDashboardPage);
         }
 
         #endregion

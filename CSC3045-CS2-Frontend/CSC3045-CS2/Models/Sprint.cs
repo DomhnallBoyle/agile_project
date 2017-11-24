@@ -12,6 +12,9 @@ namespace CSC3045_CS2.Models
         [DeserializeAs(Name = "id")]
         public long Id { get; set; }
 
+        [DeserializeAs(Name = "name")]
+        public string Name { get; set; }
+
         [DeserializeAs(Name = "startDate")]
         public DateTime StartDate { get; set; }
 
@@ -29,8 +32,9 @@ namespace CSC3045_CS2.Models
 
         public Sprint() { }
 
-        public Sprint(DateTime startDate, DateTime endDate, Project project, User scrumMaster)
+        public Sprint(string name, DateTime startDate, DateTime endDate, Project project, User scrumMaster)
         {
+            this.Name = name;
             this.StartDate = startDate;
             this.EndDate = endDate;
             this.Project = project;

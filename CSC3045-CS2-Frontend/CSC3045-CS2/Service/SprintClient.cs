@@ -48,12 +48,22 @@ namespace CSC3045_CS2.Service
 
         public List<User> UpdateSprintTeam(Sprint sprint)
         {
-            var request = new RestRequest(BASE_ENDPOINT + "/team/" + sprint.Id, Method.PUT);
+            var request = new RestRequest(BASE_ENDPOINT + "/team", Method.PUT);
             request.AddHeader("Content-Type", "application/json");
             request.RequestFormat = DataFormat.Json;
             SimpleJson.CurrentJsonSerializerStrategy = new CamelCaseSerializationStrategy();
 
             request.AddBody(sprint);
+
+            return Execute<List<User>>(request);
+        }
+
+        public List<User> GetAvailableDevelopers(long sprintId)
+        {
+            var request = new RestRequest(BASE_ENDPOINT + "/available/team/" + sprintId, Method.GET);
+            request.AddHeader("Content-Type", "application/json");
+            request.RequestFormat = DataFormat.Json;
+            SimpleJson.CurrentJsonSerializerStrategy = new CamelCaseSerializationStrategy();
 
             return Execute<List<User>>(request);
         }

@@ -9,6 +9,10 @@
       d:DesignHeight="300" d:DesignWidth="300"
       Title="ManageSprints">
 
+    <Page.Resources>
+        <BooleanToVisibilityConverter x:Key="BoolToVisConverter"/>
+    </Page.Resources>
+
     <StackPanel>
         <TextBlock Name="PageTitle" Text="Manage Sprints" Style="{StaticResource Title}" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center"></TextBlock>
         
@@ -16,17 +20,12 @@
             <TextBlock FontSize ="14" Text="{Binding CurrentProject.Name}" HorizontalAlignment="Left" />
         </StackPanel>
 
-        <ListBox Name="SprintListBox" ItemsSource="{Binding Sprints}" HorizontalContentAlignment="Center">
+        <ListBox Name="SprintListBox" ItemsSource="{Binding Sprints}" HorizontalContentAlignment="Stretch" SelectionChanged="SprintListBox_SelectionChanged">
             <ListBox.ItemTemplate>
                 <DataTemplate>
-                    <Grid>
-                        <Grid.ColumnDefinitions >
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="*"/>
-                        </Grid.ColumnDefinitions>
-                        <TextBlock Grid.Column="0" Text="{Binding Name}" Style="{StaticResource Label}"/>
-                        <TextBlock Grid.Row="1">
+                    <StackPanel>
+                        <TextBlock Text="{Binding Name}" HorizontalAlignment="Left"></TextBlock>
+                        <TextBlock HorizontalAlignment="Right">
                             <TextBlock.Text>
                                 <MultiBinding StringFormat="{}{0} {1}">
                                     <Binding Path="ScrumMaster.Forename"/>
@@ -34,13 +33,35 @@
                                 </MultiBinding>
                             </TextBlock.Text>
                         </TextBlock>
-                    </Grid>
+                        
+                        <Separator/>
+
+                        <TextBlock HorizontalAlignment="Center">
+                            <TextBlock.Text>
+                                <MultiBinding StringFormat="{}{0}, {1}/{2}/{3} - {4}, {5}/{6}/{7}">
+                                    <Binding Path="StartDate.DayOfWeek"/>
+                                    <Binding Path="StartDate.Day"/>
+                                    <Binding Path="StartDate.Month"/>
+                                    <Binding Path="StartDate.Year"/>
+                                    <Binding Path="EndDate.DayOfWeek"/>
+                                    <Binding Path="EndDate.Day"/>
+                                    <Binding Path="EndDate.Month"/>
+                                    <Binding Path="EndDate.Year"/>
+                                </MultiBinding>
+                            </TextBlock.Text>
+                        </TextBlock>
+                    </StackPanel>
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
 
         <StackPanel>
-            <Button Name="CreateSprintButton" Content="Create Sprint" Style="{StaticResource StandardButton}" HorizontalAlignment="Center" Command="{Binding NavigateToCreateSprintCommand}"/>
+            <Button Name="CreateSprintButton"
+                    Content="Create Sprint"
+                    Style="{StaticResource StandardButton}"
+                    HorizontalAlignment="Center"
+                    Command="{Binding NavigateToCreateSprintCommand}"
+                    Visibility="{Binding Path=Permissions.ScrumMaster, Converter={StaticResource BoolToVisConverter}}"/>
             <Button Name="BackButton" Content="Back" Style="{StaticResource StandardButton}" HorizontalAlignment="Left" Command="{Binding BackCommand}"/>
         </StackPanel>
     </StackPanel>

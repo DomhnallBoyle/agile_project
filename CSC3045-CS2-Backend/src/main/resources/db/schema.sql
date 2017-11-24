@@ -43,6 +43,7 @@ CREATE TABLE SPRINT
 (
   ID              BIGINT AUTO_INCREMENT PRIMARY KEY  NOT NULL,
   PROJECT_ID      BIGINT                             NOT NULL,
+  NAME            VARCHAR(255)                       NOT NULL,
   START_DATE      TIMESTAMP                          NOT NULL,
   END_DATE        TIMESTAMP                          NOT NULL,
   SCRUM_MASTER_ID BIGINT                             NOT NULL,
