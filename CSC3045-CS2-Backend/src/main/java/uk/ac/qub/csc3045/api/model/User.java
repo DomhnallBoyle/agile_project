@@ -16,7 +16,7 @@ public class User {
     @NotNull
     private String email;
     
-    private String profilePicture = "default";
+    private String profilePicture;
 
     private Roles roles = new Roles();
 

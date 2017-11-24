@@ -104,6 +104,8 @@
     <Compile Include="Utility\Permissions.cs" />
     <Compile Include="Utility\ProjectPermissions.cs" />
     <Compile Include="Utility\RelayCommand.cs" />
+    <Compile Include="Utility\WatermarkAdorner.cs" />
+    <Compile Include="Utility\WatermarkService.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -202,7 +204,6 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
     <WCFMetadata Include="Connected Services\" />
   </ItemGroup>

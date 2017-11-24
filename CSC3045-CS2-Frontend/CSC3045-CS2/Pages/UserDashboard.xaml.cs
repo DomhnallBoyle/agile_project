@@ -43,11 +43,20 @@ namespace CSC3045_CS2.Pages
         {
             InitializeComponent();
             DataContext = this;
-
-            UserLabel = ((User)Application.Current.Properties["user"]).GetFullName();
-            string path = Directory.GetCurrentDirectory();
-            string newPath = System.IO.Path.GetFullPath(System.IO.Path.Combine(path, @"..\..\profiles\"));
-            ProfilePicture.Source = new BitmapImage(new Uri(newPath + ((User)Application.Current.Properties["user"]).ProfilePicture, UriKind.RelativeOrAbsolute));
+            User user = ((User)Application.Current.Properties["user"]);
+            UserLabel = user.GetFullName();
+            string profileImageFileName;
+            if (user.ProfilePicture != null)
+            {
+                profileImageFileName = user.ProfilePicture;
+            }
+            else
+            {
+                profileImageFileName = Properties.Settings.Default.DefaultProfileImage;
+            }
+            
+            string profileImagePath = System.IO.Path.GetFullPath(System.IO.Path.Combine(Directory.GetCurrentDirectory(), @"..\..\profiles\")) + profileImageFileName;
+            ProfilePicture.Source = new BitmapImage(new Uri(profileImagePath, UriKind.RelativeOrAbsolute));
             _client = new ProjectClient();
 
             InitialiseProjects();

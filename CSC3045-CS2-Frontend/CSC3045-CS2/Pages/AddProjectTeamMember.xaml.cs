@@ -6,6 +6,7 @@ using CSC3045_CS2.Utility;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Windows;
@@ -48,12 +49,12 @@ namespace CSC3045_CS2.Pages
         public string ProfilePictureSource
         {
             get {
-                if (_searchResultUser != null) {
-                    return "pack://application:,,,/profiles/" + _searchResultUser.ProfilePicture;
+                if (_searchResultUser != null && _searchResultUser.ProfilePicture !=  null) {
+                    return Properties.Settings.Default.ProfileImageDirectory + _searchResultUser.ProfilePicture;
                 }
                 else
                 {
-                    return "pack://application:,,,/profiles/default.png";
+                    return Properties.Settings.Default.ProfileImageDirectory + Properties.Settings.Default.DefaultProfileImage;
                 }
             }
             set
@@ -93,7 +94,7 @@ namespace CSC3045_CS2.Pages
                     {
                         User searchUser = new User("", "", EmailTextBox.Text, new Roles(false, false, false));
                         SearchResultUser = _userClient.Search(searchUser);
-                        ProfilePictureSource = "pack://application:,,,/profiles/" + _searchResultUser.ProfilePicture;
+                        ProfilePictureSource = Properties.Settings.Default.ProfileImageDirectory + _searchResultUser.ProfilePicture;
                     }
                     catch (RestResponseErrorException ex)
                     {

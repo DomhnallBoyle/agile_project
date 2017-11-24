@@ -13,16 +13,22 @@ using System.IO;
 
 namespace CSC3045_CS2.Pages
 {
-
     public partial class Register : Page
     {
         private AuthenticationClient _client;
-        private string profiler = "buckie.jpg";
+        private BitmapImage _profileImage;
+
         public Register()
         {
             InitializeComponent();
             DataContext = this;
             _client = new AuthenticationClient();
+
+            _profileImage = new BitmapImage(new Uri(Properties.Settings.Default.ProfileImageDirectory + Properties.Settings.Default.DefaultProfileImage, UriKind.Absolute));
+            ImageBrush profileButtonBackground = new ImageBrush();
+            profileButtonBackground.ImageSource = _profileImage;
+            ProfileButton.Background = profileButtonBackground;
+
         }
 
         /// <summary>
@@ -38,16 +44,29 @@ namespace CSC3045_CS2.Pages
             if (CheckValidation())
             {
                 Roles roles = new Roles(ProductOwnerCheckBox.IsChecked.Value, ScrumMasterCheckBox.IsChecked.Value, DeveloperCheckBox.IsChecked.Value);
-                User user = new User(FirstnameTextBox.Text, SurnameTextBox.Text, EmailTextBox.Text, profiler, roles);
+                string profileImagePath = null;
+                if (_profileImage != null)
+                {
+                    profileImagePath = EmailTextBox.Text + Properties.Settings.Default.DefaultProfileImageFileExtension;
+                }
+                else
+                {
+                    profileImagePath = Properties.Settings.Default.DefaultProfileImage;
+                }
+                User user = new User(FirstnameTextBox.Text, SurnameTextBox.Text, EmailTextBox.Text, profileImagePath , roles);
                 Account account = new Account(user, PasswordTextBox.Password.ToString());
 
                 try
                 {
-                    this._client.Register(account);
+                    Account returnedAccount = this._client.Register(account);
 
                     MessageBox.Show("Registration successful!", "Success");
                     Page loginPage = new Login();
-
+                    if(_profileImage != null)
+                    {
+                        SaveImage(_profileImage, Properties.Settings.Default.ProfileImageDirectory + returnedAccount.User.Email + Properties.Settings.Default.DefaultProfileImageFileExtension);
+                    }
+                    
                     NavigationService.GetNavigationService(this).Navigate(loginPage);
                 }
                 catch (RestResponseErrorException ex)
@@ -62,30 +81,24 @@ namespace CSC3045_CS2.Pages
             // Create OpenFileDialog 
             Microsoft.Win32.OpenFileDialog dlg = new Microsoft.Win32.OpenFileDialog();
 
-
-
             // Set filter for file extension and default file extension 
             dlg.DefaultExt = ".png";
             dlg.Filter = "JPEG Files (*.jpeg)|*.jpeg|PNG Files (*.png)|*.png|JPG Files (*.jpg)|*.jpg|GIF Files (*.gif)|*.gif";
 
-
             // Display OpenFileDialog by calling ShowDialog method 
             Nullable<bool> result = dlg.ShowDialog();
 
-
-            // Get the selected file name and display in a TextBox 
             if (result == true)
             {
-                // Open document 
+                // Store image temporarily
                 string filename = dlg.FileName;
-                BitmapImage profileImage  = new BitmapImage(new Uri(filename, UriKind.Absolute));
+                _profileImage = new BitmapImage(new Uri(filename, UriKind.Absolute));
+
+                ImageBrush profileButtonBackground = new ImageBrush();
+                profileButtonBackground.ImageSource = _profileImage;
+                ProfileButton.Background = profileButtonBackground;
 
 
-                string path = Directory.GetCurrentDirectory();
-                string newPath = Path.GetFullPath(Path.Combine(path, @"..\..\profiles\"));
-                SaveImage(profileImage, newPath + "buckie.jpg");
-                profile.Source = new BitmapImage(new Uri(newPath + "buckie.jpg", UriKind.RelativeOrAbsolute));
-                ProfileButton.Content = filename;
             }
         }
 
@@ -94,7 +107,7 @@ namespace CSC3045_CS2.Pages
             BitmapEncoder encoder = new PngBitmapEncoder();
             encoder.Frames.Add(BitmapFrame.Create(image));
 
-            using (var fileStream = new System.IO.FileStream(filePath, System.IO.FileMode.Create))
+            using (var fileStream = new FileStream(filePath, FileMode.Create))
             {
                 encoder.Save(fileStream);
             }

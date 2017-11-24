@@ -8,6 +8,8 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
+using System.IO;
+
 namespace CSC3045_CS2.Properties
 {
 
@@ -27,5 +29,11 @@ namespace CSC3045_CS2.Properties
                 return defaultInstance;
             }
         }
+
+        public string ProfileImageDirectory = Path.Combine(Directory.GetCurrentDirectory(), @"..\..\profiles\");
+
+        public string DefaultProfileImageFileExtension = ".jpg";
+
+        public string DefaultProfileImage = "default.jpg";
     }
 }
