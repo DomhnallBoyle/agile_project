@@ -36,6 +36,9 @@
     <Reference Include="Castle.Core, Version=3.3.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
       <HintPath>..\packages\Castle.Core.3.3.0\lib\net45\Castle.Core.dll</HintPath>
     </Reference>
+    <Reference Include="GongSolutions.Wpf.DragDrop, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\gong-wpf-dragdrop.1.1.0\lib\net45\GongSolutions.Wpf.DragDrop.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
@@ -76,18 +79,30 @@
     <Compile Include="Pages\AddProjectTeamMember.xaml.cs">
       <DependentUpon>AddProjectTeamMember.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Pages\EditSprintTeam.xaml.cs">
+      <DependentUpon>EditSprintTeam.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\CreateProject.xaml.cs">
       <DependentUpon>CreateProject.xaml</DependentUpon>
     </Compile>
     <Compile Include="Models\UserStory.cs" />
+    <Compile Include="Pages\CreateSprint.xaml.cs">
+      <DependentUpon>CreateSprint.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\CreateUserStory.xaml.cs">
       <DependentUpon>CreateUserStory.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\Login.xaml.cs">
       <DependentUpon>Login.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Pages\ManageSprints.xaml.cs">
+      <DependentUpon>ManageSprints.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\ProjectDashboard.xaml.cs">
       <DependentUpon>ProjectDashboard.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\SprintDashboard.xaml.cs">
+      <DependentUpon>SprintDashboard.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\UserDashboard.xaml.cs">
       <DependentUpon>UserDashboard.xaml</DependentUpon>
@@ -98,9 +113,11 @@
     <Compile Include="Service\AuthenticationClient.cs" />
     <Compile Include="Service\ProjectClient.cs" />
     <Compile Include="Service\ServiceClient.cs" />
+    <Compile Include="Service\SprintClient.cs" />
     <Compile Include="Service\UserClient.cs" />
     <Compile Include="Service\UserStoryClient.cs" />
     <Compile Include="Utility\CamelCaseSerializationStrategy.cs" />
+    <Compile Include="Utility\MessageBoxUtil.cs" />
     <Compile Include="Utility\Permissions.cs" />
     <Compile Include="Utility\ProjectPermissions.cs" />
     <Compile Include="Utility\RelayCommand.cs" />
@@ -120,6 +137,14 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Pages\EditSprintTeam.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\CreateSprint.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Pages\CreateUserStory.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -132,11 +157,19 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Pages\ManageSprints.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Pages\ProjectDashboard.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Pages\Register.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\SprintDashboard.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

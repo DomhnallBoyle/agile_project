@@ -8,10 +8,6 @@
       Background="{StaticResource LightBlueBrush}"
       Title="UserDashboard" Height="475.182" Width="456.569">
 
-    <Page.Resources>
-        <BooleanToVisibilityConverter x:Key="BoolToVisConverter"/>
-    </Page.Resources>
-
     <StackPanel>
         <StackPanel>
             <TextBlock Name="PageTitle" Text="User Dashboard" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center"></TextBlock>

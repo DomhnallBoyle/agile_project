@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TestStack.White.UIItems;
+﻿using TestStack.White.UIItems;
 using TestStack.White.UIItems.Finders;
 using TestStack.White.UIItems.WindowItems;
 
@@ -20,5 +15,26 @@ namespace AutomationTests.Util
         {
             messageBox.Get<Button>(SearchCriteria.Indexed(1)).Click();
         }
+
+        public static Window GetInfoMessageBox(Window window)
+        {
+            return window.MessageBox("Information");
+        }
+
+        public static Window GetSuccessMessageBox(Window window)
+        {
+            return window.MessageBox("Success");
+        }
+
+        public static Window GetErrorMessageBox(Window window)
+        {
+            return window.MessageBox("Error");
+        }
+
+        public static Window GetWarningMessageBox(Window window)
+        {
+            return window.MessageBox("Warning");
+        }
+
     }
 }

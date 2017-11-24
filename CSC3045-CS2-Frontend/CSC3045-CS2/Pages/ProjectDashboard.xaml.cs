@@ -96,7 +96,7 @@ namespace CSC3045_CS2.Pages
             }
             catch (RestResponseErrorException ex)
             {
-                MessageBox.Show(ex.Message);
+                MessageBoxUtil.ShowErrorBox(ex.Message);
             }
         }
 
@@ -157,6 +157,19 @@ namespace CSC3045_CS2.Pages
             }
         }
 
+        public ICommand GoToManageSprintsCommand
+        {
+            get
+            {
+                return new RelayCommand(param =>
+                {
+                    Page manageSprints = new ManageSprints(SelectedProject);
+
+                    NavigationService.GetNavigationService(this).Navigate(manageSprints);
+                });
+            }
+        }
+
         public ICommand goToCommand
         {
             get
@@ -172,7 +185,7 @@ namespace CSC3045_CS2.Pages
                     }
                     catch (RestResponseErrorException ex)
                     {
-                        MessageBox.Show(ex.Message);
+                        MessageBoxUtil.ShowErrorBox(ex.Message);
                     }
                 });
             }

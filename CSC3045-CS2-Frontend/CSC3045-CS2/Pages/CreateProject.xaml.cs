@@ -77,7 +77,7 @@ namespace CSC3045_CS2.Pages
                     {
                         _client.CreateProject(project);
 
-                        MessageBox.Show("Project creation successful!");
+                        MessageBoxUtil.ShowSuccessBox("Project creation successful!");
 
                         Page userDashboard = new UserDashboard();
 
@@ -85,7 +85,7 @@ namespace CSC3045_CS2.Pages
                     }
                     catch (RestResponseErrorException ex)
                     {
-                        MessageBox.Show(ex.Message);
+                        MessageBoxUtil.ShowErrorBox(ex.Message);
                     }
                 });
             }
