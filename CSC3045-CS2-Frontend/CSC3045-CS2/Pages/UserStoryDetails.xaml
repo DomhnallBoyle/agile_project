@@ -36,7 +36,7 @@
                     Visibility="{Binding Permissions.ProductOwner, Converter={StaticResource BoolToVisConverter}}" Grid.ColumnSpan="2" Margin="0,0,0,35" Width="Auto">
                 </Button>
 
-                <Button Grid.Column="2" Content="Back" Style="{StaticResource StandardButton}" HorizontalAlignment="Center" Margin="0,0,10,35" Command="{Binding  GoToUserStoryCommand}" IsDefault="True"/>
+                <Button Grid.Column="2" Content="Back" Style="{StaticResource StandardButton}" HorizontalAlignment="Center" Margin="0,0,10,35" Command="{Binding GoToProductBacklogCommand}" IsDefault="True"/>
             </Grid>
 
 

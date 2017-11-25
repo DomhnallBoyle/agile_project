@@ -85,7 +85,7 @@ namespace CSC3045_CS2.Service
         /// <returns>The acceptance tests for the specified user story, or will throw RestResponseException if error</returns>
         public AcceptanceTest UpdateAcceptanceTest(AcceptanceTest acceptanceTest)
         {
-            var request = new RestRequest(BASE_ENDPOINT + "/" + acceptanceTest.UserStory.Id + "/acceptancetest/", Method.PUT);
+            var request = new RestRequest(BASE_ENDPOINT +  "/acceptancetest/", Method.PUT);
             request.AddHeader("Content-Type", "application/json");
             request.RequestFormat = DataFormat.Json;
             SimpleJson.CurrentJsonSerializerStrategy = new CamelCaseSerializationStrategy();

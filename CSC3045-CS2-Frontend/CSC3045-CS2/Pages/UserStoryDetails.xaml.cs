@@ -41,15 +41,7 @@ namespace CSC3045_CS2.Pages
 
             _selectedUserStory = selectedUserStory;
 
-            List<AcceptanceTest> acceptanceTest = new List<AcceptanceTest>();
-
-            acceptanceTest.Add(new AcceptanceTest("given", "when", "then", _selectedUserStory));
-
-            acceptanceTest.Add(new AcceptanceTest("given1", "when2", "then3", _selectedUserStory, true));
-
-            UserStoryAcceptanceTests.ItemsSource = acceptanceTest;
-
-            //  UserStoryAcceptanceTests.ItemsSource = _client.GetAcceptanceTestsFromUserStory(_selectedUserStory.Id);
+             UserStoryAcceptanceTests.ItemsSource = _client.GetAcceptanceTestsFromUserStory(_selectedUserStory.Id);
         }
 
         #region Command methods
@@ -79,6 +71,18 @@ namespace CSC3045_CS2.Pages
             }
         }
 
+        public ICommand GoToProductBacklogCommand
+        {
+            get
+            {
+                return new RelayCommand(param =>
+                {
+                    Page productBacklog = new ProductBacklog(_selectedUserStory.Project);
+
+                    NavigationService.GetNavigationService(this).Navigate(productBacklog);
+                });
+            }
+        }
         #endregion
 
     }
