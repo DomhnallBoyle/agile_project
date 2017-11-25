@@ -113,6 +113,17 @@ public class ValidationUtility {
         }
         return false;
     }
+    
+    /**
+     * Validates whether or not the Acceptance Test exists in the database
+     * 
+     * @param acceptanceTestId id of the acceptance test to lookup
+     * @param userStoryMapper db access
+     * @return boolean whether or not acceptance test exists
+     */
+    public static boolean validateAcceptanceTestExists(long acceptanceTestId, UserStoryMapper userStoryMapper) {
+    	return (userStoryMapper.getAcceptanceTestById(acceptanceTestId) != null);
+    }
 
     /**
      * Validates the password against the length requirements and the regex

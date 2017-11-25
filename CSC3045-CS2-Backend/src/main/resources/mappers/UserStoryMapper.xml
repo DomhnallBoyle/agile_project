@@ -13,6 +13,15 @@
         <result column="points" property="points"/>
         <result column="market_value" property="marketValue"/>
         <association property="project" column="project_id" javaType="Project" select="selectProject"/>
+        <collection property="acceptanceTests" column="id" javaType="List" ofType="AcceptanceTest" select="getAcceptanceTestsByStoryId"/>
+    </resultMap>
+    
+    <resultMap id="acceptanceTestResultMap" type="AcceptanceTest">
+    	<id column="id" property="id"/>
+    	<result column="given" property="given"/>
+    	<result column="when" property="when"/>
+    	<result column="then" property="then"/>
+    	<result column="completed" property="completed"/>
     </resultMap>
 
     <!-- SELECT Queries -->
@@ -28,12 +37,29 @@
         FROM USER_STORY
         WHERE project_id = #{id}
     </select>
+    
+    <select id="getAcceptanceTestsByStoryId" resultMap="acceptanceTestResultMap">
+    	SELECT *
+        FROM ACCEPTANCE_TEST
+        WHERE USER_STORY_ID = #{id}
+    </select>
+    
+    <select id="getAcceptanceTestById" resultMap="acceptanceTestResultMap">
+    	SELECT *
+    	FROM ACCEPTANCE_TEST
+    	WHERE id = #{id}
+    </select>
 
     <!-- INSERT Queries -->
 
     <insert id="createUserStory" parameterType="UserStory" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
         INSERT INTO user_story (name, description, index, points, market_value, project_id)
         VALUES (#{name}, #{description}, #{index}, #{points}, #{marketValue}, #{project.id})
+    </insert>
+    
+    <insert id="createAcceptanceTest" parameterType="AcceptanceTest" useGeneratedKeys="true" keyProperty="acceptanceTest.id" keyColumn="id">
+    	INSERT INTO acceptance_test (given, when, then, completed, user_story_id)
+    	VALUES (#{acceptanceTest.given}, #{acceptanceTest.when}, #{acceptanceTest.then}, #{acceptanceTest.completed}, #{userStoryId})
     </insert>
 
     <!-- UPDATE Queries -->
@@ -43,6 +69,16 @@
         SET
         INDEX = #{index}
         WHERE ID = #{userStoryId}
+    </update>
+    
+    <update id="updateAcceptanceTest">
+    	UPDATE ACCEPTANCE_TEST
+    	SET 
+    		given = #{given},
+    		when = #{when},
+    		then = #{then},
+    		completed = #{completed}
+    	WHERE ID = #{id}
     </update>
 
     <!-- Nested SELECT queries for User Story -->

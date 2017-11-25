@@ -4,6 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import uk.ac.qub.csc3045.api.model.AcceptanceTest;
 import uk.ac.qub.csc3045.api.model.UserStory;
 import uk.ac.qub.csc3045.api.service.UserStoryService;
 
@@ -42,4 +44,20 @@ public class UserStoryController {
     public ResponseEntity<List<UserStory>> updateBacklogOrder(@RequestBody List<UserStory> backlog) {
         return new ResponseEntity<>(userStoryService.updateBacklogOrder(backlog), HttpStatus.OK);
     }
+    
+    @PostMapping(value = "/{id}/acceptancetest")
+    public ResponseEntity<AcceptanceTest> addAcceptanceTest(@Valid @PathVariable("id") long id, @Valid @RequestBody AcceptanceTest acceptanceTest) {
+    	return new ResponseEntity<>(this.userStoryService.addAcceptanceTest(id, acceptanceTest), HttpStatus.CREATED);
+    }
+    
+    @GetMapping(value = "/{id}/acceptancetest")
+    public ResponseEntity<List<AcceptanceTest>> getAcceptanceTests(@Valid @PathVariable("id") long id) {
+    	return new ResponseEntity<>(this.userStoryService.getAcceptanceTests(id), HttpStatus.OK);
+    }
+    
+    @PutMapping(value = "/acceptancetest")
+    public ResponseEntity<AcceptanceTest> updateAcceptanceTest(@Valid @RequestBody AcceptanceTest acceptanceTest) {
+    	return new ResponseEntity<>(this.userStoryService.updateAcceptanceTest(acceptanceTest), HttpStatus.OK);
+    }
+    
 }
