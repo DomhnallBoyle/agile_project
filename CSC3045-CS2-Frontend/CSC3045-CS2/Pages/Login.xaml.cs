@@ -63,11 +63,11 @@ namespace CSC3045_CS2.Pages
                     {
                         if (ex.StatusCode == System.Net.HttpStatusCode.Unauthorized)
                         {
-                            MessageBox.Show("Invalid username or password.", "Error");
+                            MessageBoxUtil.ShowWarningBox("Invalid username or password.");
                         }
                         else
                         {
-                            MessageBox.Show(ex.Message);
+                            MessageBoxUtil.ShowErrorBox(ex.Message);
                         }
                         
                     }

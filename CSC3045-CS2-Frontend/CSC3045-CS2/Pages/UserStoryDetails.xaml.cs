@@ -52,7 +52,6 @@ namespace CSC3045_CS2.Pages
             //  UserStoryAcceptanceTests.ItemsSource = _client.GetAcceptanceTestsFromUserStory(_selectedUserStory.Id);
         }
 
-
         #region Command methods
 
         public ICommand UpdateCommand

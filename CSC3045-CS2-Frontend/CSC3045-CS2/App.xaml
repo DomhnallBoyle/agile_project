@@ -13,6 +13,7 @@
                 <ResourceDictionary Source="Resources/Styles/TextBoxes.xaml" />
                 <ResourceDictionary Source="Resources/Styles/Text.xaml" />
             </ResourceDictionary.MergedDictionaries>
+            <BooleanToVisibilityConverter x:Key="BoolToVisConverter"/>
         </ResourceDictionary>
     </Application.Resources>
 </Application>

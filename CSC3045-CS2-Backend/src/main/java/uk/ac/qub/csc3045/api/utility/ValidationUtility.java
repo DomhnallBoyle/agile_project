@@ -4,6 +4,7 @@ import org.springframework.http.HttpStatus;
 import uk.ac.qub.csc3045.api.exception.ResponseErrorException;
 import uk.ac.qub.csc3045.api.mapper.AuthenticationMapper;
 import uk.ac.qub.csc3045.api.mapper.ProjectMapper;
+import uk.ac.qub.csc3045.api.mapper.SprintMapper;
 import uk.ac.qub.csc3045.api.mapper.UserStoryMapper;
 import uk.ac.qub.csc3045.api.model.Account;
 import uk.ac.qub.csc3045.api.model.UserStory;
@@ -62,6 +63,17 @@ public class ValidationUtility {
     }
 
     /**
+     * Validates that a Sprint with the specified Sprint ID exists within the database
+     * 
+     * @param sprintId the Sprint ID to search for
+     * @param mapper db access
+     * @return a boolean showing true if the sprint was found
+     */
+    public static boolean validateSprintExists(long sprintId, SprintMapper mapper) {
+        return (mapper.getSprintById(sprintId) != null);
+    }
+    
+    /**
      * Validates that a Project with the specified Project ID exists within the database
      * 
      * @param projectId the Project ID to search for
@@ -71,7 +83,6 @@ public class ValidationUtility {
     public static boolean validateProjectExists(long projectId, ProjectMapper mapper) {
         return (mapper.getProjectById(projectId) != null);
     }
-    
     /**
      * Validates that User Story with the specified User Story ID exists within the database
      * 
@@ -101,6 +112,17 @@ public class ValidationUtility {
             }
         }
         return false;
+    }
+    
+    /**
+     * Validates whether or not the Acceptance Test exists in the database
+     * 
+     * @param acceptanceTestId id of the acceptance test to lookup
+     * @param userStoryMapper db access
+     * @return boolean whether or not acceptance test exists
+     */
+    public static boolean validateAcceptanceTestExists(long acceptanceTestId, UserStoryMapper userStoryMapper) {
+    	return (userStoryMapper.getAcceptanceTestById(acceptanceTestId) != null);
     }
 
     /**

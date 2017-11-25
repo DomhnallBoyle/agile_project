@@ -43,14 +43,15 @@ namespace CSC3045_CS2.Pages
                 {
                     this._client.Register(account);
 
-                    MessageBox.Show("Registration successful!", "Success");
+                    MessageBoxUtil.ShowSuccessBox("Registration successful!");
+
                     Page loginPage = new Login();
 
                     NavigationService.GetNavigationService(this).Navigate(loginPage);
                 }
                 catch (RestResponseErrorException ex)
                 {
-                    MessageBox.Show(ex.Message, "Failure");
+                    MessageBoxUtil.ShowErrorBox(ex.Message);
                 }
             }
         }
@@ -81,8 +82,8 @@ namespace CSC3045_CS2.Pages
         {
             if (string.IsNullOrEmpty(textBox.Text))
             {
-                String text = "Field cannot be empty.";
-                MessageBox.Show(text, "Warning");
+                MessageBoxUtil.ShowWarningBox("Field cannot be empty.");
+
                 textBox.Background = Brushes.Red;
                 return false;
             }
@@ -102,8 +103,7 @@ namespace CSC3045_CS2.Pages
         {
             if (passwordBox.Password.ToString() == "")
             {
-                String text = "Password cannot be empty.";
-                MessageBox.Show(text, "Warning");
+                MessageBoxUtil.ShowWarningBox("Password cannot be empty.");
                 passwordBox.Style = (Style)FindResource("InvalidPasswordBox");
                 return false;
             }
@@ -124,8 +124,7 @@ namespace CSC3045_CS2.Pages
         {
             if (mainPasswordBox.Password.ToString() != confirmPasswordBox.Password.ToString())
             {
-                String text = "Passwords don't match.";
-                MessageBox.Show(text, "Warning");
+                MessageBoxUtil.ShowWarningBox("Passwords don't match.");
                 mainPasswordBox.Background = Brushes.Red;
                 confirmPasswordBox.Background = Brushes.Red;
 

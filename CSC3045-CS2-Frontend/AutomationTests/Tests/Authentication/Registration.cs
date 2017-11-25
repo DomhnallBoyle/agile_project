@@ -38,7 +38,7 @@ namespace AutomationTests.Authentication
             RegisterPage.EmailTextBox.Text = "";
             RegisterPage.RegisterButton.Click();
 
-            var messageBox = MainWindow.MessageBox("Warning");
+            var messageBox = MessageBoxUtil.GetWarningMessageBox(MainWindow);
             Assert.NotNull(messageBox);
             Assert.IsTrue(MessageBoxUtil.GetTextContent(messageBox).Contains("empty"));
 
@@ -53,7 +53,7 @@ namespace AutomationTests.Authentication
             RegisterPage.FirstnameTextBox.Text = "";
             RegisterPage.RegisterButton.Click();
 
-            var messageBox = MainWindow.MessageBox("Warning");
+            var messageBox = MessageBoxUtil.GetWarningMessageBox(MainWindow);
             Assert.NotNull(messageBox);
             Assert.IsTrue(MessageBoxUtil.GetTextContent(messageBox).Contains("empty"));
 
@@ -69,7 +69,7 @@ namespace AutomationTests.Authentication
             RegisterPage.ConfirmPasswordTextBox.Text = "";
             RegisterPage.RegisterButton.Click();
 
-            var messageBox = MainWindow.MessageBox("Warning");
+            var messageBox = MessageBoxUtil.GetWarningMessageBox(MainWindow);
             Assert.NotNull(messageBox);
             Assert.IsTrue(MessageBoxUtil.GetTextContent(messageBox).Contains("empty"));
 
@@ -84,7 +84,7 @@ namespace AutomationTests.Authentication
             RegisterPage.ConfirmPasswordTextBox.Text = "wrongpassword";
             RegisterPage.RegisterButton.Click();
 
-            var messageBox = MainWindow.MessageBox("Warning");
+            var messageBox = MessageBoxUtil.GetWarningMessageBox(MainWindow);
             Assert.NotNull(messageBox);
             Assert.IsTrue(MessageBoxUtil.GetTextContent(messageBox).Contains("don't match"));
 
@@ -99,7 +99,7 @@ namespace AutomationTests.Authentication
             RegisterPage.EmailTextBox.Text = "Not an email";
             RegisterPage.RegisterButton.Click();
 
-            var messageBox = MainWindow.MessageBox("Failure");
+            var messageBox = MessageBoxUtil.GetErrorMessageBox(MainWindow);
             Assert.NotNull(messageBox);
 
             MessageBoxUtil.ClickOKButton(messageBox);
@@ -120,7 +120,7 @@ namespace AutomationTests.Authentication
 
             RegisterPage.RegisterButton.Click();
 
-            var messageBox = MainWindow.MessageBox("Success");
+            var messageBox = MessageBoxUtil.GetSuccessMessageBox(MainWindow);
             Assert.NotNull(messageBox);
 
             MessageBoxUtil.ClickOKButton(messageBox);

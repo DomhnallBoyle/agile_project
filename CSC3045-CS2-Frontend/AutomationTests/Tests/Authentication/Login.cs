@@ -28,7 +28,7 @@ namespace AutomationTests.Tests.Authentication
         {
             LoginPage.Login("user16@email.com", "Passw0rd16");
 
-            var messageBox = MainWindow.MessageBox("Info");
+            var messageBox = MessageBoxUtil.GetInfoMessageBox(MainWindow);
             Assert.NotNull(messageBox);
 
             MessageBoxUtil.ClickOKButton(messageBox);
@@ -54,7 +54,7 @@ namespace AutomationTests.Tests.Authentication
         {
             LoginPage.Login("BadLogin4462`[", "BadPassword33");
 
-            var messageBox = MainWindow.MessageBox("Error");
+            var messageBox = MessageBoxUtil.GetWarningMessageBox(MainWindow);
             Assert.NotNull(messageBox);
 
             MessageBoxUtil.ClickOKButton(messageBox);

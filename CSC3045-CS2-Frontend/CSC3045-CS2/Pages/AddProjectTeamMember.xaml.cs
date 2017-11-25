@@ -79,7 +79,7 @@ namespace CSC3045_CS2.Pages
                     catch (RestResponseErrorException ex)
                     {
                         SearchResultUser = null;
-                        MessageBox.Show(ex.Message);
+                        MessageBoxUtil.ShowErrorBox(ex.Message);
                     }
                 });
             }
@@ -129,7 +129,7 @@ namespace CSC3045_CS2.Pages
                     }
                     catch (RestResponseErrorException ex)
                     {
-                        MessageBox.Show(ex.Message);
+                        MessageBoxUtil.ShowErrorBox(ex.Message);
                     }
                 });
             }

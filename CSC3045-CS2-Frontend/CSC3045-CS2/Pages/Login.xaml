@@ -23,7 +23,7 @@
             </StackPanel>
 
             <StackPanel Grid.Column="1" Margin="12,0,25,0">
-                <TextBox Name="EmailTextBox" Style="{StaticResource DefaultTextBox}" MaxLength="25" MaxWidth="125" MinWidth="125" HorizontalAlignment="Left" Margin="0,0,0,15"/>
+                <TextBox Name="EmailTextBox" Style="{StaticResource DefaultTextBox}" MaxLength="50" MaxWidth="125" MinWidth="125" HorizontalAlignment="Left" Margin="0,0,0,15"/>
                 <PasswordBox Name="PasswordBox" Style="{StaticResource DefaultPasswordBox}" MaxLength="25" MaxWidth="125" MinWidth="125" HorizontalAlignment="Left"/>
             </StackPanel>
         </Grid>

@@ -1,0 +1,47 @@
+﻿<Page x:Class="CSC3045_CS2.Pages.SprintDashboard"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:CSC3045_CS2.Pages"
+      mc:Ignorable="d" 
+      Background="{StaticResource BackgroundGradient}"
+      d:DesignHeight="300" d:DesignWidth="300"
+      Title="SprintDashboard">
+
+    <StackPanel>
+        <TextBlock Name="PageTitle" Text="Sprint Dashboard" Style="{StaticResource Title}" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center"></TextBlock>
+
+        <ListBox Name="SprintTeamListBox" ItemsSource="{Binding CurrentSprint.Users}" HorizontalContentAlignment="Center">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <Grid>
+                        <Grid.ColumnDefinitions >
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Row="0">
+                            <TextBlock.Text>
+                                <MultiBinding StringFormat="{}{0} {1}">
+                                    <Binding Path="Forename"/>
+                                    <Binding Path="Surname"/>
+                                </MultiBinding>
+                            </TextBlock.Text>
+                        </TextBlock>
+
+                        <TextBlock Grid.Column="1" Text="{Binding Email}"/>
+                    </Grid>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+
+        <Button Name="EditSprintTeam"
+                Content="Edit Team"
+                Style="{StaticResource StandardButton}"
+                HorizontalAlignment="Center"
+                Command="{Binding NavigateToManageSprintsCommand}"
+                Visibility="{Binding Path=Permissions.ScrumMaster, Converter={StaticResource BoolToVisConverter}}"/>
+        <Button Name="BackButton" Content="Back" Style="{StaticResource StandardButton}" HorizontalAlignment="Left" Command="{Binding BackCommand}"/>
+
+    </StackPanel>
+</Page>

@@ -1,5 +1,7 @@
 package uk.ac.qub.csc3045.api.model;
 
+import java.util.List;
+
 import javax.validation.constraints.NotNull;
 import java.util.List;
 
@@ -20,6 +22,8 @@ public class UserStory {
     private int index;
 
     private Project project;
+    
+    private List<AcceptanceTest> acceptanceTests;
 
     private Sprint sprint;
 
@@ -100,6 +104,14 @@ public class UserStory {
 
     public void setIndex(int index) {
         this.index = index;
+    }
+    
+    public List<AcceptanceTest> getAcceptanceTests() {
+    	return acceptanceTests;
+    }
+    
+    public void setAcceptanceTests(List<AcceptanceTest> acceptanceTests) {
+    	this.acceptanceTests = acceptanceTests;
     }
 
     public List<Task> getTasks() {

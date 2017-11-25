@@ -3,22 +3,12 @@ using CSC3045_CS2.Models;
 using CSC3045_CS2.Pages;
 using CSC3045_CS2.Service;
 using CSC3045_CS2.Utility;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace CSC3045_CS2
 {
@@ -30,6 +20,8 @@ namespace CSC3045_CS2
         #region Private Variables
 
         private UserStoryClient _client;
+
+        private ObservableCollection<UserStory> _backlog = new ObservableCollection<UserStory>();
 
         private Project _currentProject;
 
@@ -71,7 +63,7 @@ namespace CSC3045_CS2
             }
             catch (RestResponseErrorException ex)
             {
-                MessageBox.Show(ex.Message);
+                MessageBoxUtil.ShowErrorBox(ex.Message);
             }
         }
 
@@ -112,11 +104,11 @@ namespace CSC3045_CS2
                     try
                     {
                         _client.SaveOrder(Backlog.ToList());
-                        MessageBox.Show("User stories updated successfully");
+                        MessageBoxUtil.ShowSuccessBox("User stories updated successfully");
                     }
-                    catch (RestResponseErrorException)
+                    catch (RestResponseErrorException ex)
                     {
-                        MessageBox.Show("Error saving story order");
+                        MessageBoxUtil.ShowErrorBox(ex.Message);
                     }
                 });
             }

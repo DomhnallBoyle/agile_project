@@ -83,18 +83,30 @@
     <Compile Include="Pages\CreateAcceptanceTest.xaml.cs">
       <DependentUpon>CreateAcceptanceTest.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Pages\EditSprintTeam.xaml.cs">
+      <DependentUpon>EditSprintTeam.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\CreateProject.xaml.cs">
       <DependentUpon>CreateProject.xaml</DependentUpon>
     </Compile>
     <Compile Include="Models\UserStory.cs" />
+    <Compile Include="Pages\CreateSprint.xaml.cs">
+      <DependentUpon>CreateSprint.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\CreateUserStory.xaml.cs">
       <DependentUpon>CreateUserStory.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\Login.xaml.cs">
       <DependentUpon>Login.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Pages\ManageSprints.xaml.cs">
+      <DependentUpon>ManageSprints.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\ProjectDashboard.xaml.cs">
       <DependentUpon>ProjectDashboard.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\SprintDashboard.xaml.cs">
+      <DependentUpon>SprintDashboard.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\UserDashboard.xaml.cs">
       <DependentUpon>UserDashboard.xaml</DependentUpon>
@@ -108,9 +120,11 @@
     <Compile Include="Service\AuthenticationClient.cs" />
     <Compile Include="Service\ProjectClient.cs" />
     <Compile Include="Service\ServiceClient.cs" />
+    <Compile Include="Service\SprintClient.cs" />
     <Compile Include="Service\UserClient.cs" />
     <Compile Include="Service\UserStoryClient.cs" />
     <Compile Include="Utility\CamelCaseSerializationStrategy.cs" />
+    <Compile Include="Utility\MessageBoxUtil.cs" />
     <Compile Include="Utility\Permissions.cs" />
     <Compile Include="Utility\PermissonDragHandler.cs" />
     <Compile Include="Utility\ProjectPermissions.cs" />
@@ -135,6 +149,14 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Pages\EditSprintTeam.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\CreateSprint.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Pages\CreateUserStory.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -147,11 +169,19 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Pages\ManageSprints.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Pages\ProjectDashboard.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Pages\Register.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\SprintDashboard.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

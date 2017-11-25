@@ -9,11 +9,7 @@
       d:DesignHeight="100" d:DesignWidth="100"
       x:Name="Page"
       Title="ProjectDashboard" Height="500" Width="500">
-    
-    <Page.Resources>
-        <BooleanToVisibilityConverter x:Key="BoolToVisConverter"/>
-    </Page.Resources>
-    
+
     <Grid Margin="10,0,10,0">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -48,8 +44,10 @@
             <Button Grid.Column="1" Content="Manage Project Team"
                     Command="{Binding GoToAddTeamMemberCommand}"
                     Visibility="{Binding Path=Permissions.Manager, Converter={StaticResource BoolToVisConverter}}"/>
-            <Button Grid.Column="2" Content="Product Backlog"
-                    Command="{Binding GoToProductBacklogCommand}"/>
+            <StackPanel Grid.Column="2">
+                <Button Content="Product Backlog" Command="{Binding GoToProductBacklogCommand}"/>
+                <Button Content="Sprints" Command="{Binding GoToManageSprintsCommand}"/>
+            </StackPanel>
         </Grid>
 
         <TextBlock Grid.Row="3" Text="Project Manager" TextAlignment="Left" FontWeight="Bold" FontSize="16" Margin="10"></TextBlock>
