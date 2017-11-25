@@ -22,7 +22,7 @@ namespace CSC3045_CS2.Pages
     {
         #region Private Variables
 
-        private ObservableCollection<User> _teamMembers;
+        private ObservableCollection<User> _teamMembers = new ObservableCollection<User>();
 
         private List<Project> _projects;
         private MenuItem _projectMenu;
@@ -80,8 +80,15 @@ namespace CSC3045_CS2.Pages
             _projects = _projectClient.GetProjectsForUser(((User)Application.Current.Properties["user"]).Id);
             ProjectDropDownButton.Content = currentProject.Name;
             AddProjectsToDropdownList();
-           
-            _teamMembers = new ObservableCollection<User>(_projectClient.GetProjectTeam(currentProject.Id));
+
+            try
+            {
+                _teamMembers = new ObservableCollection<User>(_projectClient.GetProjectTeam(currentProject.Id));
+            }
+            catch (RestResponseErrorException ex)
+            {
+                MessageBoxUtil.ShowErrorBox(ex.Message);
+            }
         }
 
         #region Class methods
