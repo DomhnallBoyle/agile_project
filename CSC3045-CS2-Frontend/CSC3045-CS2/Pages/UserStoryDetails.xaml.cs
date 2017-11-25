@@ -16,23 +16,21 @@ namespace CSC3045_CS2.Pages
     /// Interaction logic for UserStoryDetails.xaml
     /// </summary>
     public partial class UserStoryDetails : Page
-    { 
+    {
 
+        #region Private variables
         private UserStoryClient _client;
 
         private UserStory _selectedUserStory;
 
-        public bool? IsChecked { get; set; }
+        #endregion
 
-        public UserStory SelectedUserStory
-        {
-            get { return _selectedUserStory; }
-            set
-            {
-                _selectedUserStory = value;
-                OnPropertyChanged();
-            }
-        }
+        #region Public variables
+
+        public UserStory SelectedUserStory { get { return _selectedUserStory; } }
+
+        #endregion
+
         public UserStoryDetails(UserStory selectedUserStory)
         {
            InitializeComponent();
@@ -41,11 +39,21 @@ namespace CSC3045_CS2.Pages
 
             _client = new UserStoryClient();
 
-            SelectedUserStory = selectedUserStory;
+            _selectedUserStory = selectedUserStory;
 
-            UserStoryAcceptanceTests.ItemsSource = _client.GetAcceptanceTestsFromUserStory(_selectedUserStory.Id);
+            List<AcceptanceTest> acceptanceTest = new List<AcceptanceTest>();
+
+            acceptanceTest.Add(new AcceptanceTest("given", "when", "then", _selectedUserStory));
+
+            acceptanceTest.Add(new AcceptanceTest("given1", "when2", "then3", _selectedUserStory, true));
+
+            UserStoryAcceptanceTests.ItemsSource = acceptanceTest;
+
+            //  UserStoryAcceptanceTests.ItemsSource = _client.GetAcceptanceTestsFromUserStory(_selectedUserStory.Id);
         }
 
+
+        #region Command methods
 
         public ICommand UpdateCommand
         {
@@ -54,12 +62,10 @@ namespace CSC3045_CS2.Pages
                 return new RelayCommand(param =>
                 {
                     AcceptanceTest acceptanceTest = ((AcceptanceTest)param);
-                     _client.UpdateAcceptanceTest(acceptanceTest);
+                    _client.UpdateAcceptanceTest(acceptanceTest);
                 });
             }
         }
-        #region Command methods
-
 
         public ICommand GoToCreateAcceptanceTestCommand
         {
@@ -74,26 +80,7 @@ namespace CSC3045_CS2.Pages
             }
         }
 
-        public ICommand GoToUserStoryCommand
-        {
-            get
-            {
-                return new RelayCommand(param =>
-                {
-                    Page userStoryPage = new UserStoryDetails(_selectedUserStory);
-
-                    NavigationService.GetNavigationService(this).Navigate(userStoryPage);
-                });
-            }
-        }
         #endregion
-
-        private void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-
-        public event PropertyChangedEventHandler PropertyChanged;
 
     }
 }

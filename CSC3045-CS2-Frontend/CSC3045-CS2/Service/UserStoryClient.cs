@@ -79,10 +79,10 @@ namespace CSC3045_CS2.Service
 
 
         /// <summary>
-        /// Gets user stories for current project
+        /// Gets acceptance tests for current user story
         /// </summary>
-        /// <param name="projectId">The ID of the project</param>
-        /// <returns>The user stories for the specified project, or will throw RestResponseException if error</returns>
+        /// <param name="acceptanceTest">The Acceptance Test to be Created</param>
+        /// <returns>The acceptance tests for the specified user story, or will throw RestResponseException if error</returns>
         public AcceptanceTest UpdateAcceptanceTest(AcceptanceTest acceptanceTest)
         {
             var request = new RestRequest(BASE_ENDPOINT + "/" + acceptanceTest.UserStory.Id + "/acceptancetest/", Method.PUT);
