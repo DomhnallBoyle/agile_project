@@ -77,9 +77,6 @@
     <Compile Include="Models\Sprint.cs" />
     <Compile Include="Models\Task.cs" />
     <Compile Include="Models\User.cs" />
-    <Compile Include="Pages\AddProjectTeamMember.xaml.cs">
-      <DependentUpon>AddProjectTeamMember.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Pages\CreateAcceptanceTest.xaml.cs">
       <DependentUpon>CreateAcceptanceTest.xaml</DependentUpon>
     </Compile>
@@ -141,10 +138,6 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="Pages\AddProjectTeamMember.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="Pages\CreateAcceptanceTest.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
