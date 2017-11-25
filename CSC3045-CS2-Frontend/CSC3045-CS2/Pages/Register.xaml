@@ -29,7 +29,7 @@
                 <AdornerDecorator>
                     <TextBox Name="FirstnameTextBox" Style="{StaticResource DefaultTextBox}" Margin="0,5,0,0"  Grid.Row="0">
                         <utility:WatermarkService.Watermark>
-                            <TextBlock Style="{StaticResource Watermark}" HorizontalAlignment="Center">Firstname</TextBlock>
+                            <TextBlock Style="{StaticResource Watermark}" HorizontalAlignment="Center" Name="FirstnameTextBlock">Firstname</TextBlock>
                         </utility:WatermarkService.Watermark>
                     </TextBox>
                 </AdornerDecorator>
@@ -37,7 +37,7 @@
                 <AdornerDecorator>
                     <TextBox Name="SurnameTextBox" Style="{StaticResource DefaultTextBox}" Margin="0,5,0,0"  Grid.Row="1">
                     <utility:WatermarkService.Watermark>
-                            <TextBlock Style="{StaticResource Watermark}" HorizontalAlignment="Center">Surname</TextBlock>
+                            <TextBlock Style="{StaticResource Watermark}" HorizontalAlignment="Center"  Name="SurnameTextBlock">Surname</TextBlock>
                     </utility:WatermarkService.Watermark>
                     </TextBox>
                 </AdornerDecorator>
@@ -60,7 +60,7 @@
                 <AdornerDecorator>
                     <TextBox Name="EmailTextBox" Style="{StaticResource DefaultTextBox}" Margin="0,5,0,0">
                         <utility:WatermarkService.Watermark>
-                            <TextBlock Style="{StaticResource Watermark}"  HorizontalAlignment="Left" Margin="72,0,0,0">E-mail</TextBlock>
+                            <TextBlock Style="{StaticResource Watermark}"  HorizontalAlignment="Left" Margin="72,0,0,0"  Name="EmailTextBlock">E-mail</TextBlock>
                         </utility:WatermarkService.Watermark>
                     </TextBox>
                 </AdornerDecorator>
@@ -68,7 +68,7 @@
                 <AdornerDecorator>
                     <PasswordBox Name="PasswordTextBox" Style="{StaticResource DefaultPasswordBox}" Margin="0,5,0,0" >
                         <utility:WatermarkService.Watermark>
-                            <TextBlock Style="{StaticResource Watermark}" HorizontalAlignment="Left" Margin="72,0,0,0" >Password</TextBlock>
+                            <TextBlock Style="{StaticResource Watermark}" HorizontalAlignment="Left" Margin="72,0,0,0"  Name="PasswordTextBlock" >Password</TextBlock>
                         </utility:WatermarkService.Watermark>
                     </PasswordBox>
                 </AdornerDecorator>
@@ -76,7 +76,7 @@
                 <AdornerDecorator>
                     <PasswordBox Name="ConfirmPasswordTextBox" Style="{StaticResource DefaultPasswordBox}" Margin="0,5,0,0" ToolTip="Passwords Must Match" >
                         <utility:WatermarkService.Watermark>
-                            <TextBlock Style="{StaticResource Watermark}" HorizontalAlignment="Left"  Margin="72,0,0,0">Confirm Password</TextBlock>
+                            <TextBlock Style="{StaticResource Watermark}" HorizontalAlignment="Left"  Margin="72,0,0,0"  Name="ConfirmPasswordTextBlock">Confirm Password</TextBlock>
                         </utility:WatermarkService.Watermark>
                     </PasswordBox>
                 </AdornerDecorator>

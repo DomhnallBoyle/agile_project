@@ -88,17 +88,25 @@ namespace CSC3045_CS2.Pages
             // Display OpenFileDialog by calling ShowDialog method 
             Nullable<bool> result = dlg.ShowDialog();
 
-            if (result == true)
+            if (result == true )
             {
-                // Store image temporarily
                 string filename = dlg.FileName;
-                _profileImage = new BitmapImage(new Uri(filename, UriKind.Absolute));
+                FileInfo fi = new FileInfo(dlg.FileName);
+                long fileSize = fi.Length;
+                Console.WriteLine(fileSize);
 
-                ImageBrush profileButtonBackground = new ImageBrush();
-                profileButtonBackground.ImageSource = _profileImage;
-                ProfileButton.Background = profileButtonBackground;
-
-
+                //limiting file size upload to 1mb for performance reasons
+                if (fileSize < (1000000))
+                {
+                    _profileImage = new BitmapImage(new Uri(filename, UriKind.Absolute));
+                    ImageBrush profileButtonBackground = new ImageBrush();
+                    profileButtonBackground.ImageSource = _profileImage;
+                    ProfileButton.Background = profileButtonBackground;
+                }
+                else
+                {
+                    MessageBox.Show("File Size Too Large, Max File Size Should be 1Mb");
+                }
             }
         }
 
@@ -135,18 +143,28 @@ namespace CSC3045_CS2.Pages
         /// </summary>
         /// <param name="textBox"></param>
         /// <returns></returns>
-        private Boolean CheckRequiredValues(TextBox textBox)
+        private Boolean CheckRequiredValues(TextBox textBox, TextBlock textBlock)
         {
             if (string.IsNullOrEmpty(textBox.Text))
             {
                 String text = "Field cannot be empty.";
                 MessageBox.Show(text, "Warning");
-                textBox.Background = Brushes.Red;
+
+                Style textBoxStyle = FindResource("InvalidTextBox") as Style;
+                textBox.Style = textBoxStyle;
+                
+                Style textStyle = FindResource("InvalidWatermark") as Style;
+                textBlock.Style = textStyle;
+
                 return false;
             }
             else
             {
-                textBox.Background = Brushes.White;
+                Style textBoxStyle = FindResource("DefaultTextBox") as Style;
+                textBox.Style = textBoxStyle;
+
+                Style textStyle = FindResource("Watermark") as Style;
+                textBlock.Style = textStyle;
                 return true;
             }
         }
@@ -184,14 +202,15 @@ namespace CSC3045_CS2.Pages
             {
                 String text = "Passwords don't match.";
                 MessageBox.Show(text, "Warning");
-                mainPasswordBox.Background = Brushes.Red;
-                confirmPasswordBox.Background = Brushes.Red;
+                mainPasswordBox.Style = (Style)FindResource("InvalidPasswordBox");
+                confirmPasswordBox.Style = (Style)FindResource("InvalidPasswordBox");
 
                 return false;
             }
             else
             {
-                mainPasswordBox.Background = Brushes.White;
+                mainPasswordBox.Style = (Style)FindResource("DefaultPasswordBox");
+                confirmPasswordBox.Style = (Style)FindResource("DefaultPasswordBox");
                 return true;
             }
         }
@@ -202,8 +221,9 @@ namespace CSC3045_CS2.Pages
         /// <returns></returns>
         private Boolean CheckValidation()
         {
-            return CheckRequiredValues(FirstnameTextBox) &&
-             CheckRequiredValues(EmailTextBox) &&
+            return CheckRequiredValues(FirstnameTextBox, FirstnameTextBlock) &&
+             CheckRequiredValues(SurnameTextBox, SurnameTextBlock) &&
+             CheckRequiredValues(EmailTextBox, EmailTextBlock) &&
              CheckPasswordNotEmpty(PasswordTextBox) &&
              CheckPasswordNotEmpty(ConfirmPasswordTextBox) &&
              CheckPasswordsMatch(PasswordTextBox, ConfirmPasswordTextBox);
