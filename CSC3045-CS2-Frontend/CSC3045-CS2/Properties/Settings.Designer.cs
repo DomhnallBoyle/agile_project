@@ -8,6 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
+using System;
 using System.IO;
 
 namespace CSC3045_CS2.Properties
@@ -30,7 +31,7 @@ namespace CSC3045_CS2.Properties
             }
         }
 
-        public string ProfileImageDirectory = Path.Combine(Directory.GetCurrentDirectory(), @"..\..\profiles\");
+        public string ProfileImageDirectory = Path.Combine(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\..\profiles\"));
 
         public string DefaultProfileImageFileExtension = ".jpg";
 

@@ -55,7 +55,7 @@ namespace CSC3045_CS2.Pages
                 profileImageFileName = Properties.Settings.Default.DefaultProfileImage;
             }
             
-            string profileImagePath = System.IO.Path.GetFullPath(System.IO.Path.Combine(Directory.GetCurrentDirectory(), @"..\..\profiles\")) + profileImageFileName;
+            string profileImagePath = Properties.Settings.Default.ProfileImageDirectory + profileImageFileName;
             ProfilePicture.Source = new BitmapImage(new Uri(profileImagePath, UriKind.RelativeOrAbsolute));
             _client = new ProjectClient();
 
