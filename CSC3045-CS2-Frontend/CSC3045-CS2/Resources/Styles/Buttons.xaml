@@ -7,7 +7,7 @@
         <Setter Property="BorderBrush" Value="{StaticResource LightGrayBrush}"/> 
         
         <Setter Property="Height" Value="30"/>
-        <Setter Property="Width" Value="75"/>
+        <Setter Property="Width" Value="100"/>
         
         <Setter Property="FontFamily" Value="{StaticResource LatoRegular}"/>
         <Setter Property="FontSize" Value="14"/>

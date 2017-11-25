@@ -61,7 +61,7 @@ namespace CSC3045_CS2.Pages
                     {
                         _client.CreateAcceptanceTest(acceptanceTest);
 
-                        MessageBox.Show("Acceptance Test Creation Successful!");
+                        MessageBoxUtil.ShowSuccessBox("Acceptance Test Creation Successful!");
 
                         Page userStoryDetails = new UserStoryDetails(_currentUserStory);
 
@@ -69,7 +69,7 @@ namespace CSC3045_CS2.Pages
                     }
                     catch (RestResponseErrorException ex)
                     {
-                        MessageBox.Show(ex.Message);
+                        MessageBoxUtil.ShowErrorBox(ex.Message);
                     }
                 });
             }

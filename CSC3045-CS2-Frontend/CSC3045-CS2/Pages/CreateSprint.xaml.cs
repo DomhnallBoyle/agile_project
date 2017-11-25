@@ -3,6 +3,7 @@ using CSC3045_CS2.Models;
 using CSC3045_CS2.Service;
 using CSC3045_CS2.Utility;
 using System;
+using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -23,6 +24,8 @@ namespace CSC3045_CS2.Pages
 
         private DateTime _startDate;
         private DateTime _endDate;
+        private String _warningMessage;
+        private String _sprintName;
 
         #endregion
 
@@ -34,24 +37,6 @@ namespace CSC3045_CS2.Pages
             _client = new SprintClient();
             _currentProject = project;
         }
-
-        #region Class Methods
-
-        private bool CheckFields()
-        {
-            if (StartDatePicker.SelectedDate != null)
-            {
-                _startDate = (DateTime)StartDatePicker.SelectedDate;
-                if (EndDatePicker.SelectedDate != null)
-                {
-                    _endDate = (DateTime)EndDatePicker.SelectedDate;
-                    return true;
-                }
-            }
-            return false;
-        }
-
-        #endregion
 
         #region Command Methods
 
@@ -77,7 +62,7 @@ namespace CSC3045_CS2.Pages
                     if (CheckFields())
                     {
                         Sprint sprint = new Sprint(
-                                "Sprint",
+                                _sprintName,
                                 _startDate,
                                 _endDate,
                                 _currentProject,
@@ -99,10 +84,51 @@ namespace CSC3045_CS2.Pages
                         }
                     } else
                     {
-                        MessageBoxUtil.ShowWarningBox("Please select a Start and End Date for the Sprint");
+                        MessageBoxUtil.ShowWarningBox(_warningMessage);
                     }
                 });
             }
+        }
+
+        #endregion
+
+        #region Class Methods
+
+        private bool CheckFields()
+        {
+            bool valid = true;
+            StringBuilder sb = new StringBuilder();
+            if (!String.IsNullOrEmpty(SprintNameTextBox.Text))
+            {
+                _sprintName = SprintNameTextBox.Text;
+            }
+            else
+            {
+                valid = false;
+                sb.Append("You must select a sprint name\n");
+            }
+
+            if (StartDatePicker.SelectedDate != null)
+            {
+                _startDate = (DateTime)StartDatePicker.SelectedDate;
+            }
+            else
+            {
+                valid = false;
+                sb.Append("You must select a start date\n");
+            }
+            if (EndDatePicker.SelectedDate != null)
+            {
+                _endDate = (DateTime)EndDatePicker.SelectedDate;
+            }
+            else
+            {
+                valid = false;
+                sb.Append("You must select an end date\n");
+            }
+
+            _warningMessage = sb.ToString();
+            return valid;
         }
 
         #endregion
