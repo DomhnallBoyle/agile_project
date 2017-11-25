@@ -24,26 +24,7 @@ namespace CSC3045_CS2.Pages
 
         #endregion
 
-        #region Public Variables
-
-        public String GivenLabel { get; set; } = "Given:";
-
-        public String WhenLabel { get; set; } = "When:";
-
-        public String ThenLabel { get; set; } = "Then:";
-
-        public String GivenTextContent { get; set; }
-
-        public String WhenTextContent { get; set; }
-
-        public String ThenTextContent { get; set; }
-
-        public String CancelButtonText { get; set; } = "Cancel";
-
-        public String CreateButtonText { get; set; } = "Create";
-
-        #endregion
-
+   
         public CreateAcceptanceTest(UserStory userStory)
         {
             InitializeComponent();
@@ -54,6 +35,7 @@ namespace CSC3045_CS2.Pages
         }
 
         #region Command Methods
+
         public ICommand CancelCommand
         {
             get
@@ -73,7 +55,7 @@ namespace CSC3045_CS2.Pages
             {
                 return new RelayCommand(param =>
                 {
-                    AcceptanceTest acceptanceTest = new AcceptanceTest(GivenTextContent, WhenTextContent, ThenTextContent, _currentUserStory);
+                    AcceptanceTest acceptanceTest = new AcceptanceTest(GivenTextBox.Text, WhenTextBox.Text, ThenTextBox.Text, _currentUserStory);
 
                     try
                     {

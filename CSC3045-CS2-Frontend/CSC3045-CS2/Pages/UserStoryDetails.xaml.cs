@@ -21,13 +21,11 @@ namespace CSC3045_CS2.Pages
         #region Private variables
         private UserStoryClient _client;
 
-        private UserStory _selectedUserStory;
-
         #endregion
 
         #region Public variables
 
-        public UserStory SelectedUserStory { get { return _selectedUserStory; } }
+        public UserStory SelectedUserStory { get; set; }
 
         #endregion
 
@@ -39,9 +37,9 @@ namespace CSC3045_CS2.Pages
 
             _client = new UserStoryClient();
 
-            _selectedUserStory = selectedUserStory;
+            SelectedUserStory = selectedUserStory;
 
-             UserStoryAcceptanceTests.ItemsSource = _client.GetAcceptanceTestsFromUserStory(_selectedUserStory.Id);
+             UserStoryAcceptanceTests.ItemsSource = _client.GetAcceptanceTestsFromUserStory(SelectedUserStory.Id);
         }
 
         #region Command methods
@@ -64,7 +62,7 @@ namespace CSC3045_CS2.Pages
             {
                 return new RelayCommand(param =>
                 {
-                    Page createAcceptanceTest = new CreateAcceptanceTest(_selectedUserStory);
+                    Page createAcceptanceTest = new CreateAcceptanceTest(SelectedUserStory);
 
                     NavigationService.GetNavigationService(this).Navigate(createAcceptanceTest);
                 });
@@ -77,7 +75,7 @@ namespace CSC3045_CS2.Pages
             {
                 return new RelayCommand(param =>
                 {
-                    Page productBacklog = new ProductBacklog(_selectedUserStory.Project);
+                    Page productBacklog = new ProductBacklog(SelectedUserStory.Project);
 
                     NavigationService.GetNavigationService(this).Navigate(productBacklog);
                 });

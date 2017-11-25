@@ -26,7 +26,7 @@ namespace CSC3045_CS2.Models
 
         public AcceptanceTest() { }
 
-        public AcceptanceTest(String given, String when, String then,UserStory userStory, Boolean Completed)
+        public AcceptanceTest(String given, String when, String then, UserStory userStory, Boolean Completed)
         {
             this.Given = given;
             this.When = when;

@@ -9,9 +9,9 @@
     Background="{StaticResource BackgroundGradient}"
       Title="CreateAcceptanceTest">
     <StackPanel>
-        <TextBlock Name="PageTitle" Text="Acceptance Test" Style="{StaticResource Title}" HorizontalAlignment="Center" Margin="0,10,0,25"/>
-
-        <!-- Grid for splitting into columns -->
+        <TextBlock Name="PageTitle" Text="Create Acceptance Test" Style="{StaticResource Title}" FontSize="20" HorizontalAlignment="Center" Margin="0,10,0,25"/>
+                   
+        <!-- for splitting into columns -->
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="0.3*"/>
@@ -20,16 +20,16 @@
 
             <!-- Left Column for Labels -->
             <StackPanel Grid.Column="0" Margin="0,0,12,0">
-                <TextBlock Text="{Binding GivenLabel, FallbackValue='Given:'}" HorizontalAlignment="Right" Style="{StaticResource Label}"  Margin="0,0,0,15"/>
-                <TextBlock Text="{Binding WhenLabel, FallbackValue='When:'}" HorizontalAlignment="Right" Style="{StaticResource Label}" Margin="0,0,0,15"/>
-                <TextBlock Text="{Binding ThenLabel, FallbackValue='Then:'}" HorizontalAlignment="Right" Style="{StaticResource Label}" Margin="0,0,0,12"/>
+                <TextBlock Text="Given:" HorizontalAlignment="Right" Style="{StaticResource Label}"  Margin="0,0,0,15"/>
+                <TextBlock Text="When:" HorizontalAlignment="Right" Style="{StaticResource Label}" Margin="0,0,0,15"/>
+                <TextBlock Text="Then:" HorizontalAlignment="Right" Style="{StaticResource Label}" Margin="0,0,0,12"/>
             </StackPanel>
 
             <!-- Right Column for Entry Fields -->
             <StackPanel Grid.Column="1" Margin="12,0,25,0">
-                <TextBox Text="{Binding GivenTextContent}" MaxLength="25" Width="175" HorizontalAlignment="Left" Margin="0,0,0,15"/>
-                <TextBox Text="{Binding WhenTextContent}" MaxLength="25" Width="175" HorizontalAlignment="Left" Margin="0,0,0,20"/>
-                <TextBox Text="{Binding ThenTextContent}" MaxLength="25" Width="175" HorizontalAlignment="Left" Margin="0,0,0,20"/>
+                <TextBox Name="GivenTextBox" MaxLength="25" Width="175" HorizontalAlignment="Left" Margin="0,0,0,15"/>
+                <TextBox Name="WhenTextBox" MaxLength="25" Width="175" HorizontalAlignment="Left" Margin="0,0,0,20"/>
+                <TextBox Name="ThenTextBox" MaxLength="25" Width="175" HorizontalAlignment="Left" Margin="0,0,0,20"/>
 
                 <!-- Grid for splitting buttons into columns -->
                 <Grid HorizontalAlignment="Left" Margin="40,0,0,0">
@@ -38,7 +38,7 @@
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
                     <Button Name="CancelButton" Content="Cancel" Style="{StaticResource StandardButton}" HorizontalAlignment="Center" Margin="0,20,20,0" Command="{Binding CancelCommand}" IsDefault="True"/>
-                    <Button Name="CreateButton" Content="Create" Style="{StaticResource StandardButton}" HorizontalAlignment="Center" Margin="0,0,20,60" Command="{Binding CreateCommand}" IsDefault="True"/>
+                    <Button Name="CreateButton" Content="Create" Style="{StaticResource StandardButton}" HorizontalAlignment="Center" Margin="0,0,20,60" Command="{Binding CreateCommand}"/>
                 </Grid>
             </StackPanel>
         </Grid>

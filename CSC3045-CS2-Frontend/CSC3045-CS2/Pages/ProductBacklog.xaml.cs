@@ -67,7 +67,7 @@ namespace CSC3045_CS2
             }
         }
 
-        #region commands
+        #region ICommands
 
         /// <summary>
         /// Returns to the project dashboard
@@ -130,9 +130,6 @@ namespace CSC3045_CS2
             }
         }
 
-        /// <summary>
-        /// Navigates to the View Details for a User Story
-        /// </summary>
         public ICommand ViewDetailsCommand
         {
             get
@@ -141,24 +138,12 @@ namespace CSC3045_CS2
                 {
                     UserStory selectedStory = (UserStory)param;
                     Page userStoryDetailsPage = new UserStoryDetails(selectedStory);
-
                     NavigationService.GetNavigationService(this).Navigate(userStoryDetailsPage);
                 });
             }
         }
 
-        #endregion
-
-        /// <summary>
-        /// Navigates to the View Details for a User Story
-        /// </summary>
-        private void StoryList_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            UserStory selectedStory = (UserStory)StoryList.SelectedItem;
-            Page userStoryDetailsPage = new UserStoryDetails(selectedStory);
-
-            NavigationService.GetNavigationService(this).Navigate(userStoryDetailsPage);
-        }
+        #endregion      
     }
 
 
