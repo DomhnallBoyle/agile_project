@@ -1,11 +1,13 @@
 package uk.ac.qub.csc3045.api.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import uk.ac.qub.csc3045.api.exception.ResponseErrorException;
 import uk.ac.qub.csc3045.api.mapper.ProjectMapper;
 import uk.ac.qub.csc3045.api.mapper.UserStoryMapper;
+import uk.ac.qub.csc3045.api.model.AcceptanceTest;
 import uk.ac.qub.csc3045.api.model.UserStory;
 import uk.ac.qub.csc3045.api.utility.ValidationUtility;
 
@@ -69,4 +71,36 @@ public class UserStoryService {
         }
         throw new ResponseErrorException("Project does not exist", HttpStatus.NOT_FOUND);
     }
+    
+    public AcceptanceTest addAcceptanceTest(long id, AcceptanceTest acceptanceTest) {
+    	try {
+        	userStoryMapper.createAcceptanceTest(id, acceptanceTest);
+        	
+        	return userStoryMapper.getAcceptanceTestById(acceptanceTest.getId());
+    	}
+    	catch (DataIntegrityViolationException e) {
+            throw new ResponseErrorException("The User story does not exist", HttpStatus.NOT_FOUND);
+        }
+    }
+    
+    public List<AcceptanceTest> getAcceptanceTests(long id) {
+    	if (ValidationUtility.validateUserStoryExists(id, userStoryMapper))
+        	return userStoryMapper.getAcceptanceTestsByStoryId(id);
+    	throw new ResponseErrorException("The User story does not exist", HttpStatus.NOT_FOUND);
+    }
+   
+    public AcceptanceTest updateAcceptanceTest(AcceptanceTest acceptanceTest) {
+    	try {
+    		if (ValidationUtility.validateAcceptanceTestExists(acceptanceTest.getId(), userStoryMapper)) {
+            	userStoryMapper.updateAcceptanceTest(acceptanceTest);
+            	
+            	return userStoryMapper.getAcceptanceTestById(acceptanceTest.getId());
+    		}
+    		throw new ResponseErrorException("The acceptance test does not exist", HttpStatus.NOT_FOUND);
+    	}
+    	catch (DataIntegrityViolationException e) {
+    		throw new ResponseErrorException("The User story does not exist", HttpStatus.NOT_FOUND);
+    	}
+    }
+    
 }
