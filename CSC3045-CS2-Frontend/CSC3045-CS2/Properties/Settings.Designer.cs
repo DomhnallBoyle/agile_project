@@ -31,7 +31,7 @@ namespace CSC3045_CS2.Properties
             }
         }
 
-        public string ProfileImageDirectory = Path.Combine(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\..\profiles\"));
+        public string ProfileImageDirectory = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\..\profiles\");
 
         public string DefaultProfileImageFileExtension = ".jpg";
 
