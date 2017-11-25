@@ -44,7 +44,7 @@ namespace CSC3045_CS2.Pages
             InitializeComponent();
             DataContext = this;
             User user = ((User)Application.Current.Properties["user"]);
-            UserLabel = user.GetFullName();
+            UserLabel = "Welcome " + user.GetFullName() + "!\nYour Current Projects are:";
             string profileImageFileName;
             if (user.ProfilePicture != null)
             {
