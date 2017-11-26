@@ -70,12 +70,16 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Exception\RestResponseErrorException.cs" />
+    <Compile Include="Models\AcceptanceTest.cs" />
     <Compile Include="Models\Account.cs" />
     <Compile Include="Models\Project.cs" />
     <Compile Include="Models\Roles.cs" />
     <Compile Include="Models\Sprint.cs" />
     <Compile Include="Models\Task.cs" />
     <Compile Include="Models\User.cs" />
+    <Compile Include="Pages\CreateAcceptanceTest.xaml.cs">
+      <DependentUpon>CreateAcceptanceTest.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\EditSprintTeam.xaml.cs">
       <DependentUpon>EditSprintTeam.xaml</DependentUpon>
     </Compile>
@@ -107,6 +111,9 @@
     <Compile Include="Pages\ProductBacklog.xaml.cs">
       <DependentUpon>ProductBacklog.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Pages\UserStoryDetails.xaml.cs">
+      <DependentUpon>UserStoryDetails.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Service\AuthenticationClient.cs" />
     <Compile Include="Service\ProjectClient.cs" />
     <Compile Include="Service\ServiceClient.cs" />
@@ -116,6 +123,7 @@
     <Compile Include="Utility\CamelCaseSerializationStrategy.cs" />
     <Compile Include="Utility\MessageBoxUtil.cs" />
     <Compile Include="Utility\Permissions.cs" />
+    <Compile Include="Utility\PermissonDragHandler.cs" />
     <Compile Include="Utility\ProjectPermissions.cs" />
     <Compile Include="Utility\RelayCommand.cs" />
     <Compile Include="Utility\WatermarkAdorner.cs" />
@@ -132,6 +140,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Pages\CreateAcceptanceTest.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Pages\EditSprintTeam.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -173,6 +185,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Pages\ProductBacklog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\UserStoryDetails.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

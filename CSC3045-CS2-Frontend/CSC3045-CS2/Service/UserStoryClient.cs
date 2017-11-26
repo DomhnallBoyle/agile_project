@@ -60,5 +60,55 @@ namespace CSC3045_CS2.Service
             return Execute<List<UserStory>>(request);
         }
 
+        /// <summary>
+        /// Sends the Acceptance Test to be created to the backend
+        /// </summary>
+        /// <param name="acceptanceTest">The Acceptance Test to be Created</param>
+        /// <returns>The created acceptance Test if successful, or will throw RestResponseException if error</returns>
+        public AcceptanceTest CreateAcceptanceTest(AcceptanceTest acceptanceTest)
+        {
+            var request = new RestRequest(BASE_ENDPOINT + "/" + acceptanceTest.UserStory.Id + "/acceptancetest/", Method.POST);
+            request.AddHeader("Content-Type", "application/json");
+            request.RequestFormat = DataFormat.Json;
+            SimpleJson.CurrentJsonSerializerStrategy = new CamelCaseSerializationStrategy();
+
+            request.AddBody(acceptanceTest);
+
+            return Execute<AcceptanceTest>(request);
+        }
+
+
+        /// <summary>
+        /// Gets acceptance tests for current user story
+        /// </summary>
+        /// <param name="acceptanceTest">The Acceptance Test to be Created</param>
+        /// <returns>The acceptance tests for the specified user story, or will throw RestResponseException if error</returns>
+        public AcceptanceTest UpdateAcceptanceTest(AcceptanceTest acceptanceTest)
+        {
+            var request = new RestRequest(BASE_ENDPOINT +  "/acceptancetest/", Method.PUT);
+            request.AddHeader("Content-Type", "application/json");
+            request.RequestFormat = DataFormat.Json;
+            SimpleJson.CurrentJsonSerializerStrategy = new CamelCaseSerializationStrategy();
+
+            request.AddBody(acceptanceTest);
+
+            return Execute<AcceptanceTest>(request);
+        }
+
+
+        /// <summary>
+        /// Gets acceptanceTests for current story
+        /// </summary>
+        /// <param name="userStoryID">The ID of the story</param>
+        /// <returns>The acceptance tests for the specified user story, or will throw RestResponseException if error</returns>
+        public List<AcceptanceTest> GetAcceptanceTestsFromUserStory(long userStoryId)
+        {
+            var request = new RestRequest(BASE_ENDPOINT + "/" + userStoryId + "/acceptancetest/", Method.GET);
+            request.AddHeader("Content-Type", "application/json");
+            request.RequestFormat = DataFormat.Json;
+
+            return Execute<List<AcceptanceTest>>(request);
+        }
+
     }
 }

@@ -3,21 +3,12 @@ using CSC3045_CS2.Models;
 using CSC3045_CS2.Pages;
 using CSC3045_CS2.Service;
 using CSC3045_CS2.Utility;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace CSC3045_CS2
 {
@@ -40,6 +31,10 @@ namespace CSC3045_CS2
 
         public Permissions Permissions { get; set; }
 
+        public PermissonDragHandler PermissonDragHandler { get; set; }
+
+        public ObservableCollection<UserStory> Backlog { get; set; }
+
         public string PageLabel { get; set; } = "Product Backlog";
 
         public string MarketValueLabel { get; set; } = "Market Value";
@@ -59,27 +54,20 @@ namespace CSC3045_CS2
             _currentProject = project;
 
             Permissions = new Permissions((User)Application.Current.Properties["user"], project);
+            PermissonDragHandler = new PermissonDragHandler(Permissions.ProductOwner);
 
             try
             {
-                // TODO:: Get project ID from current project via constructor
                 var sortedOC = from item in _client.GetUserStories(project.Id) orderby item.Index select item;
-                _backlog = new ObservableCollection<UserStory>(sortedOC.ToList());
+                Backlog = new ObservableCollection<UserStory>(sortedOC.ToList());
             }
             catch (RestResponseErrorException ex)
             {
                 MessageBoxUtil.ShowErrorBox(ex.Message);
             }
-
-            Style itemContainerStyle = new Style(typeof(ListBoxItem));
-            itemContainerStyle.Setters.Add(new Setter(ListBoxItem.AllowDropProperty, true));
-            itemContainerStyle.Setters.Add(new EventSetter(ListBoxItem.PreviewMouseLeftButtonDownEvent, new MouseButtonEventHandler(MouseLeftDown)));
-            itemContainerStyle.Setters.Add(new EventSetter(ListBoxItem.DropEvent, new DragEventHandler(StoryListDrop)));
-            StoryList.ItemContainerStyle = itemContainerStyle;
-            StoryList.ItemsSource = _backlog;
         }
 
-        #region commands
+        #region ICommands
 
         /// <summary>
         /// Returns to the project dashboard
@@ -92,7 +80,8 @@ namespace CSC3045_CS2
                 {
                     Page projectDashboard = new ProjectDashboard(_currentProject);
 
-                    NavigationService.GetNavigationService(this).Navigate(projectDashboard);
+                     NavigationService.GetNavigationService(this).Navigate(projectDashboard);
+
                 });
             }
         }
@@ -107,14 +96,14 @@ namespace CSC3045_CS2
             {
                 return new RelayCommand(param =>
                 {
-                    for (int i = 0; i < _backlog.Count; i++)
+                    for (int i = 0; i < Backlog.Count; i++)
                     {
-                        _backlog[i].Index = i + 1;
+                        Backlog[i].Index = i + 1;
                     }
 
                     try
                     {
-                        _client.SaveOrder(_backlog.ToList());
+                        _client.SaveOrder(Backlog.ToList());
                         MessageBoxUtil.ShowSuccessBox("User stories updated successfully");
                     }
                     catch (RestResponseErrorException ex)
@@ -141,59 +130,20 @@ namespace CSC3045_CS2
             }
         }
 
-        #endregion
-
-        #region drag & drop functionality
-
-        /// <summary>
-        /// Method to run on mouse left click
-        /// Checks to see if a list box item was clicked 
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        public void MouseLeftDown(object sender, MouseButtonEventArgs e)
+        public ICommand ViewDetailsCommand
         {
-            if (sender is ListBoxItem && Permissions.ProductOwner)
+            get
             {
-                ListBoxItem draggedItem = sender as ListBoxItem;
-                DragDrop.DoDragDrop(draggedItem, draggedItem.DataContext, DragDropEffects.Move);
-                draggedItem.IsSelected = true;
-            }
-        }
-
-        /// <summary>
-        /// Function to run on dropping a Story list after dragging
-        /// Gets index of dropped Story and target story, 
-        /// and switches their positions in the observable list
-        /// </summary>
-        /// <param name="sender">Target user story</param>
-        /// <param name="e">Dropped user story</param>
-        public void StoryListDrop(object sender, DragEventArgs e)
-        {
-            UserStory droppedData = e.Data.GetData(typeof(UserStory)) as UserStory;
-            ListBoxItem targetItem = ((ListBoxItem)sender);
-            UserStory target = ((UserStory)targetItem.Content);
-
-            int removedIdx = StoryList.Items.IndexOf(droppedData);
-            int targetIdx = StoryList.Items.IndexOf(target);
-
-            if (removedIdx < targetIdx)
-            {
-                _backlog.Insert(targetIdx + 1, droppedData);
-                _backlog.RemoveAt(removedIdx);
-            }
-            else
-            {
-                int remIdx = removedIdx + 1;
-                if (_backlog.Count + 1 > remIdx)
+                return new RelayCommand(param =>
                 {
-                    _backlog.Insert(targetIdx, droppedData);
-                    _backlog.RemoveAt(remIdx);
-                }
+                    UserStory selectedStory = (UserStory)param;
+                    Page userStoryDetailsPage = new UserStoryDetails(selectedStory);
+                    NavigationService.GetNavigationService(this).Navigate(userStoryDetailsPage);
+                });
             }
         }
 
-        #endregion drag & drop functionality
+        #endregion      
     }
 
 
