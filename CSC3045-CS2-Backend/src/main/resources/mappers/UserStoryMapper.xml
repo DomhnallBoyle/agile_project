@@ -41,7 +41,8 @@
      <select id="getAvailableUserStories" resultMap="userStoryResultMap">
         SELECT *
         FROM USER_STORY
-        WHERE sprint_id IS NULL
+        WHERE project_id = #{id} 
+        AND sprint_id IS NULL
     </select>
     
     <select id="getAcceptanceTestsByStoryId" resultMap="acceptanceTestResultMap">

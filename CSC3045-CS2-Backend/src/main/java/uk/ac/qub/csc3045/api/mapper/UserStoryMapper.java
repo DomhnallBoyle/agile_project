@@ -24,7 +24,7 @@ public interface UserStoryMapper {
     
     AcceptanceTest getAcceptanceTestById(@Param("id") long id);
     
-    List<UserStory> getAvailableUserStories();
+    List<UserStory> getAvailableUserStories(@Param("id")long id);
 
     // INSERT Queries
 
