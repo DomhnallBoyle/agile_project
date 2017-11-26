@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
@@ -97,67 +96,4 @@
         WHERE project.id = #{user_story.project_id}
     </select>
 
-=======
-<!DOCTYPE mapper
-        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<!-- Set the namespace below to the interface side of the mapper -->
-<mapper namespace="uk.ac.qub.csc3045.api.mapper.UserStoryMapper">
-
-    <!-- Result Maps -->
-
-    <resultMap id="userStoryResultMap" type="UserStory">
-        <id column="id" property="id"/>
-        <result column="name" property="name"/>
-        <result column="description" property="description"/>
-        <result column="points" property="points"/>
-        <result column="market_value" property="marketValue"/>
-        <association property="project" column="project_id" javaType="Project" select="selectProject"/>
-    </resultMap>
-
-    <!-- SELECT Queries -->
-
-    <select id="getUserStoryById" resultMap="userStoryResultMap">
-        SELECT *
-        FROM USER_STORY
-        WHERE id = #{id}
-    </select>
-
-    <select id="getUserStoriesByProject" resultMap="userStoryResultMap">
-        SELECT *
-        FROM USER_STORY
-        WHERE project_id = #{id}
-    </select>
-    
-    <select id="getAvailableUserStories" resultMap="userStoryResultMap">
-        SELECT *
-        FROM USER_STORY
-        WHERE sprint_id = null
-    </select>
-
-    <!-- INSERT Queries -->
-
-    <insert id="createUserStory" parameterType="UserStory" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
-        INSERT INTO user_story (name, description, index, points, market_value, project_id)
-        VALUES (#{name}, #{description}, #{index}, #{points}, #{marketValue}, #{project.id})
-    </insert>
-
-    <!-- UPDATE Queries -->
-
-    <update id="updateUserStoryIndex">
-        UPDATE USER_STORY
-        SET
-        INDEX = #{index}
-        WHERE ID = #{userStoryId}
-    </update>
-
-    <!-- Nested SELECT queries for User Story -->
-
-    <select id="selectProject" resultMap="uk.ac.qub.csc3045.api.mapper.ProjectMapper.projectResultMap">
-        SELECT *
-        FROM PROJECT
-        WHERE project.id = #{user_story.project_id}
-    </select>
-
->>>>>>> stash
 </mapper>
