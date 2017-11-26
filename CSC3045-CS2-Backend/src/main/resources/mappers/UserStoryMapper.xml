@@ -71,6 +71,18 @@
     </insert>
 
     <!-- UPDATE Queries -->
+    
+    <update id="updateUserStory">
+		UPDATE USER_STORY
+		SET
+		    name = #{name}, 
+		    description = #{description}, 
+		    index = #{index}, 
+		    points = #{points},
+		    market_value = #{marketValue},
+		    project_id = #{project.id}
+		WHERE id = #{id}
+    </update>
 
     <update id="updateUserStoryIndex">
         UPDATE USER_STORY

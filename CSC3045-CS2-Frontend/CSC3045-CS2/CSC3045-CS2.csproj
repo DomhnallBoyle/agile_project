@@ -129,8 +129,10 @@
     <Compile Include="Service\TaskClient.cs" />
     <Compile Include="Service\UserClient.cs" />
     <Compile Include="Service\UserStoryClient.cs" />
+    <Compile Include="Utility\BoolToEnabledConverter.cs" />
     <Compile Include="Utility\BoolToHiddenConverter.cs" />
     <Compile Include="Utility\CamelCaseSerializationStrategy.cs" />
+    <Compile Include="Utility\Validation.cs" />
     <Compile Include="Utility\MessageBoxUtil.cs" />
     <Compile Include="Utility\Permissions.cs" />
     <Compile Include="Utility\PermissonDragHandler.cs" />
