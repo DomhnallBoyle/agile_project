@@ -1,39 +1,44 @@
-﻿using System;
+﻿using CSC3045_CS2.Models;
+using CSC3045_CS2.Utility;
+using RestSharp;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using RestSharp;
-using System.Windows.Controls;
-using System.Windows.Navigation;
-using CSC3045_CS2.Models;
-using System.Net.Http;
-using Newtonsoft.Json;
-using CSC3045_CS2.Utility;
 
 namespace CSC3045_CS2.Service
 {
-    class ProjectClient : ServiceClient
+    public class SprintClient : ServiceClient
     {
-        const string BASE_ENDPOINT = "project";
+        const string BASE_ENDPOINT = "sprint";
 
-        public ProjectClient() : base() { }
+        public SprintClient() : base() { }
 
-        public string CreateProject(Project project)
+        public Sprint CreateSprint(Sprint sprint)
         {
             var request = new RestRequest(BASE_ENDPOINT, Method.POST);
             request.AddHeader("Content-Type", "application/json");
             request.RequestFormat = DataFormat.Json;
             SimpleJson.CurrentJsonSerializerStrategy = new CamelCaseSerializationStrategy();
 
-            request.AddBody(project);
+            request.AddBody(sprint);
 
-            return Execute(request);
+            return Execute<Sprint>(request);
         }
 
-        public List<User> GetProjectTeam(long projectId)
+        public List<Sprint> GetSprintsInProject(long projectId)
         {
-            var request = new RestRequest(BASE_ENDPOINT + "/team/" + projectId, Method.GET);
+            var request = new RestRequest(BASE_ENDPOINT + "/project/" + projectId, Method.GET);
+            request.AddHeader("Content-Type", "application/json");
+            request.RequestFormat = DataFormat.Json;
+            SimpleJson.CurrentJsonSerializerStrategy = new CamelCaseSerializationStrategy();
+
+            return Execute<List<Sprint>>(request);
+        }
+        public List<User> GetSprintTeam(long sprintId)
+        {
+            var request = new RestRequest(BASE_ENDPOINT + "/team/" + sprintId, Method.GET);
             request.AddHeader("Content-Type", "application/json");
             request.RequestFormat = DataFormat.Json;
             SimpleJson.CurrentJsonSerializerStrategy = new CamelCaseSerializationStrategy();
@@ -41,39 +46,26 @@ namespace CSC3045_CS2.Service
             return Execute<List<User>>(request);
         }
 
-        public List<Project> GetProjectsForUser(long userId)
+        public List<User> UpdateSprintTeam(Sprint sprint)
         {
-            var request = new RestRequest(BASE_ENDPOINT + "/user/" + userId, Method.GET);
+            var request = new RestRequest(BASE_ENDPOINT + "/team", Method.PUT);
             request.AddHeader("Content-Type", "application/json");
             request.RequestFormat = DataFormat.Json;
             SimpleJson.CurrentJsonSerializerStrategy = new CamelCaseSerializationStrategy();
 
-            return Execute<List<Project>>(request);
+            request.AddBody(sprint);
+
+            return Execute<List<User>>(request);
         }
 
-        public Project UpdateProject(Project project)
+        public List<User> GetAvailableDevelopers(long sprintId)
         {
-            var request = new RestRequest(BASE_ENDPOINT, Method.PUT);
+            var request = new RestRequest(BASE_ENDPOINT + "/available/team/" + sprintId, Method.GET);
             request.AddHeader("Content-Type", "application/json");
             request.RequestFormat = DataFormat.Json;
             SimpleJson.CurrentJsonSerializerStrategy = new CamelCaseSerializationStrategy();
 
-            request.AddBody(project);
-
-            return Execute<Project>(request);
-        }
-
-        public void Add(List<User> users, Project project)
-        {
-            project.Users = users;
-            var request = new RestRequest(BASE_ENDPOINT + "/team", Method.POST);
-            request.AddHeader("Content-Type", "application/json");
-            request.RequestFormat = DataFormat.Json;
-            SimpleJson.CurrentJsonSerializerStrategy = new CamelCaseSerializationStrategy();
-
-            request.AddBody(project);
-            Execute(request);
+            return Execute<List<User>>(request);
         }
     }
 }
-

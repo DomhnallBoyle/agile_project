@@ -8,10 +8,6 @@
       Background="{StaticResource BackgroundGradient}"
       Title="UserDashboard" Height="475.182" Width="456.569">
 
-    <Page.Resources>
-        <BooleanToVisibilityConverter x:Key="BoolToVisConverter"/>
-    </Page.Resources>
-
     <StackPanel>
         <Grid>
             <Grid.ColumnDefinitions>

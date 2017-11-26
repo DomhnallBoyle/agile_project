@@ -80,7 +80,14 @@ namespace CSC3045_CS2.Pages
             }
             catch (RestResponseErrorException ex)
             {
-                MessageBox.Show(ex.Message, "Info");
+                if (ex.StatusCode == System.Net.HttpStatusCode.NotFound)
+                {
+                    MessageBoxUtil.ShowInfoBox(ex.Message);
+                }
+                else
+                {
+                    MessageBoxUtil.ShowErrorBox(ex.Message);
+                }
             }
         }
 
@@ -90,17 +97,10 @@ namespace CSC3045_CS2.Pages
 
         private void ProjectListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            try
-            {
-                Project selectedProject = ((ProjectPermissions)ProjectListBox.SelectedItem).Project;
-                Page projectDashboardPage = new ProjectDashboard(selectedProject);
+            Project selectedProject = ((ProjectPermissions)ProjectListBox.SelectedItem).Project;
+            Page projectDashboardPage = new ProjectDashboard(selectedProject);
 
-                NavigationService.GetNavigationService(this).Navigate(projectDashboardPage);
-            }
-            catch (RestResponseErrorException ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
+            NavigationService.GetNavigationService(this).Navigate(projectDashboardPage);
         }
 
         public ICommand NavigateToCreateProjectCommand

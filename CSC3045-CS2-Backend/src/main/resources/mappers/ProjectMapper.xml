@@ -1,7 +1,7 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<!-- Set the namespace below to the interface side of the mapper -->
+<!-- Set the namespace below to the interface side of the sprintMapper -->
 <mapper namespace="uk.ac.qub.csc3045.api.mapper.ProjectMapper">
 
     <!-- Result Maps -->
@@ -14,6 +14,13 @@
         <association property="productOwner" column="product_owner_id" javaType="User" select="selectProductOwner"/>
         <collection property="scrumMasters" column="id" javaType="List" ofType="User" select="selectScrumMasters"/>
         <collection property="users" column="id" javaType="List" ofType="User" select="getUsersOnProject"/>
+    </resultMap>
+
+    <resultMap id="simpleProjectResultMap" type="Project">
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="description" property="description"/>
+        <association property="manager" column="manager_id" javaType="User" select="selectManager"/>
     </resultMap>
 
     <!-- SELECT Queries -->
@@ -49,11 +56,36 @@
     </select>
 
     <select id="getUsersOnProject" resultMap="uk.ac.qub.csc3045.api.mapper.UserMapper.userResultMap">
-        SELECT *
+        SELECT
+            USER.ID  AS user_id,
+            USER.FORENAME,
+            USER.SURNAME,
+            USER.EMAIL,
+            ROLES.ID AS roles_id,
+            ROLES.DEVELOPER,
+            ROLES.SCRUM_MASTER,
+            ROLES.PRODUCT_OWNER
         FROM USER
             JOIN ROLES ON USER.ROLES_ID = ROLES.ID
             JOIN PROJECT_USER ON USER.ID = PROJECT_USER.USER_ID
         WHERE PROJECT_USER.PROJECT_ID = #{projectId}
+    </select>
+
+    <select id="getProjectAvailableDevelopers" resultMap="uk.ac.qub.csc3045.api.mapper.UserMapper.userResultMap">
+        SELECT
+            USER.ID  AS user_id,
+            USER.FORENAME,
+            USER.SURNAME,
+            USER.EMAIL,
+            ROLES.ID AS roles_id,
+            ROLES.DEVELOPER,
+            ROLES.SCRUM_MASTER,
+            ROLES.PRODUCT_OWNER
+        FROM USER
+            JOIN ROLES ON USER.ROLES_ID = ROLES.ID
+            JOIN PROJECT_USER ON USER.ID = PROJECT_USER.USER_ID
+        WHERE PROJECT_USER.PROJECT_ID = #{projectId}
+              AND ROLES.DEVELOPER = TRUE
     </select>
 
     <!-- INSERT Queries -->
