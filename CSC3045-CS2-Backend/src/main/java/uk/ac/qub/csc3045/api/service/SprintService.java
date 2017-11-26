@@ -21,6 +21,8 @@ public class SprintService {
 
 	private SprintMapper sprintMapper;
 	private ProjectMapper projectMapper;
+	@Autowired
+    private EmailUtility emailSender;
 
     @Autowired
     public SprintService(SprintMapper sprintMapper, ProjectMapper projectMapper) {
@@ -108,9 +110,12 @@ public class SprintService {
     	if (newTeam != null) {
     		for (User teamMember : newTeam) {
     			if (!oldTeam.contains(teamMember)) {
-    				EmailUtility.sendEmail(teamMember.getEmail(), "You have been added to a new Sprint",
-    		                "Hello " + teamMember.getForename() +
-    		                        ",\n\nYou have been added to a sprint for the Project " + projectName + ".");
+    				 try {
+    					 emailSender.sendSprintEmails(projectName, teamMember);
+             		}catch( Exception e ){
+             			// catch error
+             			System.out.print("Error Sending Email: " + e.getMessage());
+             		}
     			}
     		}
     	}

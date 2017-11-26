@@ -61,7 +61,7 @@ public class UserStoryController {
     	return new ResponseEntity<>(this.userStoryService.updateAcceptanceTest(acceptanceTest), HttpStatus.OK);
     }
     
-    @GetMapping(value = "/getavailablestories")
+    @GetMapping(value = "/unassigned")
     public ResponseEntity<List<UserStory>> getAvailableUserStories() {
         return new ResponseEntity<>(this.userStoryService.getAvailableUserStories(), HttpStatus.OK);
     }

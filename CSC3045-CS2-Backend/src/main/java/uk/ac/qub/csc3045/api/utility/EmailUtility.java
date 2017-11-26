@@ -54,5 +54,16 @@ private JavaMailSender javaMailSender;
 				+ "added as a Scrum Master for "+project.getName()+" \n\nThanks,\nYour Sys Admin Team");
 		javaMailSender.send(mail);
 	}
+	@Async
+	public void sendSprintEmails(String projectName, User user) throws MailException, InterruptedException {
+        Thread.sleep(100);
+        SimpleMailMessage mail = new SimpleMailMessage();
+        mail.setTo(user.getEmail());
+		mail.setFrom(SecurityConstants.SERVER_USERNAME);
+		mail.setSubject("You have been added to a Sprint Team for "+projectName);
+		mail.setText("Hi "+ user.getForename()+ ", \n\nJust to let you know you have been "
+				+ "added as a member of a sprint team for "+projectName+" \n\nThanks,\nYour Sys Admin Team");
+		javaMailSender.send(mail);
+	}
     
 }
