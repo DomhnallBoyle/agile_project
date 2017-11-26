@@ -64,6 +64,6 @@ public class UserStoryController {
     @GetMapping(value = "/project/{id}/unassigned")
     public ResponseEntity<List<UserStory>> getAvailableUserStories(@Valid @PathVariable("id") long id) {
         return new ResponseEntity<>(this.userStoryService.getAvailableUserStories(id), HttpStatus.OK);
-    }
+	}
 
 }

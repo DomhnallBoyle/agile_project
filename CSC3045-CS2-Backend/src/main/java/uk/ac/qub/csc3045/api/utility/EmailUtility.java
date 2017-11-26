@@ -54,7 +54,6 @@ private JavaMailSender javaMailSender;
 				+ "added as a Scrum Master for "+project.getName()+" \n\nThanks,\nYour Sys Admin Team");
 		javaMailSender.send(mail);
 	}
-
 	@Async
 	public void sendSprintEmails(String projectName, User user) throws MailException, InterruptedException {
         Thread.sleep(100);
