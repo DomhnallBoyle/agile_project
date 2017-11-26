@@ -28,7 +28,6 @@ public class ProjectService {
     public Project create(Project project) {
         try {
             mapper.createProject(project);
-
             Project newProject = mapper.getProjectById(project.getId());
 
             return newProject;
