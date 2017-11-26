@@ -29,11 +29,11 @@ public class SprintController {
 
     @GetMapping(value = "/project/{projectId}")
     public ResponseEntity<List<Sprint>> getProjectSprints(@PathVariable("projectId") long projectId) {
-        return new ResponseEntity<>(this.sprintService.getSprintsInProject(projectId), HttpStatus.OK);
+        return new ResponseEntity<>(this.sprintService.getProjectSprints(projectId), HttpStatus.OK);
     }
     
     @GetMapping(value = "/{sprintId}")
-    public ResponseEntity<Sprint> getSprint(@Valid @PathVariable("sprintId") long sprintId) { 
+    public ResponseEntity<Sprint> getSprint(@PathVariable("sprintId") long sprintId) {
         return new ResponseEntity<>(sprintService.getSprint(sprintId), HttpStatus.OK);
     }
 

@@ -71,7 +71,7 @@
         WHERE PROJECT_USER.PROJECT_ID = #{projectId}
     </select>
 
-    <select id="getProjectAvailableDevelopers" resultMap="uk.ac.qub.csc3045.api.mapper.UserMapper.userResultMap">
+    <select id="getProjectDevelopers" resultMap="uk.ac.qub.csc3045.api.mapper.UserMapper.userResultMap">
         SELECT
             USER.ID  AS user_id,
             USER.FORENAME,
