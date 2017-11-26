@@ -65,4 +65,5 @@ public class UserStoryController {
     public ResponseEntity<List<UserStory>> getAvailableUserStories(@Valid @PathVariable("id") long id) {
         return new ResponseEntity<>(this.userStoryService.getAvailableUserStories(id), HttpStatus.OK);
     }
+
 }

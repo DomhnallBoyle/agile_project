@@ -83,6 +83,7 @@ public class UserStoryService {
             throw new ResponseErrorException("The User story does not exist", HttpStatus.NOT_FOUND);
         }
     }
+
     public List<UserStory> getAvailableUserStories(long id) {
         return userStoryMapper.getAvailableUserStories(id);
 }
