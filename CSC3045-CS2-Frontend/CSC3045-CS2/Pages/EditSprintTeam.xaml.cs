@@ -50,7 +50,15 @@ namespace CSC3045_CS2.Pages
 
             CurrentSprint = sprint;
             SprintTeam = new ObservableCollection<User>(sprint.Users);
-            AvailableDevelopers = new ObservableCollection<User>(_sprintClient.GetAvailableDevelopers(sprint.Id));
+
+            try
+            {
+                AvailableDevelopers = new ObservableCollection<User>(_sprintClient.GetAvailableDevelopers(sprint.Id));
+            }
+            catch (RestResponseErrorException ex)
+            {
+                MessageBoxUtil.ShowInfoBox(ex.Message);
+            }
         }
 
         #region Command methods

@@ -1,5 +1,6 @@
 package uk.ac.qub.csc3045.api.mapper;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
@@ -19,11 +20,11 @@ public interface SprintMapper {
 	
 	Sprint getSprintById(@Param("id") long id);
 
-    List<Sprint> getSprintsInProject(@Param("projectId") long projectId);
+    List<Sprint> getProjectSprints(@Param("projectId") long projectId);
     
-    List<User> getUsersOnSprint(@Param("sprintId") long sprintId);
+    List<User> getSprintTeam(@Param("sprintId") long sprintId);
 
-    List<Sprint> getClashingSprintsForUser(@Param("userId") long userId, @Param("startDate") Date startDate, @Param("endDate") Date endDate);
+    List<Sprint> getClashingSprintsForUser(@Param("userId") long userId, @Param("startDate") LocalDateTime startDate, @Param("endDate") LocalDateTime endDate);
 
     // INSERT Queries
 

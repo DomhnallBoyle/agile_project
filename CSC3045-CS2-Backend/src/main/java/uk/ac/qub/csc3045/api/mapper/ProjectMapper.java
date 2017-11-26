@@ -21,7 +21,7 @@ public interface ProjectMapper {
 
     List<User> getUsersOnProject(@Param("projectId") long projectId);
 
-    List<User> getProjectAvailableDevelopers(@Param("projectId") long projectId);
+    List<User> getProjectDevelopers(@Param("projectId") long projectId);
 
     // INSERT Queries
 

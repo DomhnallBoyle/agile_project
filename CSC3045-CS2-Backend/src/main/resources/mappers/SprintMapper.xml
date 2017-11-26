@@ -17,7 +17,7 @@
 
     <!-- SELECT Queries -->
 
-    <select id="getSprintsInProject" resultMap="sprintResultMap">
+    <select id="getProjectSprints" resultMap="sprintResultMap">
         SELECT
             SPRINT.ID   AS ID,
             SPRINT.NAME AS NAME,
@@ -42,7 +42,7 @@
         WHERE ID = #{id}
     </select>
 
-    <select id="getUsersOnSprint" resultMap="uk.ac.qub.csc3045.api.mapper.UserMapper.userResultMap">
+    <select id="getSprintTeam" resultMap="uk.ac.qub.csc3045.api.mapper.UserMapper.userResultMap">
         SELECT *
         FROM USER
             JOIN ROLES ON USER.ROLES_ID = ROLES.ID
@@ -62,12 +62,17 @@
             JOIN SPRINT_USER ON SPRINT.ID = SPRINT_USER.SPRINT_ID
             JOIN USER ON SPRINT_USER.USER_ID = USER.ID
         WHERE USER.ID = #{userId}
-              AND (#{startDate} BETWEEN SPRINT.START_DATE AND SPRINT.END_DATE
-                                                              OR
-                                                              #{endDate} BETWEEN SPRINT.START_DATE AND SPRINT.END_DATE)
+              AND (#{startDate} &lt;= SPRINT.END_DATE
+                   AND
+                   #{endDate} &gt;= SPRINT.START_DATE)
     </select>
 
     <!-- INSERT Queries -->
+
+    <insert id="createSprint" parameterType="Sprint" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+        INSERT INTO SPRINT (PROJECT_ID, NAME, START_DATE, END_DATE, SCRUM_MASTER_ID)
+        VALUES (#{project.id}, #{name}, #{startDate}, #{endDate}, #{scrumMaster.id})
+    </insert>
 
     <insert id="addToSprintTeam">
         INSERT INTO SPRINT_USER (SPRINT_ID, USER_ID)

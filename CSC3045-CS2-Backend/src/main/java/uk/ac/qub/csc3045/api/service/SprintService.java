@@ -1,7 +1,6 @@
 package uk.ac.qub.csc3045.api.service;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,8 +15,6 @@ import uk.ac.qub.csc3045.api.model.Sprint;
 import uk.ac.qub.csc3045.api.model.User;
 import uk.ac.qub.csc3045.api.utility.EmailUtility;
 import uk.ac.qub.csc3045.api.utility.ValidationUtility;
-
-import javax.jws.soap.SOAPBinding;
 
 @Service
 public class SprintService {
@@ -50,8 +47,8 @@ public class SprintService {
         throw new ResponseErrorException("Sprint does not exist", HttpStatus.NOT_FOUND);
     }
     
-	public List<Sprint> getSprintsInProject(long projectId) {
-        List<Sprint> sprints = sprintMapper.getSprintsInProject(projectId);
+	public List<Sprint> getProjectSprints(long projectId) {
+        List<Sprint> sprints = sprintMapper.getProjectSprints(projectId);
 
         if (sprints.isEmpty()) {
             throw new ResponseErrorException("There are currently no sprints in this project", HttpStatus.NOT_FOUND);
@@ -62,37 +59,45 @@ public class SprintService {
 	
     public List<User> getSprintTeam(long sprintId) {
         if (ValidationUtility.validateSprintExists(sprintId, sprintMapper)) {
-            return sprintMapper.getUsersOnSprint(sprintId);
+            return sprintMapper.getSprintTeam(sprintId);
         }
         throw new ResponseErrorException("Sprint does not exist", HttpStatus.NOT_FOUND);
     }
 
     public List<User> getAvailableDevelopers(long sprintId) {
-        Sprint sprint = sprintMapper.getSprintById(sprintId);
+        if (ValidationUtility.validateSprintExists(sprintId, sprintMapper)) {
+            Sprint sprint = sprintMapper.getSprintById(sprintId);
 
-        List<User> developers = projectMapper.getProjectAvailableDevelopers(sprint.getProject().getId());
-        List<User> availableDevelopers = new ArrayList<>();
+            List<User> developers = projectMapper.getProjectDevelopers(sprint.getProject().getId());
+            List<User> availableDevelopers = new ArrayList<>();
 
-        for (User developer : developers) {
-            List<Sprint> clashingSprints = sprintMapper.getClashingSprintsForUser(developer.getId(), sprint.getStartDate(), sprint.getEndDate());
+            for (User developer : developers) {
+                List<Sprint> clashingSprints = sprintMapper.getClashingSprintsForUser(developer.getId(), sprint.getStartDate(), sprint.getEndDate());
 
-            if (clashingSprints.isEmpty()) {
-                availableDevelopers.add(developer);
+                if (clashingSprints.isEmpty()) {
+                    availableDevelopers.add(developer);
+                }
             }
+
+            if (availableDevelopers.isEmpty()) {
+                throw new ResponseErrorException("There are no available developers for this sprint.", HttpStatus.NOT_FOUND);
+            }
+
+            return availableDevelopers;
         }
 
-        return availableDevelopers;
+        throw new ResponseErrorException("Sprint does not exist", HttpStatus.NOT_FOUND);
     }
 
     public List<User> updateSprintTeam(Sprint sprint) {
-        List<User> oldTeam = sprintMapper.getUsersOnSprint(sprint.getId());
+        List<User> oldTeam = sprintMapper.getSprintTeam(sprint.getId());
         sprintMapper.resetSprintTeam(sprint.getId());
 
         for (User user : sprint.getUsers()) {
             sprintMapper.addToSprintTeam(sprint.getId(), user.getId());
         }
 
-        List<User> newTeam = sprintMapper.getUsersOnSprint(sprint.getId());
+        List<User> newTeam = sprintMapper.getSprintTeam(sprint.getId());
 
         sendTeamMemberEmails(oldTeam, newTeam, sprint.getProject().getName());
 
