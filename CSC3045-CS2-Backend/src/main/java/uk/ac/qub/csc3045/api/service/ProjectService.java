@@ -25,12 +25,6 @@ public class ProjectService {
         this.emailSender = emailSender;
     }
 
-    @Autowired
-    public ProjectService(ProjectMapper mapper) {
-        this.mapper = mapper;
-
-    }
-
     public Project create(Project project) {
         try {
             mapper.createProject(project);
