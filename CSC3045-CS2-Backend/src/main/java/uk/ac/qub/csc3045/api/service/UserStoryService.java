@@ -85,8 +85,11 @@ public class UserStoryService {
     }
 
     public List<UserStory> getAvailableUserStories(long id) {
-        return userStoryMapper.getAvailableUserStories(id);
-}
+    	if (ValidationUtility.validateProjectExists(id, projectMapper)) {
+    		return userStoryMapper.getAvailableUserStories(id);
+    	}
+    	throw new ResponseErrorException("Project does not exist", HttpStatus.NOT_FOUND);
+    }
     
     public List<AcceptanceTest> getAcceptanceTests(long id) {
     	if (ValidationUtility.validateUserStoryExists(id, userStoryMapper))
