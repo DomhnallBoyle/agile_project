@@ -13,7 +13,7 @@ import uk.ac.qub.csc3045.api.model.Sprint;
 import uk.ac.qub.csc3045.api.service.SprintService;
 
 public class SprintControllerTests {
-	@Test
+    @Test
     public void getSprintShouldReturn200OnSuccess() {
         //Arrange
         SprintService sprintService = mock(SprintService.class);

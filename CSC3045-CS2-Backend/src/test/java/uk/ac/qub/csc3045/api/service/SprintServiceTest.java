@@ -13,13 +13,13 @@ import uk.ac.qub.csc3045.api.model.Sprint;
 
 public class SprintServiceTest {
 	
-	@Test
+    @Test
     public void handleGetSprintRequestSuccessful() {
-		//Arrange
-		SprintMapper sprintMapperMock = mock(SprintMapper.class);
-		ProjectMapper projectMapperMock = mock(ProjectMapper.class);
-		Sprint sprint = new Sprint();
-		sprint.setId(100l);
+        //Arrange
+        SprintMapper sprintMapperMock = mock(SprintMapper.class);
+        ProjectMapper projectMapperMock = mock(ProjectMapper.class);
+        Sprint sprint = new Sprint();
+        sprint.setId(100l);
         SprintService sprintService = new SprintService(sprintMapperMock, projectMapperMock);
         when(sprintMapperMock.getSprintById(sprint.getId())).thenReturn(sprint);
         
@@ -35,8 +35,8 @@ public class SprintServiceTest {
     	//Arrange
     	SprintMapper sprintMapperMock = mock(SprintMapper.class);
     	ProjectMapper projectMapperMock = mock(ProjectMapper.class);
-		Sprint sprint = new Sprint();
-		sprint.setId(100l);
+        Sprint sprint = new Sprint();
+        sprint.setId(100l);
         SprintService sprintService = new SprintService(sprintMapperMock, projectMapperMock);
         when(sprintMapperMock.getSprintById(sprint.getId())).thenReturn(null);
         

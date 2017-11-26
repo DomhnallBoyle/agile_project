@@ -44,11 +44,11 @@ public class SprintService {
     }
     
     public Sprint getSprint(long sprintId) {
-		if (ValidationUtility.validateSprintExists(sprintId, sprintMapper)) {
+        if (ValidationUtility.validateSprintExists(sprintId, sprintMapper)) {
             return sprintMapper.getSprintById(sprintId);
         }
         throw new ResponseErrorException("Sprint does not exist", HttpStatus.NOT_FOUND);
-	}
+    }
     
 	public List<Sprint> getSprintsInProject(long projectId) {
         List<Sprint> sprints = sprintMapper.getSprintsInProject(projectId);

@@ -33,9 +33,9 @@ public class SprintController {
     }
     
     @GetMapping(value = "/{sprintId}")
-	public ResponseEntity<Sprint> getSprint(@Valid @PathVariable("sprintId") long sprintId) { 
-		return new ResponseEntity<>(sprintService.getSprint(sprintId), HttpStatus.OK);
-	}
+    public ResponseEntity<Sprint> getSprint(@Valid @PathVariable("sprintId") long sprintId) { 
+        return new ResponseEntity<>(sprintService.getSprint(sprintId), HttpStatus.OK);
+    }
 
     @GetMapping(value = "/team/{sprintId}")
     public ResponseEntity<List<User>> getSprintTeam(@PathVariable("sprintId") long sprintId) {
