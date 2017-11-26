@@ -18,12 +18,12 @@ import java.util.List;
 public class ProjectService {
 
     private ProjectMapper mapper;
-    @Autowired
     private EmailUtility emailSender;
 
     @Autowired
-    public ProjectService(ProjectMapper mapper) {
+    public ProjectService(ProjectMapper mapper, EmailUtility emailSender) {
         this.mapper = mapper;
+        this.emailSender = emailSender;
     }
 
     public Project create(Project project) {
