@@ -1,26 +1,39 @@
 ﻿<Page x:Class="CSC3045_CS2.Pages.UserDashboard"
-      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-      xmlns:local="clr-namespace:CSC3045_CS2.Pages"
-      mc:Ignorable="d"
-      Background="{StaticResource LightBlueBrush}"
+        xmlns:utility="clr-namespace:CSC3045_CS2.Utility"
+      mc:Ignorable="d" 
+      Background="{StaticResource BackgroundGradient}"
       Title="UserDashboard" Height="475.182" Width="456.569">
 
     <StackPanel>
-        <StackPanel>
-            <TextBlock Name="PageTitle" Text="User Dashboard" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center"></TextBlock>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <TextBlock Name="PageTitle" Text="User Dashboard" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center" Style="{StaticResource Title}" Grid.Column="0" Grid.ColumnSpan="3" Grid.RowSpan="2"></TextBlock>
+            <Image  Height="60" Width="60" HorizontalAlignment="Right"  Name="ProfilePicture" Stretch="Fill" VerticalAlignment="Top" Grid.Column="4" Grid.ColumnSpan="2" Grid.RowSpan="2"/>
+        </Grid>
+
+        <StackPanel Background="RoyalBlue"  Margin="10,10,10,0" >
+            <TextBlock FontSize ="14" Text="{Binding UserLabel}" HorizontalAlignment="Left" Style="{StaticResource Label}"  Margin="5,0,5,0"/>
         </StackPanel>
 
-        <StackPanel Background="CadetBlue">
-            <TextBlock FontSize ="14" Text="{Binding UserLabel}" HorizontalAlignment="Left" />
-        </StackPanel>
-
-        <ListBox Name="ProjectListBox" ItemsSource="{Binding ProjectList}" SelectionChanged="ProjectListBox_SelectionChanged" HorizontalContentAlignment="Center">
+        <ListBox Name="ProjectListBox" ItemsSource="{Binding ProjectList}" SelectionChanged="ProjectListBox_SelectionChanged" HorizontalContentAlignment="Left" Margin="10,10,10,10" >
             <ListBox.ItemTemplate>
                 <DataTemplate>
-                    <Grid>
+                    <Grid >
                         <Grid.ColumnDefinitions >
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="*"/>
@@ -30,8 +43,8 @@
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
-                        <TextBlock Grid.Column="0" Text="{Binding Project.Name}"/>
-                        <TextBlock Grid.Column="1" Text="{Binding Project.Description}"/>
+                        <TextBlock Grid.Column="0" Text="{Binding Project.Name}" MinWidth="120" MaxWidth="120" TextWrapping="Wrap" Style="{StaticResource ButtonTitleLabel}" Margin="0,0,0,0"/>
+                        <TextBlock Grid.Column="1" Text="{Binding Project.Description}" MinWidth="140" MaxWidth="140"  TextWrapping="Wrap" Style="{StaticResource ButtonLabel}"  Margin="0,0,0,0"/>
 
                         <TextBlock Grid.Column="2" Text="M" Visibility="{Binding Path=Permissions.Manager, Converter={StaticResource BoolToVisConverter}}"/>
                         <TextBlock Grid.Column="3" Text="D" Visibility="{Binding Path=Permissions.Developer, Converter={StaticResource BoolToVisConverter}}"/>
@@ -40,11 +53,17 @@
                     </Grid>
                 </DataTemplate>
             </ListBox.ItemTemplate>
+
+            <ListBox.Resources>
+                <Style TargetType="Border">
+                    <Setter Property="CornerRadius" Value="4"/>
+                </Style>
+            </ListBox.Resources>
         </ListBox>
 
         <StackPanel>
-            <Button Name="CreateProjectButton" Content="Create Project" HorizontalAlignment="Center" Command="{Binding NavigateToCreateProjectCommand}"/>
-            <Button Name="LogoutButton" Content="Logout" HorizontalAlignment="Left" Command="{Binding LogoutCommand}"/>
+            <Button Name="CreateProjectButton" Content="Create Project" HorizontalAlignment="Center" Command="{Binding NavigateToCreateProjectCommand}" Style="{StaticResource ExtendedButton}"/>
+            <Button Name="LogoutButton" Content="Logout" HorizontalAlignment="Left" Command="{Binding LogoutCommand}" Style="{StaticResource StandardButton}" Margin="5,0,0,0"/>
         </StackPanel>
     </StackPanel>
 </Page>

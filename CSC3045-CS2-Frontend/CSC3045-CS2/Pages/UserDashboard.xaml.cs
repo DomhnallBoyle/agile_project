@@ -4,6 +4,7 @@ using CSC3045_CS2.Service;
 using CSC3045_CS2.Utility;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -42,9 +43,20 @@ namespace CSC3045_CS2.Pages
         {
             InitializeComponent();
             DataContext = this;
-
-            UserLabel = ((User)Application.Current.Properties["user"]).GetFullName();
-
+            User user = ((User)Application.Current.Properties["user"]);
+            UserLabel = "Welcome " + user.GetFullName() + "!\nYour Current Projects are:";
+            string profileImageFileName;
+            if (user.ProfilePicture != null)
+            {
+                profileImageFileName = user.ProfilePicture;
+            }
+            else
+            {
+                profileImageFileName = Properties.Settings.Default.DefaultProfileImage;
+            }
+            
+            string profileImagePath = Properties.Settings.Default.ProfileImageDirectory + profileImageFileName;
+            ProfilePicture.Source = new BitmapImage(new Uri(profileImagePath, UriKind.RelativeOrAbsolute));
             _client = new ProjectClient();
 
             InitialiseProjects();

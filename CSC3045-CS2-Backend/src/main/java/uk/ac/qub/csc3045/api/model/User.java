@@ -15,6 +15,8 @@ public class User {
 
     @NotNull
     private String email;
+    
+    private String profilePicture;
 
     private Roles roles = new Roles();
 
@@ -31,7 +33,15 @@ public class User {
         this.email = email;
         this.roles = roles;
     }
-
+    
+    public User(String forename, String surname, String email, String profilePicture, Roles roles) {
+        this.forename = forename;
+        this.surname = surname;
+        this.email = email;
+        this.profilePicture = profilePicture;
+        this.roles = roles;
+    }
+    
     public Long getId() {
         return id;
     }
@@ -63,8 +73,16 @@ public class User {
     public void setEmail(String email) {
         this.email = email;
     }
+    
+    public String getProfilePicture() {
+		return profilePicture;
+	}
 
-    public Roles getRoles() {
+	public void setProfilePicture(String profilePicture) {
+		this.profilePicture = profilePicture;
+	}
+
+	public Roles getRoles() {
         return roles;
     }
 
@@ -88,71 +106,57 @@ public class User {
         this.sprints = sprints;
     }
 
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		User other = (User) obj;
+		if (email == null) {
+			if (other.email != null)
+				return false;
+		} else if (!email.equals(other.email))
+			return false;
+		if (forename == null) {
+			if (other.forename != null)
+				return false;
+		} else if (!forename.equals(other.forename))
+			return false;
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
+		if (profilePicture == null) {
+			if (other.profilePicture != null)
+				return false;
+		} else if (!profilePicture.equals(other.profilePicture))
+			return false;
+		if (projects == null) {
+			if (other.projects != null)
+				return false;
+		} else if (!projects.equals(other.projects))
+			return false;
+		if (roles == null) {
+			if (other.roles != null)
+				return false;
+		} else if (!roles.equals(other.roles))
+			return false;
+		if (sprints == null) {
+			if (other.sprints != null)
+				return false;
+		} else if (!sprints.equals(other.sprints))
+			return false;
+		if (surname == null) {
+			if (other.surname != null)
+				return false;
+		} else if (!surname.equals(other.surname))
+			return false;
+		return true;
+	}
 
-        if (obj == null) {
-            return false;
-        }
-
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-
-        User other = (User) obj;
-
-        if (id == null) {
-            if (other.id != null) {
-                return false;
-            }
-        } else if (!id.equals(other.id)) {
-            return false;
-        }
-
-        if (forename == null) {
-            if (other.forename != null) {
-                return false;
-            }
-        } else if (!forename.equals(other.forename)) {
-            return false;
-        }
-
-        if (surname == null) {
-            if (other.surname != null) {
-                return false;
-            }
-        } else if (!surname.equals(other.surname)) {
-            return false;
-        }
-
-        if (email == null) {
-            if (other.email != null) {
-                return false;
-            }
-        } else if (!email.equals(other.email)) {
-            return false;
-        }
-
-        if (projects == null) {
-            if (other.projects != null) {
-                return false;
-            }
-        } else if (!projects.equals(other.projects)) {
-            return false;
-        }
-
-        if (roles == null) {
-            if (other.roles != null) {
-                return false;
-            }
-        } else if (!roles.equals(other.roles)) {
-            return false;
-        }
-
-        return true;
-    }
 
 }

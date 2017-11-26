@@ -38,8 +38,8 @@ public class AuthenticationControllerIT {
     @Test
     public void registerAccountShouldReturn201() throws Exception {
         Response r = request.sendPostRequest(REGISTER_PATH, account);
-
-        assertEquals(account.getUser().getEmail(), r.getBody().as(Account.class).getUser().getEmail());
+        User returnedUser = r.getBody().as(Account.class).getUser();
+        assertEquals(account.getUser().getEmail(), returnedUser.getEmail());
         r.then().assertThat().statusCode(201);
     }
 
@@ -194,7 +194,8 @@ public class AuthenticationControllerIT {
      */
     @Test
     public void loginShouldReturn200() {
-        Account existingAccount = new Account(new User("Forename1", "Surname1", "user1@email.com", new Roles(false, false, false)), "Passw0rd1");
+        Account existingAccount = new Account(new User("Forename1", "Surname1", "user1@email.com", new Roles(false, false, false)),  "Passw0rd1");
+        existingAccount.getUser().setProfilePicture("snoop.jpg");
 
         Response r = request.sendPostRequest(LOGIN_PATH, existingAccount);
         User returnedUser = r.getBody().as(User.class);
@@ -266,7 +267,7 @@ public class AuthenticationControllerIT {
      */
     public void setupTestAccount() {
         Roles validRoles = new Roles();
-        User validUser = new User("Forename", "Surname", generateEmail(), validRoles);
+        User validUser = new User("Forename", "Surname", generateEmail(), "profilepic", validRoles);
         account = new Account(validUser, "Password1");
     }
 

@@ -8,19 +8,27 @@ using CSC3045_CS2.Exception;
 using CSC3045_CS2.Service;
 using CSC3045_CS2.Utility;
 using CSC3045_CS2.Models;
+using System.Windows.Media.Imaging;
+using System.IO;
 
 namespace CSC3045_CS2.Pages
 {
-
     public partial class Register : Page
     {
         private AuthenticationClient _client;
+        private BitmapImage _profileImage;
 
         public Register()
         {
             InitializeComponent();
             DataContext = this;
             _client = new AuthenticationClient();
+
+            _profileImage = new BitmapImage(new Uri(Properties.Settings.Default.ProfileImageDirectory + Properties.Settings.Default.DefaultProfileImage, UriKind.Absolute));
+            ImageBrush profileButtonBackground = new ImageBrush();
+            profileButtonBackground.ImageSource = _profileImage;
+            ProfileButton.Background = profileButtonBackground;
+
         }
 
         /// <summary>
@@ -36,23 +44,81 @@ namespace CSC3045_CS2.Pages
             if (CheckValidation())
             {
                 Roles roles = new Roles(ProductOwnerCheckBox.IsChecked.Value, ScrumMasterCheckBox.IsChecked.Value, DeveloperCheckBox.IsChecked.Value);
-                User user = new User(FirstnameTextBox.Text, SurnameTextBox.Text, EmailTextBox.Text, roles);
+                string profileImagePath = null;
+                if (_profileImage != null)
+                {
+                    profileImagePath = EmailTextBox.Text + Properties.Settings.Default.DefaultProfileImageFileExtension;
+                }
+                else
+                {
+                    profileImagePath = Properties.Settings.Default.DefaultProfileImage;
+                }
+                User user = new User(FirstnameTextBox.Text, SurnameTextBox.Text, EmailTextBox.Text, profileImagePath , roles);
                 Account account = new Account(user, PasswordTextBox.Password.ToString());
 
                 try
                 {
-                    this._client.Register(account);
+                    Account returnedAccount = this._client.Register(account);
 
                     MessageBoxUtil.ShowSuccessBox("Registration successful!");
 
                     Page loginPage = new Login();
-
+                    if(_profileImage != null)
+                    {
+                        SaveImage(_profileImage, Properties.Settings.Default.ProfileImageDirectory + returnedAccount.User.Email + Properties.Settings.Default.DefaultProfileImageFileExtension);
+                    }
+                    
                     NavigationService.GetNavigationService(this).Navigate(loginPage);
                 }
                 catch (RestResponseErrorException ex)
                 {
                     MessageBoxUtil.ShowErrorBox(ex.Message);
                 }
+            }
+        }
+
+        public void ProfileButton_Click(Object sender, EventArgs e)
+        {
+            // Create OpenFileDialog 
+            Microsoft.Win32.OpenFileDialog dlg = new Microsoft.Win32.OpenFileDialog();
+
+            // Set filter for file extension and default file extension 
+            dlg.DefaultExt = ".png";
+            dlg.Filter = "JPEG Files (*.jpeg)|*.jpeg|PNG Files (*.png)|*.png|JPG Files (*.jpg)|*.jpg|GIF Files (*.gif)|*.gif";
+
+            // Display OpenFileDialog by calling ShowDialog method 
+            Nullable<bool> result = dlg.ShowDialog();
+
+            if (result == true )
+            {
+                string filename = dlg.FileName;
+                FileInfo fi = new FileInfo(dlg.FileName);
+                long fileSize = fi.Length;
+                Console.WriteLine(fileSize);
+
+                //limiting file size upload to 1mb for performance reasons
+                if (fileSize < (1000000))
+                {
+                    _profileImage = new BitmapImage(new Uri(filename, UriKind.Absolute));
+                    ImageBrush profileButtonBackground = new ImageBrush();
+                    profileButtonBackground.ImageSource = _profileImage;
+                    ProfileButton.Background = profileButtonBackground;
+                }
+                else
+                {
+                    MessageBox.Show("File Size Too Large, Max File Size Should be 1Mb");
+                }
+            }
+        }
+
+        public void SaveImage( BitmapImage image, string filePath)
+        {
+            BitmapEncoder encoder = new PngBitmapEncoder();
+            encoder.Frames.Add(BitmapFrame.Create(image));
+
+            using (var fileStream = new FileStream(filePath, FileMode.Create))
+            {
+                encoder.Save(fileStream);
             }
         }
 
@@ -78,18 +144,21 @@ namespace CSC3045_CS2.Pages
         /// </summary>
         /// <param name="textBox"></param>
         /// <returns></returns>
-        private Boolean CheckRequiredValues(TextBox textBox)
+        private Boolean CheckRequiredValues(TextBox textBox, TextBlock textBlock)
         {
             if (string.IsNullOrEmpty(textBox.Text))
             {
                 MessageBoxUtil.ShowWarningBox("Field cannot be empty.");
+                textBox.Style = (Style)FindResource("InvalidTextBox");
+                textBlock.Style = (Style)FindResource("InvalidWatermark");
 
-                textBox.Background = Brushes.Red;
                 return false;
             }
             else
             {
-                textBox.Background = Brushes.White;
+                textBox.Style = (Style)FindResource("DefaultTextBox");
+
+                textBlock.Style = (Style)FindResource("Watermark");
                 return true;
             }
         }
@@ -125,14 +194,15 @@ namespace CSC3045_CS2.Pages
             if (mainPasswordBox.Password.ToString() != confirmPasswordBox.Password.ToString())
             {
                 MessageBoxUtil.ShowWarningBox("Passwords don't match.");
-                mainPasswordBox.Background = Brushes.Red;
-                confirmPasswordBox.Background = Brushes.Red;
+                mainPasswordBox.Style = (Style)FindResource("InvalidPasswordBox");
+                confirmPasswordBox.Style = (Style)FindResource("InvalidPasswordBox");
 
                 return false;
             }
             else
             {
-                mainPasswordBox.Background = Brushes.White;
+                mainPasswordBox.Style = (Style)FindResource("DefaultPasswordBox");
+                confirmPasswordBox.Style = (Style)FindResource("DefaultPasswordBox");
                 return true;
             }
         }
@@ -143,8 +213,9 @@ namespace CSC3045_CS2.Pages
         /// <returns></returns>
         private Boolean CheckValidation()
         {
-            return CheckRequiredValues(FirstnameTextBox) &&
-             CheckRequiredValues(EmailTextBox) &&
+            return CheckRequiredValues(FirstnameTextBox, FirstnameTextBlock) &&
+             CheckRequiredValues(SurnameTextBox, SurnameTextBlock) &&
+             CheckRequiredValues(EmailTextBox, EmailTextBlock) &&
              CheckPasswordNotEmpty(PasswordTextBox) &&
              CheckPasswordNotEmpty(ConfirmPasswordTextBox) &&
              CheckPasswordsMatch(PasswordTextBox, ConfirmPasswordTextBox);

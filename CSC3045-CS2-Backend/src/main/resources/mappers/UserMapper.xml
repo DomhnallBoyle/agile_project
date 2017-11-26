@@ -11,6 +11,7 @@
         <result column="forename" property="forename"/>
         <result column="surname" property="surname"/>
         <result column="email" property="email"/>
+        <result column="profile_picture" property="profilePicture"/>
         <association property="roles" resultMap="rolesResultMap"/>
     </resultMap>
 
@@ -29,6 +30,7 @@
             USER.FORENAME,
             USER.SURNAME,
             USER.EMAIL,
+            USER.PROFILE_PICTURE,
             ROLES.ID    AS roles_id,
             ROLES.DEVELOPER,
             ROLES.SCRUM_MASTER,
