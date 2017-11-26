@@ -113,7 +113,7 @@ public class SprintService {
     				 try {
     					 emailSender.sendSprintEmails(projectName, teamMember);
              		}catch( Exception e ){
-             			// catch error
+             			
              			System.out.print("Error Sending Email: " + e.getMessage());
              		}
     			}
