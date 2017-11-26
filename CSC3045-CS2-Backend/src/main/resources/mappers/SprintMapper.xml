@@ -67,6 +67,13 @@
                    #{endDate} &gt;= SPRINT.START_DATE)
     </select>
 
+	<select id="getUserStoriesInSprint" resultMap="uk.ac.qub.csc3045.api.mapper.UserMapper.userResultMap">
+        SELECT *
+        FROM USER_STORY
+            JOIN SPRINT_USER_STORY ON USER_STORY.ID = SPRINT_USER_STORY.USER_STORY_ID
+        WHERE SPRINT_USER_STORY.SPRINT_ID = #{sprintId}
+    </select>
+    
     <!-- INSERT Queries -->
 
     <insert id="createSprint" parameterType="Sprint" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
@@ -79,6 +86,11 @@
         VALUES (#{sprintId}, #{userId})
     </insert>
 
+	<insert id="addToSprintBacklog">
+        INSERT INTO SPRINT_USER_STORY (SPRINT_ID, USER_STORY_ID)
+        VALUES (#{sprintId}, #{userStoryId})
+    </insert>
+    
     <!-- DELETE Queries -->
 
     <delete id="resetSprintTeam">
@@ -86,6 +98,11 @@
         WHERE SPRINT_ID = #{sprintId}
     </delete>
 
+	<delete id="resetSprintBacklog">
+        DELETE FROM SPRINT_USER_STORY
+        WHERE SPRINT_ID = #{sprintId}
+    </delete>
+    
     <!-- Nested SELECT queries for Sprint -->
 
     <select id="selectScrumMaster" resultMap="uk.ac.qub.csc3045.api.mapper.UserMapper.userResultMap">

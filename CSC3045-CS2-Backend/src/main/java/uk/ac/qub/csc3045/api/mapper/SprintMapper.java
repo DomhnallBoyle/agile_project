@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 import uk.ac.qub.csc3045.api.model.Project;
 import uk.ac.qub.csc3045.api.model.Sprint;
 import uk.ac.qub.csc3045.api.model.User;
+import uk.ac.qub.csc3045.api.model.UserStory;
 
 @Mapper
 @Repository
@@ -23,6 +24,8 @@ public interface SprintMapper {
     List<Sprint> getProjectSprints(@Param("projectId") long projectId);
     
     List<User> getSprintTeam(@Param("sprintId") long sprintId);
+    
+    List<UserStory> getUserStoriesInSprint(@Param("sprintId") long sprintId);
 
     List<Sprint> getClashingSprintsForUser(@Param("userId") long userId, @Param("startDate") LocalDateTime startDate, @Param("endDate") LocalDateTime endDate);
 
@@ -32,7 +35,12 @@ public interface SprintMapper {
     
     void addToSprintTeam(@Param("sprintId") long sprintId, @Param("userId") long userId);
 
+    void addToSprintBacklog(@Param("sprintId") long sprintId, @Param("userStoryId") long userStoryId);
+    
     // DELETE Queries
 
     void resetSprintTeam(@Param("sprintId") long sprintId);
+    
+    void resetSprintBacklog(@Param("sprintId") long sprintId);
 }
+

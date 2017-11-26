@@ -13,6 +13,7 @@ import uk.ac.qub.csc3045.api.mapper.ProjectMapper;
 import uk.ac.qub.csc3045.api.mapper.SprintMapper;
 import uk.ac.qub.csc3045.api.model.Sprint;
 import uk.ac.qub.csc3045.api.model.User;
+import uk.ac.qub.csc3045.api.model.UserStory;
 import uk.ac.qub.csc3045.api.utility.EmailUtility;
 import uk.ac.qub.csc3045.api.utility.ValidationUtility;
 
@@ -64,6 +65,13 @@ public class SprintService {
         throw new ResponseErrorException("Sprint does not exist", HttpStatus.NOT_FOUND);
     }
 
+    public List<UserStory> getSprintBacklog(long sprintId) {
+        if (ValidationUtility.validateSprintExists(sprintId, sprintMapper)) {
+            return sprintMapper.getUserStoriesInSprint(sprintId);
+        }
+        throw new ResponseErrorException("Sprint does not exist", HttpStatus.NOT_FOUND);
+    }
+    
     public List<User> getAvailableDevelopers(long sprintId) {
         if (ValidationUtility.validateSprintExists(sprintId, sprintMapper)) {
             Sprint sprint = sprintMapper.getSprintById(sprintId);
@@ -114,6 +122,15 @@ public class SprintService {
     			}
     		}
     	}
+    }
+    
+    public List<UserStory> updateSprintBacklog(Sprint sprint) {
+        sprintMapper.resetSprintBacklog(sprint.getId());
+        for (UserStory userStory : sprint.getUserStories()) {
+            sprintMapper.addToSprintBacklog(sprint.getId(), userStory.getId());
+        }
+        List<UserStory> newBacklog = sprintMapper.getUserStoriesInSprint(sprint.getId());
+        return newBacklog;
     }
    
 }

@@ -23,6 +23,8 @@ public class Sprint {
     private User scrumMaster;
 
     private List<User> users;
+    
+    private List<UserStory> userStories;
 
     public Sprint() {
 
@@ -90,6 +92,14 @@ public class Sprint {
         this.users = users;
     }
 
+    public List<UserStory> getUserStories() {
+        return userStories;
+    }
+     
+     public void setUserStory(List<UserStory> userStories) {
+        this.userStories = userStories;
+    }
+     
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

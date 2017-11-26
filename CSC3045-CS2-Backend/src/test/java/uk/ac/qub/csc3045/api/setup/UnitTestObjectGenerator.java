@@ -3,6 +3,7 @@ package uk.ac.qub.csc3045.api.setup;
 import uk.ac.qub.csc3045.api.model.Project;
 import uk.ac.qub.csc3045.api.model.Sprint;
 import uk.ac.qub.csc3045.api.model.User;
+import uk.ac.qub.csc3045.api.model.UserStory;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -56,6 +57,20 @@ public class UnitTestObjectGenerator {
 
         return user;
     }
+    
+    public static UserStory generateUserStory() {
+        long id = rand.nextInt(1000);
+
+        UserStory userStory = new UserStory();
+        userStory.setId(id);
+        userStory.setName("User Story " + id);
+        userStory.setDescription("Description");
+        userStory.setMarketValue(10);
+        userStory.setPoints(1);
+
+        return userStory;
+    }
+
 
     public static List<User> generateUserList(int size) {
         List<User> users = new ArrayList<>();
@@ -65,5 +80,15 @@ public class UnitTestObjectGenerator {
         }
 
         return users;
+    }
+    
+    public static List<UserStory> generateUserStoryList(int size) {
+        List<UserStory> userStories = new ArrayList<>();
+
+        for (int i = 0; i < size; i++) {
+        	userStories.add(generateUserStory());
+        }
+
+        return userStories;
     }
 }
