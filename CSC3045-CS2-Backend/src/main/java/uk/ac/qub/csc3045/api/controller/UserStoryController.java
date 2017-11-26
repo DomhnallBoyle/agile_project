@@ -1,3 +1,4 @@
+
 package uk.ac.qub.csc3045.api.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,4 +61,8 @@ public class UserStoryController {
     	return new ResponseEntity<>(this.userStoryService.updateAcceptanceTest(acceptanceTest), HttpStatus.OK);
     }
     
+    @GetMapping(value = "/getavailablestories")
+    public ResponseEntity<List<UserStory>> getAvailableUserStories() {
+        return new ResponseEntity<>(this.userStoryService.getAvailableUserStories(), HttpStatus.OK);
+    }
 }

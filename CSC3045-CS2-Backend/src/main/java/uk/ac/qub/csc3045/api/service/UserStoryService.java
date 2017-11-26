@@ -1,3 +1,4 @@
+
 package uk.ac.qub.csc3045.api.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -82,6 +83,9 @@ public class UserStoryService {
             throw new ResponseErrorException("The User story does not exist", HttpStatus.NOT_FOUND);
         }
     }
+    public List<UserStory> getAvailableUserStories() {
+        return userStoryMapper.getAvailableUserStories();
+}
     
     public List<AcceptanceTest> getAcceptanceTests(long id) {
     	if (ValidationUtility.validateUserStoryExists(id, userStoryMapper))
@@ -104,3 +108,4 @@ public class UserStoryService {
     }
     
 }
+

@@ -1,3 +1,4 @@
+
 package uk.ac.qub.csc3045.api.mapper;
 
 import org.apache.ibatis.annotations.Mapper;
@@ -22,6 +23,8 @@ public interface UserStoryMapper {
     List<AcceptanceTest> getAcceptanceTestsByStoryId(@Param("id") long id);
     
     AcceptanceTest getAcceptanceTestById(@Param("id") long id);
+    
+    List<UserStory> getAvailableUserStories();
 
     // INSERT Queries
 
@@ -34,5 +37,5 @@ public interface UserStoryMapper {
     void updateUserStoryIndex(@Param("userStoryId") long userStoryId, @Param("index") int index);
     
     void updateAcceptanceTest(AcceptanceTest acceptanceTest);
-    
+
 }
