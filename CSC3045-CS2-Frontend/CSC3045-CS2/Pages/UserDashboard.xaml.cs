@@ -43,6 +43,7 @@ namespace CSC3045_CS2.Pages
         {
             InitializeComponent();
             DataContext = this;
+
             User user = ((User)Application.Current.Properties["user"]);
             UserLabel = "Welcome " + user.GetFullName() + "!\nYour Current Projects are:";
             string profileImageFileName;
@@ -57,6 +58,7 @@ namespace CSC3045_CS2.Pages
             
             string profileImagePath = Properties.Settings.Default.ProfileImageDirectory + profileImageFileName;
             ProfilePicture.Source = new BitmapImage(new Uri(profileImagePath, UriKind.RelativeOrAbsolute));
+
             _client = new ProjectClient();
 
             InitialiseProjects();

@@ -1,47 +1,69 @@
 package uk.ac.qub.csc3045.api.utility;
 
+import uk.ac.qub.csc3045.api.model.Project;
+import uk.ac.qub.csc3045.api.model.User;
 import uk.ac.qub.csc3045.api.security.SecurityConstants;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.MailException;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.stereotype.Service;
 
-import javax.mail.*;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
-import java.util.Properties;
 
-
+@Service
 public class EmailUtility {
 
-    public static void sendEmail(String toAddress, String subject, String body) {
-        final String username = SecurityConstants.SERVER_USERNAME;
-        final String password = SecurityConstants.SERVER_PASSWORD;
-
-        // Setting up the Properties for SMTP Client
-        Properties props = new Properties();
-        props.put("mail.smtp.auth", "true");
-        props.put("mail.smtp.starttls.enable", "true");
-        props.put("mail.smtp.host", "smtp.gmail.com");
-        props.put("mail.smtp.port", "587");
-
-        // Checking if Our Email Service address has got the correct Uname,Password
-        Session session = Session.getInstance(props, new javax.mail.Authenticator() {
-            protected PasswordAuthentication getPasswordAuthentication() {
-                return new PasswordAuthentication(username, password);
-            }
-        });
-
-        try {
-            Message message = new MimeMessage(session);
-            message.setFrom(new InternetAddress("csc3045cs2test@gmail.com"));
-            // recipients email address
-            message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(toAddress));
-            // add the Subject of email
-            message.setSubject(subject);
-            // message body
-            message.setText(body);
-            //Return Email Sent Message to Backend
-            Transport.send(message);
-
-        } catch (MessagingException e) {
-            throw new RuntimeException(e);
-        }
-    }
+private JavaMailSender javaMailSender;
+	
+	@Autowired
+	public EmailUtility(JavaMailSender javaMailSender){
+		this.javaMailSender = javaMailSender;
+	}
+	
+	@Async
+	public void sendProductOwnerEmail(Project project) throws MailException, InterruptedException {
+        Thread.sleep(100);
+        SimpleMailMessage mail = new SimpleMailMessage();
+		mail.setTo(project.getProductOwner().getEmail());
+		mail.setFrom(SecurityConstants.SERVER_USERNAME);
+		mail.setSubject("You have been added as a Product Owner for "+project.getName());
+		mail.setText("Hi "+ project.getProductOwner().getForename() + ", \n\nJust to let you know you have been "
+				+ "added as Product Owner for "+project.getName()+" \n\nThanks,\nYour Sys Admin Team");
+		javaMailSender.send(mail);
+	}
+	@Async
+	public void sendTeamMemberEmails(Project project, User user) throws MailException, InterruptedException {
+        Thread.sleep(100);
+        SimpleMailMessage mail = new SimpleMailMessage();
+		mail.setTo(user.getEmail());
+		mail.setFrom(SecurityConstants.SERVER_USERNAME);
+		mail.setSubject("You have been added as a Team Member for "+project.getName());
+		mail.setText("Hi "+ user.getForename()+ ", \n\nJust to let you know you have been "
+				+ "added to the team for "+project.getName()+" \n\nThanks,\nYour Sys Admin Team");
+		javaMailSender.send(mail);
+	}
+	@Async
+	public void sendScrumMasterEmails(Project project, User user) throws MailException, InterruptedException {
+        Thread.sleep(100);
+        SimpleMailMessage mail = new SimpleMailMessage();
+        mail.setTo(user.getEmail());
+		mail.setFrom(SecurityConstants.SERVER_USERNAME);
+		mail.setSubject("You have been added as a Scrum Master for "+project.getName());
+		mail.setText("Hi "+ user.getForename()+ ", \n\nJust to let you know you have been "
+				+ "added as a Scrum Master for "+project.getName()+" \n\nThanks,\nYour Sys Admin Team");
+		javaMailSender.send(mail);
+	}
+	@Async
+	public void sendSprintEmails(String projectName, User user) throws MailException, InterruptedException {
+        Thread.sleep(100);
+        SimpleMailMessage mail = new SimpleMailMessage();
+        mail.setTo(user.getEmail());
+		mail.setFrom(SecurityConstants.SERVER_USERNAME);
+		mail.setSubject("You have been added to a Sprint Team for "+projectName);
+		mail.setText("Hi "+ user.getForename()+ ", \n\nJust to let you know you have been "
+				+ "added as a member of a sprint team for "+projectName+" \n\nThanks,\nYour Sys Admin Team");
+		javaMailSender.send(mail);
+	}
+    
 }

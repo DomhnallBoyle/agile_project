@@ -7,6 +7,7 @@ import uk.ac.qub.csc3045.api.exception.ResponseErrorException;
 import uk.ac.qub.csc3045.api.mapper.ProjectMapper;
 import uk.ac.qub.csc3045.api.model.Project;
 import uk.ac.qub.csc3045.api.model.User;
+import uk.ac.qub.csc3045.api.utility.EmailUtility;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,6 +20,7 @@ public class ProjectServiceTest {
 
     private ProjectService projectService;
     private ProjectMapper projectMapperMock;
+    private EmailUtility emailSender;
 
     private User user;
     private Project project;
@@ -27,7 +29,7 @@ public class ProjectServiceTest {
     public void setUp() throws Exception {
         projectMapperMock = mock(ProjectMapper.class);
 
-        projectService = new ProjectService(projectMapperMock);
+        projectService = new ProjectService(projectMapperMock,emailSender);
 
         user = new User();
         user.setId(1L);
