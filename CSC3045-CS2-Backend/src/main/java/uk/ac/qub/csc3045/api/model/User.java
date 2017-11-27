@@ -51,36 +51,27 @@ public class User {
     }
 
     public String getForename() {
-    	if(forename == null)
-    		return forename;
-    	else
-    		return forename.trim();
+    	return forename == null ? forename : forename.trim();
     }
 
     public void setForename(String forename) {
-        this.forename = forename;
+        this.forename = forename == null ? forename : forename.trim();
     }
 
     public String getSurname() {
-    	if(surname == null)
-    		return surname;
-    	else
-    		return surname.trim();
+    	return surname == null ? surname : surname.trim();
     }
 
     public void setSurname(String surname) {
-        this.surname = surname;
+        this.surname = surname == null ? surname : surname.trim();
     }
 
     public String getEmail() {
-    	if(email == null)
-    		return email;
-    	else
-    		return email.toLowerCase();
+    	return email == null ? email : email.toLowerCase();
     }
 
     public void setEmail(String email) {
-        this.email = email;
+        this.email = email == null ? email : email.toLowerCase();
     }
     
     public String getProfilePicture() {
