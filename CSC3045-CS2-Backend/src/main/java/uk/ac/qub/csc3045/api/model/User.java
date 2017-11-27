@@ -51,7 +51,10 @@ public class User {
     }
 
     public String getForename() {
-        return forename.trim();
+    	if(forename == null)
+    		return forename;
+    	else
+    		return forename.trim();
     }
 
     public void setForename(String forename) {
@@ -59,7 +62,10 @@ public class User {
     }
 
     public String getSurname() {
-        return surname.trim();
+    	if(surname == null)
+    		return surname;
+    	else
+    		return surname.trim();
     }
 
     public void setSurname(String surname) {
@@ -67,7 +73,10 @@ public class User {
     }
 
     public String getEmail() {
-        return email.toLowerCase();
+    	if(email == null)
+    		return email;
+    	else
+    		return email.toLowerCase();
     }
 
     public void setEmail(String email) {
