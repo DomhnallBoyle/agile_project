@@ -140,16 +140,16 @@ public class UserStoryControllerIT {
         Project existingProject = new Project("ProjectName1", "Project Description1", existingUser, existingUser, users, users, new ArrayList<>());
         existingProject.setId(1L);
 
-        UserStory story1 = new UserStory("StoryName1", "StoryDescription1", 1, 10, existingProject);
+        UserStory story1 = new UserStory("Compress and upload a file", "Using the algorithm, a user should be able to upload a file to the cloud.", 8, 32, existingProject);
         story1.setId(1L);
         story1.setIndex(0);
-        UserStory story2 = new UserStory("StoryName2", "StoryDescription2", 3, 15, existingProject);
+        UserStory story2 = new UserStory("Download and decompress a file", "Using the algorithm, a user should be able to download a file from the cloud.", 8, 36, existingProject);
         story2.setId(2L);
         story2.setIndex(1);
-        UserStory story3 = new UserStory("StoryName3", "StoryDescription3", 5, 25, existingProject);
+        UserStory story3 = new UserStory("Auto-sync photos", "Auto-synchronisation should be an option to automatically upload photos taken on device.", 13, 55, existingProject);
         story3.setId(3L);
         story3.setIndex(2);
-        UserStory story4 = new UserStory("StoryName4", "StoryDescription4", 7, 30, existingProject);
+        UserStory story4 = new UserStory("Offline mode", "Saving files locally via the app to be access offline.", 5, 15, existingProject);
         story4.setId(4L);
         story4.setIndex(3);
 

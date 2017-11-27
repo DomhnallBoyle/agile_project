@@ -63,7 +63,6 @@ CREATE TABLE USER_STORY
   ID           BIGINT AUTO_INCREMENT PRIMARY KEY NOT NULL,
   PROJECT_ID   BIGINT                            NOT NULL,
   SPRINT_ID    BIGINT,
-  ASSIGNED     BOOLEAN,
   NAME         VARCHAR(255)                      NOT NULL,
   DESCRIPTION  VARCHAR(255)                      NOT NULL,
   POINTS       INTEGER,
