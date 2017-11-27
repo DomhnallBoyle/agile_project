@@ -4,9 +4,10 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
         xmlns:utility="clr-namespace:CSC3045_CS2.Utility"
+      xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
       mc:Ignorable="d" 
       Background="{StaticResource BackgroundGradient}"
-      Title="UserDashboard" Height="475.182" Width="456.569">
+      Title="UserDashboard">
 
     <StackPanel>
         <Grid>
@@ -26,7 +27,7 @@
             <Image  Height="60" Width="60" HorizontalAlignment="Right"  Name="ProfilePicture" Stretch="Fill" VerticalAlignment="Top" Grid.Column="4" Grid.ColumnSpan="2" Grid.RowSpan="2"/>
         </Grid>
 
-        <StackPanel Background="RoyalBlue"  Margin="10,10,10,0" >
+        <StackPanel  Margin="10,10,10,0" >
             <TextBlock FontSize ="14" Text="{Binding UserLabel}" HorizontalAlignment="Left" Style="{StaticResource Label}"  Margin="5,0,5,0"/>
         </StackPanel>
 
@@ -64,6 +65,8 @@
         <StackPanel>
             <Button Name="CreateProjectButton" Content="Create Project" HorizontalAlignment="Center" Command="{Binding NavigateToCreateProjectCommand}" Style="{StaticResource ExtendedButton}"/>
             <Button Name="LogoutButton" Content="Logout" HorizontalAlignment="Left" Command="{Binding LogoutCommand}" Style="{StaticResource StandardButton}" Margin="5,0,0,0"/>
+          
+           
         </StackPanel>
     </StackPanel>
 </Page>
