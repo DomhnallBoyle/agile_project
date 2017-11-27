@@ -14,7 +14,7 @@ namespace CSC3045_CS2.Pages
     /// <summary>
     /// Interaction logic for CreateUserStory.xaml
     /// </summary>
-    public partial class CreateUserStory : Page
+    public partial class CreateUserStory : BasePage
     {
         #region Private Variables
 
@@ -42,18 +42,12 @@ namespace CSC3045_CS2.Pages
 
         public String CreateButtonText { get; set; } = "Create";
 
-        public string UserLabel { get; set; }
-
-        public string image { get; set; }
-
-        public string CurrentPage { get; set; }
-
         #endregion
 
         public CreateUserStory(Project project)
         {
             InitializeComponent();
-            generateHeader();
+            CurrentPage = this.Title;
             DataContext = this;
             _client = new UserStoryClient();
 
@@ -77,31 +71,7 @@ namespace CSC3045_CS2.Pages
                 });
             }
         }
-        public void generateHeader()
-        {
-            User user = ((User)Application.Current.Properties["user"]);
-            UserLabel = user.GetFullName();
-            image = Properties.Settings.Default.ProfileImageDirectory + user.ProfilePicture;
-            CurrentPage = this.Title;
-        }
 
-        public ICommand LogoutCommand
-        {
-            get
-            {
-                return new RelayCommand(param =>
-                {
-                    if (Application.Current.Properties.Contains("user"))
-                    {
-                        Application.Current.Properties.Remove("user");
-                    }
-
-                    Page loginPage = new Login();
-
-                    NavigationService.GetNavigationService(this).Navigate(loginPage);
-                });
-            }
-        }
 
         public ICommand CreateCommand
         {

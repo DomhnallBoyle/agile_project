@@ -23,7 +23,7 @@ namespace CSC3045_CS2.Pages
     /// <summary>
     /// Interaction logic for AddSprintTeamMember.xaml
     /// </summary>
-    public partial class EditSprintTeam : Page
+    public partial class EditSprintTeam : BasePage
     {
         #region Private variables
 
@@ -39,18 +39,12 @@ namespace CSC3045_CS2.Pages
 
         public ObservableCollection<User> AvailableDevelopers { get; set; }
 
-        public string UserLabel { get; set; }
-
-        public string image { get; set; }
-
-        public string CurrentPage { get; set; }
-
         #endregion
 
         public EditSprintTeam(Sprint sprint)
         {
             InitializeComponent();
-            generateHeader();
+            CurrentPage = this.Title;
             DataContext = this;
 
             _sprintClient = new SprintClient();
@@ -96,30 +90,7 @@ namespace CSC3045_CS2.Pages
                 });
             }
         }
-        public ICommand LogoutCommand
-        {
-            get
-            {
-                return new RelayCommand(param =>
-                {
-                    if (Application.Current.Properties.Contains("user"))
-                    {
-                        Application.Current.Properties.Remove("user");
-                    }
-
-                    Page loginPage = new Login();
-
-                    NavigationService.GetNavigationService(this).Navigate(loginPage);
-                });
-            }
-        }
-        public void generateHeader()
-        {
-            User user = ((User)Application.Current.Properties["user"]);
-            UserLabel = user.GetFullName();
-            image = Properties.Settings.Default.ProfileImageDirectory + user.ProfilePicture;
-            CurrentPage = this.Title;
-        }
+       
 
         public ICommand BackCommand
         {

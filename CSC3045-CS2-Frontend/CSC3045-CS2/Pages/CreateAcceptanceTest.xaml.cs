@@ -14,7 +14,8 @@ namespace CSC3045_CS2.Pages
     /// <summary>
     /// Interaction logic for CreateAcceptanceTest.xaml
     /// </summary>
-    public partial class CreateAcceptanceTest : Page
+    public partial class CreateAcceptanceTest : BasePage 
+
     {
         #region Private Variables
 
@@ -24,26 +25,19 @@ namespace CSC3045_CS2.Pages
 
         #endregion
 
-        public string UserLabel { get; set; }
-        public string image { get; set; }
-        public string CurrentPage { get; set; }
+
 
         public CreateAcceptanceTest(UserStory userStory)
         {
+           
             InitializeComponent();
-            generateHeader();
             DataContext = this;
             _client = new UserStoryClient();
 
+            CurrentPage = this.Title;
             _currentUserStory = userStory;
         }
-        public void generateHeader()
-        {
-            User user = ((User)Application.Current.Properties["user"]);
-            UserLabel = user.GetFullName();
-            image = Properties.Settings.Default.ProfileImageDirectory + user.ProfilePicture;
-            CurrentPage = this.Title;
-        }
+    
 
         #region Command Methods
 
@@ -85,23 +79,7 @@ namespace CSC3045_CS2.Pages
                 });
             }
         }
-        public ICommand LogoutCommand
-        {
-            get
-            {
-                return new RelayCommand(param =>
-                {
-                    if (Application.Current.Properties.Contains("user"))
-                    {
-                        Application.Current.Properties.Remove("user");
-                    }
-
-                    Page loginPage = new Login();
-
-                    NavigationService.GetNavigationService(this).Navigate(loginPage);
-                });
-            }
-        }
+        
         #endregion
     }
 }

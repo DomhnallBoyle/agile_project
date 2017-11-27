@@ -1,4 +1,4 @@
-﻿<Page x:Class="CSC3045_CS2.Pages.EditSprintTeam"
+﻿<local:BasePage x:Class="CSC3045_CS2.Pages.EditSprintTeam"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -82,4 +82,4 @@
         <Button Name="BackButton" Content="Back" Style="{StaticResource StandardButton}" HorizontalAlignment="Left" Margin="5,5,0,0" Command="{Binding BackCommand}"/>
         
     </StackPanel>
-</Page>
+</local:BasePage>

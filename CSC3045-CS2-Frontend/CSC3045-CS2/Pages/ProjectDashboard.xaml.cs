@@ -19,7 +19,7 @@ namespace CSC3045_CS2.Pages
     /// <summary>
     /// Interaction logic for ProjectDashboard.xaml
     /// </summary>
-    public partial class ProjectDashboard : Page, INotifyPropertyChanged
+    public partial class ProjectDashboard : BasePage, INotifyPropertyChanged
     {
         #region Private Variables
 
@@ -65,11 +65,6 @@ namespace CSC3045_CS2.Pages
 
         public Permissions Permissions { get; set; }
 
-        public string UserLabel { get; set; }
-
-        public string image { get; set; }
-
-        public string CurrentPage { get; set; }
 
         #endregion
 
@@ -78,7 +73,7 @@ namespace CSC3045_CS2.Pages
         public ProjectDashboard(Project currentProject)
         {
             InitializeComponent();
-            generateHeader();
+    
             DataContext = this;
 
             _projectClient = new ProjectClient();
@@ -90,8 +85,8 @@ namespace CSC3045_CS2.Pages
             _projects = _projectClient.GetProjectsForUser(((User)Application.Current.Properties["user"]).Id);
             ProjectDropDownButton.Content = currentProject.Name;
             AddProjectsToDropdownList();
-            ///Generic Display of Banner
-           
+            CurrentPage = this.Title;
+
 
             try
             {
@@ -103,13 +98,7 @@ namespace CSC3045_CS2.Pages
             }
         }
         
-        public void generateHeader()
-        {
-            User user = ((User)Application.Current.Properties["user"]);
-            UserLabel = user.GetFullName();
-            image = Properties.Settings.Default.ProfileImageDirectory + user.ProfilePicture;
-            CurrentPage = this.Title;
-        }
+
 
         #region Class methods
 
@@ -304,23 +293,7 @@ namespace CSC3045_CS2.Pages
             }
         }
 
-        public ICommand LogoutCommand
-        {
-            get
-            {
-                return new RelayCommand(param =>
-                {
-                    if (Application.Current.Properties.Contains("user"))
-                    {
-                        Application.Current.Properties.Remove("user");
-                    }
-
-                    Page loginPage = new Login();
-
-                    NavigationService.GetNavigationService(this).Navigate(loginPage);
-                });
-            }
-        }
+        
 
         #endregion
 

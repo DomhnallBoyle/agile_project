@@ -1,4 +1,4 @@
-﻿<Page x:Class="CSC3045_CS2.Pages.CreateUserStory"
+﻿<local:BasePage x:Class="CSC3045_CS2.Pages.CreateUserStory"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -47,4 +47,4 @@
         </Grid>
     </StackPanel>
     
-</Page>
+</local:BasePage>

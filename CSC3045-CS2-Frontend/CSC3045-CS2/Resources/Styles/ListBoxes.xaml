@@ -28,7 +28,7 @@
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
                     <TextBlock Name="PageTitle" Text="{Binding CurrentPage}"  Style="{StaticResource Title}" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="0" Grid.ColumnSpan="5" Grid.RowSpan="2"></TextBlock>
-                    <Image  Height="60" Width="60" HorizontalAlignment="Right" Source="{Binding image}" Name="ProfilePicture" Stretch="Fill" VerticalAlignment="Top" Grid.Column="4" Grid.ColumnSpan="2" Grid.RowSpan="2"/>
+                    <Image  Height="60" Width="60" HorizontalAlignment="Right" Source="{Binding Image}" Name="ProfilePicture" Stretch="Fill" VerticalAlignment="Top" Grid.Column="4" Grid.ColumnSpan="2" Grid.RowSpan="2"/>
                     <TextBlock FontSize ="14" Text="{Binding UserLabel}" HorizontalAlignment="Center" Style="{StaticResource Label}"  Margin="5,0,0,0" Grid.Column="7" Grid.ColumnSpan="5" TextWrapping="Wrap"/>
                     <Button Name="LogoutButton" Content="Logout" HorizontalAlignment="Left" Command="{Binding LogoutCommand}"  Style="{StaticResource StandardButton}" Grid.Column="7" Grid.ColumnSpan="5" Grid.Row="2" Margin="5,0,5,0" />
 

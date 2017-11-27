@@ -27,12 +27,7 @@ namespace CSC3045_CS2.Pages
     /// 
 
 
-    /*
-     * TODO: Get End Point to send List Items using Button
-     * TODO: Once Backend is written get edit User Model
-     * TODO: Load In a User Skill set from model 
-     *
-     */
+
 
     public partial class UserDashboard : Page
     {
@@ -60,8 +55,7 @@ namespace CSC3045_CS2.Pages
 
 
         public UserDashboard()
-        {
-            setupTestData();
+        { 
             InitializeComponent();
             DataContext = this;
 
@@ -76,15 +70,9 @@ namespace CSC3045_CS2.Pages
             {
                 profileImageFileName = Properties.Settings.Default.DefaultProfileImage;
             }
-            
             string profileImagePath = Properties.Settings.Default.ProfileImageDirectory + profileImageFileName;
             ProfilePicture.Source = new BitmapImage(new Uri(profileImagePath, UriKind.RelativeOrAbsolute));
-
             _client = new ProjectClient();
-
-            this.AvailableSkills = new ObservableCollection<String>() { "Unix","Java","C#","VB","Matlab","Python"
-            ,"Unix","Java","C#","VB","Matlab","Python"};
-            this.MySelectedObjects =  new ObservableCollection<String>(setupTestData());
             InitialiseProjects();
 
         }
@@ -117,11 +105,6 @@ namespace CSC3045_CS2.Pages
                 }
             }
         }
-
-    
-
-   
-
         #endregion
 
         #region Command and Event methods
@@ -164,28 +147,8 @@ namespace CSC3045_CS2.Pages
                 });
             }
         }
-        public List<String> setupTestData()
-        {
-            List<string> list = new List<string> { "Python" };
-            return list;
-        }
 
-        public ICommand UpdateSkillsCommand
-        {
-            get
-            {
-                return new RelayCommand(param =>
-                {
-                    Console.WriteLine("CPD");
-                    List<String> myList = new List<String>(MySelectedObjects);
-                    for (int i = 0; i < myList.Count; i++)
-                    {
-                        Console.WriteLine(myList[i]);
-                    }
-
-                });
-            }
-        }
+       
 
         #endregion
     }

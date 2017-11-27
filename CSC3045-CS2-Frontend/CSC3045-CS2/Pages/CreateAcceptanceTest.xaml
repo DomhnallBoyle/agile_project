@@ -1,4 +1,4 @@
-﻿<Page x:Class="CSC3045_CS2.Pages.CreateAcceptanceTest"
+﻿<local:BasePage x:Class="CSC3045_CS2.Pages.CreateAcceptanceTest"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -10,8 +10,7 @@
       Title="CreateAcceptanceTest">
     <StackPanel>
         <ContentControl  Template="{StaticResource Headers}" Name="Header" ></ContentControl>
-       
-                   
+      
         <!-- for splitting into columns -->
         <Grid>
             <Grid.ColumnDefinitions>
@@ -44,4 +43,4 @@
             </StackPanel>
         </Grid>
     </StackPanel>
-</Page>
+</local:BasePage>

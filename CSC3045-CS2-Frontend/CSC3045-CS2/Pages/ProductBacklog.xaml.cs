@@ -15,7 +15,7 @@ namespace CSC3045_CS2
     /// <summary>
     /// Interaction logic for ProductBacklog.xaml
     /// </summary>
-    public partial class ProductBacklog : Page
+    public partial class ProductBacklog : BasePage
     {
         #region Private Variables
 
@@ -43,17 +43,12 @@ namespace CSC3045_CS2
 
         public string CreateStoryButtonLabel { get; set; } = "Create Story";
 
-        public string UserLabel { get; set; }
-
-        public string image { get; set; }
-
-        public string CurrentPage { get; set; }
         #endregion
 
         public ProductBacklog(Project project)
         {
             InitializeComponent();
-            generateHeader();
+            CurrentPage = this.Title;
             DataContext = this;
             _client = new UserStoryClient();
 
@@ -92,30 +87,7 @@ namespace CSC3045_CS2
                 });
             }
         }
-        public ICommand LogoutCommand
-        {
-            get
-            {
-                return new RelayCommand(param =>
-                {
-                    if (Application.Current.Properties.Contains("user"))
-                    {
-                        Application.Current.Properties.Remove("user");
-                    }
-
-                    Page loginPage = new Login();
-
-                    NavigationService.GetNavigationService(this).Navigate(loginPage);
-                });
-            }
-        }
-        public void generateHeader()
-        {
-            User user = ((User)Application.Current.Properties["user"]);
-            UserLabel = user.GetFullName();
-            image = Properties.Settings.Default.ProfileImageDirectory + user.ProfilePicture;
-            CurrentPage = this.Title;
-        }
+       
         /// <summary>
         /// Changes order of user stories before
         /// sending the updated list to the backend
