@@ -51,7 +51,7 @@ public class User {
     }
 
     public String getForename() {
-        return forename;
+        return forename.trim();
     }
 
     public void setForename(String forename) {
@@ -59,7 +59,7 @@ public class User {
     }
 
     public String getSurname() {
-        return surname;
+        return surname.trim();
     }
 
     public void setSurname(String surname) {
