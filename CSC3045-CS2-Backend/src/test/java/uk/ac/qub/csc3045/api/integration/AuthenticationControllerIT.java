@@ -170,7 +170,8 @@ public class AuthenticationControllerIT {
         account.setPassword("a");
         account.getUser().setEmail("wrong");
 
-        Response r = request.sendPostRequest(REGISTER_PATH, account);;
+        Response r = request.sendPostRequest(REGISTER_PATH, account);
+;
         assertTrue(r.body().asString().contains(invalidEmailErrorMessage));
         assertTrue(r.body().asString().contains(invalidPasswordErrorMessage));
         r.then().assertThat().statusCode(400);
@@ -194,7 +195,7 @@ public class AuthenticationControllerIT {
      */
     @Test
     public void loginShouldReturn200() {
-        Account existingAccount = new Account(new User("Forename1", "Surname1", "user1@email.com", new Roles(false, false, false)),  "Passw0rd1");
+        Account existingAccount = new Account(new User("Snoop", "Dogg", "snoop.dogg@shizzle.hold.up", new Roles(true, true, true)), "F0shizzle");
         existingAccount.getUser().setProfilePicture("snoop.jpg");
 
         Response r = request.sendPostRequest(LOGIN_PATH, existingAccount);
@@ -235,7 +236,7 @@ public class AuthenticationControllerIT {
      */
     @Test
     public void successfulAuthorizationShouldNotReturn403() {
-        Account existingAccount = new Account(new User("Forename1", "Surname1", "user1@email.com", new Roles(false, false, false)), "Passw0rd1");
+        Account existingAccount = new Account(new User("Snoop", "Dogg", "snoop.dogg@shizzle.hold.up", new Roles(true, true, true)), "F0shizzle");
         Response r = request.sendPostRequest(LOGIN_PATH, existingAccount);
         String authHeader = r.getHeader("Authorization");
 

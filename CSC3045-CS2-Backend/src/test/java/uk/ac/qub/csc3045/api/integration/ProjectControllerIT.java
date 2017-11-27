@@ -105,7 +105,7 @@ public class ProjectControllerIT {
 		
 		r.then().assertThat().statusCode(200);
 		List<User> users = Arrays.asList(r.getBody().as(User[].class));
-		assertEquals(9, users.size());
+		assertEquals(7, users.size());
 	}
 	
 	@Test

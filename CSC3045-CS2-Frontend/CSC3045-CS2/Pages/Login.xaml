@@ -19,7 +19,7 @@
 
             <StackPanel Grid.Column="0" HorizontalAlignment="Center">
                 <AdornerDecorator>
-                    <TextBox Name="EmailTextBox" Style="{StaticResource DefaultTextBox}" MaxLength="25" MaxWidth="150" MinWidth="150" HorizontalAlignment="Left" Margin="0,5,0,15">
+                    <TextBox Name="EmailTextBox" Style="{StaticResource DefaultTextBox}" MaxLength="50" MaxWidth="150" MinWidth="150" HorizontalAlignment="Left" Margin="0,5,0,15">
                         <utility:WatermarkService.Watermark>
                             <TextBlock Style="{StaticResource Watermark}" HorizontalAlignment="Center" Name="EmailTextBlock">E-mail</TextBlock>
                         </utility:WatermarkService.Watermark>
