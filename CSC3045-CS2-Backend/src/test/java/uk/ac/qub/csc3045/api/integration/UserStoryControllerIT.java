@@ -84,7 +84,19 @@ public class UserStoryControllerIT {
             assertTrue(backlog.get(i).equals(returnedBacklog.get(i)));
         }
     }
+    
+    @Test
+    public void getAvailableUserStoriesShouldReturn200() {
+    	Response r = requestHelper.sendGetRequestWithAuthHeader("/project/2/story/available", authHeader);
+        List<UserStory> userStories = Arrays.asList(r.getBody().as(UserStory[].class));
 
+        assertEquals(200, r.statusCode());
+        assertEquals(userStories.size(), 2);
+        for (int i=0; i<userStories.size(); i++) {
+        	assertEquals(userStories.get(i).getProject().getId().intValue(), 2);
+        }
+    }
+    
     /*
      * Unsuccessful tests
      */
@@ -132,6 +144,14 @@ public class UserStoryControllerIT {
 
         assertEquals(404, r.statusCode());
         assertEquals(projectUserStoriesDontMatch, r.body().asString());
+    }
+    
+    @Test
+    public void getAvailableUserStoriesProjectDoesNotExistShouldReturn404() {
+    	Response r = requestHelper.sendGetRequestWithAuthHeader("/project/-1/story/available", authHeader);
+    	
+    	assertEquals(404, r.statusCode());
+    	assertEquals(projectDoesNotExist, r.body().asString());
     }
 
     @Test
