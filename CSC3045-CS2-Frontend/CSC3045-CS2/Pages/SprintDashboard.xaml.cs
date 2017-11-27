@@ -33,12 +33,18 @@ namespace CSC3045_CS2.Pages
 
         public Sprint CurrentSprint { get; set; }
         public Permissions Permissions { get; set; }
+        public string UserLabel { get; set; }
+
+        public string image { get; set; }
+
+        public string CurrentPage { get; set; }
 
         #endregion
 
         public SprintDashboard(Sprint sprint, bool fromFile)
         {
             InitializeComponent();
+            generateHeader();
 
             DataContext = this;
 
@@ -55,6 +61,30 @@ namespace CSC3045_CS2.Pages
         }
 
         #region Command and Event methods
+        public void generateHeader()
+        {
+            User user = ((User)Application.Current.Properties["user"]);
+            UserLabel = user.GetFullName();
+            image = Properties.Settings.Default.ProfileImageDirectory + user.ProfilePicture;
+            CurrentPage = this.Title;
+        }
+        public ICommand LogoutCommand
+        {
+            get
+            {
+                return new RelayCommand(param =>
+                {
+                    if (Application.Current.Properties.Contains("user"))
+                    {
+                        Application.Current.Properties.Remove("user");
+                    }
+
+                    Page loginPage = new Login();
+
+                    NavigationService.GetNavigationService(this).Navigate(loginPage);
+                });
+            }
+        }
 
         public ICommand NavigateToManageSprintsCommand
         {

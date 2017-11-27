@@ -10,7 +10,7 @@
       Title="SprintDashboard">
 
     <StackPanel>
-        <TextBlock Name="PageTitle" Text="Sprint Dashboard" Style="{StaticResource Title}" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center"></TextBlock>
+        <ContentControl  Template="{StaticResource Headers}" Name="Header" ></ContentControl>
 
         <ListBox Name="SprintTeamListBox" ItemsSource="{Binding CurrentSprint.Users}" HorizontalContentAlignment="Center">
             <ListBox.ItemTemplate>

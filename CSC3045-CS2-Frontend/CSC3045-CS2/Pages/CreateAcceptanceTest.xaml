@@ -9,7 +9,8 @@
     Background="{StaticResource BackgroundGradient}"
       Title="CreateAcceptanceTest">
     <StackPanel>
-        <TextBlock Name="PageTitle" Text="Create Acceptance Test" Style="{StaticResource Title}" FontSize="20" HorizontalAlignment="Center" Margin="0,10,0,25"/>
+        <ContentControl  Template="{StaticResource Headers}" Name="Header" ></ContentControl>
+       
                    
         <!-- for splitting into columns -->
         <Grid>

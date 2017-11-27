@@ -9,8 +9,11 @@
       d:DesignHeight="100" d:DesignWidth="100"
       x:Name="Page"
       Title="ProjectDashboard">
+    <StackPanel>
+            <ContentControl  Template="{StaticResource Headers}" Name="Header" ></ContentControl>
 
     <Grid>
+        
         <Grid.RowDefinitions>
             <RowDefinition Height="0.1*"/>
             <RowDefinition Height="0.225*"/>
@@ -25,17 +28,13 @@
                 <ColumnDefinition Width="0.3*"/>
             </Grid.ColumnDefinitions>
 
-            <Button Grid.Column="0" Name="ProjectDropDownButton" Content="Project List" Style="{StaticResource StandardButton}" Command="{Binding ProjectDropDown}" ContextMenuService.IsEnabled="False">
-                <Button.ContextMenu>
-                    <ContextMenu Name="projectMenuItems">
-                    </ContextMenu>
-                </Button.ContextMenu>
-            </Button>
-
-            <TextBlock Grid.Column="1" Name="PageTitle" Text="Project Dashboard" Style="{StaticResource Title}" HorizontalAlignment="Center" Margin="0,10,0,25"/>
-
-            <Button Grid.Column="2" Name="LogoutButton" Content="Logout" Style="{StaticResource StandardButton}" Command="{Binding LogoutCommand}"/>
-        </Grid>
+                <Button Grid.Column="0" Name="ProjectDropDownButton" Content="Project List" Style="{StaticResource StandardButton}" Command="{Binding ProjectDropDown}" ContextMenuService.IsEnabled="False">
+                    <Button.ContextMenu>
+                        <ContextMenu Name="projectMenuItems">
+                        </ContextMenu>
+                    </Button.ContextMenu>
+                </Button>
+            </Grid>
 
         <Grid Grid.Row="1" Margin="0,10,0,0">
             <Grid.ColumnDefinitions>
@@ -99,6 +98,7 @@
                 </ListBox>
             </Grid>
         </Grid>
+
 
         <Grid Grid.Row="2">
             <Grid.ColumnDefinitions>
@@ -249,4 +249,5 @@
             </StackPanel>
         </Grid>
     </Grid>
+    </StackPanel>
 </Page>

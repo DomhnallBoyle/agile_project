@@ -11,6 +11,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 
 namespace CSC3045_CS2.Pages
@@ -64,11 +65,20 @@ namespace CSC3045_CS2.Pages
 
         public Permissions Permissions { get; set; }
 
+        public string UserLabel { get; set; }
+
+        public string image { get; set; }
+
+        public string CurrentPage { get; set; }
+
         #endregion
+
+
 
         public ProjectDashboard(Project currentProject)
         {
             InitializeComponent();
+            generateHeader();
             DataContext = this;
 
             _projectClient = new ProjectClient();
@@ -80,6 +90,8 @@ namespace CSC3045_CS2.Pages
             _projects = _projectClient.GetProjectsForUser(((User)Application.Current.Properties["user"]).Id);
             ProjectDropDownButton.Content = currentProject.Name;
             AddProjectsToDropdownList();
+            ///Generic Display of Banner
+           
 
             try
             {
@@ -89,6 +101,14 @@ namespace CSC3045_CS2.Pages
             {
                 MessageBoxUtil.ShowErrorBox(ex.Message);
             }
+        }
+        
+        public void generateHeader()
+        {
+            User user = ((User)Application.Current.Properties["user"]);
+            UserLabel = user.GetFullName();
+            image = Properties.Settings.Default.ProfileImageDirectory + user.ProfilePicture;
+            CurrentPage = this.Title;
         }
 
         #region Class methods

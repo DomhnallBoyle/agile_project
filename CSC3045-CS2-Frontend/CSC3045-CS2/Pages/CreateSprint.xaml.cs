@@ -29,9 +29,16 @@ namespace CSC3045_CS2.Pages
 
         #endregion
 
+        #region Public Variables
+        public string UserLabel { get; set; }
+        public string image { get; set; }
+        public string CurrentPage { get; set; }
+        #endregion
+
         public CreateSprint(Project project)
         {
             InitializeComponent();
+            generateHeader();
             DataContext = this;
 
             _client = new SprintClient();
@@ -51,6 +58,13 @@ namespace CSC3045_CS2.Pages
                     NavigationService.GetNavigationService(this).Navigate(manageSprintsPage);
                 });
             }
+        }
+        public void generateHeader()
+        {
+            User user = ((User)Application.Current.Properties["user"]);
+            UserLabel = user.GetFullName();
+            image = Properties.Settings.Default.ProfileImageDirectory + user.ProfilePicture;
+            CurrentPage = this.Title;
         }
 
         public ICommand CreateCommand
@@ -86,6 +100,24 @@ namespace CSC3045_CS2.Pages
                     {
                         MessageBoxUtil.ShowWarningBox(_warningMessage);
                     }
+                });
+            }
+
+        }
+        public ICommand LogoutCommand
+        {
+            get
+            {
+                return new RelayCommand(param =>
+                {
+                    if (Application.Current.Properties.Contains("user"))
+                    {
+                        Application.Current.Properties.Remove("user");
+                    }
+
+                    Page loginPage = new Login();
+
+                    NavigationService.GetNavigationService(this).Navigate(loginPage);
                 });
             }
         }

@@ -24,14 +24,25 @@ namespace CSC3045_CS2.Pages
 
         #endregion
 
-   
+        public string UserLabel { get; set; }
+        public string image { get; set; }
+        public string CurrentPage { get; set; }
+
         public CreateAcceptanceTest(UserStory userStory)
         {
             InitializeComponent();
+            generateHeader();
             DataContext = this;
             _client = new UserStoryClient();
 
             _currentUserStory = userStory;
+        }
+        public void generateHeader()
+        {
+            User user = ((User)Application.Current.Properties["user"]);
+            UserLabel = user.GetFullName();
+            image = Properties.Settings.Default.ProfileImageDirectory + user.ProfilePicture;
+            CurrentPage = this.Title;
         }
 
         #region Command Methods
@@ -71,6 +82,23 @@ namespace CSC3045_CS2.Pages
                     {
                         MessageBoxUtil.ShowErrorBox(ex.Message);
                     }
+                });
+            }
+        }
+        public ICommand LogoutCommand
+        {
+            get
+            {
+                return new RelayCommand(param =>
+                {
+                    if (Application.Current.Properties.Contains("user"))
+                    {
+                        Application.Current.Properties.Remove("user");
+                    }
+
+                    Page loginPage = new Login();
+
+                    NavigationService.GetNavigationService(this).Navigate(loginPage);
                 });
             }
         }

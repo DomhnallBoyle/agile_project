@@ -49,13 +49,28 @@
 
         public String CreateButtonText { get; set; } = "Create";
 
+        public string UserLabel { get; set; }
+
+        public string image { get; set; }
+
+        public string CurrentPage { get; set; }
+
         #endregion
         public CreateProject()
         {
             InitializeComponent();
+            generateHeader();
             DataContext = this;
             _client = new ProjectClient();
             pageSetup();
+        }
+
+        public void generateHeader()
+        {
+            User user = ((User)Application.Current.Properties["user"]);
+            UserLabel = user.GetFullName();
+            image = Properties.Settings.Default.ProfileImageDirectory + user.ProfilePicture;
+            CurrentPage = TitleLabel;
         }
 
         #region Command methods
@@ -129,6 +144,23 @@
 
             _warningMessage = sb.ToString();
             return valid;
+        }
+        public ICommand LogoutCommand
+        {
+            get
+            {
+                return new RelayCommand(param =>
+                {
+                    if (Application.Current.Properties.Contains("user"))
+                    {
+                        Application.Current.Properties.Remove("user");
+                    }
+
+                    Page loginPage = new Login();
+
+                    NavigationService.GetNavigationService(this).Navigate(loginPage);
+                });
+            }
         }
     }
 }

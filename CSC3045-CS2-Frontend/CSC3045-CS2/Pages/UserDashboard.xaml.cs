@@ -4,6 +4,7 @@ using CSC3045_CS2.Service;
 using CSC3045_CS2.Utility;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -23,11 +24,22 @@ namespace CSC3045_CS2.Pages
     /// <summary>
     /// Interaction logic for UserDashboard.xaml
     /// </summary>
+    /// 
+
+
+    /*
+     * TODO: Get End Point to send List Items using Button
+     * TODO: Once Backend is written get edit User Model
+     * TODO: Load In a User Skill set from model 
+     *
+     */
+
     public partial class UserDashboard : Page
     {
         #region Private variables
 
         private ProjectClient _client;
+        
 
         #endregion
 
@@ -37,15 +49,24 @@ namespace CSC3045_CS2.Pages
 
         public String UserLabel { get; set; }
 
+        public ObservableCollection<String> AvailableSkills
+        { get; set; }
+
+        public ObservableCollection<String> MySelectedObjects
+        { get; set; }
+
         #endregion
+
+
 
         public UserDashboard()
         {
+            setupTestData();
             InitializeComponent();
             DataContext = this;
 
             User user = ((User)Application.Current.Properties["user"]);
-            UserLabel = "Welcome " + user.GetFullName() + "!\nYour Current Projects are:";
+            UserLabel = user.GetFullName();
             string profileImageFileName;
             if (user.ProfilePicture != null)
             {
@@ -61,7 +82,11 @@ namespace CSC3045_CS2.Pages
 
             _client = new ProjectClient();
 
+            this.AvailableSkills = new ObservableCollection<String>() { "Unix","Java","C#","VB","Matlab","Python"
+            ,"Unix","Java","C#","VB","Matlab","Python"};
+            this.MySelectedObjects =  new ObservableCollection<String>(setupTestData());
             InitialiseProjects();
+
         }
 
         #region Class methods
@@ -92,6 +117,10 @@ namespace CSC3045_CS2.Pages
                 }
             }
         }
+
+    
+
+   
 
         #endregion
 
@@ -132,6 +161,28 @@ namespace CSC3045_CS2.Pages
                     Page loginPage = new Login();
 
                     NavigationService.GetNavigationService(this).Navigate(loginPage);
+                });
+            }
+        }
+        public List<String> setupTestData()
+        {
+            List<string> list = new List<string> { "Python" };
+            return list;
+        }
+
+        public ICommand UpdateSkillsCommand
+        {
+            get
+            {
+                return new RelayCommand(param =>
+                {
+                    Console.WriteLine("CPD");
+                    List<String> myList = new List<String>(MySelectedObjects);
+                    for (int i = 0; i < myList.Count; i++)
+                    {
+                        Console.WriteLine(myList[i]);
+                    }
+
                 });
             }
         }

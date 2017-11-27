@@ -6,11 +6,13 @@
       xmlns:dd="urn:gong-wpf-dragdrop"
       xmlns:local="clr-namespace:CSC3045_CS2"
       mc:Ignorable="d" 
-      Background="{StaticResource LightBlueBrush}"
+      Background="{StaticResource BackgroundGradient}"
       d:DesignHeight="300" d:DesignWidth="300"
       Title="ProductBacklog">
+    <StackPanel>
+        <ContentControl  Template="{StaticResource Headers}" Name="Header" ></ContentControl>
 
-    <Grid Margin="10,0,10,0">
+        <Grid Margin="10,0,10,0">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
@@ -83,5 +85,6 @@
                     Visibility="{Binding Permissions.ProductOwner, Converter={StaticResource BoolToVisConverter}}"></Button>
         </StackPanel>
     </Grid>
+    </StackPanel>
 
 </Page>
