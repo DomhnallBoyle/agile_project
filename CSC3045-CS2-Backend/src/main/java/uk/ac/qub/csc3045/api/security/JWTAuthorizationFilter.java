@@ -44,7 +44,7 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
                     .setSigningKey(SECRET.getBytes())
                     .parseClaimsJws(token.replace(TOKEN_PREFIX, ""))
                     .getBody()
-                    .getSubject();
+                    .getSubject().toLowerCase();
             Account account = mapper.findAccountByEmail(user);
             if (account != null) {
                 return new UsernamePasswordAuthenticationToken(user, null, new ArrayList<>());
