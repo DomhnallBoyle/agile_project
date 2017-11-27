@@ -3,9 +3,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <!-- Set the namespace below to the interface side of the sprintMapper -->
 <mapper namespace="uk.ac.qub.csc3045.api.mapper.SprintMapper">
-
     <!-- Result Maps -->
-
     <resultMap id="sprintResultMap" type="Sprint">
         <id column="id" property="id"/>
         <result column="name" property="name"/>
@@ -14,9 +12,9 @@
         <association column="scrum_master_id" property="scrumMaster" javaType="User" select="selectScrumMaster"/>
         <association column="project_id" property="project" javaType="Project" select="selectProject"/>
     </resultMap>
-
+    
     <!-- SELECT Queries -->
-
+    
     <select id="getProjectSprints" resultMap="sprintResultMap">
         SELECT
             SPRINT.ID   AS ID,
@@ -29,7 +27,7 @@
             JOIN PROJECT ON SPRINT.PROJECT_ID = PROJECT.ID
         WHERE PROJECT.ID = #{projectId}
     </select>
-
+    
     <select id="getSprintById" resultMap="sprintResultMap">
         SELECT
             ID,
@@ -41,7 +39,7 @@
         FROM SPRINT
         WHERE ID = #{id}
     </select>
-
+    
     <select id="getSprintTeam" resultMap="uk.ac.qub.csc3045.api.mapper.UserMapper.userResultMap">
         SELECT *
         FROM USER
@@ -49,7 +47,7 @@
             JOIN SPRINT_USER ON USER.ID = SPRINT_USER.USER_ID
         WHERE SPRINT_USER.SPRINT_ID = #{sprintId}
     </select>
-
+    
     <select id="getClashingSprintsForUser" resultMap="uk.ac.qub.csc3045.api.mapper.UserMapper.userResultMap">
         SELECT
             SPRINT.ID AS ID,
@@ -66,52 +64,52 @@
                    AND
                    #{endDate} &gt;= SPRINT.START_DATE)
     </select>
-
-	<select id="getUserStoriesInSprint" resultMap="uk.ac.qub.csc3045.api.mapper.UserStoryMapper.userStoryResultMap">
+    
+    <select id="getUserStoriesInSprint" resultMap="uk.ac.qub.csc3045.api.mapper.UserStoryMapper.userStoryResultMap">
         SELECT
             USER_STORY.ID AS ID,
-            NAME,
-            DESCRIPTIOM,
+            USER_STORY.NAME AS NAME,
+            USER_STORY.DESCRIPTION AS DESCRIPTION,
             POINTS,
             MARKET_VALUE,
-            PROJECT_ID
+            USER_STORY.PROJECT_ID as PROJECT_ID
         FROM USER_STORY
             JOIN SPRINT ON USER_STORY.SPRINT_ID = SPRINT.ID
         WHERE SPRINT.ID = #{sprintId}
     </select>
     
     <!-- INSERT Queries -->
-
+    
     <insert id="createSprint" parameterType="Sprint" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
         INSERT INTO SPRINT (PROJECT_ID, NAME, START_DATE, END_DATE, SCRUM_MASTER_ID)
         VALUES (#{project.id}, #{name}, #{startDate}, #{endDate}, #{scrumMaster.id})
     </insert>
-
+    
     <insert id="addToSprintTeam">
         INSERT INTO SPRINT_USER (SPRINT_ID, USER_ID)
         VALUES (#{sprintId}, #{userId})
     </insert>
-
-	<insert id="addToSprintBacklog">
-        INSERT INTO SPRINT (PROJECT_ID, NAME, START_DATE, END_DATE, SCRUM_MASTER_ID, USER_STORIES)
-        VALUES (#{project.id}, #{name}, #{startDate}, #{endDate}, #{scrumMaster.id}, #{userStory.id)
+    
+    <insert id="addToSprintBacklog">
+        INSERT INTO USER_STORY (ID, NAME, DESCRIPTION, STORY POINTS, MARKET VALUE, SPRINT ID)
+		VALUES (#{userstory.id}, #{name}, #{description}, #{marketValue}, #{sprint.id})
     </insert>
     
     <!-- UPDATE Queries -->
     <update id="resetSprintBacklog">
-        UPDATE FROM SPRINT
-        SET userStories = #{}
+        UPDATE FROM USER_STORY
+        SET SPRINT_ID = NULL       
     </update>
     
     <!-- DELETE Queries -->
-
+    
     <delete id="resetSprintTeam">
         DELETE FROM SPRINT_USER
         WHERE SPRINT_ID = #{sprintId}
     </delete>
-
+    
     <!-- Nested SELECT queries for Sprint -->
-
+    
     <select id="selectScrumMaster" resultMap="uk.ac.qub.csc3045.api.mapper.UserMapper.userResultMap">
         SELECT
             USER.ID  AS user_id,
@@ -126,7 +124,7 @@
             JOIN roles ON roles_id = roles.id
         WHERE user.id = #{sprint.scrum_master_id}
     </select>
-
+    
     <select id="selectProject" resultMap="uk.ac.qub.csc3045.api.mapper.ProjectMapper.simpleProjectResultMap">
         SELECT
             ID,

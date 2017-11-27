@@ -32,7 +32,7 @@ public class SprintControllerTests {
         sprint.setProject(generateProject());
         sprint.setScrumMaster(generateUser());
         sprint.setUsers(generateUserList(5));
-        sprint.setUserStory(generateUserStoryList(3));
+        sprint.setUserStories(generateUserStoryList(3));
     }
 
     @Test
