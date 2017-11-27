@@ -67,11 +67,17 @@
                    #{endDate} &gt;= SPRINT.START_DATE)
     </select>
 
-	<select id="getUserStoriesInSprint" resultMap="uk.ac.qub.csc3045.api.mapper.UserMapper.userResultMap">
-        SELECT *
+	<select id="getUserStoriesInSprint" resultMap="uk.ac.qub.csc3045.api.mapper.UserStoryMapper.userStoryResultMap">
+        SELECT
+            USER_STORY.ID AS ID,
+            NAME,
+            DESCRIPTIOM,
+            POINTS,
+            MARKET_VALUE,
+            PROJECT_ID
         FROM USER_STORY
-            JOIN SPRINT_USER_STORY ON USER_STORY.ID = SPRINT_USER_STORY.USER_STORY_ID
-        WHERE SPRINT_USER_STORY.SPRINT_ID = #{sprintId}
+            JOIN SPRINT ON USER_STORY.SPRINT_ID = SPRINT.ID
+        WHERE SPRINT.ID = #{sprintId}
     </select>
     
     <!-- INSERT Queries -->
@@ -87,9 +93,15 @@
     </insert>
 
 	<insert id="addToSprintBacklog">
-        INSERT INTO SPRINT_USER_STORY (SPRINT_ID, USER_STORY_ID)
-        VALUES (#{sprintId}, #{userStoryId})
+        INSERT INTO SPRINT (PROJECT_ID, NAME, START_DATE, END_DATE, SCRUM_MASTER_ID, USER_STORIES)
+        VALUES (#{project.id}, #{name}, #{startDate}, #{endDate}, #{scrumMaster.id}, #{userStory.id)
     </insert>
+    
+    <!-- UPDATE Queries -->
+    <update id="resetSprintBacklog">
+        UPDATE FROM SPRINT
+        SET userStories = #{}
+    </update>
     
     <!-- DELETE Queries -->
 
@@ -98,11 +110,6 @@
         WHERE SPRINT_ID = #{sprintId}
     </delete>
 
-	<delete id="resetSprintBacklog">
-        DELETE FROM SPRINT_USER_STORY
-        WHERE SPRINT_ID = #{sprintId}
-    </delete>
-    
     <!-- Nested SELECT queries for Sprint -->
 
     <select id="selectScrumMaster" resultMap="uk.ac.qub.csc3045.api.mapper.UserMapper.userResultMap">

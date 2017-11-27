@@ -53,7 +53,7 @@ public class SprintController {
         return new ResponseEntity<>(this.sprintService.getAvailableDevelopers(sprintId), HttpStatus.OK);
     }
     
-    @PutMapping(value = "/story")
+    @PutMapping(value = "/backlog")
     public ResponseEntity<List<UserStory>> updateSprintBacklog(@Valid @RequestBody Sprint sprint) {
         return new ResponseEntity<>(this.sprintService.updateSprintBacklog(sprint), HttpStatus.OK);
     }

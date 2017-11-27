@@ -203,7 +203,7 @@ public class SprintServiceTest {
         when(sprintMapperMock.getUserStoriesInSprint(sprint.getId())).thenReturn(sprint.getUserStories());
         when(sprintMapperMock.getSprintById(sprint.getId())).thenReturn(sprint);
 
-        List<UserStory> response = sprint.getUserStories();
+        List<UserStory> response = sprintService.getSprintBacklog(sprint.getId());
 
         assertEquals(sprint.getUserStories(), response);
     }
@@ -211,7 +211,7 @@ public class SprintServiceTest {
     @Test(expected = ResponseErrorException.class)
     public void handleGetBacklogRequestFailure() {
         when(sprintMapperMock.getSprintById(sprint.getId())).thenReturn(null);
-        sprint.getUserStories();
+        sprintService.getSprintBacklog(sprint.getId());
     }
 
 }
