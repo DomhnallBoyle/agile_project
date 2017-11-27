@@ -36,6 +36,7 @@ public class AuthenticationServiceTest {
 
     @Test
     public void handleRegisterRequestSuccessful() throws Exception {
+        when(authenticationMapperMock.findAccountByEmail(account.getUser().getEmail())).thenReturn(null).thenReturn(account);
         Account response = authenticationService.register(account);
 
         assertEquals(account.getUser().getEmail(), response.getUser().getEmail());
