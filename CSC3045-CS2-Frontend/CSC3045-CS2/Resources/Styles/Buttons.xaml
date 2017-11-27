@@ -3,7 +3,7 @@
                     xmlns:local="clr-namespace:CSC3045_CS2.Resources.Styles">
 
     <Style TargetType="{x:Type Button}" x:Key="StandardButton">
-        <Setter Property="Background" Value="White"/>
+        <Setter Property="Background" Value="{StaticResource DarkGrayBrush}"/>
         <Setter Property="BorderBrush" Value="{StaticResource LightGrayBrush}"/> 
         
         <Setter Property="Height" Value="30"/>
