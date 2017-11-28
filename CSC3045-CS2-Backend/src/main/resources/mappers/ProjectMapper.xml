@@ -31,30 +31,6 @@
         WHERE id = #{id}
     </select>
 
-    <select id="getProjectsForUser" resultMap="projectResultMap">
-        SELECT
-            ID,
-            NAME,
-            DESCRIPTION,
-            MANAGER_ID,
-            PRODUCT_OWNER_ID
-        FROM PROJECT
-            JOIN PROJECT_USER ON PROJECT.ID = PROJECT_USER.PROJECT_ID
-        WHERE USER_ID = #{userId}
-              AND MANAGER_ID != #{userId}
-
-        UNION
-
-        SELECT
-            ID,
-            NAME,
-            DESCRIPTION,
-            MANAGER_ID,
-            PRODUCT_OWNER_ID
-        FROM PROJECT
-        WHERE MANAGER_ID = #{userId}
-    </select>
-
     <select id="getUsersOnProject" resultMap="uk.ac.qub.csc3045.api.mapper.UserMapper.userResultMap">
         SELECT
             USER.ID  AS user_id,

@@ -26,5 +26,15 @@ namespace CSC3045_CS2.Service
 
             return Execute<User>(request);
         }
+
+        public List<Project> GetProjectsForUser(long userId)
+        {
+            var request = new RestRequest(BASE_ENDPOINT + "/" + userId + "/project", Method.GET);
+            request.AddHeader("Content-Type", "application/json");
+            request.RequestFormat = DataFormat.Json;
+            SimpleJson.CurrentJsonSerializerStrategy = new CamelCaseSerializationStrategy();
+
+            return Execute<List<Project>>(request);
+        }
     }
 }

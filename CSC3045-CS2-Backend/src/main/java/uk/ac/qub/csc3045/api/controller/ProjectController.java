@@ -4,6 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import uk.ac.qub.csc3045.api.exception.ResponseErrorException;
 import uk.ac.qub.csc3045.api.model.Project;
 import uk.ac.qub.csc3045.api.model.User;
 import uk.ac.qub.csc3045.api.service.ProjectService;
@@ -27,8 +29,13 @@ public class ProjectController {
         return new ResponseEntity<>(this.projectService.create(project), HttpStatus.CREATED);
     }
 
-    @PutMapping()
-    public ResponseEntity<Project> update(@Valid @RequestBody Project project) {
+    @PutMapping(value = "/{projectId}")
+    public ResponseEntity<Project> update(@Valid @RequestBody Project project,  @PathVariable("projectId") long projectId) {
+    	//checks id in body and request are equal if both are set
+    	if(project.getId() != null && (projectId != project.getId())) {
+    		throw new ResponseErrorException("Id in URL and body to not match", HttpStatus.BAD_REQUEST);
+    	}
+    	project.setId(projectId);
         return new ResponseEntity<>(this.projectService.update(project), HttpStatus.OK);
     }
 
@@ -37,17 +44,17 @@ public class ProjectController {
         return new ResponseEntity<>(this.projectService.get(projectId), HttpStatus.OK);
     }
 
-    @GetMapping(value = "/user/{userId}")
-    public ResponseEntity<List<Project>> getProjectsForUser(@Valid @PathVariable("userId") long userId) {
-        return new ResponseEntity<>(this.projectService.getProjectsForUser(userId), HttpStatus.OK);
-    }
-
-    @PostMapping(value = "/team")
-    public ResponseEntity<Project> addToTeam(@Valid @RequestBody Project project) {
+    @PostMapping(value = "/{projectId}/user")
+    public ResponseEntity<Project> addToTeam(@Valid @RequestBody Project project,  @PathVariable("projectId") long projectId) {
+    	//checks id in body and request are equal if both are set
+    	if(project.getId() != null && (projectId != project.getId())) {
+    		throw new ResponseErrorException("Id in URL and body to not match", HttpStatus.BAD_REQUEST);
+    	}
+    	project.setId(projectId);
         return new ResponseEntity<>(this.projectService.addToTeam(project), HttpStatus.OK);
     }
 
-    @GetMapping(value = "/team/{projectId}")
+    @GetMapping(value = "/{projectId}/user")
     public ResponseEntity<List<User>> getTeamMembers(@Valid @PathVariable("projectId") long projectId) {
         return new ResponseEntity<>(this.projectService.getTeamMembers(projectId), HttpStatus.OK);
     }

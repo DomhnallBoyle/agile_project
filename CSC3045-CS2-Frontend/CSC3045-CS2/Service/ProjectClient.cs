@@ -33,7 +33,7 @@ namespace CSC3045_CS2.Service
 
         public List<User> GetProjectTeam(long projectId)
         {
-            var request = new RestRequest(BASE_ENDPOINT + "/team/" + projectId, Method.GET);
+            var request = new RestRequest(BASE_ENDPOINT + "/" + projectId + "/user", Method.GET);
             request.AddHeader("Content-Type", "application/json");
             request.RequestFormat = DataFormat.Json;
             SimpleJson.CurrentJsonSerializerStrategy = new CamelCaseSerializationStrategy();
@@ -41,19 +41,9 @@ namespace CSC3045_CS2.Service
             return Execute<List<User>>(request);
         }
 
-        public List<Project> GetProjectsForUser(long userId)
-        {
-            var request = new RestRequest(BASE_ENDPOINT + "/user/" + userId, Method.GET);
-            request.AddHeader("Content-Type", "application/json");
-            request.RequestFormat = DataFormat.Json;
-            SimpleJson.CurrentJsonSerializerStrategy = new CamelCaseSerializationStrategy();
-
-            return Execute<List<Project>>(request);
-        }
-
         public Project UpdateProject(Project project)
         {
-            var request = new RestRequest(BASE_ENDPOINT, Method.PUT);
+            var request = new RestRequest(BASE_ENDPOINT + "/" + project.Id, Method.PUT);
             request.AddHeader("Content-Type", "application/json");
             request.RequestFormat = DataFormat.Json;
             SimpleJson.CurrentJsonSerializerStrategy = new CamelCaseSerializationStrategy();
@@ -66,7 +56,7 @@ namespace CSC3045_CS2.Service
         public void Add(List<User> users, Project project)
         {
             project.Users = users;
-            var request = new RestRequest(BASE_ENDPOINT + "/team", Method.POST);
+            var request = new RestRequest(BASE_ENDPOINT + "/" + project.Id + "/user", Method.POST);
             request.AddHeader("Content-Type", "application/json");
             request.RequestFormat = DataFormat.Json;
             SimpleJson.CurrentJsonSerializerStrategy = new CamelCaseSerializationStrategy();
