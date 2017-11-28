@@ -70,14 +70,15 @@
             USER_STORY.ID AS ID,
             USER_STORY.NAME AS NAME,
             USER_STORY.DESCRIPTION AS DESCRIPTION,
-            POINTS,
-            MARKET_VALUE,
-            USER_STORY.PROJECT_ID as PROJECT_ID
+            USER_STORY.POINTS,
+            USER_STORY.MARKET_VALUE,
+            USER_STORY.PROJECT_ID as PROJECT_ID,
+            USER_STORY.SPRINT_ID as SPRINT_ID
         FROM USER_STORY
             JOIN SPRINT ON USER_STORY.SPRINT_ID = SPRINT.ID
         WHERE SPRINT.ID = #{sprintId}
     </select>
-    
+
     <!-- INSERT Queries -->
     
     <insert id="createSprint" parameterType="Sprint" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
@@ -99,7 +100,7 @@
     
     <update id="addToSprintBacklog">
         UPDATE USER_STORY
-        SET USER_STORY.SPRINT_ID = #{sprintId}      
+        SET USER_STORY.SPRINT_ID = #{sprintId}   
         WHERE ID = #{userStoryId}
 	</update>
     
