@@ -127,10 +127,13 @@ public class SprintService {
     public List<UserStory> updateSprintBacklog(Sprint sprint) {
         sprintMapper.resetSprintBacklog(sprint.getId());
         for (UserStory userStory : sprint.getUserStories()) {
-            sprintMapper.addToSprintBacklog(sprint.getId(), userStory.getId());
+        	sprintMapper.addToSprintBacklog(sprint.getId(), userStory.getId());
         }
-        List<UserStory> newBacklog = sprintMapper.getUserStoriesInSprint(sprint.getId());
+
+       List<UserStory> newBacklog = sprintMapper.getUserStoriesInSprint(sprint.getId());
         return newBacklog;
+        
+        
     }
    
 }

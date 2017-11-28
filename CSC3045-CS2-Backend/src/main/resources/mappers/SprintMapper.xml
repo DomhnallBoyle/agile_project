@@ -89,17 +89,18 @@
         INSERT INTO SPRINT_USER (SPRINT_ID, USER_ID)
         VALUES (#{sprintId}, #{userId})
     </insert>
-    
-    <insert id="addToSprintBacklog">
-        INSERT INTO USER_STORY (ID, NAME, DESCRIPTION, STORY POINTS, MARKET VALUE, SPRINT ID)
-		VALUES (#{userstory.id}, #{name}, #{description}, #{marketValue}, #{sprint.id})
-    </insert>
-    
+
     <!-- UPDATE Queries -->
     <update id="resetSprintBacklog">
-        UPDATE FROM USER_STORY
-        SET SPRINT_ID = NULL       
+        UPDATE USER_STORY
+        SET USER_STORY.SPRINT_ID = NULL    
     </update>
+    
+    <update id="addToSprintBacklog">
+        UPDATE USER_STORY
+        SET USER_STORY.SPRINT_ID = #{sprintId}      
+        WHERE USER_STORY.ID = #{userStoryId}
+	</update>
     
     <!-- DELETE Queries -->
     
