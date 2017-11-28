@@ -31,7 +31,9 @@ namespace CSC3045_CS2.Pages
 
             generateHeader();
         }
-
+        /// <summary>
+        /// This Generates a header for Every Page that includes a users name and their profile photo 
+        /// </summary>
         public void generateHeader()
         {
             User user = ((User)Application.Current.Properties["user"]);
@@ -39,6 +41,9 @@ namespace CSC3045_CS2.Pages
             Image = Properties.Settings.Default.ProfileImageDirectory + user.ProfilePicture;
  
         }
+        /// <summary>
+        /// Generic Log out command
+        /// </summary>
         public ICommand LogoutCommand
         {
             get
