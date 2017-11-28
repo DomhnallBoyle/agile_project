@@ -58,7 +58,6 @@ namespace CSC3045_CS2.Pages
             ProfilePicture.Source = new BitmapImage(new Uri(profileImagePath, UriKind.RelativeOrAbsolute));
             _projectClient = new ProjectClient();
             _userClient = new UserClient();
-            InitialiseProjects();
 
             InitialiseProjects();
         }
