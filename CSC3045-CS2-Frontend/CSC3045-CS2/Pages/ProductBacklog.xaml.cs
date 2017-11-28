@@ -15,7 +15,7 @@ namespace CSC3045_CS2
     /// <summary>
     /// Interaction logic for ProductBacklog.xaml
     /// </summary>
-    public partial class ProductBacklog : Page
+    public partial class ProductBacklog : BasePage
     {
         #region Private Variables
 
@@ -48,6 +48,7 @@ namespace CSC3045_CS2
         public ProductBacklog(Project project)
         {
             InitializeComponent();
+            CurrentPage = this.Title;
             DataContext = this;
             _client = new UserStoryClient();
 
@@ -72,6 +73,7 @@ namespace CSC3045_CS2
         /// <summary>
         /// Returns to the project dashboard
         /// </summary>
+        /// 
         public ICommand BackCommand
         {
             get
@@ -85,7 +87,7 @@ namespace CSC3045_CS2
                 });
             }
         }
-
+       
         /// <summary>
         /// Changes order of user stories before
         /// sending the updated list to the backend

@@ -17,16 +17,17 @@ import java.util.List;
 public class ProjectService {
 
     private ProjectMapper mapper;
+    private EmailUtility emailSender;
 
     @Autowired
-    public ProjectService(ProjectMapper mapper) {
+    public ProjectService(ProjectMapper mapper, EmailUtility emailSender) {
         this.mapper = mapper;
+        this.emailSender = emailSender;
     }
 
     public Project create(Project project) {
         try {
             mapper.createProject(project);
-
             Project newProject = mapper.getProjectById(project.getId());
 
             return newProject;
@@ -115,22 +116,25 @@ public class ProjectService {
     private void sendProductOwnerEmail(Project oldProject, Project updatedProject) {
         if (updatedProject.getProductOwner() != null
                 && !updatedProject.getProductOwner().equals(oldProject.getProductOwner())) {
-            EmailUtility.sendEmail(updatedProject.getProductOwner().getEmail(),
-                    "You Have been assigned as a Product Owner",
-                    "Hello " + updatedProject.getProductOwner().getForename()
-                            + ",\n\nYou are now the Product Owner for " + updatedProject.getName() + ".");
+        	try {
+        		emailSender.sendProductOwnerEmail(updatedProject);
+    		}catch( Exception e ){
+    			// catch error
+    			System.out.print("Error Sending Email: " + e.getMessage());
+    		}
         }
     }
 
     private void sendScrumMasterEmails(Project oldProject, Project updatedProject) {
         if (updatedProject.getScrumMasters() != null) {
             for (User scrumMaster : updatedProject.getScrumMasters()) {
-                if (!oldProject.getScrumMasters().contains(scrumMaster)) {
-                    EmailUtility.sendEmail(scrumMaster.getEmail(),
-                            "You Have been assigned as a Scrum Master",
-                            "Hello " + scrumMaster.getForename()
-                                    + ",\n\nYou are now a Scrum Master for "
-                                    + updatedProject.getName() + ".");
+                if (!oldProject.getScrumMasters().contains(scrumMaster)) {               
+                    try {
+                    	emailSender.sendScrumMasterEmails(updatedProject,scrumMaster);
+            		}catch( Exception e ){
+            			// catch error
+            			System.out.print("Error Sending Email: " + e.getMessage());
+            		}
                 }
             }
         }
@@ -140,9 +144,12 @@ public class ProjectService {
     	if (updatedProject.getUsers() != null) {
     		for (User teamMember : updatedProject.getUsers()) {
     			if (!oldProject.getUsers().contains(teamMember)) {
-    				EmailUtility.sendEmail(teamMember.getEmail(), "You have been added to a new Project",
-    		                "Hello " + teamMember.getForename() +
-    		                        ",\n\nYou have been added to the Project Team for " + updatedProject.getName() + ".");
+    				try {
+    					emailSender.sendTeamMemberEmails(updatedProject,teamMember);
+            		}catch( Exception e ){
+            			// catch error
+            			System.out.print("Error Sending Email: " + e.getMessage());
+            		}
     			}
     		}
     	}

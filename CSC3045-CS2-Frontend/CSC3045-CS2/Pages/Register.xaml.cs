@@ -120,7 +120,7 @@ namespace CSC3045_CS2.Pages
             {
                 encoder.Save(fileStream);
             }
-        }
+        }   
 
         /// <summary>
         /// Navigates the user back to the Login Page

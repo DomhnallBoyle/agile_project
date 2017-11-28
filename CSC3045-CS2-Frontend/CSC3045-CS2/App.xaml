@@ -14,6 +14,7 @@
                 <ResourceDictionary Source="Resources/Styles/Text.xaml" />
                 <ResourceDictionary Source="Resources/Styles/DatePicker.xaml"/>
                 <ResourceDictionary Source="Resources/Styles/ListBoxes.xaml"/>
+                <ResourceDictionary Source="Resources/Styles/Controllers.xaml"/>
             </ResourceDictionary.MergedDictionaries>
             <BooleanToVisibilityConverter x:Key="BoolToVisConverter"/>
         </ResourceDictionary>

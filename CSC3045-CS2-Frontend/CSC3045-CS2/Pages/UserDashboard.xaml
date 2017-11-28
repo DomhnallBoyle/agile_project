@@ -1,69 +1,63 @@
-﻿<Page x:Class="CSC3045_CS2.Pages.UserDashboard"
-       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+﻿<local:BasePage
+      x:Class="CSC3045_CS2.Pages.UserDashboard"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-        xmlns:utility="clr-namespace:CSC3045_CS2.Utility"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:local="clr-namespace:CSC3045_CS2.Pages"
       mc:Ignorable="d" 
+      d:DesignHeight="600" d:DesignWidth="1060"
       Background="{StaticResource BackgroundGradient}"
-      Title="UserDashboard" Height="475.182" Width="456.569">
+      Title="User Dashboard">
 
-    <StackPanel>
-        <Grid>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
+    <StackPanel Width="750" Margin="0,25,0,0">
+        <ContentControl Template="{StaticResource Headers}" Name="Header"/>
+        
+        <TextBlock Text="Your Projects" HorizontalAlignment="Left" Style="{StaticResource Header}" Margin="0,10,0,0"/>
+        <TextBlock Text="Select One of the Following Rows To See Project Details" HorizontalAlignment="Left" Style="{StaticResource Label}" Foreground="Gold"  Margin="5,0,0,0" />
 
+        <Grid Height="375" Margin="50,10,50,10">
             <Grid.RowDefinitions>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
+                <RowDefinition Height="0.9*"/>
+                <RowDefinition Height="0.1*"/>
             </Grid.RowDefinitions>
-            <TextBlock Name="PageTitle" Text="User Dashboard" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center" Style="{StaticResource Title}" Grid.Column="0" Grid.ColumnSpan="3" Grid.RowSpan="2"></TextBlock>
-            <Image  Height="60" Width="60" HorizontalAlignment="Right"  Name="ProfilePicture" Stretch="Fill" VerticalAlignment="Top" Grid.Column="4" Grid.ColumnSpan="2" Grid.RowSpan="2"/>
+            
+            <ListBox Name="ProjectListBox" Grid.Row="0" Style="{StaticResource DefaultListBox}" ItemsSource="{Binding ProjectList}" SelectionChanged="ProjectListBox_SelectionChanged">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Margin="0,15,0,0">
+                            <TextBlock Name="ProjectListBoxProjectName" Text="{Binding Project.Name}" 
+                                       Width="525" TextWrapping="Wrap" HorizontalAlignment="Left"
+                                       Style="{StaticResource ListBoxItemHeader}"/>
+                            <Separator/>
+
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="0.75*"/>
+                                    <ColumnDefinition Width="0.25*"/>
+                                </Grid.ColumnDefinitions>
+
+                                <StackPanel Grid.Column="0" Orientation="Horizontal">
+                                    <TextBlock Text="{Binding Project.Description}" Width="500" TextWrapping="Wrap" Style="{StaticResource ButtonLabel}"/>
+
+                                    <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" Margin="10,0,10,0"/>
+
+                                    <StackPanel Width="90">
+                                        <TextBlock Text="Manager" Visibility="{Binding Path=Permissions.Manager,Converter={StaticResource BoolToVisConverter}}" Style="{StaticResource ButtonLabel}"/>
+                                        <TextBlock Text="Developer" Visibility="{Binding Path=Permissions.Developer, Converter={StaticResource BoolToVisConverter}}" Style="{StaticResource ButtonLabel}"/>
+                                        <TextBlock Text="Scrum Master" Visibility="{Binding Path=Permissions.ScrumMaster, Converter={StaticResource BoolToVisConverter}}" Style="{StaticResource ButtonLabel}"/>
+                                        <TextBlock Text="Project Owner" Visibility="{Binding Path=Permissions.ProductOwner, Converter={StaticResource BoolToVisConverter}}" Style="{StaticResource ButtonLabel}"/>
+                                    </StackPanel>
+                                </StackPanel>
+                            </Grid>
+                        </StackPanel>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+
+            <Button Grid.Row="1" Name="CreateProjectButton" Content="Create Project" 
+                    HorizontalAlignment="Right" Margin="0,5,0,0" Style="{StaticResource StandardButton}" Width="120"
+                    Command="{Binding NavigateToCreateProjectCommand}" />
         </Grid>
-
-        <StackPanel Background="RoyalBlue"  Margin="10,10,10,0" >
-            <TextBlock FontSize ="14" Text="{Binding UserLabel}" HorizontalAlignment="Left" Style="{StaticResource Label}"  Margin="5,0,5,0"/>
-        </StackPanel>
-
-        <ListBox Name="ProjectListBox" ItemsSource="{Binding ProjectList}" SelectionChanged="ProjectListBox_SelectionChanged" HorizontalContentAlignment="Left" Margin="10,10,10,10" >
-            <ListBox.ItemTemplate>
-                <DataTemplate>
-                    <Grid >
-                        <Grid.ColumnDefinitions >
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="*"/>
-                        </Grid.ColumnDefinitions>
-                        <TextBlock Grid.Column="0" Text="{Binding Project.Name}" MinWidth="120" MaxWidth="120" TextWrapping="Wrap" Style="{StaticResource ButtonTitleLabel}" Margin="0,0,0,0"/>
-                        <TextBlock Grid.Column="1" Text="{Binding Project.Description}" MinWidth="140" MaxWidth="140"  TextWrapping="Wrap" Style="{StaticResource ButtonLabel}"  Margin="0,0,0,0"/>
-
-                        <TextBlock Grid.Column="2" Text="M" Visibility="{Binding Path=Permissions.Manager, Converter={StaticResource BoolToVisConverter}}"/>
-                        <TextBlock Grid.Column="3" Text="D" Visibility="{Binding Path=Permissions.Developer, Converter={StaticResource BoolToVisConverter}}"/>
-                        <TextBlock Grid.Column="4" Text="SM" Visibility="{Binding Path=Permissions.ScrumMaster, Converter={StaticResource BoolToVisConverter}}"/>
-                        <TextBlock Grid.Column="5" Text="PO" Visibility="{Binding Path=Permissions.ProductOwner, Converter={StaticResource BoolToVisConverter}}"/>
-                    </Grid>
-                </DataTemplate>
-            </ListBox.ItemTemplate>
-
-            <ListBox.Resources>
-                <Style TargetType="Border">
-                    <Setter Property="CornerRadius" Value="4"/>
-                </Style>
-            </ListBox.Resources>
-        </ListBox>
-
-        <StackPanel>
-            <Button Name="CreateProjectButton" Content="Create Project" HorizontalAlignment="Center" Command="{Binding NavigateToCreateProjectCommand}" Style="{StaticResource ExtendedButton}"/>
-            <Button Name="LogoutButton" Content="Logout" HorizontalAlignment="Left" Command="{Binding LogoutCommand}" Style="{StaticResource StandardButton}" Margin="5,0,0,0"/>
-        </StackPanel>
     </StackPanel>
-</Page>
+</local:BasePage>

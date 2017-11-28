@@ -20,10 +20,16 @@
         <Setter Property="Foreground" Value="White"/>
     </Style>
 
+    <Style TargetType="{x:Type TextBlock}" x:Key="ListBoxItemHeader">
+        <Setter Property="FontFamily" Value="{StaticResource LatoBold}"/>
+        <Setter Property="FontSize" Value="20"/>
+        <Setter Property="Foreground" Value="Black"/>
+    </Style>
+
     <Style TargetType="{x:Type TextBlock}" x:Key="ButtonTitleLabel">
         <Setter Property="FontFamily" Value="{StaticResource LatoRegular}"/>
         <Setter Property="FontSize" Value="14"/>
-        <Setter Property="Foreground" Value="{StaticResource BrightBlueBrush}"/>
+        <Setter Property="Foreground" Value="{StaticResource DarkBlueBrush}"/>
     </Style>
 
     <Style TargetType="{x:Type TextBlock}" x:Key="ButtonLabel">

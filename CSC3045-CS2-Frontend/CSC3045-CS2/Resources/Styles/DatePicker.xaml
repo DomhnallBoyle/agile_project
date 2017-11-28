@@ -11,5 +11,15 @@
             </Setter.Value>
         </Setter>
     </Style>
-        
+
+    <Style TargetType="{x:Type DatePicker}" x:Key="InvalidDatePicker">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate>
+                    <TextBox x:Name="PART_TextBox" Style="{StaticResource InvalidTextBox}" Text="{Binding Path=SelectedDate, RelativeSource={RelativeSource AncestorType={x:Type DatePicker}}}"/>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
 </ResourceDictionary>

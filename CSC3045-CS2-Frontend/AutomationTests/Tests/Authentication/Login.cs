@@ -20,7 +20,7 @@ namespace AutomationTests.Tests.Authentication
         [Test]
         public void ShouldSuccessfullyLoginAsUserWithNoProjects()
         {
-            LoginPage.Login("user16@email.com", "Passw0rd16");
+            LoginPage.Login("e2eUser1@email.e2e", "Aut0mation1");
 
             var messageBox = MessageBoxUtil.GetInfoMessageBox(MainWindow);
             Assert.NotNull(messageBox);
@@ -35,10 +35,10 @@ namespace AutomationTests.Tests.Authentication
         [Test]
         public void ShouldSuccessfullyLoginAsUserWithProjects()
         {
-            LoginPage.Login("user1@email.com", "Passw0rd1");
+            LoginPage.Login("e2eUser2@email.e2e", "Aut0mation2");
 
             Assert.IsTrue(_userDashboardPage.IsCurrentPage());
-            Assert.That(_userDashboardPage.ProjectListBox.Items.Count, Is.EqualTo(4));
+            Assert.That(_userDashboardPage.ProjectListBox.Items.Count, Is.EqualTo(2));
 
             _userDashboardPage.LogoutButton.Click();
         }

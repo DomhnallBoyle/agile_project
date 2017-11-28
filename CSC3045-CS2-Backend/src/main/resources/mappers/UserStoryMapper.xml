@@ -39,6 +39,13 @@
         WHERE project_id = #{id}
     </select>
     
+     <select id="getAvailableUserStories" resultMap="userStoryResultMap">
+        SELECT *
+        FROM USER_STORY
+        WHERE project_id = #{id} 
+        AND sprint_id IS NULL
+    </select>
+    
     <select id="getAcceptanceTestsByStoryId" resultMap="acceptanceTestResultMap">
     	SELECT *
         FROM ACCEPTANCE_TEST

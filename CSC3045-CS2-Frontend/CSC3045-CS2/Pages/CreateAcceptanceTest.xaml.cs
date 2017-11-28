@@ -14,7 +14,8 @@ namespace CSC3045_CS2.Pages
     /// <summary>
     /// Interaction logic for CreateAcceptanceTest.xaml
     /// </summary>
-    public partial class CreateAcceptanceTest : Page
+    public partial class CreateAcceptanceTest : BasePage 
+
     {
         #region Private Variables
 
@@ -24,15 +25,19 @@ namespace CSC3045_CS2.Pages
 
         #endregion
 
-   
+
+
         public CreateAcceptanceTest(UserStory userStory)
         {
+           
             InitializeComponent();
             DataContext = this;
             _client = new UserStoryClient();
 
+            CurrentPage = this.Title;
             _currentUserStory = userStory;
         }
+    
 
         #region Command Methods
 
@@ -74,6 +79,7 @@ namespace CSC3045_CS2.Pages
                 });
             }
         }
+        
         #endregion
     }
 }
