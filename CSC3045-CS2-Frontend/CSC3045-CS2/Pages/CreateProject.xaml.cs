@@ -1,138 +1,144 @@
-﻿    using CSC3045_CS2.Exception;
-    using CSC3045_CS2.Models;
-    using CSC3045_CS2.Service;
-    using CSC3045_CS2.Utility;
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-    using System.Threading.Tasks;
-    using System.Windows;
-    using System.Windows.Controls;
-    using System.Windows.Data;
-    using System.Windows.Documents;
-    using System.Windows.Input;
-    using System.Windows.Media;
-    using System.Windows.Media.Imaging;
-    using System.Windows.Navigation;
-    using System.Windows.Shapes;
+﻿using CSC3045_CS2.Exception;
+using CSC3045_CS2.Models;
+using CSC3045_CS2.Service;
+using CSC3045_CS2.Utility;
+using System;
+using System.Text;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Input;
+using System.Windows.Navigation;
 
-    namespace CSC3045_CS2.Pages
+namespace CSC3045_CS2.Pages
+{
+/// <summary>
+/// Interaction logic for CreateProject.xaml
+/// </summary>
+public partial class CreateProject : BasePage
+{
+    #region Private Variables
+
+    private ProjectClient _client;
+
+    private String _warningMessage;
+
+    private Style _invalidTextBoxStyle;
+    private Style _validTextBoxStyle;
+
+    private User _currentUser;
+
+    #endregion
+
+    #region Public Variables
+
+    public User CurrentUser
     {
-    /// <summary>
-    /// Interaction logic for CreateProject.xaml
-    /// </summary>
-    public partial class CreateProject : Page
+        get { return _currentUser; }
+    }
+
+    #endregion
+
+    public CreateProject()
     {
-        #region Private Variables
-        private ProjectClient _client;
-        private String _warningMessage;
-        private Style _invalidStyle;
-        private Style _validStyle;
+        InitializeComponent();
+        CurrentPage = this.Title;
+        DataContext = this;
 
-        #endregion
+        _client = new ProjectClient();
+        _currentUser = (User)Application.Current.Properties["user"];
 
-        #region Public Variables
-        User currentUser = (User)Application.Current.Properties["user"];
+        PageSetup();
+    }
 
-        public String TitleLabel { get; set; } = "Create A Project";
+    #region Class Methods
 
-        public String ProjectManagerLabel { get; set; } = "Project Manager:";
+    private void PageSetup()
+    {
+        _invalidTextBoxStyle = FindResource("InvalidTextBox") as Style;
+        _validTextBoxStyle = FindResource("DefaultTextBox") as Style;
+    }
 
-        public String ProductOwnerLabel { get; set; } = "Product Owner";
-
-        public String ProjectManagerNameLabel { get; set; } = "";
-
-        public String ProjectNameTextContent { get; set; } = "";
-
-        public String DescriptionTextContent { get; set; } = "";
-
-        public String CreateButtonText { get; set; } = "Create";
-
-        #endregion
-        public CreateProject()
+    private bool CheckFields()
+    {
+        bool valid = true;
+        StringBuilder sb = new StringBuilder();
+        if (String.IsNullOrEmpty(ProjectNameTextBox.Text))
         {
-            InitializeComponent();
-            DataContext = this;
-            _client = new ProjectClient();
-            pageSetup();
+            ProjectNameTextBox.Style = _invalidTextBoxStyle;
+            valid = false;
+            sb.Append("You must enter a project name\n");
+        }
+        else
+        {
+            ProjectNameTextBox.Style = _validTextBoxStyle;
         }
 
-        #region Command methods
-
-        public void pageSetup()
+        if (String.IsNullOrEmpty(ProjectDescriptionTextBox.Text))
         {
-            ProjectManagerNameLabel = currentUser.Forename + " " + currentUser.Surname;
-            _invalidStyle = FindResource("InvalidTextBox") as Style;
-            _validStyle = FindResource("DefaultTextBox") as Style;
+            ProjectDescriptionTextBox.Style = _invalidTextBoxStyle;
+            valid = false;
+            sb.Append("You must enter a project description\n");
+        }
+        else
+        {
+            ProjectDescriptionTextBox.Style = _validTextBoxStyle;
         }
 
-        public ICommand CreateProjectCommand
+        _warningMessage = sb.ToString();
+        return valid;
+    }
+
+    #endregion
+
+    #region Command Methods
+
+    public ICommand CreateProjectCommand
+    {
+        get
         {
-            get
+            return new RelayCommand(param =>
             {
-                return new RelayCommand(param =>
+                if (CheckFields())
                 {
-                    if (CheckFields())
+                    Project project = new Project(CurrentUser, ProjectNameTextBox.Text, ProjectDescriptionTextBox.Text);
+                    project.Manager = (User)Application.Current.Properties["user"];
+
+                    try
                     {
-                        Project project = new Project(currentUser, ProjectNameTextContent, DescriptionTextContent);
-                        project.Manager = (User)Application.Current.Properties["user"];
+                        _client.CreateProject(project);
 
-                        try
-                        {
-                            _client.CreateProject(project);
+                        MessageBoxUtil.ShowSuccessBox("Project creation successful!");
 
-                            MessageBoxUtil.ShowSuccessBox("Project creation successful!");
+                        Page userDashboard = new UserDashboard();
 
-                            Page userDashboard = new UserDashboard();
-
-                            NavigationService.GetNavigationService(this).Navigate(userDashboard);
-                        }
-                        catch (RestResponseErrorException ex)
-                        {
-                            MessageBoxUtil.ShowErrorBox(ex.Message);
-                        }
+                        NavigationService.GetNavigationService(this).Navigate(userDashboard);
                     }
-                    else
+                    catch (RestResponseErrorException ex)
                     {
-                        MessageBoxUtil.ShowWarningBox(_warningMessage);
+                        MessageBoxUtil.ShowErrorBox(ex.Message);
                     }
-                });
-            }
-        }
-
-        private bool CheckFields()
-        {
-            bool valid = true;
-            StringBuilder sb = new StringBuilder();
-            if (String.IsNullOrEmpty(ProjectNameTextBox.Text))
-            {
-                ProjectNameTextBox.Style = _invalidStyle;
-                valid = false;
-                sb.Append("You must enter a project name\n");
-            }
-            else
-            {
-                ProjectNameTextBox.Style = _validStyle;
-            }
-
-            if (String.IsNullOrEmpty(ProjectDescriptionTextBox.Text))
-            {
-                ProjectDescriptionTextBox.Style = _invalidStyle;
-                valid = false;
-                sb.Append("You must enter a project description\n");
-            }
-            else
-            {
-                ProjectDescriptionTextBox.Style = _validStyle;
-            }
-
-            _warningMessage = sb.ToString();
-            return valid;
+                }
+                else
+                {
+                    MessageBoxUtil.ShowWarningBox(_warningMessage);
+                }
+            });
         }
     }
+
+    public ICommand CancelCommand
+    {
+        get
+        {
+            return new RelayCommand(param =>
+            {
+                Page userDashboard = new UserDashboard();
+
+                NavigationService.GetNavigationService(this).Navigate(userDashboard);
+            });
+        }
+    }
+
+    #endregion
 }
-        #endregion
-        
-
-
+}

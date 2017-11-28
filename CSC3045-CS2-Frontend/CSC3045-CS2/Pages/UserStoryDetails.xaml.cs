@@ -15,7 +15,7 @@ namespace CSC3045_CS2.Pages
     /// <summary>
     /// Interaction logic for UserStoryDetails.xaml
     /// </summary>
-    public partial class UserStoryDetails : Page
+    public partial class UserStoryDetails : BasePage
     {
 
         #region Private variables
@@ -27,12 +27,14 @@ namespace CSC3045_CS2.Pages
 
         public UserStory SelectedUserStory { get; set; }
 
+   
+
         #endregion
 
         public UserStoryDetails(UserStory selectedUserStory)
         {
-           InitializeComponent();
-
+            InitializeComponent();
+            CurrentPage = this.Title;
             DataContext = this;
 
             _client = new UserStoryClient();
@@ -55,6 +57,8 @@ namespace CSC3045_CS2.Pages
                 });
             }
         }
+       
+
 
         public ICommand GoToCreateAcceptanceTestCommand
         {

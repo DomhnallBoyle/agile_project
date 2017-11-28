@@ -9,9 +9,8 @@
       d:DesignHeight="600" d:DesignWidth="1060"
       Title="Register">
 
-    <StackPanel>
+    <StackPanel Width="500" Margin="0,75,0,0">
         <TextBlock Name="PageTitle" Text="Registration" Style="{StaticResource Title}" HorizontalAlignment="Center" Margin="0,10,0,10"/>
-
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="2*"/>
@@ -19,16 +18,16 @@
             </Grid.ColumnDefinitions>
 
             <StackPanel Grid.Column="0">
-                <AdornerDecorator>
-                    <TextBox Name="FirstnameTextBox" Style="{StaticResource DefaultTextBox}" Margin="0,5,0,0"  Grid.Row="0">
+                <AdornerDecorator Margin="0,6,0,0">
+                    <TextBox Name="FirstnameTextBox" Style="{StaticResource DefaultTextBox}">
                         <utility:WatermarkService.Watermark>
                             <TextBlock Style="{StaticResource Watermark}" HorizontalAlignment="Center" Name="FirstnameTextBlock">Firstname</TextBlock>
                         </utility:WatermarkService.Watermark>
                     </TextBox>
                 </AdornerDecorator>
 
-                <AdornerDecorator>
-                    <TextBox Name="SurnameTextBox" Style="{StaticResource DefaultTextBox}" Margin="0,5,0,0"  Grid.Row="1">
+                <AdornerDecorator Margin="0,6,0,0">
+                    <TextBox Name="SurnameTextBox" Style="{StaticResource DefaultTextBox}">
                         <utility:WatermarkService.Watermark>
                             <TextBlock Style="{StaticResource Watermark}" HorizontalAlignment="Center"  Name="SurnameTextBlock">Surname</TextBlock>
                         </utility:WatermarkService.Watermark>
@@ -36,75 +35,63 @@
                 </AdornerDecorator>
             </StackPanel>
 
-            <DockPanel Grid.Column="1">
-                <Button Name="ProfileButton" Margin="30,0,0,0" Click="ProfileButton_Click"/>
+            <DockPanel Grid.Column="1" Width="64" Height="64">
+                <Button Name="ProfileButton" Margin="0,0,0,0" Click="ProfileButton_Click"/>
             </DockPanel>
         </Grid>
-        
-        <Grid Margin="100,0,100,0">
+
+        <AdornerDecorator>
+            <TextBox Name="EmailTextBox" Style="{StaticResource DefaultTextBox}" Margin="0,5,0,0">
+                <utility:WatermarkService.Watermark>
+                    <TextBlock Style="{StaticResource Watermark}" HorizontalAlignment="Center" Name="EmailTextBlock">E-mail</TextBlock>
+                </utility:WatermarkService.Watermark>
+            </TextBox>
+        </AdornerDecorator>
+
+        <AdornerDecorator>
+            <PasswordBox Name="PasswordTextBox" Style="{StaticResource DefaultPasswordBox}" Margin="0,5,0,0" >
+                <utility:WatermarkService.Watermark>
+                    <TextBlock Style="{StaticResource Watermark}" HorizontalAlignment="Center" Name="PasswordTextBlock" >Password</TextBlock>
+                </utility:WatermarkService.Watermark>
+            </PasswordBox>
+        </AdornerDecorator>
+
+        <AdornerDecorator>
+            <PasswordBox Name="ConfirmPasswordTextBox" Style="{StaticResource DefaultPasswordBox}" Margin="0,5,0,0" ToolTip="Passwords Must Match" >
+                <utility:WatermarkService.Watermark>
+                    <TextBlock Style="{StaticResource Watermark}" HorizontalAlignment="Center" Name="ConfirmPasswordTextBlock">Confirm Password</TextBlock>
+                </utility:WatermarkService.Watermark>
+            </PasswordBox>
+        </AdornerDecorator>
+
+        <Grid Margin="100,15,100,0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
 
-            <StackPanel Grid.Column="0" Grid.ColumnSpan="3">
-                <AdornerDecorator>
-                    <TextBox Name="EmailTextBox" Style="{StaticResource DefaultTextBox}" Margin="0,5,0,0">
-                        <utility:WatermarkService.Watermark>
-                            <TextBlock Style="{StaticResource Watermark}"  HorizontalAlignment="Left" Margin="72,0,0,0"  Name="EmailTextBlock">E-mail</TextBlock>
-                        </utility:WatermarkService.Watermark>
-                    </TextBox>
-                </AdornerDecorator>
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
 
-                <AdornerDecorator>
-                    <PasswordBox Name="PasswordTextBox" Style="{StaticResource DefaultPasswordBox}" Margin="0,5,0,0" >
-                        <utility:WatermarkService.Watermark>
-                            <TextBlock Style="{StaticResource Watermark}" HorizontalAlignment="Left" Margin="72,0,0,0"  Name="PasswordTextBlock" >Password</TextBlock>
-                        </utility:WatermarkService.Watermark>
-                    </PasswordBox>
-                </AdornerDecorator>
-
-                <AdornerDecorator>
-                    <PasswordBox Name="ConfirmPasswordTextBox" Style="{StaticResource DefaultPasswordBox}" Margin="0,5,0,0" ToolTip="Passwords Must Match" >
-                        <utility:WatermarkService.Watermark>
-                            <TextBlock Style="{StaticResource Watermark}" HorizontalAlignment="Left"  Margin="72,0,0,0"  Name="ConfirmPasswordTextBlock">Confirm Password</TextBlock>
-                        </utility:WatermarkService.Watermark>
-                    </PasswordBox>
-                </AdornerDecorator>
-
-                <Grid Margin="0,10">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="*"/>
-                    </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition/>
-                        <RowDefinition/>
-                    </Grid.RowDefinitions>
-                    <TextBlock Grid.Column="0" Grid.Row="0" Margin="0,5" Style="{StaticResource Watermark}" FontSize="12" FontFamily="Lato Thin"  HorizontalAlignment="Center">Product Owner</TextBlock>
-                    <TextBlock Grid.Column="1" Grid.Row="0" Margin="0,5" Style="{StaticResource Watermark}" FontSize="12" FontFamily="Lato Thin"  HorizontalAlignment="Center">Scrum Master</TextBlock>
-                    <TextBlock Grid.Column="2" Grid.Row="0" Margin="0,5" Style="{StaticResource Watermark}" FontSize="12" FontFamily="Lato Thin"  HorizontalAlignment="Center">Developer</TextBlock>
-                    <CheckBox Name="ProductOwnerCheckBox" Grid.Column="0" Grid.Row="1" Margin="0,5"  HorizontalAlignment="Center"></CheckBox>
-                    <CheckBox Name="ScrumMasterCheckBox" Grid.Column="1" Grid.Row="1" Margin="0,5"  HorizontalAlignment="Center"></CheckBox>
-                    <CheckBox Name="DeveloperCheckBox" Grid.Column="2" Grid.Row="1" Margin="0,5" HorizontalAlignment="Center"></CheckBox>
-
-                </Grid>
-            </StackPanel>
+            <TextBlock Grid.Column="0" Grid.Row="0" Margin="0,5" Style="{StaticResource Label}" FontSize="12" FontFamily="Lato Thin"  HorizontalAlignment="Center">Product Owner</TextBlock>
+            <TextBlock Grid.Column="1" Grid.Row="0" Margin="0,5" Style="{StaticResource Label}" FontSize="12" FontFamily="Lato Thin"  HorizontalAlignment="Center">Scrum Master</TextBlock>
+            <TextBlock Grid.Column="2" Grid.Row="0" Margin="0,5" Style="{StaticResource Label}" FontSize="12" FontFamily="Lato Thin"  HorizontalAlignment="Center">Developer</TextBlock>
+            <CheckBox Name="ProductOwnerCheckBox" Grid.Column="0" Grid.Row="1" Margin="0,5"  HorizontalAlignment="Center"></CheckBox>
+            <CheckBox Name="ScrumMasterCheckBox" Grid.Column="1" Grid.Row="1" Margin="0,5"  HorizontalAlignment="Center"></CheckBox>
+            <CheckBox Name="DeveloperCheckBox" Grid.Column="2" Grid.Row="1" Margin="0,5" HorizontalAlignment="Center"></CheckBox>
         </Grid>
-        <Grid Margin="100,0,100,0">
+
+        <Grid Margin="100,15,100,0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
-                
             </Grid.ColumnDefinitions>
+
             <Button Name="BackButton" Margin="10,10,10,10" Grid.Column="0" Content="Cancel"  Style="{StaticResource StandardButton}" Command="{Binding BackCommand}"/>
             <Button Name="RegisterButton" Margin="10,10,10,10" Grid.Column="1" Content="Register"  Style="{StaticResource StandardButton}" Click="RegisterButton_Click"/>
-            
         </Grid>
-       
     </StackPanel>
-    
-
 </Page>

@@ -4,11 +4,11 @@
 
     <Style TargetType="{x:Type Button}" x:Key="StandardButton">
         <Setter Property="Background" Value="{StaticResource DarkGrayBrush}"/>
-        <Setter Property="BorderBrush" Value="{StaticResource LightGrayBrush}"/> 
-        
+        <Setter Property="BorderBrush" Value="{StaticResource LightGrayBrush}"/>
+
         <Setter Property="Height" Value="30"/>
         <Setter Property="Width" Value="100"/>
-        
+
         <Setter Property="FontFamily" Value="{StaticResource LatoRegular}"/>
         <Setter Property="FontSize" Value="14"/>
 
@@ -29,13 +29,13 @@
             </Trigger>
         </Style.Triggers>
     </Style>
-
-    <Style TargetType="{x:Type Button}" x:Key="ExtendedButton">
-        <Setter Property="Background" Value="White"/>
-        <Setter Property="BorderBrush" Value="{StaticResource LightGrayBrush}"/>
+    
+    <Style TargetType="{x:Type Button}" x:Key="InvalidButton">
+        <Setter Property="Background" Value="{StaticResource LightGrayBrush}"/>
+        <Setter Property="BorderBrush" Value="{StaticResource DarkGrayBrush}"/>
 
         <Setter Property="Height" Value="30"/>
-        <Setter Property="Width" Value="120"/>
+        <Setter Property="Width" Value="100"/>
 
         <Setter Property="FontFamily" Value="{StaticResource LatoRegular}"/>
         <Setter Property="FontSize" Value="14"/>
@@ -49,13 +49,6 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
-
-        <Style.Triggers>
-            <Trigger Property="IsMouseOver" Value="True">
-                <Setter Property="Background" Value="{StaticResource BrightBlueBrush}"/>
-                <Setter Property="BorderBrush" Value="{StaticResource DarkGrayBrush}"/>
-            </Trigger>
-        </Style.Triggers>
     </Style>
 
 </ResourceDictionary>

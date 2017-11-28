@@ -23,7 +23,7 @@ namespace CSC3045_CS2.Pages
     /// <summary>
     /// Interaction logic for AddSprintTeamMember.xaml
     /// </summary>
-    public partial class EditSprintTeam : Page
+    public partial class EditSprintTeam : BasePage
     {
         #region Private variables
 
@@ -44,6 +44,7 @@ namespace CSC3045_CS2.Pages
         public EditSprintTeam(Sprint sprint)
         {
             InitializeComponent();
+            CurrentPage = this.Title;
             DataContext = this;
 
             _sprintClient = new SprintClient();
@@ -89,6 +90,7 @@ namespace CSC3045_CS2.Pages
                 });
             }
         }
+       
 
         public ICommand BackCommand
         {
