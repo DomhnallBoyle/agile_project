@@ -6,8 +6,9 @@
       xmlns:local="clr-namespace:CSC3045_CS2.Pages"
       mc:Ignorable="d" 
       d:DesignHeight="300" d:DesignWidth="300"
-    Background="{StaticResource BackgroundGradient}"
-      Title="CreateAcceptanceTest">
+      Background="{StaticResource BackgroundGradient}"
+      Title="Create Acceptance Test">
+    
     <StackPanel>
         <ContentControl  Template="{StaticResource Headers}" Name="Header" ></ContentControl>
       

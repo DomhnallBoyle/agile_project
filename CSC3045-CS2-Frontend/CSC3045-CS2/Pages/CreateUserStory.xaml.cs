@@ -3,6 +3,7 @@ using CSC3045_CS2.Models;
 using CSC3045_CS2.Service;
 using CSC3045_CS2.Utility;
 using System;
+using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
@@ -18,29 +19,14 @@ namespace CSC3045_CS2.Pages
     {
         #region Private Variables
 
-        private UserStoryClient _client;
-
         private Project _currentProject;
 
-        #endregion
+        private UserStoryClient _client;
 
-        #region Public Variables
+        private Style _invalidTextBoxStyle;
+        private Style _validTextBoxStyle;
 
-        public String NameLabel { get; set; } = "Story Name";
-
-        public String MarketValueLabel { get; set; } = "Market Value";
-
-        public String DescriptionLabel { get; set; } = "Description";
-
-        public String NameTextContent { get; set; }
-
-        public String MarketValueTextContent { get; set; }
-
-        public String DescriptionTextContent { get; set; }
-
-        public String CancelButtonText { get; set; } = "Cancel";
-
-        public String CreateButtonText { get; set; } = "Create";
+        private String _warningMessage;
 
         #endregion
 
@@ -49,16 +35,67 @@ namespace CSC3045_CS2.Pages
             InitializeComponent();
             CurrentPage = this.Title;
             DataContext = this;
-            _client = new UserStoryClient();
 
+            _client = new UserStoryClient();
             _currentProject = project;
+
+            PageSetup();
         }
+
+        #region Class Methods
+
+        private void PageSetup()
+        {
+            _invalidTextBoxStyle = FindResource("InvalidTextBox") as Style;
+            _validTextBoxStyle = FindResource("DefaultTextBox") as Style;
+        }
+
+        private bool CheckFields()
+        {
+            bool valid = true;
+            StringBuilder sb = new StringBuilder();
+
+            if (!String.IsNullOrEmpty(StoryNameTextBox.Text))
+            {
+                StoryNameTextBox.Style = _validTextBoxStyle;
+            }
+            else
+            {
+                StoryNameTextBox.Style = _invalidTextBoxStyle;
+                valid = false;
+                sb.Append("You must enter a Story Name\n");
+            }
+
+            if (!String.IsNullOrEmpty(StoryMarketValueTextBox.Text))
+            {
+                StoryMarketValueTextBox.Style = _validTextBoxStyle;
+            }
+            else
+            {
+                StoryMarketValueTextBox.Style = _invalidTextBoxStyle;
+                valid = false;
+                sb.Append("You must enter a Market Value");
+            }
+
+            if (!String.IsNullOrEmpty(StoryDescriptionTextBox.Text))
+            {
+                StoryDescriptionTextBox.Style = _validTextBoxStyle;
+            }
+            else
+            {
+                StoryDescriptionTextBox.Style = _invalidTextBoxStyle;
+                valid = false;
+                sb.Append("You must enter a Story Description");
+            }
+
+            _warningMessage = sb.ToString();
+            return valid;
+        }
+
+        #endregion
 
         #region Command Methods
 
-        /// <summary>
-        /// Cancels the Story Creation and returns the User to the previous page
-        /// </summary>
         public ICommand CancelCommand
         {
             get
@@ -72,28 +109,34 @@ namespace CSC3045_CS2.Pages
             }
         }
 
-
         public ICommand CreateCommand
         {
             get
             {
                 return new RelayCommand(param =>
                 {
-                    UserStory userStory = new UserStory(
-                            NameTextContent,
-                            DescriptionTextContent,
-                            int.Parse(MarketValueTextContent),
-                            _currentProject);
-
-                    try
+                    if (CheckFields())
                     {
-                        _client.CreateUserStory(userStory);
+                        UserStory userStory = new UserStory(
+                                StoryNameTextBox.Text,
+                                StoryDescriptionTextBox.Text,
+                                int.Parse(StoryMarketValueTextBox.Text),
+                                _currentProject);
 
-                        CancelCommand.Execute(null);
+                        try
+                        {
+                            _client.CreateUserStory(userStory);
+
+                            CancelCommand.Execute(null);
+                        }
+                        catch (RestResponseErrorException ex)
+                        {
+                            MessageBoxUtil.ShowErrorBox(ex.Message);
+                        }
                     }
-                    catch (RestResponseErrorException ex)
+                    else
                     {
-                        MessageBoxUtil.ShowErrorBox(ex.Message);
+                        MessageBoxUtil.ShowWarningBox(_warningMessage);
                     }
                 });
             }

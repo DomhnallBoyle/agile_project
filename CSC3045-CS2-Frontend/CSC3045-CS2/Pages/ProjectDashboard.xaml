@@ -4,45 +4,44 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:CSC3045_CS2.Pages"
+      xmlns:utility="clr-namespace:CSC3045_CS2.Utility"
       mc:Ignorable="d"
-     Background="{StaticResource BackgroundGradient}"
-      d:DesignHeight="100" d:DesignWidth="100"
+      Background="{StaticResource BackgroundGradient}"
+      d:DesignHeight="600" d:DesignWidth="1060"
       x:Name="Page"
-      Title="ProjectDashboard">
-    <StackPanel>
-            <ContentControl  Template="{StaticResource Headers}" Name="Header" ></ContentControl>
+      Title="Project Dashboard">
 
-    <Grid>
-        
-        <Grid.RowDefinitions>
-            <RowDefinition Height="0.1*"/>
-            <RowDefinition Height="0.225*"/>
-            <RowDefinition Height="0.05*"/>
-            <RowDefinition Height="0.6*"/>
-        </Grid.RowDefinitions>
+    <StackPanel Width="750" Margin="0,25,0,0">
+        <ContentControl  Template="{StaticResource Headers}" Name="Header" Margin="0,0,0,15"/>
 
-        <Grid Grid.Row="0">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="0.3*"/>
-                <ColumnDefinition Width="0.7*"/>
-                <ColumnDefinition Width="0.3*"/>
-            </Grid.ColumnDefinitions>
+        <Button Visibility="Collapsed" Grid.Column="0" Name="ProjectDropDownButton" Content="Project List" Style="{StaticResource StandardButton}" Command="{Binding ProjectDropDown}" ContextMenuService.IsEnabled="False">
+            <Button.ContextMenu>
+                <ContextMenu Name="projectMenuItems">
+                </ContextMenu>
+            </Button.ContextMenu>
+        </Button>
 
-                <Button Grid.Column="0" Name="ProjectDropDownButton" Content="Project List" Style="{StaticResource StandardButton}" Command="{Binding ProjectDropDown}" ContextMenuService.IsEnabled="False">
-                    <Button.ContextMenu>
-                        <ContextMenu Name="projectMenuItems">
-                        </ContextMenu>
-                    </Button.ContextMenu>
-                </Button>
-            </Grid>
-
-        <Grid Grid.Row="1" Margin="0,10,0,0">
+        <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
 
-            <StackPanel Grid.Column="0">
+            <StackPanel Grid.Column="0" Margin="0,0,10,0">
+                <Grid Margin="0,0,0,15">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Button Grid.Column="0" Name="UserDashboardButton" Content="User Dashboard" Style="{StaticResource StandardButton}" Command="{Binding GoToUserDashboardCommand}" Width="110"/>
+                    <Button Grid.Column="1" Name="ProductBacklogButton" Content="Product Backlog" Style="{StaticResource StandardButton}" Command="{Binding GoToProductBacklogCommand}" Width="110" Margin="5,0,5,0"/>
+                    <Button Grid.Column="2" Name="ManageSprintsButton" Content="Sprint Overview" Style="{StaticResource StandardButton}" Command="{Binding GoToManageSprintsCommand}" Width="110"/>
+                </Grid>
+
+                <Separator/>
+
                 <TextBlock Name="ProjectManagerHeaderTextBlock" Text="Project Manager" Style="{StaticResource Header}" HorizontalAlignment="Center"/>
 
                 <TextBlock Name="ProjectManagerNameTextBlock" Style="{StaticResource Label}" HorizontalAlignment="Center">
@@ -55,6 +54,8 @@
                 </TextBlock>
                 <TextBlock Name="ProjectManagerEmailTextBlock" Text="{Binding CurrentProject.Manager.Email}" Style="{StaticResource Label}" HorizontalAlignment="Center"/>
 
+                <Separator/>
+
                 <TextBlock Name="ProductOwnerHeaderTextBlock" Text="Product Owner" Style="{StaticResource Header}" HorizontalAlignment="Center" Margin="0,10,0,0"/>
 
                 <TextBlock Name="ProductOwnerNameTextBlock" Style="{StaticResource Label}" HorizontalAlignment="Center">
@@ -66,188 +67,166 @@
                     </TextBlock.Text>
                 </TextBlock>
                 <TextBlock Name="ProductOwnerEmailTextBlock" Text="{Binding CurrentProject.ProductOwner.Email, Mode=OneWay}" Style="{StaticResource Label}" HorizontalAlignment="Center"/>
-            </StackPanel>
 
-            <Grid Grid.Column="1">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="0.13*"/>
-                    <RowDefinition Height="0.8*"/>
-                </Grid.RowDefinitions>
-                <TextBlock Grid.Row="0" Name="ScrumMastersHeaderTextBlock" Text="Scrum Masters" Style="{StaticResource Header}" HorizontalAlignment="Center"/>
-                <ListBox Grid.Row="1" Name="ScrumMastersListBox" ItemsSource="{Binding CurrentProject.ScrumMasters}" Style="{StaticResource DefaultListBox}" HorizontalContentAlignment="Center">
-                    <ListBox.ItemTemplate>
-                        <DataTemplate>
-                            <StackPanel Grid.Column="0">
-                                <TextBlock Name="ScrumMasterNameTextBlock" Style="{StaticResource Label}" HorizontalAlignment="Center">
-                                    <TextBlock.Text>
-                                        <MultiBinding StringFormat="{}{0} {1}">
-                                            <Binding Path="Forename"/>
-                                            <Binding Path="Surname"/>
-                                        </MultiBinding>
-                                    </TextBlock.Text>
-                                </TextBlock>
-                                <TextBlock Name="ScrumMasterEmailTextBlock" Text="{Binding Email}" Style="{StaticResource Label}" HorizontalAlignment="Center"/>
+                <Separator/>
 
-                                <Button Name="ScrumMasterRemoveButton" Content="Remove"
-                                        Style="{StaticResource StandardButton}" Width="60"
-                                        Command="{Binding ElementName=Page, Path=DataContext.RemoveScrumMasterCommand}"
-                                        CommandParameter="{Binding}"/>
-                            </StackPanel>
-                        </DataTemplate>
-                    </ListBox.ItemTemplate>
-                </ListBox>
-            </Grid>
-        </Grid>
-
-
-        <Grid Grid.Row="2">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
-
-            <Button Grid.Column="0" Name="UserDashboardButton" Content="User Dashboard" Style="{StaticResource StandardButton}" Command="{Binding GoToUserDashboardCommand}" Width="125"/>
-            <Button Grid.Column="1" Name="ProductBacklogButton" Content="Product Backlog" Style="{StaticResource StandardButton}" Command="{Binding GoToProductBacklogCommand}" Width="125"/>
-            <Button Grid.Column="2" Name="ManageSprintsButton" Content="Sprint Overview" Style="{StaticResource StandardButton}" Command="{Binding GoToManageSprintsCommand}" Width="125"/>
-        </Grid>
-
-        <Grid Grid.Row="3">
-            <StackPanel>
-                <Grid>
+                <Grid Height="220">
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="0.2*"/>
+                        <RowDefinition Height="0.15*"/>
                         <RowDefinition Height="0.8*"/>
                     </Grid.RowDefinitions>
-                </Grid>
-
-                <StackPanel Grid.Row="0">
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="0.8*"/>
-                            <ColumnDefinition Width="0.2*"/>
-                        </Grid.ColumnDefinitions>
-                        <!-- Remove Stack Panel + TextBlock once watermarks are available on master
-                                and put the TextBox in Grid.Colummn="0" -->
-                        <StackPanel Grid.Column="0">
-                            <TextBlock Name="SearchEmailTextBlock" Text="Enter Email Below" Style="{StaticResource Label}"/>
-                            <TextBox Name="SearchEmailTextBox" Style="{StaticResource DefaultTextBox}"/>
-                        </StackPanel>
-
-                        <Button Grid.Column="1" Name="SearchButton" Content="Search" Style="{StaticResource StandardButton}" Command="{Binding SearchCommand}"/>
-                    </Grid>
-
-                    <!-- Visibile only if there is a search result -->
-                    <Border BorderBrush="{StaticResource DarkGrayBrush}" BorderThickness="2" Visibility="{Binding SearchResultUser, TargetNullValue=Collapsed}">
-                        <Grid Margin="0,10,0,0">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="0.2*"/>
-                                <ColumnDefinition Width="0.3*"/>
-                                <ColumnDefinition Width="0.3*"/>
-                                <ColumnDefinition Width="0.2*"/>
-                            </Grid.ColumnDefinitions>
-
-                            <!-- Add Profile Picture here using column 0 -->
-                            <TextBlock Grid.Column="1" Style="{StaticResource Label}">
-                                <TextBlock.Text>
-                                    <MultiBinding StringFormat="{}{0} {1}">
-                                        <Binding Path="SearchResultUser.Forename" Mode="OneWay"/>
-                                        <Binding Path="SearchResultUser.Surname" Mode="OneWay"/>
-                                    </MultiBinding>
-                                </TextBlock.Text>
-                            </TextBlock>
-
-                            <StackPanel Grid.Column="2" Margin="10,0,10,0">
-                                <TextBlock Name="SearchResultDeveloperTextBlock" 
-                                           Text="Developer" 
-                                           Style="{StaticResource Label}"
-                                           Visibility="{Binding SearchResultUser.Roles.Developer, Converter={StaticResource BoolToVisConverter}, FallbackValue=Collapsed}"/>
-                                <TextBlock Name="SearchResultScrumMasterTextBlock" 
-                                           Text="Scrum Master" 
-                                           Style="{StaticResource Label}"
-                                           Visibility="{Binding SearchResultUser.Roles.ScrumMaster, Converter={StaticResource BoolToVisConverter}, FallbackValue=Collapsed}"/>
-                                <TextBlock Name="SearchResultProductOwnerTextBlock" 
-                                           Text="Product Owner" 
-                                           Style="{StaticResource Label}"
-                                           Visibility="{Binding SearchResultUser.Roles.ProductOwner, Converter={StaticResource BoolToVisConverter}, FallbackValue=Collapsed}"/>
-                            </StackPanel>
-
-                            <Button Grid.Column="3" 
-                                    Name="AddToTeamButton" 
-                                    Style="{StaticResource StandardButton}" 
-                                    Content="Add to Team" 
-                                    Command="{Binding AddToTeamCommand}" 
-                                    Visibility="{Binding SearchResultUser, TargetNullValue=Collapsed}"/>
-                        </Grid>
-                    </Border>
-                </StackPanel>
-
-                <TextBlock Name="TeamMembersHeaderTextBox" Text="Project Team" 
-                           Style="{StaticResource Header}" HorizontalAlignment="Center"
-                           Margin="0,10,0,10"/>
-
-                <ListBox Grid.Column="1" Name="TeamMembersListBox" HorizontalContentAlignment="Stretch" ItemsSource="{Binding TeamMembers}" Style="{StaticResource DefaultListBox}" Height="350">
-                    <ListBox.ItemTemplate>
-                        <DataTemplate>
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="0.2*"/>
-                                    <ColumnDefinition Width="0.3*"/>
-                                    <ColumnDefinition Width="0.5*"/>
-                                </Grid.ColumnDefinitions>
-
-                                <!-- Profile Picture in Grid.Column="0" -->
-                                <StackPanel Grid.Column="1">
-                                    <TextBlock Name="TeamMemberListUserNameTextBlock" Style="{StaticResource Label}">
-                                        <TextBlock.Text>
-                                            <MultiBinding StringFormat="{}{0} {1}">
-                                                <Binding Path="Forename"/>
-                                                <Binding Path="Surname"/>
-                                            </MultiBinding>
-                                        </TextBlock.Text>
-                                    </TextBlock>
-                                    <TextBlock Name="TeamMemberListEmailTextBlock" Style="{StaticResource Label}" Text="{Binding Email}"/>
-                                </StackPanel>
-
-                                <Grid Grid.Column="2">
+                    <TextBlock Grid.Row="0" Name="ScrumMastersHeaderTextBlock" Text="Scrum Masters" Style="{StaticResource Header}" HorizontalAlignment="Center"/>
+                    <ListBox Grid.Row="1" Name="ScrumMastersListBox" ItemsSource="{Binding CurrentProject.ScrumMasters}" Style="{StaticResource DefaultListBox}">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <Grid>
                                     <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="0.2*"/>
-                                        <ColumnDefinition Width="0.3*"/>
+                                        <ColumnDefinition Width="*"/>
                                         <ColumnDefinition Width="*"/>
                                     </Grid.ColumnDefinitions>
 
-                                    <TextBlock Grid.Column="0" 
-                                                Name="TeamMemberListDeveloperTextBlock" 
-                                                Style="{StaticResource Label}" 
-                                                Text="Developer"
-                                                Visibility="{Binding Roles.Developer, Converter={StaticResource BoolToVisConverter}, FallbackValue=Collapsed}"/>
+                                    <!-- Add Profile Picture for Scrum Masters? -->
+                                    <StackPanel Grid.Column="0" Width="200" Margin="40,10,15,0">
+                                        <TextBlock Name="ScrumMasterNameTextBlock" Style="{StaticResource ListBoxItemHeader}" HorizontalAlignment="Left">
+                                            <TextBlock.Text>
+                                                <MultiBinding StringFormat="{}{0} {1}">
+                                                    <Binding Path="Forename"/>
+                                                    <Binding Path="Surname"/>
+                                                </MultiBinding>
+                                            </TextBlock.Text>
+                                        </TextBlock>
 
-                                    <StackPanel Grid.Column="1" Visibility="{Binding Roles.ScrumMaster, Converter={StaticResource BoolToVisConverter}, FallbackValue=Collapsed}">
-                                        <TextBlock Name="TeamMemberListScrumMasterTextBlock"
-                                                    Style="{StaticResource Label}" Margin="15,0,15,0"
-                                                    Text="Scrum Master"/>
-                                        <Button Name="SetScrumMasterButton" Content="Set As"
-                                                Style="{StaticResource StandardButton}" Width="50"
-                                                Command="{Binding ElementName=Page, Path=DataContext.SetScrumMasterCommand}"
-                                                CommandParameter="{Binding}"/>
+                                        <Separator/>
+
+                                        <TextBlock Name="ScrumMasterEmailTextBlock" Text="{Binding Email}" Style="{StaticResource ButtonLabel}" HorizontalAlignment="Left"/>
                                     </StackPanel>
 
-                                    <StackPanel Grid.Column="2" Visibility="{Binding Roles.ProductOwner, Converter={StaticResource BoolToVisConverter}, FallbackValue=Collapsed}">
-                                        <TextBlock Name="TeamMemberListProductOwnerTextBlock"
-                                                    Style="{StaticResource Label}"
-                                                    Text="Product Owner"/>
-                                        <Button Name="SetProductOwnerButton" Content="Set As"
-                                                Style="{StaticResource StandardButton}" Width="50"
-                                                Command="{Binding ElementName=Page, Path=DataContext.SetProductOwnerCommand}"
+                                    <Button Grid.Column="1" Name="ScrumMasterRemoveButton" Content="Remove"
+                                                Style="{StaticResource StandardButton}" Width="60"
+                                                Command="{Binding ElementName=Page, Path=DataContext.RemoveScrumMasterCommand}"
                                                 CommandParameter="{Binding}"/>
-                                    </StackPanel>
                                 </Grid>
-                            </Grid>
-                        </DataTemplate>
-                    </ListBox.ItemTemplate>
-                </ListBox>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                </Grid>
+            </StackPanel>
+
+            <StackPanel Grid.Column="1" Margin="10,0,0,0">
+                <Grid Visibility="{Binding Permissions.Manager, Converter={StaticResource BoolToVisConverter}}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="0.86*"/>
+                        <ColumnDefinition Width="0.14*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <TextBox Grid.Column="0" Name="SearchEmailTextBox" Style="{StaticResource DefaultTextBox}">
+                        <utility:WatermarkService.Watermark>
+                            <TextBlock Style="{StaticResource Watermark}" HorizontalAlignment="Center" Name="SearchEmailTextBlock">Search Email</TextBlock>
+                        </utility:WatermarkService.Watermark>
+                    </TextBox>
+
+                    <Button Grid.Column="1" Name="SearchButton" Content="Search" Style="{StaticResource StandardButton}" Width="50" Command="{Binding SearchCommand}"/>
+                </Grid>
+
+                <Grid Margin="0,10,0,0" Height="60" Visibility="{Binding Permissions.Manager, Converter={StaticResource BoolToVisConverter}}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="0.2*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="0.2*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <!-- Add Profile Picture here -->
+                    <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Left">
+                        <TextBlock Name="SearchResultName" Style="{StaticResource Label}" Margin="0,0,35,0">
+                            <TextBlock.Text>
+                                <MultiBinding StringFormat="{}{0} {1}">
+                                    <Binding Path="SearchResultUser.Forename" Mode="OneWay"/>
+                                    <Binding Path="SearchResultUser.Surname" Mode="OneWay"/>
+                                </MultiBinding>
+                            </TextBlock.Text>
+                        </TextBlock>
+
+                        <StackPanel HorizontalAlignment="Left">
+                            <TextBlock Name="SearchResultDeveloperTextBlock" Text="Developer" 
+                                        Style="{StaticResource Label}" Margin="5,0,5,0"
+                                        Visibility="{Binding SearchResultUser.Roles.Developer, Converter={StaticResource BoolToVisConverter}, FallbackValue=Collapsed}"/>
+                            <TextBlock Name="SearchResultScrumMasterTextBlock" Text="Scrum Master" 
+                                        Style="{StaticResource Label}" Margin="5,0,5,0"
+                                        Visibility="{Binding SearchResultUser.Roles.ScrumMaster, Converter={StaticResource BoolToVisConverter}, FallbackValue=Collapsed}"/>
+                            <TextBlock Name="SearchResultProductOwnerTextBlock" Text="Product Owner" 
+                                        Style="{StaticResource Label}" Margin="5,0,5,0"
+                                        Visibility="{Binding SearchResultUser.Roles.ProductOwner, Converter={StaticResource BoolToVisConverter}, FallbackValue=Collapsed}"/>
+                        </StackPanel>
+                    </StackPanel>
+
+                    <Button Grid.Column="2" Name="AddToTeamButton" Content="Add" 
+                            Style="{StaticResource StandardButton}" Width="50" HorizontalAlignment="Right"
+                            Command="{Binding AddToTeamCommand}" Visibility="{Binding SearchResultUser, TargetNullValue=Collapsed}"/>
+                </Grid>
+
+                <TextBlock Name="TeamMembersHeaderTextBox" Text="Project Team" 
+                               Style="{StaticResource Header}" HorizontalAlignment="Center"
+                               Margin="0,10,0,10"/>
+
+                <Grid Height="275">
+                    <ListBox Name="TeamMembersListBox" ItemsSource="{Binding TeamMembers}" Style="{StaticResource DefaultListBox}" HorizontalContentAlignment="Stretch">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Margin="0,10,0,0">
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Name="TeamMemberListUserNameTextBlock" Style="{StaticResource ListBoxItemHeader}" Width="150" TextWrapping="Wrap">
+                                            <TextBlock.Text>
+                                                <MultiBinding StringFormat="{}{0} {1}">
+                                                    <Binding Path="Forename"/>
+                                                    <Binding Path="Surname"/>
+                                                </MultiBinding>
+                                            </TextBlock.Text>
+                                        </TextBlock>
+
+                                        <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" Margin="10,0,10,0"/>
+
+                                        <TextBlock Name="TeamMemberListEmailTextBlock" Style="{StaticResource ButtonLabel}" Text="{Binding Email}"/>
+                                    </StackPanel>
+
+                                    <Separator/>
+
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Grid.Column="0" 
+                                                   Name="TeamMemberListDeveloperTextBlock" Text="Developer"
+                                                   Style="{StaticResource ButtonLabel}" Width="95"
+                                                   Visibility="{Binding Roles.Developer, Converter={StaticResource BoolToVisConverter}}"/>
+
+                                        <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" Margin="10,0,10,0"/>
+
+                                        <StackPanel Grid.Column="1" Width="95" Visibility="{Binding Roles.ScrumMaster, Converter={StaticResource BoolToVisConverter}}">
+                                            <TextBlock Name="TeamMemberListScrumMasterTextBlock"
+                                                       Style="{StaticResource ButtonLabel}"
+                                                       Text="Scrum Master"/>
+                                            <Button Name="SetScrumMasterButton" Content="Set As"
+                                                    Style="{StaticResource StandardButton}" Width="50"
+                                                    Command="{Binding ElementName=Page, Path=DataContext.SetScrumMasterCommand}"
+                                                    CommandParameter="{Binding}">
+                                            </Button>
+                                        </StackPanel>
+
+                                        <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" Margin="10,0,10,0"/>
+
+                                        <StackPanel Grid.Column="2" Width="95" Visibility="{Binding Roles.ProductOwner, Converter={StaticResource BoolToVisConverter}}">
+                                            <TextBlock Name="TeamMemberListProductOwnerTextBlock"
+                                                       Style="{StaticResource ButtonLabel}"
+                                                       Text="Product Owner"/>
+                                            <Button Name="SetProductOwnerButton" Content="Set As"
+                                                    Style="{StaticResource StandardButton}" Width="50"
+                                                    Command="{Binding ElementName=Page, Path=DataContext.SetProductOwnerCommand}"
+                                                    CommandParameter="{Binding}"/>
+                                        </StackPanel>
+                                    </StackPanel>
+                                </StackPanel>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                </Grid>
             </StackPanel>
         </Grid>
-    </Grid>
     </StackPanel>
 </local:BasePage>

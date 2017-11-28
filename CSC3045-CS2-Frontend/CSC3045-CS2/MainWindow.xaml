@@ -3,13 +3,12 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:CSC3045_CS2"
         mc:Ignorable="d"
         Icon="Resources/Images/Logo/waterfall icon.png"
         WindowStartupLocation="CenterScreen"
-        MinWidth="800"
-        MinHeight="800"
-        Title="MainWindow" Height="500" Width="525">
+        MinWidth="1060"
+        MinHeight="600"
+        Title="MainWindow" Width="1060" Height="600">
     <!-- Min and Max Width/Height of the window can be specified here in the above tag-->
     
     <Frame x:Name="frame" Content="Frame" Margin="0" Source="Pages/Login.xaml"/>

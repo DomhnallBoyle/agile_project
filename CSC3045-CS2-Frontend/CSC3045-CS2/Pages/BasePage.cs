@@ -7,9 +7,6 @@ using System.Windows.Navigation;
 
 namespace CSC3045_CS2.Pages
 {
-    /// <summary>
-    /// Interaction logic for Page1.xaml
-    /// </summary>
     public partial class BasePage : Page
     {
         public string UserLabel { get; set; }
@@ -18,9 +15,9 @@ namespace CSC3045_CS2.Pages
 
         public BasePage()
         {
-
             generateHeader();
         }
+
         /// <summary>
         /// This Generates a header for Every Page that includes a users name and their profile photo 
         /// </summary>
@@ -29,8 +26,8 @@ namespace CSC3045_CS2.Pages
             User user = ((User)Application.Current.Properties["user"]);
             UserLabel = user.GetFullName();
             Image = Properties.Settings.Default.ProfileImageDirectory + user.ProfilePicture;
- 
         }
+
         /// <summary>
         /// Generic Log out command
         /// </summary>

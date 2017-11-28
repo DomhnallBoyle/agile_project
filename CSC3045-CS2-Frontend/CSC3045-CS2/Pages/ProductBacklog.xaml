@@ -7,84 +7,75 @@
       xmlns:local="clr-namespace:CSC3045_CS2.Pages"
       mc:Ignorable="d" 
       Background="{StaticResource BackgroundGradient}"
-      d:DesignHeight="300" d:DesignWidth="300"
-      Title="ProductBacklog">
-    <StackPanel>
-        <ContentControl  Template="{StaticResource Headers}" Name="Header" ></ContentControl>
+      d:DesignHeight="600" d:DesignWidth="1060"
+      Title="Product Backlog">
 
-        <Grid Margin="10,0,10,0">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
+    <StackPanel Width="750" Margin="0,25,0,0">
+        <ContentControl Template="{StaticResource Headers}" Name="Header"/>
 
-        <TextBlock Grid.Row="0" Text="{Binding PageLabel, FallbackValue='Product Backlog'}" TextAlignment="Center"></TextBlock>
+        <Grid Height="375" Margin="50,15,50,15">
+            <ListBox Name="StoryList" ItemsSource="{Binding Backlog}" 
+                     Style="{StaticResource DefaultListBox}" HorizontalContentAlignment="Stretch"
+                     dd:DragDrop.IsDragSource="True" dd:DragDrop.IsDropTarget="True"
+                     dd:DragDrop.DragHandler="{Binding PermissonDragHandler}">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Margin="15,10,15,0">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
 
-        <Grid Grid.Row="1">
+                                <TextBlock Grid.Column="0" Text="{Binding Name}" Name="StoryNameTextBlock"
+                                           Style="{StaticResource ListBoxItemHeader}" HorizontalAlignment="Left"/>
+                                <TextBlock Grid.Column="1" Text="{Binding Points}" Name="StoryPointsTextBlock"
+                                           Style="{StaticResource ListBoxItemHeader}" HorizontalAlignment="Right"/>
+                            </Grid>
+
+                            <Separator/>
+
+                            <StackPanel Orientation="Horizontal">
+                                <StackPanel>
+                                    <TextBlock Name="StoryMarketValueTextBlock" Text="{Binding RelativeSource={RelativeSource AncestorType={x:Type Page}}, Path=DataContext.MarketValueLabel}" 
+                                               Style="{StaticResource ButtonLabel}" HorizontalAlignment="Center"/>
+                                    <TextBlock Name="StoryMarketValue" Text="{Binding MarketValue}"
+                                               Style="{StaticResource ButtonLabel}" HorizontalAlignment="Center"/>
+                                </StackPanel>
+
+                                <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" Margin="10,0,10,0"/>
+
+                                <TextBlock Name="StoryDescription" Text="{Binding Description}" 
+                                           Width="375" TextWrapping="Wrap" Margin="0,0,5,0"
+                                           Style="{StaticResource ButtonLabel}" HorizontalAlignment="Left"/>
+                                <Button Name="ViewStoryDetailsButton" Content="View Details" 
+                                        Style="{StaticResource StandardButton}" HorizontalAlignment="Right"
+                                        Command="{Binding RelativeSource={RelativeSource AncestorType={x:Type Page}}, Path=DataContext.ViewDetailsCommand}" 
+                                        CommandParameter="{Binding}" />
+                            </StackPanel>
+                        </StackPanel>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+        </Grid>
+
+        <Grid>
             <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
 
-            <Button Grid.Column="0" Content="{Binding BackButtonLabel, FallbackValue='Back'}" Command="{Binding BackCommand}"/>
-            <Button Grid.Column="1" Content="{Binding CreateStoryButtonLabel, FallbackValue='Create Story'}"
-                    Command="{Binding CreateStoryCommand}"
+            <Button Grid.Column="0" Name="BackButton" Content="Project Dashboard" Width="125"
+                    Command="{Binding BackCommand}" Style="{StaticResource StandardButton}"/>
+
+            <Button Grid.Column="1" Name="SaveOrderButton" Content="Save Order" Width="125"
+                    Command="{Binding SaveOrder}" Style="{StaticResource StandardButton}"
+                    Visibility="{Binding Permissions.ProductOwner, Converter={StaticResource BoolToVisConverter}}"/>
+
+            <Button Grid.Column="2" Name="CreateStoryButton" Content="Create Story" Width="125"
+                    Command="{Binding CreateStoryCommand}" Style="{StaticResource StandardButton}"
                     Visibility="{Binding Permissions.ProductOwner, Converter={StaticResource BoolToVisConverter}}"/>
         </Grid>
-
-        <ListBox Grid.Row="2"
-                 ItemsSource="{Binding Backlog}"
-                 Margin="10"
-                 Name="StoryList"
-                 HorizontalContentAlignment="Stretch"
-                 dd:DragDrop.IsDragSource="True"
-                 dd:DragDrop.IsDropTarget="True"
-                 dd:DragDrop.DragHandler="{Binding PermissonDragHandler}">
-            <ListBox.ItemTemplate>
-                <DataTemplate>
-                    <StackPanel Margin="0,0,0,10">
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="*"/>
-                            </Grid.ColumnDefinitions>
-
-                            <TextBlock Grid.Column="0" Text="{Binding Name}" FontWeight="Bold" FontSize="16" HorizontalAlignment="Left"/>
-                            <TextBlock Grid.Column="1" Text="{Binding Points}" FontSize ="16" HorizontalAlignment="Right"/>
-                        </Grid>
-
-                        <Separator/>
-
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="0.25*"/>
-                                <ColumnDefinition Width="0.75*"/>
-                                <ColumnDefinition Width="*"/>
-                            </Grid.ColumnDefinitions>
-
-                            <Border BorderThickness="0,0,1,0" BorderBrush="Gray" Margin="0,0,10,0">
-                                <StackPanel Grid.Column="0">
-                                    <TextBlock Text="{Binding RelativeSource={RelativeSource AncestorType={x:Type Page}}, Path=DataContext.MarketValueLabel, FallbackValue='Market Value'}" HorizontalAlignment="Center"/>
-                                    <TextBlock Text="{Binding MarketValue}" HorizontalAlignment="Center"/>
-                                </StackPanel>
-                            </Border>
-
-                            <TextBlock Grid.Column="1" Text="{Binding Description}"/>
-                            <Button Grid.Column="2" Content="View Details" Command="{Binding RelativeSource={RelativeSource AncestorType={x:Type Page}}, Path=DataContext.ViewDetailsCommand}" CommandParameter="{Binding}" />
-
-                        </Grid>
-
-                    </StackPanel>
-                </DataTemplate>
-            </ListBox.ItemTemplate>
-        </ListBox>
-        <StackPanel>
-            <Button Content="Save Order"
-                    Command="{Binding SaveOrder}"
-                    Visibility="{Binding Permissions.ProductOwner, Converter={StaticResource BoolToVisConverter}}"></Button>
-        </StackPanel>
-    </Grid>
     </StackPanel>
-
 </local:BasePage>

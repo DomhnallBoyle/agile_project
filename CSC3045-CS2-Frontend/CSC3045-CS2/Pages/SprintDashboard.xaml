@@ -7,7 +7,7 @@
       mc:Ignorable="d" 
       Background="{StaticResource BackgroundGradient}"
       d:DesignHeight="300" d:DesignWidth="300"
-      Title="SprintDashboard">
+      Title="Sprint Dashboard">
 
     <StackPanel>
         <ContentControl  Template="{StaticResource Headers}" Name="Header" ></ContentControl>

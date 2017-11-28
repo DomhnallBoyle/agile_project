@@ -6,12 +6,12 @@ using CSC3045_CS2.Utility;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 
 namespace CSC3045_CS2.Pages
@@ -51,6 +51,11 @@ namespace CSC3045_CS2.Pages
         public ObservableCollection<User> TeamMembers
         {
             get { return _teamMembers; }
+            set
+            {
+                _teamMembers = value;
+                OnPropertyChanged();
+            }
         }
 
         public Project CurrentProject
@@ -68,12 +73,10 @@ namespace CSC3045_CS2.Pages
 
         #endregion
 
-
-
         public ProjectDashboard(Project currentProject)
         {
             InitializeComponent();
-    
+            CurrentPage = this.Title;
             DataContext = this;
 
             _projectClient = new ProjectClient();
@@ -85,22 +88,30 @@ namespace CSC3045_CS2.Pages
             _projects = _projectClient.GetProjectsForUser(((User)Application.Current.Properties["user"]).Id);
             ProjectDropDownButton.Content = currentProject.Name;
             AddProjectsToDropdownList();
-            CurrentPage = this.Title;
-
 
             try
             {
-                _teamMembers = new ObservableCollection<User>(_projectClient.GetProjectTeam(currentProject.Id));
+                TeamMembers = new ObservableCollection<User>(_projectClient.GetProjectTeam(currentProject.Id));
             }
             catch (RestResponseErrorException ex)
             {
                 MessageBoxUtil.ShowErrorBox(ex.Message);
             }
         }
-        
-
 
         #region Class methods
+
+        public void UpdateProject()
+        {
+            try
+            {
+                CurrentProject = _projectClient.UpdateProject(CurrentProject);
+            }
+            catch (RestResponseErrorException ex)
+            {
+                MessageBoxUtil.ShowErrorBox(ex.Message);
+            }
+        }
 
         private void AddProjectsToDropdownList()
         {
@@ -123,15 +134,31 @@ namespace CSC3045_CS2.Pages
             }
         }
 
-        public void UpdateProject()
+        private void updateSearchUI()
         {
-            try
+            if (TeamMembers.Any(user => user.Id == SearchResultUser.Id))
             {
-                CurrentProject = _projectClient.UpdateProject(CurrentProject);
+                switchButtonState(AddToTeamButton, false);
             }
-            catch (RestResponseErrorException ex)
+            else
             {
-                MessageBoxUtil.ShowErrorBox(ex.Message);
+                switchButtonState(AddToTeamButton, true);
+            }
+        }
+
+        private void switchButtonState(Button button, bool enabled)
+        {
+            if (enabled)
+            {
+                button.Style = (Style)FindResource("StandardButton");
+                button.IsEnabled = true;
+                button.Content = "Add";
+            }
+            else
+            {
+                button.Style = (Style)FindResource("InvalidButton");
+                button.IsEnabled = false;
+                button.Content = "Added";
             }
         }
 
@@ -223,6 +250,8 @@ namespace CSC3045_CS2.Pages
                     {
                         User searchUser = new User("", "", SearchEmailTextBox.Text, new Roles(false, false, false));
                         SearchResultUser = _userClient.Search(searchUser);
+
+                        updateSearchUI();
                     }
                     catch (RestResponseErrorException ex)
                     {
@@ -239,7 +268,7 @@ namespace CSC3045_CS2.Pages
             {
                 return new RelayCommand(param =>
                 {
-                    if (!TeamMembers.Contains(SearchResultUser))
+                    if (!TeamMembers.Any(user => user.Id == SearchResultUser.Id))
                     {
                         TeamMembers.Add(SearchResultUser);
 
@@ -292,8 +321,6 @@ namespace CSC3045_CS2.Pages
                 });
             }
         }
-
-        
 
         #endregion
 

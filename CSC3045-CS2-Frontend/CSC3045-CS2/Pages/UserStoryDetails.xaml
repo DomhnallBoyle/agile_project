@@ -7,7 +7,7 @@
       mc:Ignorable="d" 
       d:DesignHeight="300" d:DesignWidth="300"
       Background="{StaticResource BackgroundGradient}"
-    Title="UserStoryDashboard">
+    Title="User Story Dashboard">
 
     <StackPanel>
         <ContentControl  Template="{StaticResource Headers}" Name="Header" ></ContentControl>

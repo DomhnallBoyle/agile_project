@@ -3,57 +3,73 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-      xmlns:local="clr-namespace:CSC3045_CS2.Pages"
+      xmlns:local="clr-namespace:CSC3045_CS2.Pages"     
+      xmlns:utility="clr-namespace:CSC3045_CS2.Utility"
       mc:Ignorable="d" 
       Background="{StaticResource BackgroundGradient}"
-      d:DesignHeight="300" d:DesignWidth="300"
-      Title="CreateSprint">
+      d:DesignHeight="600" d:DesignWidth="1060"
+      Title="Create Sprint">
 
-    <StackPanel>
-       
+    <StackPanel Width="500" Margin="0,75,0,0">
         <ContentControl  Template="{StaticResource Headers}" Name="Header" ></ContentControl>
-        <TextBlock Text="Sprint Name" Style="{StaticResource Label}"/>
-        <TextBox Name="SprintNameTextBox" Style="{StaticResource DefaultTextBox}"/>
 
-        <TextBlock Text="Sprint Start Date" Style="{StaticResource Label}" Margin="0,15,0,0"/>
-        <DatePicker Name="StartDatePicker">
-            <DatePicker.Resources>
-                <Style TargetType="{x:Type DatePickerTextBox}">
-                    <Setter Property="Template">
-                        <Setter.Value>
-                            <ControlTemplate>
-                                <TextBox Text="{Binding Text, RelativeSource={RelativeSource AncestorType={x:Type DatePicker}}}" Style="{StaticResource DefaultTextBox}"/>
-                            </ControlTemplate>
-                        </Setter.Value>
-                    </Setter>
-                </Style>
-            </DatePicker.Resources>
-        </DatePicker>
+        <StackPanel Width="300" Margin="0,15,0,0">
+            <TextBox Name="SprintNameTextBox" Style="{StaticResource DefaultTextBox}">
+                <utility:WatermarkService.Watermark>
+                    <TextBlock Style="{StaticResource Watermark}" HorizontalAlignment="Center" Name="SprintNameTextBlock">Sprint Name</TextBlock>
+                </utility:WatermarkService.Watermark>
+            </TextBox>
 
-        <TextBlock Text="Sprint End Date" Style="{StaticResource Label}" Margin="0,15,0,0"/>
-        <DatePicker Name="EndDatePicker">
-            <DatePicker.Resources>
-                <Style TargetType="{x:Type DatePickerTextBox}">
-                    <Setter Property="Template">
-                        <Setter.Value>
-                            <ControlTemplate>
-                                <TextBox Text="{Binding Text, RelativeSource={RelativeSource AncestorType={x:Type DatePicker}}}" Style="{StaticResource DefaultTextBox}"/>
-                            </ControlTemplate>
-                        </Setter.Value>
-                    </Setter>
-                </Style>
-            </DatePicker.Resources>
-        </DatePicker>
+            <DatePicker Name="StartDatePicker" Margin="0,5,0,0">
+                <DatePicker.Resources>
+                    <Style TargetType="{x:Type DatePickerTextBox}">
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate>
+                                    <TextBox Text="{Binding Text, RelativeSource={RelativeSource AncestorType={x:Type DatePicker}}}" Style="{StaticResource DefaultTextBox}">
+                                        <utility:WatermarkService.Watermark>
+                                            <TextBlock Style="{StaticResource Watermark}" HorizontalAlignment="Center" Name="SprintStartDateTextBlock">Sprint Start Date</TextBlock>
+                                        </utility:WatermarkService.Watermark>
+                                    </TextBox>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </DatePicker.Resources>
+            </DatePicker>
 
-        <Grid Margin="0,15,0,0">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
+            <DatePicker Name="EndDatePicker" Margin="0,5,0,0">
+                <DatePicker.Resources>
+                    <Style TargetType="{x:Type DatePickerTextBox}">
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate>
+                                    <TextBox Text="{Binding Text, RelativeSource={RelativeSource AncestorType={x:Type DatePicker}}}" Style="{StaticResource DefaultTextBox}">
+                                        <utility:WatermarkService.Watermark>
+                                            <TextBlock Style="{StaticResource Watermark}" HorizontalAlignment="Center" Name="SprintEndDateTextBlock">Sprint End Date</TextBlock>
+                                        </utility:WatermarkService.Watermark>
+                                    </TextBox>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </DatePicker.Resources>
+            </DatePicker>
 
-            <Button Grid.Column="0" Name="CancelButton" Content="Cancel" Style="{StaticResource StandardButton}" Command="{Binding CancelCommand}"/>
-            <Button Grid.Column="1" Name="CreateButton" Content="Create" Style="{StaticResource StandardButton}" Command="{Binding CreateCommand}"/>
-        </Grid>
-        
+            <Grid Margin="0,15,0,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <Button Grid.Column="0" Name="CancelButton" Content="Cancel"
+                        HorizontalAlignment="Right" Margin="0,0,15,0"
+                        Style="{StaticResource StandardButton}" Command="{Binding CancelCommand}"/>
+                <Button Grid.Column="1" Name="CreateButton" Content="Create" 
+                        HorizontalAlignment="Left" Margin="15,0,0,0"
+                        Style="{StaticResource StandardButton}" Command="{Binding CreateCommand}"/>
+            </Grid>
+        </StackPanel>
+
     </StackPanel>
 </local:BasePage>

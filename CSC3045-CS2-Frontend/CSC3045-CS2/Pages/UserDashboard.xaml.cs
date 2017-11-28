@@ -5,31 +5,18 @@ using CSC3045_CS2.Utility;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace CSC3045_CS2.Pages
 {
     /// <summary>
     /// Interaction logic for UserDashboard.xaml
     /// </summary>
-    /// 
-
-
-
-
-    public partial class UserDashboard : Page
+    public partial class UserDashboard : BasePage
     {
         #region Private variables
 
@@ -42,8 +29,6 @@ namespace CSC3045_CS2.Pages
 
         public List<ProjectPermissions> ProjectList { get; set; }
 
-        public String UserLabel { get; set; }
-
         public ObservableCollection<String> AvailableSkills
         { get; set; }
 
@@ -52,29 +37,15 @@ namespace CSC3045_CS2.Pages
 
         #endregion
 
-
-
         public UserDashboard()
         { 
             InitializeComponent();
+            CurrentPage = this.Title;
             DataContext = this;
 
-            User user = ((User)Application.Current.Properties["user"]);
-            UserLabel = user.GetFullName();
-            string profileImageFileName;
-            if (user.ProfilePicture != null)
-            {
-                profileImageFileName = user.ProfilePicture;
-            }
-            else
-            {
-                profileImageFileName = Properties.Settings.Default.DefaultProfileImage;
-            }
-            string profileImagePath = Properties.Settings.Default.ProfileImageDirectory + profileImageFileName;
-            ProfilePicture.Source = new BitmapImage(new Uri(profileImagePath, UriKind.RelativeOrAbsolute));
             _client = new ProjectClient();
-            InitialiseProjects();
 
+            InitialiseProjects();
         }
 
         #region Class methods
@@ -128,27 +99,7 @@ namespace CSC3045_CS2.Pages
                     NavigationService.GetNavigationService(this).Navigate(createProjectPage);
                 });
             }
-        }
-
-        public ICommand LogoutCommand
-        {
-            get
-            {
-                return new RelayCommand(param =>
-                {
-                    if (Application.Current.Properties.Contains("user"))
-                    {
-                        Application.Current.Properties.Remove("user");
-                    }
-
-                    Page loginPage = new Login();
-
-                    NavigationService.GetNavigationService(this).Navigate(loginPage);
-                });
-            }
-        }
-
-       
+        }     
 
         #endregion
     }
