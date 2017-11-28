@@ -1,0 +1,59 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- Set the namespace below to the interface side of the taskMapper -->
+<mapper namespace="uk.ac.qub.csc3045.api.mapper.TaskMapper">
+
+    <!-- Result Maps -->
+
+    <resultMap id="taskResultMap" type="Task">
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="description" property="description"/>
+        <result column="initial_estimate" property="initialEstimate"/>
+        <association column="user_story_id" property="userStory" javaType="UserStory" select="selectUserStory"/>
+        <association column="assignee_id" property="assignee" javaType="User" select="selectAssignee"/>
+        <association column="project_id" property="project" javaType="Project" select="selectProject"/>
+    </resultMap>
+
+    <!-- SELECT Queries -->
+    <select id="getTaskById" resultMap="taskResultMap">
+        SELECT * FROM TASK WHERE ID = #{id}
+    </select>
+    <select id="selectUserStory" resultMap="uk.ac.qub.csc3045.api.mapper.UserStoryMapper.userStoryResultMap">
+        SELECT * FROM USER_STORY WHERE USER_STORY.ID = #{userStory.Id}
+    </select>
+    
+    <select id="selectAssignee" resultMap="uk.ac.qub.csc3045.api.mapper.UserMapper.userResultMap">
+        SELECT * FROM USER WHERE ID = #{assignee.id}
+    </select>
+
+     <select id="selectProject" resultMap="uk.ac.qub.csc3045.api.mapper.ProjectMapper.simpleProjectResultMap">
+        SELECT
+            ID,
+            NAME,
+            DESCRIPTION,
+            MANAGER_ID,
+            PRODUCT_OWNER_ID
+        FROM PROJECT
+        WHERE ID = #{sprint.project_id}
+    </select>
+    
+     <select id="getTasks" resultMap="taskResultMap">
+        SELECT *
+        FROM TASK
+        WHERE USER_STORY_ID = #{userStoryId}
+    </select>
+    
+    
+ 
+
+    <!-- INSERT Queries -->
+
+    <insert id="createTask" parameterType="Task" useGeneratedKeys="true" keyProperty="task.id" keyColumn="id">
+        INSERT INTO TASK (USER_STORY_ID, ASSIGNEE_ID, NAME, DESCRIPTION, INITIAL_ESTIMATE)
+        VALUES (#{userStoryId}, #{task.assignee.id}, #{task.name}, #{task.description}, #{task.initialEstimate})
+    </insert>
+
+
+</mapper>
