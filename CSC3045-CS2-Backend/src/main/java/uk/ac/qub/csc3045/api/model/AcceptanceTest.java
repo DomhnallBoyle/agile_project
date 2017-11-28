@@ -17,12 +17,10 @@ public class AcceptanceTest {
 		
 	}
 	
-	public AcceptanceTest(String given, String when, String then, Boolean completed, UserStory userStory) {
+	public AcceptanceTest(String given, String when, String then) {
 		this.given = given;
 		this.when = when;
 		this.then = then;
-		this.completed = completed;
-		this.userStory = userStory;
 	}
 	
 	public Long getId() {
@@ -72,5 +70,16 @@ public class AcceptanceTest {
 	public void setUserStory(UserStory userStory) {
 		this.userStory = userStory;
 	}
-	
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+
+		AcceptanceTest that = (AcceptanceTest) o;
+
+		if (!given.equals(that.given)) return false;
+		if (!when.equals(that.when)) return false;
+		return then.equals(that.then);
+	}
 }

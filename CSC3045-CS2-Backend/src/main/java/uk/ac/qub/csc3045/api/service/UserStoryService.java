@@ -72,44 +72,38 @@ public class UserStoryService {
         }
         throw new ResponseErrorException("Project does not exist", HttpStatus.NOT_FOUND);
     }
-    
-    public AcceptanceTest addAcceptanceTest(long id, AcceptanceTest acceptanceTest) {
-    	try {
-        	userStoryMapper.createAcceptanceTest(id, acceptanceTest);
-        	
-        	return userStoryMapper.getAcceptanceTestById(acceptanceTest.getId());
-    	}
-    	catch (DataIntegrityViolationException e) {
-            throw new ResponseErrorException("The User story does not exist", HttpStatus.NOT_FOUND);
+
+    public AcceptanceTest createAcceptanceTest(long id, AcceptanceTest acceptanceTest) {
+        try {
+            userStoryMapper.createAcceptanceTest(id, acceptanceTest);
+
+            return userStoryMapper.getAcceptanceTestById(acceptanceTest.getId());
+        } catch (DataIntegrityViolationException e) {
+            throw new ResponseErrorException("User Story does not exist", HttpStatus.NOT_FOUND);
         }
     }
 
     public List<UserStory> getAvailableUserStories(long id) {
-    	if (ValidationUtility.validateProjectExists(id, projectMapper)) {
-    		return userStoryMapper.getAvailableUserStories(id);
-    	}
-    	throw new ResponseErrorException("Project does not exist", HttpStatus.NOT_FOUND);
+        if (ValidationUtility.validateProjectExists(id, projectMapper)) {
+            return userStoryMapper.getAvailableUserStories(id);
+        }
+        throw new ResponseErrorException("Project does not exist", HttpStatus.NOT_FOUND);
     }
-    
+
     public List<AcceptanceTest> getAcceptanceTests(long id) {
-    	if (ValidationUtility.validateUserStoryExists(id, userStoryMapper))
-        	return userStoryMapper.getAcceptanceTestsByStoryId(id);
-    	throw new ResponseErrorException("The User story does not exist", HttpStatus.NOT_FOUND);
+        if (ValidationUtility.validateUserStoryExists(id, userStoryMapper))
+            return userStoryMapper.getAcceptanceTestsByStoryId(id);
+        throw new ResponseErrorException("User Story does not exist", HttpStatus.NOT_FOUND);
     }
-   
+
     public AcceptanceTest updateAcceptanceTest(AcceptanceTest acceptanceTest) {
-    	try {
-    		if (ValidationUtility.validateAcceptanceTestExists(acceptanceTest.getId(), userStoryMapper)) {
-            	userStoryMapper.updateAcceptanceTest(acceptanceTest);
-            	
-            	return userStoryMapper.getAcceptanceTestById(acceptanceTest.getId());
-    		}
-    		throw new ResponseErrorException("The acceptance test does not exist", HttpStatus.NOT_FOUND);
-    	}
-    	catch (DataIntegrityViolationException e) {
-    		throw new ResponseErrorException("The User story does not exist", HttpStatus.NOT_FOUND);
-    	}
+        if (ValidationUtility.validateAcceptanceTestExists(acceptanceTest.getId(), userStoryMapper)) {
+            userStoryMapper.updateAcceptanceTest(acceptanceTest);
+
+            return userStoryMapper.getAcceptanceTestById(acceptanceTest.getId());
+        }
+        throw new ResponseErrorException("Acceptance test does not exist", HttpStatus.NOT_FOUND);
     }
-    
+
 }
 

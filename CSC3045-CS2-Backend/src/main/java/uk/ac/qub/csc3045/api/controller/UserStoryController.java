@@ -47,8 +47,8 @@ public class UserStoryController {
     }
     
     @PostMapping(value = "/{id}/acceptancetest")
-    public ResponseEntity<AcceptanceTest> addAcceptanceTest(@Valid @PathVariable("id") long id, @Valid @RequestBody AcceptanceTest acceptanceTest) {
-    	return new ResponseEntity<>(this.userStoryService.addAcceptanceTest(id, acceptanceTest), HttpStatus.CREATED);
+    public ResponseEntity<AcceptanceTest> createAcceptanceTest(@Valid @PathVariable("id") long id, @Valid @RequestBody AcceptanceTest acceptanceTest) {
+    	return new ResponseEntity<>(this.userStoryService.createAcceptanceTest(id, acceptanceTest), HttpStatus.CREATED);
     }
     
     @GetMapping(value = "/{id}/acceptancetest")
