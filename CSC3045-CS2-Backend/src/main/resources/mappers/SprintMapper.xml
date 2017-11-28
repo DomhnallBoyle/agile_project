@@ -93,13 +93,14 @@
     <!-- UPDATE Queries -->
     <update id="resetSprintBacklog">
         UPDATE USER_STORY
-        SET USER_STORY.SPRINT_ID = NULL    
+        SET USER_STORY.SPRINT_ID = NULL   
+        WHERE USER_STORY.SPRINT_ID = #{sprintId} 
     </update>
     
     <update id="addToSprintBacklog">
         UPDATE USER_STORY
         SET USER_STORY.SPRINT_ID = #{sprintId}      
-        WHERE USER_STORY.ID = #{userStoryId}
+        WHERE ID = #{userStoryId}
 	</update>
     
     <!-- DELETE Queries -->
