@@ -4,6 +4,7 @@ using CSC3045_CS2.Service;
 using CSC3045_CS2.Utility;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -23,11 +24,17 @@ namespace CSC3045_CS2.Pages
     /// <summary>
     /// Interaction logic for UserDashboard.xaml
     /// </summary>
+    /// 
+
+
+
+
     public partial class UserDashboard : Page
     {
         #region Private variables
 
         private ProjectClient _client;
+        
 
         #endregion
 
@@ -37,15 +44,23 @@ namespace CSC3045_CS2.Pages
 
         public String UserLabel { get; set; }
 
+        public ObservableCollection<String> AvailableSkills
+        { get; set; }
+
+        public ObservableCollection<String> MySelectedObjects
+        { get; set; }
+
         #endregion
 
+
+
         public UserDashboard()
-        {
+        { 
             InitializeComponent();
             DataContext = this;
 
             User user = ((User)Application.Current.Properties["user"]);
-            UserLabel = "Welcome " + user.GetFullName() + "!\nYour Current Projects are:";
+            UserLabel = user.GetFullName();
             string profileImageFileName;
             if (user.ProfilePicture != null)
             {
@@ -55,13 +70,11 @@ namespace CSC3045_CS2.Pages
             {
                 profileImageFileName = Properties.Settings.Default.DefaultProfileImage;
             }
-            
             string profileImagePath = Properties.Settings.Default.ProfileImageDirectory + profileImageFileName;
             ProfilePicture.Source = new BitmapImage(new Uri(profileImagePath, UriKind.RelativeOrAbsolute));
-
             _client = new ProjectClient();
-
             InitialiseProjects();
+
         }
 
         #region Class methods
@@ -92,7 +105,6 @@ namespace CSC3045_CS2.Pages
                 }
             }
         }
-
         #endregion
 
         #region Command and Event methods
@@ -135,6 +147,8 @@ namespace CSC3045_CS2.Pages
                 });
             }
         }
+
+       
 
         #endregion
     }

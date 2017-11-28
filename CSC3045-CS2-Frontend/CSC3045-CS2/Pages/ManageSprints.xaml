@@ -1,4 +1,4 @@
-﻿<Page x:Class="CSC3045_CS2.Pages.ManageSprints"
+﻿<local:BasePage x:Class="CSC3045_CS2.Pages.ManageSprints"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -10,7 +10,7 @@
       Title="ManageSprints">
 
     <StackPanel>
-        <TextBlock Name="PageTitle" Text="Manage Sprints" Style="{StaticResource Title}" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center"></TextBlock>
+        <ContentControl  Template="{StaticResource Headers}" Name="Header" ></ContentControl>
         
         <StackPanel Background="CadetBlue">
             <TextBlock FontSize ="14" Text="{Binding CurrentProject.Name}" HorizontalAlignment="Left" />
@@ -61,4 +61,4 @@
             <Button Name="BackButton" Content="Back" Style="{StaticResource StandardButton}" HorizontalAlignment="Left" Command="{Binding BackCommand}"/>
         </StackPanel>
     </StackPanel>
-</Page>
+</local:BasePage>

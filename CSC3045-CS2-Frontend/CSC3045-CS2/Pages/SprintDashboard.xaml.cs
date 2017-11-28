@@ -1,6 +1,7 @@
 ﻿using CSC3045_CS2.Models;
 using CSC3045_CS2.Service;
 using CSC3045_CS2.Utility;
+using CSC3045_CS2.Pages;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,7 +22,7 @@ namespace CSC3045_CS2.Pages
     /// <summary>
     /// Interaction logic for SprintDashboard.xaml
     /// </summary>
-    public partial class SprintDashboard : Page
+    public partial class SprintDashboard : BasePage
     {
         #region Private variables
 
@@ -39,6 +40,7 @@ namespace CSC3045_CS2.Pages
         public SprintDashboard(Sprint sprint, bool fromFile)
         {
             InitializeComponent();
+            CurrentPage = this.Title;
 
             DataContext = this;
 
@@ -55,6 +57,7 @@ namespace CSC3045_CS2.Pages
         }
 
         #region Command and Event methods
+      
 
         public ICommand NavigateToManageSprintsCommand
         {

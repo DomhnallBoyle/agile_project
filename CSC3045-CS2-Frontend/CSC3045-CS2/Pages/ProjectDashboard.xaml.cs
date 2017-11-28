@@ -11,6 +11,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 
 namespace CSC3045_CS2.Pages
@@ -18,7 +19,7 @@ namespace CSC3045_CS2.Pages
     /// <summary>
     /// Interaction logic for ProjectDashboard.xaml
     /// </summary>
-    public partial class ProjectDashboard : Page, INotifyPropertyChanged
+    public partial class ProjectDashboard : BasePage, INotifyPropertyChanged
     {
         #region Private Variables
 
@@ -64,11 +65,15 @@ namespace CSC3045_CS2.Pages
 
         public Permissions Permissions { get; set; }
 
+
         #endregion
+
+
 
         public ProjectDashboard(Project currentProject)
         {
             InitializeComponent();
+    
             DataContext = this;
 
             _projectClient = new ProjectClient();
@@ -80,6 +85,8 @@ namespace CSC3045_CS2.Pages
             _projects = _projectClient.GetProjectsForUser(((User)Application.Current.Properties["user"]).Id);
             ProjectDropDownButton.Content = currentProject.Name;
             AddProjectsToDropdownList();
+            CurrentPage = this.Title;
+
 
             try
             {
@@ -90,6 +97,8 @@ namespace CSC3045_CS2.Pages
                 MessageBoxUtil.ShowErrorBox(ex.Message);
             }
         }
+        
+
 
         #region Class methods
 
@@ -284,23 +293,7 @@ namespace CSC3045_CS2.Pages
             }
         }
 
-        public ICommand LogoutCommand
-        {
-            get
-            {
-                return new RelayCommand(param =>
-                {
-                    if (Application.Current.Properties.Contains("user"))
-                    {
-                        Application.Current.Properties.Remove("user");
-                    }
-
-                    Page loginPage = new Login();
-
-                    NavigationService.GetNavigationService(this).Navigate(loginPage);
-                });
-            }
-        }
+        
 
         #endregion
 

@@ -14,7 +14,7 @@ namespace CSC3045_CS2.Pages
     /// <summary>
     /// Interaction logic for CreateSprint.xaml
     /// </summary>
-    public partial class CreateSprint : Page
+    public partial class CreateSprint : BasePage
     {
         #region Private Variables
 
@@ -29,11 +29,16 @@ namespace CSC3045_CS2.Pages
 
         #endregion
 
+        #region Public Variables
+
+        #endregion
+
         public CreateSprint(Project project)
         {
             InitializeComponent();
+            
             DataContext = this;
-
+            CurrentPage = this.Title;
             _client = new SprintClient();
             _currentProject = project;
         }
@@ -52,6 +57,7 @@ namespace CSC3045_CS2.Pages
                 });
             }
         }
+      
 
         public ICommand CreateCommand
         {
@@ -88,7 +94,9 @@ namespace CSC3045_CS2.Pages
                     }
                 });
             }
+
         }
+      
 
         #endregion
 

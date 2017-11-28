@@ -22,7 +22,7 @@
     /// <summary>
     /// Interaction logic for CreateProject.xaml
     /// </summary>
-    public partial class CreateProject : Page
+    public partial class CreateProject : BasePage
     {
         #region Private Variables
         private ProjectClient _client;
@@ -49,15 +49,18 @@
 
         public String CreateButtonText { get; set; } = "Create";
 
+
         #endregion
         public CreateProject()
         {
             InitializeComponent();
             DataContext = this;
             _client = new ProjectClient();
+            CurrentPage = this.Title;
             pageSetup();
         }
 
+ 
         #region Command methods
 
         public void pageSetup()
@@ -130,6 +133,7 @@
             _warningMessage = sb.ToString();
             return valid;
         }
+        
     }
 }
         #endregion

@@ -1,4 +1,4 @@
-﻿<Page x:Class="CSC3045_CS2.Pages.UserStoryDetails"
+﻿<local:BasePage x:Class="CSC3045_CS2.Pages.UserStoryDetails"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -10,7 +10,8 @@
     Title="UserStoryDashboard">
 
     <StackPanel>
-        <TextBlock Name="PageTitle" Text="{Binding SelectedUserStory.Name}" Style="{StaticResource Title}" HorizontalAlignment="Center" Margin="0,10,0,25"/>
+        <ContentControl  Template="{StaticResource Headers}" Name="Header" ></ContentControl>
+
         <Grid Margin="10,0,0,0">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"/>
@@ -77,4 +78,4 @@
             </ListBox>
         </Grid>
     </StackPanel>
-</Page>
+</local:BasePage>

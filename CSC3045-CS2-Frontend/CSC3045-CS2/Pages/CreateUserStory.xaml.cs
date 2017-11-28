@@ -14,7 +14,7 @@ namespace CSC3045_CS2.Pages
     /// <summary>
     /// Interaction logic for CreateUserStory.xaml
     /// </summary>
-    public partial class CreateUserStory : Page
+    public partial class CreateUserStory : BasePage
     {
         #region Private Variables
 
@@ -47,6 +47,7 @@ namespace CSC3045_CS2.Pages
         public CreateUserStory(Project project)
         {
             InitializeComponent();
+            CurrentPage = this.Title;
             DataContext = this;
             _client = new UserStoryClient();
 
@@ -70,6 +71,7 @@ namespace CSC3045_CS2.Pages
                 });
             }
         }
+
 
         public ICommand CreateCommand
         {

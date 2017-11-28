@@ -10,31 +10,38 @@
       Title="UserDashboard">
 
     <StackPanel>
-        <Grid>
+       
+        <Grid Margin="10,10,10,0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                
             </Grid.ColumnDefinitions>
 
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
-            <TextBlock Name="PageTitle" Text="User Dashboard" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center" Style="{StaticResource Title}" Grid.Column="0" Grid.ColumnSpan="3" Grid.RowSpan="2"></TextBlock>
+            <TextBlock Name="PageTitle" Text="User Dashboard"  HorizontalAlignment="Center" VerticalAlignment="Center" Style="{StaticResource Title}" Grid.Column="0" Grid.ColumnSpan="5" Grid.RowSpan="2"></TextBlock>
             <Image  Height="60" Width="60" HorizontalAlignment="Right"  Name="ProfilePicture" Stretch="Fill" VerticalAlignment="Top" Grid.Column="4" Grid.ColumnSpan="2" Grid.RowSpan="2"/>
+            <TextBlock FontSize ="14" Text="{Binding UserLabel}" HorizontalAlignment="Center" Style="{StaticResource Label}"  Margin="5,0,0,0" Grid.Column="7" Grid.ColumnSpan="5" TextWrapping="Wrap"/>
+            <Button Name="LogoutButton" Content="Logout" HorizontalAlignment="Left" Command="{Binding LogoutCommand}" Style="{StaticResource StandardButton}" Grid.Column="7" Grid.ColumnSpan="5" Grid.Row="2" Margin="5,0,5,0" />
         </Grid>
 
-        <StackPanel  Margin="10,10,10,0" >
-            <TextBlock FontSize ="14" Text="{Binding UserLabel}" HorizontalAlignment="Left" Style="{StaticResource Label}"  Margin="5,0,5,0"/>
+        <StackPanel  Margin="15,10,10,0" >
+            <TextBlock  Text="Your Projects" HorizontalAlignment="Left" Style="{StaticResource Header}"  />
+            <TextBlock  Text="Select One of the Following Rows To See Project Details:" HorizontalAlignment="Left" Style="{StaticResource Label}" Foreground="Gold"  Margin="5,0,0,0" />
         </StackPanel>
 
-        <ListBox Name="ProjectListBox" ItemsSource="{Binding ProjectList}" SelectionChanged="ProjectListBox_SelectionChanged" HorizontalContentAlignment="Left" Margin="10,10,10,10" >
+        <ListBox Name="ProjectListBox" ItemsSource="{Binding ProjectList}" SelectionChanged="ProjectListBox_SelectionChanged" HorizontalContentAlignment="Left"  Margin="60,10,60,0" >
             <ListBox.ItemTemplate>
                 <DataTemplate>
-                    <Grid >
+                    <Grid  >
                         <Grid.ColumnDefinitions >
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="*"/>
@@ -44,13 +51,13 @@
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
-                        <TextBlock Grid.Column="0" Text="{Binding Project.Name}" MinWidth="120" MaxWidth="120" TextWrapping="Wrap" Style="{StaticResource ButtonTitleLabel}" Margin="0,0,0,0"/>
-                        <TextBlock Grid.Column="1" Text="{Binding Project.Description}" MinWidth="140" MaxWidth="140"  TextWrapping="Wrap" Style="{StaticResource ButtonLabel}"  Margin="0,0,0,0"/>
+                        <TextBlock Grid.Column="0" Text="{Binding Project.Name}" MinWidth="150" MaxWidth="150" TextWrapping="Wrap" Style="{StaticResource ButtonTitleLabel}" Margin="0,0,0,0"/>
+                        <TextBlock Grid.Column="1" Text="{Binding Project.Description}" MinWidth="140" MaxWidth="140"  TextWrapping="Wrap" Style="{StaticResource ButtonLabel}"  Margin="0,0,10,0"/>
 
-                        <TextBlock Grid.Column="2" Text="M" Visibility="{Binding Path=Permissions.Manager, Converter={StaticResource BoolToVisConverter}}"/>
-                        <TextBlock Grid.Column="3" Text="D" Visibility="{Binding Path=Permissions.Developer, Converter={StaticResource BoolToVisConverter}}"/>
-                        <TextBlock Grid.Column="4" Text="SM" Visibility="{Binding Path=Permissions.ScrumMaster, Converter={StaticResource BoolToVisConverter}}"/>
-                        <TextBlock Grid.Column="5" Text="PO" Visibility="{Binding Path=Permissions.ProductOwner, Converter={StaticResource BoolToVisConverter}}"/>
+                        <TextBlock Grid.Column="2" Text="Manager" Visibility="{Binding Path=Permissions.Manager,Converter={StaticResource BoolToVisConverter}}" Style="{StaticResource ButtonLabel}" Margin="0,0,10,0"/>
+                        <TextBlock Grid.Column="3" Text="Developer" Visibility="{Binding Path=Permissions.Developer, Converter={StaticResource BoolToVisConverter}}" Style="{StaticResource ButtonLabel}" Margin="0,0,10,0"/>
+                        <TextBlock Grid.Column="4" Text="Scrum Master" Visibility="{Binding Path=Permissions.ScrumMaster, Converter={StaticResource BoolToVisConverter}}" Style="{StaticResource ButtonLabel}" Margin="0,0,10,0" />
+                        <TextBlock Grid.Column="5" Text="Project Owner" Visibility="{Binding Path=Permissions.ProductOwner, Converter={StaticResource BoolToVisConverter}}" Style="{StaticResource ButtonLabel}" Margin="0,0,10,0" />
                     </Grid>
                 </DataTemplate>
             </ListBox.ItemTemplate>
@@ -62,10 +69,10 @@
             </ListBox.Resources>
         </ListBox>
 
-        <StackPanel>
-            <Button Name="CreateProjectButton" Content="Create Project" HorizontalAlignment="Center" Command="{Binding NavigateToCreateProjectCommand}" Style="{StaticResource ExtendedButton}"/>
-            <Button Name="LogoutButton" Content="Logout" HorizontalAlignment="Left" Command="{Binding LogoutCommand}" Style="{StaticResource StandardButton}" Margin="5,0,0,0"/>
+        <StackPanel Margin="15,10,10,0">
           
+            <Button Name="CreateProjectButton" Content="Create Project" HorizontalAlignment="Right"  Margin="50,10,50,0" Command="{Binding NavigateToCreateProjectCommand}" Style="{StaticResource ExtendedButton}"/>
+           
            
         </StackPanel>
     </StackPanel>

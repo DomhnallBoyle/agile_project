@@ -22,7 +22,7 @@ namespace CSC3045_CS2.Pages
     /// <summary>
     /// Interaction logic for ManageSprints.xaml
     /// </summary>
-    public partial class ManageSprints : Page
+    public partial class ManageSprints : BasePage
     {
         # region Private variables
 
@@ -36,11 +36,13 @@ namespace CSC3045_CS2.Pages
         public List<Sprint> Sprints { get; set; }
         public Permissions Permissions { get; set; }
 
+
         #endregion
 
         public ManageSprints(Project project)
         {
             InitializeComponent();
+            CurrentPage = this.Title;
             DataContext = this;
             
             _client = new SprintClient();
@@ -67,6 +69,7 @@ namespace CSC3045_CS2.Pages
         }
 
         #region Command and Event methods
+       
 
         public ICommand NavigateToCreateSprintCommand
         {
