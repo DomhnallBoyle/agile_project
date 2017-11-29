@@ -15,7 +15,7 @@
 
         <StackPanel Width="300">
             <AdornerDecorator>
-                <TextBox Name="SprintNameTextBox" Style="{StaticResource DefaultTextBox}">
+                <TextBox Name="SprintNameTextBox" Style="{StaticResource DefaultTextBox}" HorizontalContentAlignment="Center">
                     <utility:WatermarkService.Watermark>
                         <TextBlock Style="{StaticResource Watermark}" HorizontalAlignment="Center" Margin="0,5,0,0" Name="SprintNameTextBlock">Sprint Name</TextBlock>
                     </utility:WatermarkService.Watermark>
@@ -29,7 +29,7 @@
                             <Setter Property="Template">
                                 <Setter.Value>
                                     <ControlTemplate>
-                                        <TextBox Text="{Binding Text, RelativeSource={RelativeSource AncestorType={x:Type DatePicker}}}" Style="{StaticResource DefaultTextBox}">
+                                        <TextBox Text="{Binding Text, RelativeSource={RelativeSource AncestorType={x:Type DatePicker}}}" Style="{StaticResource DefaultTextBox}" HorizontalContentAlignment="Center">
                                             <utility:WatermarkService.Watermark>
                                                 <TextBlock Style="{StaticResource Watermark}" HorizontalAlignment="Center" Margin="0,5,0,0" Name="SprintStartDateTextBlock">Sprint Start Date</TextBlock>
                                             </utility:WatermarkService.Watermark>
@@ -49,7 +49,7 @@
                             <Setter Property="Template">
                                 <Setter.Value>
                                     <ControlTemplate>
-                                        <TextBox Text="{Binding Text, RelativeSource={RelativeSource AncestorType={x:Type DatePicker}}}" Style="{StaticResource DefaultTextBox}">
+                                        <TextBox Text="{Binding Text, RelativeSource={RelativeSource AncestorType={x:Type DatePicker}}}" Style="{StaticResource DefaultTextBox}" HorizontalContentAlignment="Center">
                                             <utility:WatermarkService.Watermark>
                                                 <TextBlock Style="{StaticResource Watermark}" HorizontalAlignment="Center" Margin="0,5,0,0" Name="SprintEndDateTextBlock">Sprint End Date</TextBlock>
                                             </utility:WatermarkService.Watermark>

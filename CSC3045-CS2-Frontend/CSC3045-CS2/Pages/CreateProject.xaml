@@ -34,7 +34,7 @@
         </Grid>
 
         <AdornerDecorator>
-            <TextBox Name="ProjectNameTextBox" Style="{StaticResource DefaultTextBox}">
+            <TextBox Name="ProjectNameTextBox" Style="{StaticResource DefaultTextBox}" HorizontalContentAlignment="Center">
                 <utility:WatermarkService.Watermark>
                     <TextBlock Style="{StaticResource Watermark}"  HorizontalAlignment="Center" Margin="0,5,0,0" Name="ProjectNameTextBlock">Project Name</TextBlock>
                 </utility:WatermarkService.Watermark>
@@ -42,7 +42,7 @@
         </AdornerDecorator>
 
         <AdornerDecorator Margin="0,12,0,0">
-            <TextBox Name="ProjectDescriptionTextBox" Height="75" TextWrapping="Wrap" AcceptsReturn="True" Style="{StaticResource DefaultTextBox}">
+            <TextBox Name="ProjectDescriptionTextBox" Height="75" TextWrapping="Wrap" AcceptsReturn="True" Style="{StaticResource DefaultTextBox}" HorizontalContentAlignment="Center">
                 <utility:WatermarkService.Watermark>
                     <TextBlock Style="{StaticResource Watermark}"  HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,5"  Name="ProjectDescriptionTextBlock">Description</TextBlock>
                 </utility:WatermarkService.Watermark>

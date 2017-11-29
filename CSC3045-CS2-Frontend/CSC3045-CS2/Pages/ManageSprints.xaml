@@ -12,6 +12,8 @@
     <StackPanel Width="750" Margin="0,75,0,0">
         <ContentControl Template="{StaticResource Headers}" Name="Header"/>
 
+        <TextBlock Name="ProjectNameTextBlock" HorizontalAlignment="Center" Style="{StaticResource Header}"  Text="{Binding CurrentProject.Name}" Margin="0,0,0,15"/>
+        
         <TextBlock Text="Project Sprints" HorizontalAlignment="Left" Style="{StaticResource Header}"/>
         <TextBlock Text="Select One of the Following Rows To See Sprint Details" HorizontalAlignment="Left" Style="{StaticResource Label}" Foreground="Gold" Margin="5,0,0,0" />
 
@@ -75,12 +77,12 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
 
-                <Button Grid.Column="0" Name="BackButton" Content="Back" 
-                        Style="{StaticResource StandardButton}" HorizontalAlignment="Right" Margin="0,0,15,0"
+                <Button Grid.Column="0" Name="BackButton" Content="Project Dashboard"
+                        Style="{StaticResource StandardButton}" HorizontalAlignment="Right" Width="125" Margin="0,0,15,0"
                         Command="{Binding BackCommand}"/>
 
                 <Button Grid.Column="1" Name="CreateSprintButton" Content="Create Sprint"
-                    Style="{StaticResource StandardButton}" HorizontalAlignment="Left" Margin="15,0,0,0"
+                    Style="{StaticResource StandardButton}" HorizontalAlignment="Left" Margin="15,0,0,0" Width="125"
                     Command="{Binding NavigateToCreateSprintCommand}"
                     Visibility="{Binding Path=Permissions.ScrumMaster, Converter={StaticResource BoolToVisConverter}}"/>
             </Grid>

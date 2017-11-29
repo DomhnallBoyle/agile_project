@@ -13,7 +13,9 @@
     <StackPanel Width="750" Margin="0,75,0,0">
         <ContentControl Template="{StaticResource Headers}" Name="Header"/>
 
-        <Grid Height="700">
+        <TextBlock Name="SprintNameTextBlock" HorizontalAlignment="Center" Style="{StaticResource Header}"  Text="{Binding CurrentSprint.Name}" Margin="0,0,0,15"/>
+        
+        <Grid Height="650">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>

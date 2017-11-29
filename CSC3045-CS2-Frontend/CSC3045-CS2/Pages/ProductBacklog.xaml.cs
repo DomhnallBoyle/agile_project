@@ -29,6 +29,11 @@ namespace CSC3045_CS2
 
         #region Public Variables
 
+        public Project CurrentProject
+        {
+            get { return _currentProject; }
+        }
+
         public Permissions Permissions { get; set; }
 
         public PermissonDragHandler PermissonDragHandler { get; set; }
