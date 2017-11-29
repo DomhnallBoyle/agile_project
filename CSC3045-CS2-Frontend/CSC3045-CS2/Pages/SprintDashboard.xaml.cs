@@ -1,18 +1,15 @@
 ﻿using CSC3045_CS2.Models;
 using CSC3045_CS2.Service;
 using CSC3045_CS2.Utility;
-using CSC3045_CS2.Pages;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Navigation;
-using System.Windows.Shapes;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using CSC3045_CS2.Exception;
 
 
 namespace CSC3045_CS2.Pages
@@ -27,14 +24,15 @@ namespace CSC3045_CS2.Pages
         private SprintClient _client;
         private TaskClient _taskClient;
         private Boolean _fromFile;
+        private List<Task> _tasks { get; set; }
 
         #endregion
 
         #region Public variables
 
+        public String SprintDetails { get; set; }
         public Sprint CurrentSprint { get; set; }
-
-        private List<Task>_tasks { get; set; }
+        public Task CurrentTask { get; set; }
         public List<UserStory> UserStories { get; set; }
         public Permissions Permissions { get; set; }
 
@@ -50,43 +48,41 @@ namespace CSC3045_CS2.Pages
             _client = new SprintClient();
             _taskClient = new TaskClient();
 
-
             Permissions = new Permissions((User)Application.Current.Properties["user"], sprint.Project);
          
             sprint.Users = _client.GetSprintTeam(sprint.Project.Id, sprint.Id);
-            UserStories = _client.GetSprintStories(sprint.Id);
+            UserStories = _client.GetSprintStories(sprint.Project.Id, sprint.Id);
 
             CurrentSprint = sprint;
-            
+
+            SprintDetails = string.Format("Name: {0}, Start Date: {1}, End Date: {2}", CurrentSprint.Name, CurrentSprint.StartDate, CurrentSprint.EndDate); 
         }
+
+        /// <summary>
+        /// Double Click event for mouse
+        /// Displays tasks from clicked user story
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         public void ListBox_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
+            try
+            {
                 UserStory userStory = (UserStory)(sender as ListBoxItem).DataContext;
                 List<Task> _tasks = _taskClient.GetTasksByUserStoryId(userStory.Project.Id, userStory.Id);
                 Tasks = _tasks;
-                Console.WriteLine(_tasks);
-
-            
-        }
-        public List<Task> Tasks
-        {
-            get { return _tasks; }
-            set
+            }
+            catch (RestResponseErrorException ex)
             {
-                _tasks = value;
-                OnPropertyChanged();
+                MessageBoxUtil.ShowErrorBox(ex.Message);
             }
         }
-        private void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-
-        public event PropertyChangedEventHandler PropertyChanged;
 
         #region Command and Event methods
 
-
+        /// <summary>
+        /// Relay command for navigating to the edit sprint team page
+        /// </summary>
         public ICommand NavigateToManageSprintsCommand
         {
             get
@@ -100,6 +96,9 @@ namespace CSC3045_CS2.Pages
             }
         }
 
+        /// <summary>
+        /// Returns user to the previous page
+        /// </summary>
         public ICommand BackCommand
         {
             get
@@ -109,24 +108,77 @@ namespace CSC3045_CS2.Pages
                     Page manageSprintsPage = new ManageSprints(CurrentSprint.Project);
 
                     NavigationService.GetNavigationService(this).Navigate(manageSprintsPage);
-
                 });
             }
         }
 
+        /// <summary>
+        /// Assigns user to the task
+        /// </summary>
+        public ICommand AssignCommand
+        {
+            get
+            {
+                return new RelayCommand(param =>
+                {
+                    CurrentTask = (Task)param;
+                    CurrentTask.Assignee = ((User)Application.Current.Properties["user"]);
+                    try
+                    {
+                        CurrentTask =_taskClient.UpdateTask(CurrentTask.UserStory.Project.Id, CurrentTask.UserStory.Id, CurrentTask);
+
+                        MessageBoxUtil.ShowSuccessBox("Succesfully Updated");
+                    }
+                    catch (RestResponseErrorException ex)
+                    {
+                        MessageBoxUtil.ShowErrorBox(ex.Message);
+                    }
+                });
+            }
+        }
+
+        /// <summary>
+        /// Brings user to the manage tasks screen to add more tasks to user story
+        /// </summary>
         public ICommand TaskCommand
         {
             get
             {
                 return new RelayCommand(param =>
                 {
-                    UserStory userStory = new UserStoryClient().GetUserStory(1);
+                    UserStory userStory = (UserStory)param;
                     Page manageTaskPage = new ManageTasks(userStory, CurrentSprint.Id);
 
                     NavigationService.GetNavigationService(this).Navigate(manageTaskPage);
                 });
             }
         }
+
+        /// <summary>
+        /// Getter/Setter for list of tasks
+        /// Includes property changed event for tasks
+        /// Binded to UI
+        /// </summary>
+        public List<Task> Tasks
+        {
+            get { return _tasks; }
+            set
+            {
+                _tasks = value;
+                OnPropertyChanged();
+            }
+        }
+
+        /// <summary>
+        /// Method to alert UI of property changed
+        /// </summary>
+        /// <param name="propertyName"></param>
+        private void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
 
         #endregion
     }

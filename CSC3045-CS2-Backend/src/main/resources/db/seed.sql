@@ -139,7 +139,8 @@ VALUES ('Auto-sync photos', 'Auto-synchronisation should be an option to automat
 INSERT INTO USER_STORY (NAME, DESCRIPTION, INDEX, POINTS, MARKET_VALUE, PROJECT_ID) -- id: 4
 VALUES ('Offline mode', 'Saving files locally via the app to be access offline.', 3, 5, 15, 1);
 
-INSERT INTO TASK (USER_STORY_ID, ASSIGNEE_ID, NAME, DESCRIPTION, INITIAL_ESTIMATE) VALUES (1,1,'A','A',5);
+INSERT INTO TASK (USER_STORY_ID, ASSIGNEE_ID, NAME, DESCRIPTION, INITIAL_ESTIMATE) VALUES (1,1,'Compress the File','Compressing Task',5);
+INSERT INTO TASK (USER_STORY_ID, ASSIGNEE_ID, NAME, DESCRIPTION, INITIAL_ESTIMATE) VALUES (1,2,'Upload the File','Uploading the File',15);
 
 INSERT INTO ACCEPTANCE_TEST (GIVEN, WHEN, THEN, USER_STORY_ID) -- id: 1
 VALUES ('The user has selected a file', 'The user tries to upload it', 'The file should be compressed and uploaded', 1);

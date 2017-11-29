@@ -4,19 +4,12 @@ using CSC3045_CS2.Service;
 using CSC3045_CS2.Utility;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace CSC3045_CS2.Pages
 {
@@ -47,9 +40,23 @@ namespace CSC3045_CS2.Pages
             CurrentPage = this.Title;
             this._taskUserStory = userStory; 
             this._sprintId = sprintId;
-            _teamMembers = new SprintClient().GetSprintTeam(_sprintId);
+            _teamMembers = new SprintClient().GetSprintTeam(userStory.Project.Id, _sprintId);
             _client = new TaskClient();
             GenerateTeamMembers();
+        }
+
+        #region private methods
+
+        /// <summary>
+        /// Performs Regex Validation live on the TextBox's as data is entered
+        /// Ensures that only digits can be entered into the TextBox
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void NumberOnlyTextBoxValidation(object sender, TextCompositionEventArgs e)
+        {
+            Regex regex = new Regex("[^0-9]+");
+            e.Handled = regex.IsMatch(e.Text);
         }
 
         /// <summary>
@@ -65,9 +72,9 @@ namespace CSC3045_CS2.Pages
         }
 
         /// <summary>
-        /// 
+        /// Checks input fields are valid before sending create task request
         /// </summary>
-        /// <returns></returns>
+        /// <returns>True/False depending on validity of input fields</returns>
         private bool CheckFields()
         {
             bool valid = true;
@@ -100,7 +107,18 @@ namespace CSC3045_CS2.Pages
                 valid = false;
                 sb.Append("You must enter a Description Name\n");
             }
-
+            if (!String.IsNullOrEmpty(InitialEstimateTextBox.Text))
+            {
+                InitialEstimateTextBox.Style = (Style)FindResource("DefaultTextBox");
+                InitialEstimateTextBlock.Style = (Style)FindResource("Watermark");
+                _taskInitialEstimate = int.Parse(InitialEstimateTextBox.Text);
+            }
+            else
+            {
+                InitialEstimateTextBox.Style = (Style)FindResource("InvalidTextBox");
+                InitialEstimateTextBlock.Style = (Style)FindResource("InvalidWatermark");
+                valid = false;
+            }
             if (AssigneesComboBox.SelectedIndex != -1)
             {
                 _taskAssignee = _teamMembers[AssigneesComboBox.SelectedIndex];
@@ -109,7 +127,6 @@ namespace CSC3045_CS2.Pages
             else
             {
                 _taskAssignee = null;
-                Console.WriteLine(AssigneesComboBox.SelectedIndex);
                 valid = true;
             }
 
@@ -117,8 +134,12 @@ namespace CSC3045_CS2.Pages
             return valid;
         }
 
+        #endregion
+
+        #region public command methods
+        
         /// <summary>
-        /// 
+        /// Create command button - sends create task request
         /// </summary>
         public ICommand CreateCommand
         {
@@ -128,7 +149,6 @@ namespace CSC3045_CS2.Pages
                 {
                     if (CheckFields())
                     {
-                        Console.WriteLine(_taskAssignee);
                         Task task = new Task(
                             _taskName,
                             _taskDescription,
@@ -151,23 +171,25 @@ namespace CSC3045_CS2.Pages
                     }
                     else
                     {
-                       
                         MessageBoxUtil.ShowErrorBox(_warningMessage);
                     }
                 });
             }
         }
-
-        /// <summary>
-        /// Performs Regex Validation live on the TextBox's as data is entered
-        /// Ensures that only digits can be entered into the TextBox
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void NumberOnlyTextBoxValidation(object sender, TextCompositionEventArgs e)
+        public ICommand BackCommand
         {
-            Regex regex = new Regex("[^0-9]+");
-            e.Handled = regex.IsMatch(e.Text);
+            get
+            {
+                return new RelayCommand(param =>
+                {
+                    Page manageSprintsPage = new SprintDashboard(_taskUserStory.Sprint, true);
+
+                    NavigationService.GetNavigationService(this).Navigate(manageSprintsPage);
+
+                });
+            }
         }
+
+        #endregion 
     }
 }

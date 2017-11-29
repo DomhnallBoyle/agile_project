@@ -53,5 +53,14 @@ namespace CSC3045_CS2.Models
             this.Project = project;
         }
 
+        public UserStory(String name, String description, int marketValue, Project project, Sprint sprint)
+        {
+            this.Name = name;
+            this.Description = description;
+            this.MarketValue = marketValue;
+            this.Project = project;
+            this.Sprint = sprint;
+        }
+
     }
 }

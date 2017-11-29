@@ -45,8 +45,16 @@
         WHERE USER_STORY_ID = #{userStoryId}
     </select>
     
-    
- 
+    <!-- UPDATE Queries -->
+ 	<update id="updateTask" parameterType="Task">
+        UPDATE TASK
+	        SET ASSIGNEE_ID = #{task.assignee.id},
+	        NAME = #{task.name}, 
+	        DESCRIPTION = #{task.description},
+	        INITIAL_ESTIMATE = #{task.initialEstimate},
+	        USER_STORY_ID = #{task.userStory.id}
+        WHERE ID = #{task.id}
+    </update>
 
     <!-- INSERT Queries -->
 

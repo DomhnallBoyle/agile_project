@@ -19,5 +19,8 @@ public interface TaskMapper {
 	Task getTaskById(@Param("id") long id);
 	
 	List<Task> getTasks(@Param("userStoryId") long userStoryId);
+	
+	//update
+	void updateTask(@Param("task")Task task);
 	    
 }

@@ -3,6 +3,7 @@ package uk.ac.qub.csc3045.api.model;
 import javax.validation.constraints.NotNull;
 
 public class Task {
+	
     private Long id;
     @NotNull
     private String name;
@@ -10,7 +11,7 @@ public class Task {
     private String description;
     @NotNull
     private Integer initialEstimate;
-
+    @NotNull
     private UserStory userStory;
 
     private User assignee;

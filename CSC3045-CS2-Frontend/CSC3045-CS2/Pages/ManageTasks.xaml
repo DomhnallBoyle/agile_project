@@ -48,7 +48,8 @@
                 </AdornerDecorator>
                 <ComboBox Grid.Row="3" Margin="0,6,0,0" Name="AssigneesComboBox" IsEditable="True" Text="Select assignee...">
                 </ComboBox>
-                <Button Name="CreateButton" Margin="0,6,0,0" Content="Create Button" Grid.Row="4" Style="{StaticResource StandardButton}" Command="{Binding CreateCommand}"/>
+                <Button Name="CreateButton" Margin="0,6,0,0" Content="Create Button" Grid.Column="2" Grid.Row="4" HorizontalAlignment="Left" Style="{StaticResource StandardButton}" Command="{Binding CreateCommand}"/>
+                <Button Name="BackButton" Margin="0,6,0,0" Content="Back Button" Grid.Column="0" Grid.Row="4" HorizontalAlignment="Right" Style="{StaticResource StandardButton}" Command="{Binding BackCommand}"/>
             </Grid>
              </Grid>
 
