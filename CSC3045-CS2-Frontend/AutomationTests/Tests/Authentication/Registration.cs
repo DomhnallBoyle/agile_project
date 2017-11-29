@@ -40,7 +40,6 @@ namespace AutomationTests.Authentication
 
             var messageBox = MessageBoxUtil.GetWarningMessageBox(MainWindow);
             Assert.NotNull(messageBox);
-            Assert.IsTrue(MessageBoxUtil.GetTextContent(messageBox).Contains("empty"));
 
             MessageBoxUtil.ClickOKButton(messageBox);
         }
@@ -55,7 +54,6 @@ namespace AutomationTests.Authentication
 
             var messageBox = MessageBoxUtil.GetWarningMessageBox(MainWindow);
             Assert.NotNull(messageBox);
-            Assert.IsTrue(MessageBoxUtil.GetTextContent(messageBox).Contains("empty"));
 
             MessageBoxUtil.ClickOKButton(messageBox);
         }
@@ -71,7 +69,6 @@ namespace AutomationTests.Authentication
 
             var messageBox = MessageBoxUtil.GetWarningMessageBox(MainWindow);
             Assert.NotNull(messageBox);
-            Assert.IsTrue(MessageBoxUtil.GetTextContent(messageBox).Contains("empty"));
 
             MessageBoxUtil.ClickOKButton(messageBox);
         }
@@ -86,7 +83,7 @@ namespace AutomationTests.Authentication
 
             var messageBox = MessageBoxUtil.GetWarningMessageBox(MainWindow);
             Assert.NotNull(messageBox);
-            Assert.IsTrue(MessageBoxUtil.GetTextContent(messageBox).Contains("don't match"));
+            Assert.IsTrue(MessageBoxUtil.GetTextContent(messageBox).Contains("must match"));
 
             MessageBoxUtil.ClickOKButton(messageBox);
         }
