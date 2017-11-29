@@ -5,23 +5,23 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:utility="clr-namespace:CSC3045_CS2.Utility"
       mc:Ignorable="d" 
-      d:DesignHeight="600" d:DesignWidth="1060"
+      d:DesignHeight="900" d:DesignWidth="1280"
       Background="{StaticResource BackgroundGradient}"
       Title="Login">
 
-    <StackPanel Width="250" Margin="0,75,0,0">
+    <StackPanel Width="250" Margin="0,175,0,0">
         <TextBlock Name="PageTitle" Text="Login" Style="{StaticResource Title}" HorizontalAlignment="Center" Margin="0,10,0,25"/>
 
         <AdornerDecorator>
-            <TextBox Name="EmailTextBox" Style="{StaticResource DefaultTextBox}" Margin="0,5,0,15">
+            <TextBox Name="EmailTextBox" Style="{StaticResource DefaultTextBox}">
                 <utility:WatermarkService.Watermark>
-                    <TextBlock Style="{StaticResource Watermark}" HorizontalAlignment="Center" Name="EmailTextBlock">E-mail</TextBlock>
+                    <TextBlock Style="{StaticResource Watermark}" HorizontalAlignment="Center" Margin="0,5,0,0" Name="EmailTextBlock">E-mail</TextBlock>
                 </utility:WatermarkService.Watermark>
             </TextBox>
         </AdornerDecorator>
 
-        <AdornerDecorator>
-            <PasswordBox Name="PasswordBox" Style="{StaticResource DefaultPasswordBox}" Margin="0,0,0,0">
+        <AdornerDecorator Margin="0,12,0,0">
+            <PasswordBox Name="PasswordBox" Style="{StaticResource DefaultPasswordBox}">
                 <utility:WatermarkService.Watermark>
                     <TextBlock Style="{StaticResource Watermark}" HorizontalAlignment="Center" Margin="0,5,0,0"  Name="PasswordTextBlock" >Password</TextBlock>
                 </utility:WatermarkService.Watermark>

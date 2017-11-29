@@ -1,6 +1,5 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:local="clr-namespace:CSC3045_CS2.Resources.Styles">
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
     <ControlTemplate x:Key="Headers" TargetType="ContentControl">
         <ItemsControl>
@@ -28,6 +27,8 @@
                                 Command="{Binding LogoutCommand}"/>
                     </StackPanel>
                 </Grid>
+
+                <Separator Margin="0,15,0,15"/>
             </StackPanel>
         </ItemsControl>
     </ControlTemplate>

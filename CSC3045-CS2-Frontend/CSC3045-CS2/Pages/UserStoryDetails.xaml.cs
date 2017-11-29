@@ -19,15 +19,14 @@ namespace CSC3045_CS2.Pages
     {
 
         #region Private variables
+
         private UserStoryClient _client;
 
         #endregion
 
         #region Public variables
 
-        public UserStory SelectedUserStory { get; set; }
-
-   
+        public UserStory CurrentUserStory { get; set; }
 
         #endregion
 
@@ -39,9 +38,9 @@ namespace CSC3045_CS2.Pages
 
             _client = new UserStoryClient();
 
-            SelectedUserStory = selectedUserStory;
+            CurrentUserStory = selectedUserStory;
 
-             UserStoryAcceptanceTests.ItemsSource = _client.GetAcceptanceTestsFromUserStory(SelectedUserStory.Project.Id, SelectedUserStory.Id);
+            UserStoryAcceptanceTests.ItemsSource = _client.GetAcceptanceTestsFromUserStory(CurrentUserStory.Project.Id, CurrentUserStory.Id);
         }
 
         #region Command methods
@@ -53,20 +52,18 @@ namespace CSC3045_CS2.Pages
                 return new RelayCommand(param =>
                 {
                     AcceptanceTest acceptanceTest = ((AcceptanceTest)param);
-                    _client.UpdateAcceptanceTest(SelectedUserStory.Project.Id, SelectedUserStory.Id, acceptanceTest);
+                    _client.UpdateAcceptanceTest(CurrentUserStory.Project.Id, CurrentUserStory.Id, acceptanceTest);
                 });
             }
         }
        
-
-
         public ICommand GoToCreateAcceptanceTestCommand
         {
             get
             {
                 return new RelayCommand(param =>
                 {
-                    Page createAcceptanceTest = new CreateAcceptanceTest(SelectedUserStory);
+                    Page createAcceptanceTest = new CreateAcceptanceTest(CurrentUserStory);
 
                     NavigationService.GetNavigationService(this).Navigate(createAcceptanceTest);
                 });
@@ -79,13 +76,12 @@ namespace CSC3045_CS2.Pages
             {
                 return new RelayCommand(param =>
                 {
-                    Page productBacklog = new ProductBacklog(SelectedUserStory.Project);
+                    Page productBacklog = new ProductBacklog(CurrentUserStory.Project);
 
                     NavigationService.GetNavigationService(this).Navigate(productBacklog);
                 });
             }
         }
         #endregion
-
     }
 }

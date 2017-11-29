@@ -7,13 +7,13 @@
       xmlns:utility="clr-namespace:CSC3045_CS2.Utility"
       mc:Ignorable="d" 
       Background="{StaticResource BackgroundGradient}"
-      d:DesignHeight="600" d:DesignWidth="1060"
+      d:DesignHeight="900" d:DesignWidth="1280"
       Title="Create User Story">
 
     <StackPanel Width="500" Margin="0,75,0,0">
-        <ContentControl  Template="{StaticResource Headers}" Name="Header"/>
+        <ContentControl Template="{StaticResource Headers}" Name="Header"/>
 
-        <StackPanel Width="400" Margin="0,15,0,0">
+        <StackPanel Width="400">
 
             <Grid Margin="0,0,0,10">
                 <Grid.ColumnDefinitions>
@@ -21,26 +21,32 @@
                     <ColumnDefinition Width="0.3*"/>
                 </Grid.ColumnDefinitions>
 
-                <TextBox Grid.Column="0" Name="StoryNameTextBox" Style="{StaticResource DefaultTextBox}" Margin="0,0,10,0">
-                    <utility:WatermarkService.Watermark>
-                        <TextBlock Style="{StaticResource Watermark}" HorizontalAlignment="Center" Name="StoryNameTextBlock">Story Name</TextBlock>
-                    </utility:WatermarkService.Watermark>
-                </TextBox>
+                <AdornerDecorator Grid.Column="0" Margin="0,12,0,0">
+                    <TextBox Name="StoryNameTextBox" Style="{StaticResource DefaultTextBox}">
+                        <utility:WatermarkService.Watermark>
+                            <TextBlock Style="{StaticResource Watermark}" HorizontalAlignment="Center" Margin="0,5,0,0" Name="StoryNameTextBlock">Story Name</TextBlock>
+                        </utility:WatermarkService.Watermark>
+                    </TextBox>
+                </AdornerDecorator>
 
-                <TextBox Grid.Column="1" Name="StoryMarketValueTextBox" Style="{StaticResource DefaultTextBox}" Margin="10,0,0,0">
-                    <utility:WatermarkService.Watermark>
-                        <TextBlock Style="{StaticResource Watermark}" HorizontalAlignment="Center" Name="StoryMarketValueTextBlock">Market Value</TextBlock>
-                    </utility:WatermarkService.Watermark>
-                </TextBox>
+                <AdornerDecorator Grid.Column="1" Margin="5,12,0,0">
+                    <TextBox Name="StoryMarketValueTextBox" Style="{StaticResource DefaultTextBox}" PreviewTextInput="NumberOnlyTextBoxValidation">
+                        <utility:WatermarkService.Watermark>
+                            <TextBlock Style="{StaticResource Watermark}" HorizontalAlignment="Center" Margin="0,5,0,0" Name="StoryMarketValueTextBlock">Market Value</TextBlock>
+                        </utility:WatermarkService.Watermark>
+                    </TextBox>
+                </AdornerDecorator>
             </Grid>
 
-            <TextBox Name="StoryDescriptionTextBox" Style="{StaticResource DefaultTextBox}" Height="75" TextWrapping="Wrap" AcceptsReturn="True">
-                <utility:WatermarkService.Watermark>
-                    <TextBlock Style="{StaticResource Watermark}" HorizontalAlignment="Center" Name="StoryDescriptionTextBlock">Story Description</TextBlock>
-                </utility:WatermarkService.Watermark>
-            </TextBox>
+            <AdornerDecorator Margin="0,12,0,0">
+                <TextBox Name="StoryDescriptionTextBox" Style="{StaticResource DefaultTextBox}" Height="75" TextWrapping="Wrap" AcceptsReturn="True">
+                    <utility:WatermarkService.Watermark>
+                        <TextBlock Style="{StaticResource Watermark}" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,5" Name="StoryDescriptionTextBlock">Story Description</TextBlock>
+                    </utility:WatermarkService.Watermark>
+                </TextBox>
+            </AdornerDecorator>
 
-            <Grid Margin="0,5,0,0">
+            <Grid Margin="0,12,0,0">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="*"/>

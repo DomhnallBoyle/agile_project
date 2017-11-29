@@ -25,7 +25,14 @@ namespace CSC3045_CS2.Pages
 
         #endregion
 
+        #region Public Variables
 
+        public UserStory CurrentUserStory
+        {
+            get { return _currentUserStory; }
+        }
+
+        #endregion
 
         public CreateAcceptanceTest(UserStory userStory)
         {
@@ -38,7 +45,6 @@ namespace CSC3045_CS2.Pages
             _currentUserStory = userStory;
         }
     
-
         #region Command Methods
 
         public ICommand CancelCommand
