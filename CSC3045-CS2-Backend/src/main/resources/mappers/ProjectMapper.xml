@@ -10,9 +10,9 @@
         <id column="id" property="id"/>
         <result column="name" property="name"/>
         <result column="description" property="description"/>
-        <association property="manager" column="manager_id" javaType="User" select="selectManager"/>
-        <association property="productOwner" column="product_owner_id" javaType="User" select="selectProductOwner"/>
-        <collection property="scrumMasters" column="id" javaType="List" ofType="User" select="selectScrumMasters"/>
+        <association property="manager" column="manager_id" javaType="User" select="uk.ac.qub.csc3045.api.mapper.UserMapper.selectManager"/>
+        <association property="productOwner" column="product_owner_id" javaType="User" select="uk.ac.qub.csc3045.api.mapper.UserMapper.selectProductOwner"/>
+        <collection property="scrumMasters" column="id" javaType="List" ofType="User" select="uk.ac.qub.csc3045.api.mapper.UserMapper.selectScrumMasters"/>
         <collection property="users" column="id" javaType="List" ofType="User" select="getUsersOnProject"/>
     </resultMap>
 
@@ -20,7 +20,7 @@
         <id column="id" property="id"/>
         <result column="name" property="name"/>
         <result column="description" property="description"/>
-        <association property="manager" column="manager_id" javaType="User" select="selectManager"/>
+        <association property="manager" column="manager_id" javaType="User" select="uk.ac.qub.csc3045.api.mapper.UserMapper.selectManager"/>
     </resultMap>
 
     <!-- SELECT Queries -->
@@ -29,22 +29,6 @@
         SELECT *
         FROM PROJECT
         WHERE id = #{id}
-    </select>
-
-    <select id="getUsersOnProject" resultMap="uk.ac.qub.csc3045.api.mapper.UserMapper.userResultMap">
-        SELECT
-            USER.ID  AS user_id,
-            USER.FORENAME,
-            USER.SURNAME,
-            USER.EMAIL,
-            ROLES.ID AS roles_id,
-            ROLES.DEVELOPER,
-            ROLES.SCRUM_MASTER,
-            ROLES.PRODUCT_OWNER
-        FROM USER
-            JOIN ROLES ON USER.ROLES_ID = ROLES.ID
-            JOIN PROJECT_USER ON USER.ID = PROJECT_USER.USER_ID
-        WHERE PROJECT_USER.PROJECT_ID = #{projectId}
     </select>
 
     <select id="getProjectDevelopers" resultMap="uk.ac.qub.csc3045.api.mapper.UserMapper.userResultMap">
@@ -62,6 +46,22 @@
             JOIN PROJECT_USER ON USER.ID = PROJECT_USER.USER_ID
         WHERE PROJECT_USER.PROJECT_ID = #{projectId}
               AND ROLES.DEVELOPER = TRUE
+    </select>
+    
+    <select id="getUsersOnProject" resultMap="uk.ac.qub.csc3045.api.mapper.UserMapper.userResultMap">
+        SELECT
+            USER.ID  AS user_id,
+            USER.FORENAME,
+            USER.SURNAME,
+            USER.EMAIL,
+            ROLES.ID AS roles_id,
+            ROLES.DEVELOPER,
+            ROLES.SCRUM_MASTER,
+            ROLES.PRODUCT_OWNER
+        FROM USER
+            JOIN ROLES ON USER.ROLES_ID = ROLES.ID
+            JOIN PROJECT_USER ON USER.ID = PROJECT_USER.USER_ID
+        WHERE PROJECT_USER.PROJECT_ID = #{projectId}
     </select>
 
     <!-- INSERT Queries -->
@@ -95,57 +95,5 @@
         WHERE PROJECT_ID = #{projectId}
               AND USER_ID = #{userId}
     </update>
-
-    <!-- Nested SELECT queries for Project -->
-
-    <select id="selectManager" resultMap="uk.ac.qub.csc3045.api.mapper.UserMapper.userResultMap">
-        SELECT
-            USER.ID  AS user_id,
-            USER.FORENAME,
-            USER.SURNAME,
-            USER.EMAIL,
-            USER.PROFILE_PICTURE,
-            ROLES.ID AS roles_id,
-            ROLES.DEVELOPER,
-            ROLES.SCRUM_MASTER,
-            ROLES.PRODUCT_OWNER
-        FROM USER
-            JOIN roles ON roles_id = roles.id
-        WHERE user.id = #{project.manager_id}
-    </select>
-
-    <select id="selectProductOwner" resultMap="uk.ac.qub.csc3045.api.mapper.UserMapper.userResultMap">
-        SELECT
-            USER.ID  AS user_id,
-            USER.FORENAME,
-            USER.SURNAME,
-            USER.EMAIL,
-            USER.PROFILE_PICTURE,
-            ROLES.ID AS roles_id,
-            ROLES.DEVELOPER,
-            ROLES.SCRUM_MASTER,
-            ROLES.PRODUCT_OWNER
-        FROM USER
-            JOIN roles ON roles_id = roles.id
-        WHERE user.id = #{project.product_owner_id}
-    </select>
-
-    <select id="selectScrumMasters" resultMap="uk.ac.qub.csc3045.api.mapper.UserMapper.userResultMap">
-        SELECT
-            USER.ID  AS user_id,
-            USER.FORENAME,
-            USER.SURNAME,
-            USER.EMAIL,
-            USER.PROFILE_PICTURE,
-            ROLES.ID AS roles_id,
-            ROLES.DEVELOPER,
-            ROLES.SCRUM_MASTER,
-            ROLES.PRODUCT_OWNER
-        FROM USER
-            JOIN ROLES ON roles_id = roles.id
-            JOIN PROJECT_USER ON USER.ID = PROJECT_USER.USER_ID
-        WHERE PROJECT_USER.PROJECT_ID = #{id}
-              AND PROJECT_USER.SCRUM_MASTER = TRUE
-    </select>
 
 </mapper>
