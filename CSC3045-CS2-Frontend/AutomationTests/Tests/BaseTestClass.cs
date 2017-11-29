@@ -31,6 +31,7 @@ namespace AutomationTests
             MainWindow = application.GetWindow("MainWindow", InitializeOption.NoCache);
 
             LoginPage = new LoginPage(MainWindow);
+            Assert.IsTrue(LoginPage.IsCurrentPage());
         }
 
         [OneTimeTearDown]
