@@ -67,7 +67,6 @@ namespace CSC3045_CS2.Pages
                             PasswordBox.Password = string.Empty;
                             Keyboard.Focus(PasswordBox);
                             Keyboard.ClearFocus();
-
                         }
                         else
                         {
