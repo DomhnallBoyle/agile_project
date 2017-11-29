@@ -47,7 +47,7 @@ public class SprintController {
 	@PutMapping(value = "/{sprintId}/user")
     public ResponseEntity<List<User>> updateSprintTeam(@PathVariable("projectId") long projectId,@PathVariable("sprintId") long sprintId, @Valid @RequestBody Sprint sprint) {
 		if(sprint.getId() != null && (sprint.getId() != sprintId)) {
-			throw new ResponseErrorException("Id in URL and body to not match", HttpStatus.BAD_REQUEST);
+			throw new ResponseErrorException("Id in URL and body do not match", HttpStatus.BAD_REQUEST);
 		}
 		sprint.setId(sprintId);
         return new ResponseEntity<>(this.sprintService.updateSprintTeam(projectId, sprint), HttpStatus.OK);

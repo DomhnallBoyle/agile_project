@@ -29,7 +29,7 @@ public class UserStoryController {
     @PostMapping()
     public ResponseEntity<UserStory> create(@PathVariable("projectId") long projectId, @Valid @RequestBody UserStory userStory) {
     	if(userStory.getProject().getId() != null && (projectId != userStory.getProject().getId())) {
-    		throw new ResponseErrorException("Id in URL and body to not match", HttpStatus.BAD_REQUEST);
+    		throw new ResponseErrorException("Id in URL and body do not match", HttpStatus.BAD_REQUEST);
     	}
     	
         return new ResponseEntity<>(this.userStoryService.create(userStory), HttpStatus.CREATED);

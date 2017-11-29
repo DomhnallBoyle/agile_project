@@ -33,7 +33,7 @@ public class ProjectController {
     public ResponseEntity<Project> update(@Valid @RequestBody Project project,  @PathVariable("projectId") long projectId) {
     	//checks id in body and request are equal if both are set
     	if(project.getId() != null && (projectId != project.getId())) {
-    		throw new ResponseErrorException("Id in URL and body to not match", HttpStatus.BAD_REQUEST);
+    		throw new ResponseErrorException("Id in URL and body do not match", HttpStatus.BAD_REQUEST);
     	}
     	project.setId(projectId);
         return new ResponseEntity<>(this.projectService.update(project), HttpStatus.OK);
@@ -48,7 +48,7 @@ public class ProjectController {
     public ResponseEntity<Project> addToTeam(@Valid @RequestBody Project project,  @PathVariable("projectId") long projectId) {
     	//checks id in body and request are equal if both are set
     	if(project.getId() != null && (projectId != project.getId())) {
-    		throw new ResponseErrorException("Id in URL and body to not match", HttpStatus.BAD_REQUEST);
+    		throw new ResponseErrorException("Id in URL and body do not match", HttpStatus.BAD_REQUEST);
     	}
     	project.setId(projectId);
         return new ResponseEntity<>(this.projectService.addToTeam(project), HttpStatus.OK);
