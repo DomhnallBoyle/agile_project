@@ -10,16 +10,23 @@ using CSC3045_CS2.Utility;
 using CSC3045_CS2.Models;
 using System.Windows.Media.Imaging;
 using System.IO;
+using System.Text;
 using System.Text.RegularExpressions;
 
 namespace CSC3045_CS2.Pages
 {
     public partial class Register : Page
     {
-        #region Private Variables
+
+        #region Private Variables 
 
         private AuthenticationClient _client;
         private BitmapImage _profileImage;
+        private String _warningMessage;
+        private Style _invalidTextBoxStyle;
+        private Style _validTextBoxStyle;
+        private Style _invalidPasswordBoxStyle;
+        private Style _validPasswordBoxStyle;
 
         #endregion
 
@@ -28,122 +35,16 @@ namespace CSC3045_CS2.Pages
             InitializeComponent();
             DataContext = this;
             _client = new AuthenticationClient();
-
             _profileImage = new BitmapImage(new Uri(Properties.Settings.Default.ProfileImageDirectory + Properties.Settings.Default.DefaultProfileImage, UriKind.Absolute));
             ImageBrush profileButtonBackground = new ImageBrush();
             profileButtonBackground.ImageSource = _profileImage;
             ProfileButton.Background = profileButtonBackground;
+
+            _invalidTextBoxStyle = FindResource("InvalidTextBox") as Style;
+            _validTextBoxStyle = FindResource("DefaultTextBox") as Style;
+            _validPasswordBoxStyle = FindResource("DefaultPasswordBox") as Style;
+            _invalidPasswordBoxStyle = FindResource("InvalidPasswordBox") as Style;
         }
-
-        #region Class Methods
-
-        public void SaveImage(BitmapImage image, string filePath)
-        {
-            BitmapEncoder encoder = new PngBitmapEncoder();
-            encoder.Frames.Add(BitmapFrame.Create(image));
-
-            using (var fileStream = new FileStream(filePath, FileMode.Create))
-            {
-                encoder.Save(fileStream);
-            }
-        }
-
-        /// <summary>
-        /// Method for checking if the required values for the User Registration Form is filled in
-        /// if the Form isnt filled correctly, text box is highlighted
-        /// </summary>
-        /// <param name="textBox"></param>
-        /// <returns></returns>
-        private Boolean CheckRequiredValues(TextBox textBox, TextBlock textBlock)
-        {
-            if (string.IsNullOrEmpty(textBox.Text))
-            {
-                MessageBoxUtil.ShowWarningBox("Field cannot be empty.");
-                textBox.Style = (Style)FindResource("InvalidTextBox");
-                textBlock.Style = (Style)FindResource("InvalidWatermark");
-
-                return false;
-            }
-            else
-            {
-                textBox.Style = (Style)FindResource("DefaultTextBox");
-
-                textBlock.Style = (Style)FindResource("Watermark");
-                return true;
-            }
-        }
-
-        /// <summary>
-        /// Method for checking if password isnt empty, if it is turn the  box red
-        /// </summary>
-        /// <param name="passwordBox"></param>
-        /// <returns></returns>
-        private Boolean CheckPasswordNotEmpty(PasswordBox passwordBox)
-        {
-            if (passwordBox.Password.ToString() == "")
-            {
-                MessageBoxUtil.ShowWarningBox("Password cannot be empty.");
-                passwordBox.Style = (Style)FindResource("InvalidPasswordBox");
-                return false;
-            }
-            else
-            {
-                passwordBox.Style = (Style)FindResource("DefaultPasswordBox");
-                return true;
-            }
-        }
-
-        /// <summary>
-        /// Check the 2 passwords match 
-        /// </summary>
-        /// <param name="mainPasswordBox"></param>
-        /// <param name="confirmPasswordBox"></param>
-        /// <returns></returns>
-        private Boolean CheckPasswordsMatch(PasswordBox mainPasswordBox, PasswordBox confirmPasswordBox)
-        {
-            if (mainPasswordBox.Password.ToString() != confirmPasswordBox.Password.ToString())
-            {
-                MessageBoxUtil.ShowWarningBox("Passwords don't match.");
-                mainPasswordBox.Style = (Style)FindResource("InvalidPasswordBox");
-                confirmPasswordBox.Style = (Style)FindResource("InvalidPasswordBox");
-
-                return false;
-            }
-            else
-            {
-                mainPasswordBox.Style = (Style)FindResource("DefaultPasswordBox");
-                confirmPasswordBox.Style = (Style)FindResource("DefaultPasswordBox");
-                return true;
-            }
-        }
-
-        /// <summary>
-        /// Method to Check validation, returns true if all conditions are met, false otherwise
-        /// </summary>
-        /// <returns></returns>
-        private Boolean CheckValidation()
-        {
-            return CheckRequiredValues(FirstnameTextBox, FirstnameTextBlock) &&
-             CheckRequiredValues(SurnameTextBox, SurnameTextBlock) &&
-             CheckRequiredValues(EmailTextBox, EmailTextBlock) &&
-             CheckPasswordNotEmpty(PasswordTextBox) &&
-             CheckPasswordNotEmpty(ConfirmPasswordTextBox) &&
-             CheckPasswordsMatch(PasswordTextBox, ConfirmPasswordTextBox);
-        }
-
-        /// <summary>
-        /// Performs Regex Validation live on the TextBox's as data is entered
-        /// Ensures that only digits can be entered into the TextBox
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void LetterOnlyTextBoxValidation(object sender, TextCompositionEventArgs e)
-        {
-            Regex regex = new Regex("[^A-Za-z]+");
-            e.Handled = regex.IsMatch(e.Text);
-        }
-
-        #endregion
 
         #region Command Methods
 
@@ -153,11 +54,11 @@ namespace CSC3045_CS2.Pages
         /// Succesfully registered (ie 200) then create a new page, if its not
         /// there will be further feedback indicating what is wrong, also caught is the server not started error
         /// </summary>
-        /// <param name="sender"/>
-        /// <param name="e"/>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         public void RegisterButton_Click(Object sender, EventArgs e)
         {
-            if (CheckValidation())
+            if (CheckFields())
             {
                 Roles roles = new Roles(ProductOwnerCheckBox.IsChecked.Value, ScrumMasterCheckBox.IsChecked.Value, DeveloperCheckBox.IsChecked.Value);
                 string profileImagePath = null;
@@ -171,13 +72,10 @@ namespace CSC3045_CS2.Pages
                 }
                 User user = new User(FirstnameTextBox.Text, SurnameTextBox.Text, EmailTextBox.Text, profileImagePath, roles);
                 Account account = new Account(user, PasswordTextBox.Password.ToString());
-
                 try
                 {
                     Account returnedAccount = this._client.Register(account);
-
                     MessageBoxUtil.ShowSuccessBox("Registration successful!");
-
                     Page loginPage = new Login();
                     if (_profileImage != null)
                     {
@@ -191,26 +89,27 @@ namespace CSC3045_CS2.Pages
                     MessageBoxUtil.ShowErrorBox(ex.Message);
                 }
             }
+            else
+            {
+                MessageBoxUtil.ShowWarningBox(_warningMessage);
+            }
         }
 
         public void ProfileButton_Click(Object sender, EventArgs e)
         {
             // Create OpenFileDialog 
             Microsoft.Win32.OpenFileDialog dlg = new Microsoft.Win32.OpenFileDialog();
-
             // Set filter for file extension and default file extension 
             dlg.DefaultExt = ".png";
             dlg.Filter = "JPEG Files (*.jpeg)|*.jpeg|PNG Files (*.png)|*.png|JPG Files (*.jpg)|*.jpg|GIF Files (*.gif)|*.gif";
-
             // Display OpenFileDialog by calling ShowDialog method 
             Nullable<bool> result = dlg.ShowDialog();
-
             if (result == true)
             {
                 string filename = dlg.FileName;
                 FileInfo fi = new FileInfo(dlg.FileName);
                 long fileSize = fi.Length;
-
+                Console.WriteLine(fileSize);
                 //limiting file size upload to 1mb for performance reasons
                 if (fileSize < (1000000))
                 {
@@ -236,10 +135,103 @@ namespace CSC3045_CS2.Pages
                 return new RelayCommand(param =>
                 {
                     Page loginPage = new Login();
-
                     NavigationService.GetNavigationService(this).Navigate(loginPage);
                 });
             }
+        }
+
+        #endregion
+
+        #region Class Methods
+
+        public void SaveImage(BitmapImage image, string filePath)
+        {
+            BitmapEncoder encoder = new PngBitmapEncoder();
+            encoder.Frames.Add(BitmapFrame.Create(image));
+            using (var fileStream = new FileStream(filePath, FileMode.Create))
+            {
+                encoder.Save(fileStream);
+            }
+        }
+
+        #endregion
+
+        #region Form Validation
+
+        private void LetterOnlyTextBoxValidation(object sender, TextCompositionEventArgs e)
+        {
+            Regex regex = new Regex("[^A-Za-z]+");
+            e.Handled = regex.IsMatch(e.Text);
+        }
+
+        private Boolean CheckPasswordsMatch()
+        {
+            return PasswordTextBox.Password.ToString() == ConfirmPasswordTextBox.Password.ToString();
+        }
+
+        private bool CheckFields()
+        {
+            bool valid = true;
+            StringBuilder sb = new StringBuilder();
+            if (String.IsNullOrEmpty(FirstnameTextBox.Text))
+            {
+                FirstnameTextBox.Style = _invalidTextBoxStyle;
+                valid = false;
+                sb.Append("You must enter a first name\n");
+            }
+            else
+            {
+                FirstnameTextBox.Style = _validTextBoxStyle;
+            }
+            if (String.IsNullOrEmpty(SurnameTextBox.Text))
+            {
+                SurnameTextBox.Style = _invalidTextBoxStyle;
+                valid = false;
+                sb.Append("You must enter a surname\n");
+            }
+            else
+            {
+                SurnameTextBox.Style = _validTextBoxStyle;
+            }
+            if (String.IsNullOrEmpty(EmailTextBox.Text))
+            {
+                EmailTextBox.Style = _invalidTextBoxStyle;
+                valid = false;
+                sb.Append("You must enter an email\n");
+            }
+            else
+            {
+                EmailTextBox.Style = _validTextBoxStyle;
+            }
+            if (String.IsNullOrEmpty(PasswordTextBox.Password.ToString()))
+            {
+                PasswordTextBox.Style = _invalidPasswordBoxStyle;
+                valid = false;
+                sb.Append("You must enter a password\n");
+            }
+            else
+            {
+                PasswordTextBox.Style = _validPasswordBoxStyle;
+            }
+            if (String.IsNullOrEmpty(ConfirmPasswordTextBox.Password.ToString()))
+            {
+                ConfirmPasswordTextBox.Style = _invalidPasswordBoxStyle;
+                valid = false;
+                sb.Append("You must confirm your password\n");
+            }
+            else
+            {
+                ConfirmPasswordTextBox.Style = _validPasswordBoxStyle;
+            }
+            if (!CheckPasswordsMatch())
+            {
+                PasswordTextBox.Style = _invalidPasswordBoxStyle;
+                ConfirmPasswordTextBox.Style = _invalidPasswordBoxStyle;
+                valid = false;
+                sb.Append("Passwords must match\n");
+            }
+            _warningMessage = sb.ToString();
+            return valid;
         }
 
         #endregion
