@@ -1,7 +1,5 @@
 ﻿using AutomationTests.Util;
-using System.Windows.Automation;
 using TestStack.White.UIItems;
-using TestStack.White.UIItems.Finders;
 using TestStack.White.UIItems.ListBoxItems;
 using TestStack.White.UIItems.WindowItems;
 
