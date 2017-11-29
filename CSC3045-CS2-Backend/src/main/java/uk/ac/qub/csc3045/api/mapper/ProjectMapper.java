@@ -17,8 +17,6 @@ public interface ProjectMapper {
 
     Project getProjectById(@Param("id") long id);
 
-    List<Project> getProjectsForUser(@Param("userId") long userId);
-
     List<User> getUsersOnProject(@Param("projectId") long projectId);
 
     List<User> getProjectDevelopers(@Param("projectId") long projectId);

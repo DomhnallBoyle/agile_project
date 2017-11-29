@@ -37,10 +37,10 @@ public class SprintControllerTests {
     @Test
     public void getSprintShouldReturn200OnSuccess() {
         //Arrange
-        when(sprintService.getSprint(sprint.getId())).thenReturn(sprint);
+        when(sprintService.getSprint(sprint.getProject().getId(), sprint.getId())).thenReturn(sprint);
         
         //Act
-        ResponseEntity response = sprintController.getSprint(sprint.getId());
+        ResponseEntity response = sprintController.getSprint(sprint.getProject().getId(), sprint.getId());
 
         //Assert
         assertEquals(HttpStatus.OK, response.getStatusCode());
@@ -50,10 +50,10 @@ public class SprintControllerTests {
     @Test
     public void createSprintShouldReturn201OnSuccess() {
         //Arrange
-        when(sprintService.createSprint(sprint)).thenReturn(sprint);
+        when(sprintService.createSprint(sprint.getProject().getId(), sprint)).thenReturn(sprint);
 
         //Act
-        ResponseEntity response = sprintController.createSprint(sprint);
+        ResponseEntity response = sprintController.createSprint(sprint.getProject().getId(), sprint);
 
         //Assert
         assertEquals(HttpStatus.CREATED, response.getStatusCode());
@@ -80,10 +80,10 @@ public class SprintControllerTests {
     @Test
     public void getSprintTeamShouldReturn200OnSuccess() {
         //Arrange
-        when(sprintService.getSprintTeam(sprint.getId())).thenReturn(sprint.getUsers());
+        when(sprintService.getSprintTeam(sprint.getProject().getId(), sprint.getId())).thenReturn(sprint.getUsers());
 
         //Act
-        ResponseEntity response = sprintController.getSprintTeam(sprint.getId());
+        ResponseEntity response = sprintController.getSprintTeam(sprint.getProject().getId(), sprint.getId());
 
         //Assert
         assertEquals(HttpStatus.OK, response.getStatusCode());
@@ -93,10 +93,10 @@ public class SprintControllerTests {
     @Test
     public void updateSprintTeamShouldReturn200OnSuccess() {
         //Arrange
-        when(sprintService.updateSprintTeam(sprint)).thenReturn(sprint.getUsers());
+        when(sprintService.updateSprintTeam(sprint.getProject().getId(), sprint)).thenReturn(sprint.getUsers());
 
         //Act
-        ResponseEntity response = sprintController.updateSprintTeam(sprint);
+        ResponseEntity response = sprintController.updateSprintTeam(sprint.getProject().getId(), sprint.getId(), sprint);
 
         //Assert
         assertEquals(HttpStatus.OK, response.getStatusCode());
@@ -106,10 +106,10 @@ public class SprintControllerTests {
     @Test
     public void getAvailableDevelopersShouldReturn200OnSuccess() {
         //Arrange
-        when(sprintService.getAvailableDevelopers(sprint.getId())).thenReturn(sprint.getUsers());
+        when(sprintService.getAvailableDevelopers(sprint.getProject().getId(), sprint.getId())).thenReturn(sprint.getUsers());
 
         //Act
-        ResponseEntity response = sprintController.getAvailableDevelopers(sprint.getId());
+        ResponseEntity response = sprintController.getAvailableDevelopers(sprint.getProject().getId(), sprint.getId());
 
         //Assert
         assertEquals(HttpStatus.OK, response.getStatusCode());

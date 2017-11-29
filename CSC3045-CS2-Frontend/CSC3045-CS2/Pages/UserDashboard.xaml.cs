@@ -20,8 +20,8 @@ namespace CSC3045_CS2.Pages
     {
         #region Private variables
 
-        private ProjectClient _client;
-        
+        private ProjectClient _projectClient;
+        private UserClient _userClient;
 
         #endregion
 
@@ -43,7 +43,21 @@ namespace CSC3045_CS2.Pages
             CurrentPage = this.Title;
             DataContext = this;
 
-            _client = new ProjectClient();
+            User user = ((User)Application.Current.Properties["user"]);
+            UserLabel = user.GetFullName();
+            string profileImageFileName;
+            if (user.ProfilePicture != null)
+            {
+                profileImageFileName = user.ProfilePicture;
+            }
+            else
+            {
+                profileImageFileName = Properties.Settings.Default.DefaultProfileImage;
+            }
+            string profileImagePath = Properties.Settings.Default.ProfileImageDirectory + profileImageFileName;
+            
+            _projectClient = new ProjectClient();
+            _userClient = new UserClient();
 
             InitialiseProjects();
         }
@@ -54,7 +68,7 @@ namespace CSC3045_CS2.Pages
         {
             try
             {
-                List<Project> inboundProjects = _client.GetProjectsForUser(((User)Application.Current.Properties["user"]).Id);
+                List<Project> inboundProjects = _userClient.GetProjectsForUser(((User)Application.Current.Properties["user"]).Id);
                 List<ProjectPermissions> projectList = new List<ProjectPermissions>();
 
                 foreach (Project project in inboundProjects)

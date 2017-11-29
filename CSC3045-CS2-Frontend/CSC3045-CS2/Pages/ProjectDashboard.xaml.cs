@@ -85,7 +85,7 @@ namespace CSC3045_CS2.Pages
             Permissions = new Permissions((User)Application.Current.Properties["user"], currentProject);
 
             CurrentProject = currentProject;
-            _projects = _projectClient.GetProjectsForUser(((User)Application.Current.Properties["user"]).Id);
+            _projects = _userClient.GetProjectsForUser(((User)Application.Current.Properties["user"]).Id);
             ProjectDropDownButton.Content = currentProject.Name;
             AddProjectsToDropdownList();
 

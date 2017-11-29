@@ -69,16 +69,6 @@ public class ProjectService {
         throw new ResponseErrorException("Project does not exist", HttpStatus.NOT_FOUND);
     }
 
-    public List<Project> getProjectsForUser(long userId) {
-        List<Project> projects = mapper.getProjectsForUser(userId);
-
-        if (projects.isEmpty()) {
-            throw new ResponseErrorException("You are currently not assigned to any projects.", HttpStatus.NOT_FOUND);
-        }
-
-        return projects;
-    }
-
     public Project addToTeam(Project project) {
         try {
         	Project oldProject = mapper.getProjectById(project.getId());
