@@ -64,6 +64,9 @@ namespace CSC3045_CS2.Pages
                         if (ex.StatusCode == System.Net.HttpStatusCode.Unauthorized)
                         {
                             MessageBoxUtil.ShowWarningBox("Invalid username or password.");
+                            PasswordBox.Password = string.Empty;
+                            Keyboard.Focus(PasswordBox);
+                            Keyboard.ClearFocus();
                         }
                         else
                         {

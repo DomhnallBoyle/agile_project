@@ -5,7 +5,10 @@ namespace AutomationTests.PageTemplates
 {
     public class ProjectDashboardPage : BasePage
     {
-
+        public Label ProjectManagerNameTextBlock
+        {
+            get { return MainWindow.Get<Label>("ProjectManagerNameTextBlock"); }
+        }
 
         public ProjectDashboardPage(Window window) : base(window) { }
 

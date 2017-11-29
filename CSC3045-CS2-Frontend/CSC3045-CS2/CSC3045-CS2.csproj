@@ -115,6 +115,7 @@
     <Compile Include="Pages\UserStoryDetails.xaml.cs">
       <DependentUpon>UserStoryDetails.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Resources\Controls\TextBlockPlus.cs" />
     <Compile Include="Service\AuthenticationClient.cs" />
     <Compile Include="Service\ProjectClient.cs" />
     <Compile Include="Service\ServiceClient.cs" />

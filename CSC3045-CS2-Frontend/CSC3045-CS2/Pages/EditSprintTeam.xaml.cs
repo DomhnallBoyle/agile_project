@@ -54,7 +54,7 @@ namespace CSC3045_CS2.Pages
 
             try
             {
-                AvailableDevelopers = new ObservableCollection<User>(_sprintClient.GetAvailableDevelopers(sprint.Id));
+                AvailableDevelopers = new ObservableCollection<User>(_sprintClient.GetAvailableDevelopers(sprint.Project.Id, sprint.Id));
             }
             catch (RestResponseErrorException ex)
             {

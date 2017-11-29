@@ -16,6 +16,8 @@ import uk.ac.qub.csc3045.api.mapper.SprintMapper;
 import uk.ac.qub.csc3045.api.model.Sprint;
 import uk.ac.qub.csc3045.api.model.User;
 import uk.ac.qub.csc3045.api.model.UserStory;
+import uk.ac.qub.csc3045.api.utility.ValidationUtility;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,9 +48,10 @@ public class SprintServiceTest {
     public void createValidSprintShouldReturnCreatedSprint() {
         //Arrange
         when(sprintMapperMock.getSprintById(sprint.getId())).thenReturn(sprint);
+        when(projectMapperMock.getProjectById(sprint.getProject().getId())).thenReturn(sprint.getProject());
 
         //Act
-        Sprint response = sprintService.createSprint(sprint);
+        Sprint response = sprintService.createSprint(sprint.getProject().getId(), sprint);
 
         //Assert
         assertTrue(response.equals(sprint));
@@ -60,7 +63,7 @@ public class SprintServiceTest {
         doThrow(new DataIntegrityViolationException("")).when(sprintMapperMock).createSprint(sprint);
 
         //Act
-        Sprint response = sprintService.createSprint(sprint);
+        Sprint response = sprintService.createSprint(sprint.getProject().getId(), sprint);
 
         //Assert
         assertTrue(response.equals(sprint));
@@ -70,9 +73,10 @@ public class SprintServiceTest {
     public void getExistingSprintShouldReturnSprint() {
         //Arrange
         when(sprintMapperMock.getSprintById(sprint.getId())).thenReturn(sprint);
+        when(projectMapperMock.getProjectById(sprint.getProject().getId())).thenReturn(sprint.getProject());
         
         //Act
-        Sprint response = sprintService.getSprint(sprint.getId());
+        Sprint response = sprintService.getSprint(sprint.getProject().getId(), sprint.getId());
         
         //Assert
         assertTrue(response.equals(sprint));
@@ -84,14 +88,15 @@ public class SprintServiceTest {
         when(sprintMapperMock.getSprintById(sprint.getId())).thenReturn(null);
         
         //Act
-        sprintService.getSprint(sprint.getId());
+        sprintService.getSprint(sprint.getProject().getId(), sprint.getId());
     }
 
     @Test
     public void getProjectSprintsOnProjectWithSprintsShouldReturnSprints() {
         //Arrange
         when(sprintMapperMock.getProjectSprints(sprint.getProject().getId())).thenReturn(sprints);
-
+        when(projectMapperMock.getProjectById(sprint.getProject().getId())).thenReturn(sprint.getProject());
+        
         //Act
         List<Sprint> response = sprintService.getProjectSprints(sprint.getProject().getId());
 
@@ -113,9 +118,10 @@ public class SprintServiceTest {
         //Arrange
         when(sprintMapperMock.getSprintById(sprint.getId())).thenReturn(sprint);
         when(sprintMapperMock.getSprintTeam(sprint.getId())).thenReturn(sprint.getUsers());
-
+        when(projectMapperMock.getProjectById(sprint.getProject().getId())).thenReturn(sprint.getProject());
+        
         //Act
-        List<User> response = sprintService.getSprintTeam(sprint.getId());
+        List<User> response = sprintService.getSprintTeam(sprint.getProject().getId(), sprint.getId());
 
         //Assert
         assertTrue(response.equals(sprint.getUsers()));
@@ -127,7 +133,7 @@ public class SprintServiceTest {
         when(sprintMapperMock.getSprintById(sprint.getId())).thenReturn(null);
 
         //Act
-        sprintService.getSprintTeam(sprint.getProject().getId());
+        sprintService.getSprintTeam(sprint.getProject().getId(), sprint.getId());
     }
 
     @Test
@@ -144,9 +150,10 @@ public class SprintServiceTest {
 
         when(projectMapperMock.getProjectDevelopers(sprint.getProject().getId()))
                 .thenReturn(developers);
-
+        when(projectMapperMock.getProjectById(sprint.getProject().getId())).thenReturn(sprint.getProject());
+        
         //Act
-        List<User> response = sprintService.getAvailableDevelopers(sprint.getId());
+        List<User> response = sprintService.getAvailableDevelopers(sprint.getProject().getId(), sprint.getId());
 
         //Assert
         assertTrue(response.equals(developers));
@@ -169,7 +176,7 @@ public class SprintServiceTest {
                 .thenReturn(developers);
 
         //Act
-        sprintService.getAvailableDevelopers(sprint.getId());
+        sprintService.getAvailableDevelopers(sprint.getProject().getId(), sprint.getId());
     }
 
     @Test(expected = ResponseErrorException.class)
@@ -178,7 +185,7 @@ public class SprintServiceTest {
         when(sprintMapperMock.getSprintById(sprint.getId())).thenReturn(null);
 
         //Act
-        sprintService.getAvailableDevelopers(sprint.getId());
+        sprintService.getAvailableDevelopers(sprint.getProject().getId(), sprint.getId());
     }
 
     @Test
@@ -188,11 +195,12 @@ public class SprintServiceTest {
         newTeam.remove(0);
 
         when(sprintMapperMock.getSprintTeam(sprint.getId())).thenReturn(sprint.getUsers()).thenReturn(newTeam);
+        when(projectMapperMock.getProjectById(sprint.getProject().getId())).thenReturn(sprint.getProject());
         doNothing().when(sprintMapperMock).resetSprintTeam(sprint.getId());
         doNothing().when(sprintMapperMock).resetSprintTeam(sprint.getId());
 
         //Act
-        List<User> response = sprintService.updateSprintTeam(sprint);
+        List<User> response = sprintService.updateSprintTeam(sprint.getProject().getId(), sprint);
 
         //Assert
         assertTrue(response.equals(newTeam));

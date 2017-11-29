@@ -93,7 +93,7 @@ public class ProjectControllerIT {
 	
 	@Test
 	public void getProjectTeamThatDoesNotExistShouldReturn404() {
-		Response r = requestHelper.sendGetRequestWithAuthHeader(TEAM_PATH + "/6500", authHeader);
+		Response r = requestHelper.sendGetRequestWithAuthHeader(BASE_PATH + "/6500" + "/user", authHeader);
 		
 		r.then().assertThat().statusCode(404);
 		assertEquals(projectDoesNotExistErrorMessage, r.getBody().asString());
@@ -101,7 +101,7 @@ public class ProjectControllerIT {
 	
 	@Test
 	public void getProjectTeamThatDoesExistShouldReturn200() {
-		Response r = requestHelper.sendGetRequestWithAuthHeader(TEAM_PATH + "/" + existingProject.getId(), authHeader);
+		Response r = requestHelper.sendGetRequestWithAuthHeader(BASE_PATH + "/" + existingProject.getId() + "/user", authHeader);
 		
 		r.then().assertThat().statusCode(200);
 		List<User> users = Arrays.asList(r.getBody().as(User[].class));
@@ -125,7 +125,7 @@ public class ProjectControllerIT {
 	    existingProject.setUsers(projectTeam);
 	    existingProject.setId(3L);
 
-		Response r = requestHelper.sendPostRequestWithAuthHeader(TEAM_PATH, authHeader, existingProject);
+		Response r = requestHelper.sendPostRequestWithAuthHeader(BASE_PATH + "/" + existingProject.getId() + "/user", authHeader, existingProject);
 		Project returnedProject = r.getBody().as(Project.class);
 		List<User> returnedTeam = returnedProject.getUsers();
 		
@@ -153,7 +153,7 @@ public class ProjectControllerIT {
 		validProjectScrumMaster.setId(1l);		
 		validProjectScrumMaster.setScrumMasters(scrumMasters);
     	
-		Response r = requestHelper.sendPutRequestWithAuthHeader(BASE_PATH, authHeader, validProjectScrumMaster);
+		Response r = requestHelper.sendPutRequestWithAuthHeader(BASE_PATH + "/" + validProjectScrumMaster.getId(), authHeader, validProjectScrumMaster);
 		r.then().assertThat().statusCode(200);
 		
 		Project returnedProject = r.body().jsonPath().getObject("", Project.class);
@@ -173,7 +173,7 @@ public class ProjectControllerIT {
 		validProjectProductOwner.setId(1l);		
 		validProjectProductOwner.setProductOwner(productOwner);
     	
-		Response r = requestHelper.sendPutRequestWithAuthHeader(BASE_PATH, authHeader, validProjectProductOwner);
+		Response r = requestHelper.sendPutRequestWithAuthHeader(BASE_PATH + "/" + validProjectProductOwner.getId(), authHeader, validProjectProductOwner);
 		r.then().assertThat().statusCode(200);
 		
 		Project returnedProject = r.body().jsonPath().getObject("", Project.class);
@@ -193,7 +193,7 @@ public class ProjectControllerIT {
 		notValidProjectProductOwner.setId(1l);		
 		notValidProjectProductOwner.setProductOwner(productOwner);
     	
-		Response r = requestHelper.sendPutRequestWithAuthHeader(BASE_PATH, authHeader, notValidProjectProductOwner);
+		Response r = requestHelper.sendPutRequestWithAuthHeader(BASE_PATH + "/" + notValidProjectProductOwner.getId(), authHeader, notValidProjectProductOwner);
 		r.then().assertThat().statusCode(404);
 		assertEquals(dataIntegrityErrorMessage, r.getBody().asString());
 	}
@@ -206,7 +206,7 @@ public class ProjectControllerIT {
 		Project invalidProject = new Project("ProjectName6500", "Project Description6500", projectManager, null, null, null, null);
 		invalidProject.setId(6500L);
 		
-		Response r = requestHelper.sendPutRequestWithAuthHeader(BASE_PATH, authHeader, invalidProject);
+		Response r = requestHelper.sendPutRequestWithAuthHeader(BASE_PATH + "/" + invalidProject.getId(), authHeader, invalidProject);
 		r.then().assertThat().statusCode(404);
 		assertEquals(projectDoesNotExistErrorMessage, r.getBody().asString());
 	}
