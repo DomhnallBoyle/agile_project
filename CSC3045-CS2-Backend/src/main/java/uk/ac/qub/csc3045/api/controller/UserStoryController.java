@@ -1,69 +1,61 @@
-
 package uk.ac.qub.csc3045.api.controller;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
+import uk.ac.qub.csc3045.api.exception.ResponseErrorException;
 import uk.ac.qub.csc3045.api.model.AcceptanceTest;
 import uk.ac.qub.csc3045.api.model.UserStory;
 import uk.ac.qub.csc3045.api.service.UserStoryService;
-
 import javax.validation.Valid;
 import java.util.List;
-
 @RestController
-@RequestMapping(value = "/story")
+@RequestMapping(value = "/project/{projectId}/story")
 public class UserStoryController {
-
     private final UserStoryService userStoryService;
-
     @Autowired
     public UserStoryController(UserStoryService userStoryService) {
         this.userStoryService = userStoryService;
     }
-
-    @PostMapping()
-    public ResponseEntity<UserStory> create(@Valid @RequestBody UserStory userStory) {
-        return new ResponseEntity<>(this.userStoryService.create(userStory), HttpStatus.CREATED);
+    
+    @GetMapping()
+    public ResponseEntity<List<UserStory>> getUserStoriesByProject(@PathVariable("projectId") long projectId) {
+        return new ResponseEntity<>(this.userStoryService.getAllUserStories(projectId), HttpStatus.OK);
     }
-
-    @GetMapping(value = "/{id}")
-    public ResponseEntity<UserStory> getUserStory(@PathVariable("id") long id) {
-
-        return new ResponseEntity<>(this.userStoryService.getUserStory(id), HttpStatus.OK);
-    }
-
-    @GetMapping(value = "/project/{id}")
-    public ResponseEntity<List<UserStory>> getUserStoriesByProject(@PathVariable("id") long id) {
-
-        return new ResponseEntity<>(this.userStoryService.getAllUserStories(id), HttpStatus.OK);
-    }
-
-    @PutMapping(value = "/backlog/order")
+    @PutMapping()
     public ResponseEntity<List<UserStory>> updateBacklogOrder(@RequestBody List<UserStory> backlog) {
         return new ResponseEntity<>(userStoryService.updateBacklogOrder(backlog), HttpStatus.OK);
     }
-    
-    @PostMapping(value = "/{id}/acceptancetest")
-    public ResponseEntity<AcceptanceTest> createAcceptanceTest(@Valid @PathVariable("id") long id, @Valid @RequestBody AcceptanceTest acceptanceTest) {
-    	return new ResponseEntity<>(this.userStoryService.createAcceptanceTest(id, acceptanceTest), HttpStatus.CREATED);
+    @PostMapping()
+    public ResponseEntity<UserStory> create(@PathVariable("projectId") long projectId, @Valid @RequestBody UserStory userStory) {
+    	if(userStory.getProject().getId() != null && (projectId != userStory.getProject().getId())) {
+    		throw new ResponseErrorException("Id in URL and body to not match", HttpStatus.BAD_REQUEST);
+    	}
+    	
+        return new ResponseEntity<>(this.userStoryService.create(userStory), HttpStatus.CREATED);
+    }
+    @GetMapping(value = "/{storyId}")
+    public ResponseEntity<UserStory> getUserStory(@PathVariable("projectId") long projectId, @PathVariable("storyId") long storyId) {
+        return new ResponseEntity<>(this.userStoryService.getUserStory(projectId, storyId), HttpStatus.OK);
     }
     
-    @GetMapping(value = "/{id}/acceptancetest")
-    public ResponseEntity<List<AcceptanceTest>> getAcceptanceTests(@Valid @PathVariable("id") long id) {
-    	return new ResponseEntity<>(this.userStoryService.getAcceptanceTests(id), HttpStatus.OK);
+    @PostMapping(value = "/{storyId}/acceptancetest")
+    public ResponseEntity<AcceptanceTest> addAcceptanceTest(@Valid @PathVariable("projectId") long projectId, @Valid @PathVariable("storyId") long storyId, @Valid @RequestBody AcceptanceTest acceptanceTest) {
+    	return new ResponseEntity<>(this.userStoryService.addAcceptanceTest(projectId, storyId, acceptanceTest), HttpStatus.CREATED);
     }
     
-    @PutMapping(value = "/acceptancetest")
-    public ResponseEntity<AcceptanceTest> updateAcceptanceTest(@Valid @RequestBody AcceptanceTest acceptanceTest) {
-    	return new ResponseEntity<>(this.userStoryService.updateAcceptanceTest(acceptanceTest), HttpStatus.OK);
+    @GetMapping(value = "/{storyId}/acceptancetest")
+    public ResponseEntity<List<AcceptanceTest>> getAcceptanceTests(@Valid @PathVariable("projectId") long projectId, @Valid @PathVariable("storyId") long storyId) {
+    	return new ResponseEntity<>(this.userStoryService.getAcceptanceTests(projectId, storyId), HttpStatus.OK);
     }
     
-    @GetMapping(value = "/project/{id}/available")
-    public ResponseEntity<List<UserStory>> getAvailableUserStories(@Valid @PathVariable("id") long id) {
-        return new ResponseEntity<>(this.userStoryService.getAvailableUserStories(id), HttpStatus.OK);
+    @PutMapping(value = "/{storyId}/acceptancetest/{acceptanceTestId}")
+    public ResponseEntity<AcceptanceTest> updateAcceptanceTest(@Valid @PathVariable("projectId") long projectId, @Valid @PathVariable("storyId") long storyId, @Valid @PathVariable("acceptanceTestId") long acceptanceTestId, @Valid @RequestBody AcceptanceTest acceptanceTest) {
+    	return new ResponseEntity<>(this.userStoryService.updateAcceptanceTest(projectId, storyId, acceptanceTest), HttpStatus.OK);
     }
-
+    
+    @GetMapping(value = "/available")
+    public ResponseEntity<List<UserStory>> getAvailableUserStories(@Valid @PathVariable("projectId") long projectId) {
+        return new ResponseEntity<>(this.userStoryService.getAvailableUserStories(projectId), HttpStatus.OK);
+    }
 }

@@ -18,7 +18,7 @@ namespace CSC3045_CS2.Service
         /// <returns>The created User Story if successful, or will throw RestResponseException if error</returns>
         public UserStory CreateUserStory(UserStory userStory)
         {
-            var request = new RestRequest(BASE_ENDPOINT, Method.POST);
+            var request = new RestRequest("/project/" + userStory.Project.Id + "/story", Method.POST);
             request.AddHeader("Content-Type", "application/json");
             request.RequestFormat = DataFormat.Json;
             SimpleJson.CurrentJsonSerializerStrategy = new CamelCaseSerializationStrategy();
@@ -35,7 +35,7 @@ namespace CSC3045_CS2.Service
         /// <returns>The user stories for the specified project, or will throw RestResponseException if error</returns>
         public List<UserStory> GetUserStories(long projectId)
         {
-            var request = new RestRequest(BASE_ENDPOINT + "/project/" + projectId, Method.GET);
+            var request = new RestRequest("/project/" + projectId + "/story", Method.GET);
             request.AddHeader("Content-Type", "application/json");
             request.RequestFormat = DataFormat.Json;
             SimpleJson.CurrentJsonSerializerStrategy = new CamelCaseSerializationStrategy();
@@ -51,7 +51,7 @@ namespace CSC3045_CS2.Service
         /// <returns>List of user stories</returns>
         public List<UserStory> SaveOrder(List<UserStory> userStories)
         {
-            var request = new RestRequest(BASE_ENDPOINT + "/backlog/order", Method.PUT);
+            var request = new RestRequest("/project/" + userStories[0].Project.Id + "/story", Method.PUT);
             request.AddHeader("Content-Type", "application/json");
             request.RequestFormat = DataFormat.Json;
             request.AddBody(userStories);
@@ -67,7 +67,7 @@ namespace CSC3045_CS2.Service
         /// <returns>The created acceptance Test if successful, or will throw RestResponseException if error</returns>
         public AcceptanceTest CreateAcceptanceTest(AcceptanceTest acceptanceTest)
         {
-            var request = new RestRequest(BASE_ENDPOINT + "/" + acceptanceTest.UserStory.Id + "/acceptancetest/", Method.POST);
+            var request = new RestRequest("/project/" + acceptanceTest.UserStory.Project.Id + "/story/" + acceptanceTest.UserStory.Id + "/acceptancetest", Method.POST);
             request.AddHeader("Content-Type", "application/json");
             request.RequestFormat = DataFormat.Json;
             SimpleJson.CurrentJsonSerializerStrategy = new CamelCaseSerializationStrategy();
@@ -83,9 +83,9 @@ namespace CSC3045_CS2.Service
         /// </summary>
         /// <param name="acceptanceTest">The Acceptance Test to be Created</param>
         /// <returns>The acceptance tests for the specified user story, or will throw RestResponseException if error</returns>
-        public AcceptanceTest UpdateAcceptanceTest(AcceptanceTest acceptanceTest)
+        public AcceptanceTest UpdateAcceptanceTest(long projectId, long storyId, AcceptanceTest acceptanceTest)
         {
-            var request = new RestRequest(BASE_ENDPOINT +  "/acceptancetest/", Method.PUT);
+            var request = new RestRequest("/project/" + projectId + "/story/" + storyId + "/acceptancetest/" + acceptanceTest.Id , Method.PUT);
             request.AddHeader("Content-Type", "application/json");
             request.RequestFormat = DataFormat.Json;
             SimpleJson.CurrentJsonSerializerStrategy = new CamelCaseSerializationStrategy();
@@ -101,9 +101,9 @@ namespace CSC3045_CS2.Service
         /// </summary>
         /// <param name="userStoryID">The ID of the story</param>
         /// <returns>The acceptance tests for the specified user story, or will throw RestResponseException if error</returns>
-        public List<AcceptanceTest> GetAcceptanceTestsFromUserStory(long userStoryId)
+        public List<AcceptanceTest> GetAcceptanceTestsFromUserStory(long projectId, long userStoryId)
         {
-            var request = new RestRequest(BASE_ENDPOINT + "/" + userStoryId + "/acceptancetest/", Method.GET);
+            var request = new RestRequest("/project/" + projectId + "/story/" + userStoryId + "/acceptancetest/", Method.GET);
             request.AddHeader("Content-Type", "application/json");
             request.RequestFormat = DataFormat.Json;
 
