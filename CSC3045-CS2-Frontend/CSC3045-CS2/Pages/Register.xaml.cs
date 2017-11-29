@@ -165,9 +165,9 @@ namespace CSC3045_CS2.Pages
         /// <param name="mainPasswordBox"></param>
         /// <param name="confirmPasswordBox"></param>
         /// <returns></returns>
-        private Boolean CheckPasswordsMatch(PasswordBox mainPasswordBox, PasswordBox confirmPasswordBox)
+        private Boolean CheckPasswordsMatch()
         {
-            return mainPasswordBox.Password.ToString() == confirmPasswordBox.Password.ToString();
+            return PasswordTextBox.Password.ToString() == ConfirmPasswordTextBox.Password.ToString();
         }
 
         private bool CheckFields()
@@ -229,7 +229,7 @@ namespace CSC3045_CS2.Pages
                 ConfirmPasswordTextBox.Style = _validPasswordBoxStyle;
             }
 
-            if (!CheckPasswordsMatch(PasswordTextBox, ConfirmPasswordTextBox))
+            if (!CheckPasswordsMatch())
             {
                 PasswordTextBox.Style = _invalidPasswordBoxStyle;
                 ConfirmPasswordTextBox.Style = _invalidPasswordBoxStyle;
