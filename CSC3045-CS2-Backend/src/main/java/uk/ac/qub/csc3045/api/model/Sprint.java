@@ -96,8 +96,8 @@ public class Sprint {
         return userStories;
     }
 
-    public void setUserStory(List<UserStory> userStory) {
-        this.userStories = userStory;
+    public void setUserStories(List<UserStory> userStories) {
+        this.userStories = userStories;
     }
     
     @Override

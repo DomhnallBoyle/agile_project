@@ -30,6 +30,7 @@ public class SprintControllerIT {
 
 	private String sprintDoesNotExistErrorMessage = "Sprint does not exist";
 	private String projectDoesNotExistInDatabaseErrorMessage = "Project Id does not exist in the database";
+	private String scrumMasterDoesNotExistInDatabaseErrorMessage = "Scrum Master does not exist in the database";
 
 	private Account account;
 	private Sprint existingSprint;
@@ -69,7 +70,7 @@ public class SprintControllerIT {
 	}
 
 	@Test
-	public void createSprintProjectAndScrumMasterDoesNotExistShouldReturn404() {
+	public void createSprintProjectDoesNotExistShouldReturn404() {
 		Sprint newSprint = new Sprint();
 		newSprint.setName("SprintName");
 		newSprint.setStartDate(LocalDateTime.of(2018, Month.JULY, 20, 19, 30, 40));
@@ -79,6 +80,22 @@ public class SprintControllerIT {
 
 		assertEquals(404, r.statusCode());
 		assertEquals(projectDoesNotExistInDatabaseErrorMessage, r.body().asString());
+	}
+	
+	@Test
+	public void createSprintScrumMasterDoesNotExistShouldReturn404() {
+		Sprint newSprint = new Sprint();
+		newSprint.setName("SprintName");
+		newSprint.setStartDate(LocalDateTime.of(2018, Month.JULY, 20, 19, 30, 40));
+		newSprint.setEndDate(LocalDateTime.of(2018, Month.JULY, 29, 19, 30, 40));;
+		User newUser = new User();
+	    newUser.setId(1L);
+	    newSprint.setScrumMaster(newUser);
+	    
+		Response r = requestHelper.sendPostRequestWithAuthHeader(BASE_PATH, authHeader, existingSprint);
+
+		assertEquals(400, r.statusCode());
+		assertEquals(scrumMasterDoesNotExistInDatabaseErrorMessage, r.body().asString());
 	}
 
 	/**
@@ -104,8 +121,8 @@ public class SprintControllerIT {
 	}
 
 	private void setupBacklog() {
-		existingUser = new User("Forename1", "Surname1", "user1@email.com", new Roles(false, true, false));
-		existingScrum = new User("Forename2", "Surname2", "user2@email.com", new Roles(true, true, true));
+		existingUser = new User("Snoop", "Dogg", "snoop.dogg@shizzle.hold.up", new Roles(true, true, true));
+		existingScrum = new User("Richard", "Hendrix", "r.hendrix@valley.com", new Roles(true, true, true));
 		existingScrum.setId(1L);
 		nonExistingScrum = new User("Forename3", "Surname3", "user3@email.com", new Roles(true, true, true));
 		nonExistingScrum.setId(300L);
@@ -113,7 +130,7 @@ public class SprintControllerIT {
 		List<User> users = new ArrayList<>();
 		users.add(existingUser);
 
-		existingProject = new Project("ProjectName1", "Project Description1", existingUser, existingUser, users, users, new ArrayList<>());
+		existingProject = new Project("Pied Piper", "Cloud storage using revolutionary middle-out compression.", existingUser, existingUser, users, users, new ArrayList<>());
 		existingProject.setId(1L);
         existingProject.setManager(existingUser);
 
