@@ -25,7 +25,6 @@ INSERT INTO USER (FORENAME, SURNAME, EMAIL, PROFILE_PICTURE, ROLES_ID) VALUES ('
 INSERT INTO USER (FORENAME, SURNAME, EMAIL, PROFILE_PICTURE, ROLES_ID) VALUES ('e2eForename1', 'e2eSurname1', 'e2eUser1@email.e2e', 'default.jpg', 1); -- id: 14
 INSERT INTO USER (FORENAME, SURNAME, EMAIL, PROFILE_PICTURE, ROLES_ID) VALUES ('e2eForename2', 'e2eSurname2', 'e2eUser2@email.e2e', 'default.jpg', 8); -- id: 15
 INSERT INTO USER (FORENAME, SURNAME, EMAIL, PROFILE_PICTURE, ROLES_ID) VALUES ('e2eForename3', 'e2eSurname3', 'e2eUser3@email.e2e', 'default.jpg', 2); -- id: 16
-=======
 
 INSERT INTO USER (FORENAME, SURNAME, EMAIL, PROFILE_PICTURE, ROLES_ID) VALUES ('e2eForename1', 'e2eSurname1', 'user1@e2e.com', 'default.jpg', 1); -- id: 14
 INSERT INTO USER (FORENAME, SURNAME, EMAIL, PROFILE_PICTURE, ROLES_ID) VALUES ('e2eForename2', 'e2eSurname2', 'user2@e2e.com', 'default.jpg', 8); -- id: 15
