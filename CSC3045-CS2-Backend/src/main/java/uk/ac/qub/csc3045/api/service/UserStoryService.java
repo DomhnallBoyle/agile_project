@@ -35,7 +35,7 @@ public class UserStoryService {
 	        if (ValidationUtility.validateUserStoryExists(sprintId, userStoryMapper)) {
 	            return userStoryMapper.getUserStoryById(sprintId);
 	        }
-	        throw new ResponseErrorException("User Story does not exist", HttpStatus.NOT_FOUND);
+	        throw new ResponseErrorException("The User story does not exist", HttpStatus.NOT_FOUND);
     	}else {
     		throw new ResponseErrorException("Project does not exist", HttpStatus.NOT_FOUND);
     	}

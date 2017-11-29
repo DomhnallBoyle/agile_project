@@ -28,8 +28,8 @@ public class UserStoryControllerIT {
 
     private String projectDoesNotExist = "Project does not exist";
     private String projectUserStoriesDontMatch = "These User Stories don't exist on the given Project";
-    private String userStoryDoesNotExist = "User Story does not exist";
-    private String acceptanceTestDoesNotExist = "Acceptance test does not exist";
+    private String userStoryDoesNotExist = "The User story does not exist";
+    private String acceptanceTestDoesNotExist = "The acceptance test does not exist";
 
     @Before
     public void setup() throws IOException {
@@ -139,7 +139,7 @@ public class UserStoryControllerIT {
         AcceptanceTest acceptanceTest = new AcceptanceTest("This is an integration test", "The user sees this acceptance test", "It should work as any other");
         long storyId = 2L;
 
-        Response r = requestHelper.sendPostRequestWithAuthHeader(STORY_BASE_PATH + "/" + storyId + ACCEPTANCE_TEST_PATH_CRUMB, authHeader, acceptanceTest);
+        Response r = requestHelper.sendPostRequestWithAuthHeader("/project" + "/" + existingProject.getId() + "/story" + "/" + storyId + ACCEPTANCE_TEST_PATH_CRUMB, authHeader, acceptanceTest);
 
         assertEquals(201, r.statusCode());
         assertEquals(acceptanceTest, r.body().as(AcceptanceTest.class));
@@ -150,7 +150,7 @@ public class UserStoryControllerIT {
         AcceptanceTest acceptanceTest = new AcceptanceTest("This is an integration test", "The user sees this acceptance test", "It should work as any other");
         long storyId = -1L;
 
-        Response r = requestHelper.sendPostRequestWithAuthHeader(STORY_BASE_PATH + "/" + storyId + ACCEPTANCE_TEST_PATH_CRUMB, authHeader, acceptanceTest);
+        Response r = requestHelper.sendPostRequestWithAuthHeader("/project" + "/" + existingProject.getId() + "/story" + "/" + storyId + ACCEPTANCE_TEST_PATH_CRUMB, authHeader, acceptanceTest);
 
         assertEquals(404, r.statusCode());
         assertEquals(userStoryDoesNotExist, r.body().asString());
@@ -159,7 +159,7 @@ public class UserStoryControllerIT {
     @Test
     public void getAcceptanceTestForExistingUserStoryShouldReturn200() {
         long storyId = backlog.get(2).getId();
-        Response r = requestHelper.sendGetRequestWithAuthHeader(STORY_BASE_PATH + "/" + storyId + ACCEPTANCE_TEST_PATH_CRUMB, authHeader);
+        Response r = requestHelper.sendGetRequestWithAuthHeader("/project" + "/" + existingProject.getId() + "/story" + "/" + storyId + ACCEPTANCE_TEST_PATH_CRUMB, authHeader);
 
         List<AcceptanceTest> responseAcceptanceTests = Arrays.asList(r.getBody().as(AcceptanceTest[].class));
 
@@ -169,9 +169,9 @@ public class UserStoryControllerIT {
     }
 
     @Test
-    public void getAcceptanceTestForNonExistingUserStoryShouldReturn404() {
+    public void getAcceptanceTestsForNonExistingUserStoryShouldReturn404() {
         long storyId = -1L;
-        Response r = requestHelper.sendGetRequestWithAuthHeader(STORY_BASE_PATH + "/" + storyId + ACCEPTANCE_TEST_PATH_CRUMB, authHeader);
+        Response r = requestHelper.sendGetRequestWithAuthHeader("/project" + "/" + existingProject.getId() + "/story" + "/" + storyId + ACCEPTANCE_TEST_PATH_CRUMB, authHeader);
 
         assertEquals(404, r.statusCode());
         assertEquals(userStoryDoesNotExist, r.body().asString());
@@ -181,8 +181,9 @@ public class UserStoryControllerIT {
     public void updateAcceptanceTestForExistingAcceptanceTestShouldReturn200() {
         AcceptanceTest acceptanceTest = new AcceptanceTest("There is internet connection", "The user has taken a photo and this was updated by a test", "The file should be automatically compressed and uploaded");
         acceptanceTest.setId(1L);
+        long storyId = 1L;
 
-        Response r = requestHelper.sendPutRequestWithAuthHeader(STORY_BASE_PATH + ACCEPTANCE_TEST_PATH_CRUMB, authHeader, acceptanceTest);
+        Response r = requestHelper.sendPutRequestWithAuthHeader("/project" + "/" + existingProject.getId() + "/story/" + storyId + ACCEPTANCE_TEST_PATH_CRUMB + "/" + acceptanceTest.getId(), authHeader, acceptanceTest);
 
         assertEquals(200, r.statusCode());
         assertEquals(acceptanceTest, r.body().as(AcceptanceTest.class));
@@ -192,8 +193,9 @@ public class UserStoryControllerIT {
     public void updateAcceptanceTestForNonExistingAcceptanceTestShouldReturn404() {
         AcceptanceTest acceptanceTest = new AcceptanceTest("There is internet connection", "The user has taken a photo and this was updated by a test", "The file should be automatically compressed and uploaded");
         acceptanceTest.setId(-1L);
+        long storyId = 1L;
 
-        Response r = requestHelper.sendPutRequestWithAuthHeader(STORY_BASE_PATH + ACCEPTANCE_TEST_PATH_CRUMB, authHeader, acceptanceTest);
+        Response r = requestHelper.sendPutRequestWithAuthHeader("/project" + "/" + existingProject.getId() + "/story/" + storyId + ACCEPTANCE_TEST_PATH_CRUMB + "/" + "1000", authHeader, acceptanceTest);
 
         assertEquals(404, r.statusCode());
         assertEquals(acceptanceTestDoesNotExist, r.body().asString());
