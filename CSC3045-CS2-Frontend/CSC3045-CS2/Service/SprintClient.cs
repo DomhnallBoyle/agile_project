@@ -11,13 +11,13 @@ namespace CSC3045_CS2.Service
 {
     public class SprintClient : ServiceClient
     {
-        const string BASE_ENDPOINT = "sprint";
+        const string BASE_ENDPOINT = "/project";
 
         public SprintClient() : base() { }
 
         public Sprint CreateSprint(Sprint sprint)
         {
-            var request = new RestRequest(BASE_ENDPOINT, Method.POST);
+            var request = new RestRequest(BASE_ENDPOINT + "/" + sprint.Project.Id + "/sprint" , Method.POST);
             request.AddHeader("Content-Type", "application/json");
             request.RequestFormat = DataFormat.Json;
             SimpleJson.CurrentJsonSerializerStrategy = new CamelCaseSerializationStrategy();
@@ -29,16 +29,16 @@ namespace CSC3045_CS2.Service
 
         public List<Sprint> GetSprintsInProject(long projectId)
         {
-            var request = new RestRequest(BASE_ENDPOINT + "/project/" + projectId, Method.GET);
+            var request = new RestRequest(BASE_ENDPOINT + "/" + projectId + "/sprint", Method.GET);
             request.AddHeader("Content-Type", "application/json");
             request.RequestFormat = DataFormat.Json;
             SimpleJson.CurrentJsonSerializerStrategy = new CamelCaseSerializationStrategy();
 
             return Execute<List<Sprint>>(request);
         }
-        public List<User> GetSprintTeam(long sprintId)
+        public List<User> GetSprintTeam(long projectId, long sprintId)
         {
-            var request = new RestRequest(BASE_ENDPOINT + "/team/" + sprintId, Method.GET);
+            var request = new RestRequest(BASE_ENDPOINT + "/" + projectId + "/sprint" + "/" + sprintId + "/user", Method.GET);
             request.AddHeader("Content-Type", "application/json");
             request.RequestFormat = DataFormat.Json;
             SimpleJson.CurrentJsonSerializerStrategy = new CamelCaseSerializationStrategy();
@@ -48,7 +48,7 @@ namespace CSC3045_CS2.Service
 
         public List<User> UpdateSprintTeam(Sprint sprint)
         {
-            var request = new RestRequest(BASE_ENDPOINT + "/team", Method.PUT);
+            var request = new RestRequest(BASE_ENDPOINT + "/" + sprint.Project.Id + "/sprint" + "/" + sprint.Id + "/user", Method.PUT);
             request.AddHeader("Content-Type", "application/json");
             request.RequestFormat = DataFormat.Json;
             SimpleJson.CurrentJsonSerializerStrategy = new CamelCaseSerializationStrategy();
@@ -58,9 +58,9 @@ namespace CSC3045_CS2.Service
             return Execute<List<User>>(request);
         }
 
-        public List<User> GetAvailableDevelopers(long sprintId)
+        public List<User> GetAvailableDevelopers(long projectId, long sprintId)
         {
-            var request = new RestRequest(BASE_ENDPOINT + "/available/team/" + sprintId, Method.GET);
+            var request = new RestRequest(BASE_ENDPOINT + "/" + projectId + "/sprint" + "/" + sprintId + "/user/available", Method.GET);
             request.AddHeader("Content-Type", "application/json");
             request.RequestFormat = DataFormat.Json;
             SimpleJson.CurrentJsonSerializerStrategy = new CamelCaseSerializationStrategy();
@@ -68,4 +68,6 @@ namespace CSC3045_CS2.Service
             return Execute<List<User>>(request);
         }
     }
+
+
 }

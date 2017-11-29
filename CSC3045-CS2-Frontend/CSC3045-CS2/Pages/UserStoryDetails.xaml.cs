@@ -41,7 +41,7 @@ namespace CSC3045_CS2.Pages
 
             SelectedUserStory = selectedUserStory;
 
-             UserStoryAcceptanceTests.ItemsSource = _client.GetAcceptanceTestsFromUserStory(SelectedUserStory.Id);
+             UserStoryAcceptanceTests.ItemsSource = _client.GetAcceptanceTestsFromUserStory(SelectedUserStory.Project.Id, SelectedUserStory.Id);
         }
 
         #region Command methods
@@ -53,7 +53,7 @@ namespace CSC3045_CS2.Pages
                 return new RelayCommand(param =>
                 {
                     AcceptanceTest acceptanceTest = ((AcceptanceTest)param);
-                    _client.UpdateAcceptanceTest(acceptanceTest);
+                    _client.UpdateAcceptanceTest(SelectedUserStory.Project.Id, SelectedUserStory.Id, acceptanceTest);
                 });
             }
         }

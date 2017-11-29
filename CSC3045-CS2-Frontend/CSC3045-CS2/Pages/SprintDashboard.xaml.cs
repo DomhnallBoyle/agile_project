@@ -50,7 +50,7 @@ namespace CSC3045_CS2.Pages
 
             if (!fromFile)
             {
-                sprint.Users = _client.GetSprintTeam(sprint.Id);
+                sprint.Users = _client.GetSprintTeam(sprint.Project.Id, sprint.Id);
             }
 
             CurrentSprint = sprint;
