@@ -66,8 +66,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Tests\Project\ProjectDashboardManagerActions.cs" />
     <Compile Include="Tests\Sprint\CreateSprint.cs" />
+    <Compile Include="Tests\UserStory\CreateUserStory.cs" />
     <Compile Include="Util\MessageBoxUtil.cs" />
-    <Compile Include="Util\PageHeader.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
