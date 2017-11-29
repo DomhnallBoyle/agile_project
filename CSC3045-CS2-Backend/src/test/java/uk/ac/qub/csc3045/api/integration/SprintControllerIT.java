@@ -1,0 +1,142 @@
+package uk.ac.qub.csc3045.api.integration;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
+import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.Month;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+
+import org.junit.Before;
+import org.junit.Test;
+
+import io.restassured.response.Response;
+import uk.ac.qub.csc3045.api.integration.util.RequestHelper;
+import uk.ac.qub.csc3045.api.model.Account;
+import uk.ac.qub.csc3045.api.model.Project;
+import uk.ac.qub.csc3045.api.model.Roles;
+import uk.ac.qub.csc3045.api.model.Sprint;
+import uk.ac.qub.csc3045.api.model.User;
+
+public class SprintControllerIT {
+
+	private static final String BASE_PATH = "/project/1/sprint";
+
+	private RequestHelper requestHelper;
+	private String authHeader;
+
+	private String sprintDoesNotExistErrorMessage = "Sprint does not exist";
+	private String projectDoesNotExistInDatabaseErrorMessage = "Project Id does not exist in the database";
+
+	private Account account;
+	private Sprint existingSprint;
+	private Project existingProject;
+	private User existingUser;
+	private User existingScrum;
+	private User nonExistingScrum;
+
+	@Before
+	public void setup() throws IOException {
+		requestHelper = new RequestHelper();
+
+		setupTestAccount();
+		setupBacklog();
+
+		authHeader = requestHelper.getAuthHeader(account);
+	}
+
+	/**
+	 * Create Sprint tests
+	 */
+	@Test
+	public void createSprintShouldReturn201() {
+
+		Sprint newSprint = new Sprint();
+		newSprint.setName("SprintName");
+		newSprint.setStartDate(LocalDateTime.of(2018, Month.JULY, 20, 19, 30, 40));
+		newSprint.setEndDate(LocalDateTime.of(2018, Month.JULY, 29, 19, 30, 40));
+		newSprint.setScrumMaster(existingScrum);
+		newSprint.setProject(existingProject);
+
+		Response r = requestHelper.sendPostRequestWithAuthHeader(BASE_PATH, authHeader, newSprint);
+
+		assertEquals(201, r.statusCode());
+		assertEquals(newSprint.getName(), r.getBody().as(Sprint.class).getName());
+
+	}
+
+	@Test
+	public void createSprintProjectAndScrumMasterDoesNotExistShouldReturn404() {
+		Sprint newSprint = new Sprint();
+		newSprint.setName("SprintName");
+		newSprint.setStartDate(LocalDateTime.of(2018, Month.JULY, 20, 19, 30, 40));
+		newSprint.setEndDate(LocalDateTime.of(2018, Month.JULY, 29, 19, 30, 40));;
+
+		Response r = requestHelper.sendPostRequestWithAuthHeader("/project" + "/1000" + "/sprint", authHeader, existingSprint);
+
+		assertEquals(404, r.statusCode());
+		assertEquals(projectDoesNotExistInDatabaseErrorMessage, r.body().asString());
+	}
+
+	/**
+	 * Get Sprint tests
+	 */
+	@Test
+	public void getSprintThatExistsShouldReturn200() {
+
+		Response r = requestHelper.sendGetRequestWithAuthHeader(BASE_PATH + "/" + existingSprint.getId() , authHeader);
+		Sprint returnedSprint = r.getBody().as(Sprint.class);
+
+		r.then().assertThat().statusCode(200);
+		assertTrue(existingSprint.getId() == returnedSprint.getId());
+	}
+
+	@Test
+	public void getSprintThatDoesntExistShouldReturn404() {
+		Response r = requestHelper.sendGetRequestWithAuthHeader(BASE_PATH + "/6500", authHeader);
+
+		r.then().assertThat().statusCode(404);
+		assertEquals(sprintDoesNotExistErrorMessage, r.getBody().asString());
+
+	}
+
+	private void setupBacklog() {
+		existingUser = new User("Forename1", "Surname1", "user1@email.com", new Roles(false, true, false));
+		existingScrum = new User("Forename2", "Surname2", "user2@email.com", new Roles(true, true, true));
+		existingScrum.setId(1L);
+		nonExistingScrum = new User("Forename3", "Surname3", "user3@email.com", new Roles(true, true, true));
+		nonExistingScrum.setId(300L);
+
+		List<User> users = new ArrayList<>();
+		users.add(existingUser);
+
+		existingProject = new Project("ProjectName1", "Project Description1", existingUser, existingUser, users, users, new ArrayList<>());
+		existingProject.setId(1L);
+        existingProject.setManager(existingUser);
+
+		existingSprint = new Sprint("SprintName", LocalDateTime.of(2018, Month.JULY, 20, 19, 30, 40), LocalDateTime.of(2018, Month.JULY, 29, 19, 30, 40));
+		existingSprint.setProject(existingProject);
+		existingSprint.setScrumMaster(existingUser);
+		existingSprint.setId(1L);
+
+	}
+
+	private void setupTestAccount() {
+		Roles validRoles = new Roles();
+		User validUser = new User("Forename", "Surname", generateEmail(), validRoles);
+		account = new Account(validUser, "Password1");
+	}
+
+	/**
+	 * Generates a random email
+	 *
+	 * @return the email generated
+	 */
+	private String generateEmail() {
+		Random random = new Random();
+		return "testing" + random.nextInt(5000) + "@testing.com";
+	}
+}
