@@ -30,7 +30,7 @@
                 </AdornerDecorator>
 
                 <AdornerDecorator Grid.Column="1" Margin="5,12,0,0">
-                    <TextBox Name="StoryMarketValueTextBox" Style="{StaticResource DefaultTextBox}" PreviewTextInput="NumberOnlyTextBoxValidation" HorizontalContentAlignment="Center">
+                    <TextBox Name="StoryMarketValueTextBox" Style="{StaticResource DefaultTextBox}" PreviewTextInput="NumberOnlyTextBoxValidation" HorizontalContentAlignment="Center" MaxLength="4">
                         <utility:WatermarkService.Watermark>
                             <TextBlock Style="{StaticResource Watermark}" HorizontalAlignment="Center" Margin="0,5,0,0" Name="StoryMarketValueTextBlock">Market Value</TextBlock>
                         </utility:WatermarkService.Watermark>

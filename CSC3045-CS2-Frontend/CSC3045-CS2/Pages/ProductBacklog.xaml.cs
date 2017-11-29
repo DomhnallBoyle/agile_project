@@ -23,16 +23,11 @@ namespace CSC3045_CS2
 
         private ObservableCollection<UserStory> _backlog = new ObservableCollection<UserStory>();
 
-        private Project _currentProject;
-
         #endregion
 
         #region Public Variables
 
-        public Project CurrentProject
-        {
-            get { return _currentProject; }
-        }
+        public Project CurrentProject { get; set; }
 
         public Permissions Permissions { get; set; }
 
@@ -57,7 +52,7 @@ namespace CSC3045_CS2
             DataContext = this;
             _client = new UserStoryClient();
 
-            _currentProject = project;
+            CurrentProject = project;
 
             Permissions = new Permissions((User)Application.Current.Properties["user"], project);
             PermissonDragHandler = new PermissonDragHandler(Permissions.ProductOwner);
@@ -85,7 +80,7 @@ namespace CSC3045_CS2
             {
                 return new RelayCommand(param =>
                 {
-                    Page projectDashboard = new ProjectDashboard(_currentProject);
+                    Page projectDashboard = new ProjectDashboard(CurrentProject);
 
                      NavigationService.GetNavigationService(this).Navigate(projectDashboard);
 
@@ -130,7 +125,7 @@ namespace CSC3045_CS2
             {
                 return new RelayCommand(param =>
                 {
-                    Page createUserStoryPage = new CreateUserStory(_currentProject);
+                    Page createUserStoryPage = new CreateUserStory(CurrentProject);
 
                     NavigationService.GetNavigationService(this).Navigate(createUserStoryPage);
                 });

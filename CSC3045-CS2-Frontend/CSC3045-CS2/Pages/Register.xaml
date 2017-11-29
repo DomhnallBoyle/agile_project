@@ -79,9 +79,21 @@
             <TextBlock Grid.Column="0" Grid.Row="0" Margin="0,5" Style="{StaticResource Label}" HorizontalAlignment="Center">Product Owner</TextBlock>
             <TextBlock Grid.Column="1" Grid.Row="0" Margin="0,5" Style="{StaticResource Label}" HorizontalAlignment="Center">Scrum Master</TextBlock>
             <TextBlock Grid.Column="2" Grid.Row="0" Margin="0,5" Style="{StaticResource Label}"  HorizontalAlignment="Center">Developer</TextBlock>
-            <CheckBox Name="ProductOwnerCheckBox" Grid.Column="0" Grid.Row="1" Margin="0,5"  HorizontalAlignment="Center"></CheckBox>
-            <CheckBox Name="ScrumMasterCheckBox" Grid.Column="1" Grid.Row="1" Margin="0,5"  HorizontalAlignment="Center"></CheckBox>
-            <CheckBox Name="DeveloperCheckBox" Grid.Column="2" Grid.Row="1" Margin="0,5" HorizontalAlignment="Center"></CheckBox>
+            <CheckBox Name="ProductOwnerCheckBox" Grid.Column="0" Grid.Row="1" Margin="0,5"  HorizontalAlignment="Center">
+                <CheckBox.LayoutTransform>
+                    <ScaleTransform ScaleX="1.5" ScaleY="1.5"/>
+                </CheckBox.LayoutTransform>
+            </CheckBox>
+            <CheckBox Name="ScrumMasterCheckBox" Grid.Column="1" Grid.Row="1" Margin="0,5"  HorizontalAlignment="Center">
+                <CheckBox.LayoutTransform>
+                    <ScaleTransform ScaleX="1.5" ScaleY="1.5"/>
+                </CheckBox.LayoutTransform>
+            </CheckBox>
+            <CheckBox Name="DeveloperCheckBox" Grid.Column="2" Grid.Row="1" Margin="0,5" HorizontalAlignment="Center">
+                <CheckBox.LayoutTransform>
+                    <ScaleTransform ScaleX="1.5" ScaleY="1.5"/>
+                </CheckBox.LayoutTransform>
+            </CheckBox>
         </Grid>
 
         <Grid Margin="100,15,100,0">
