@@ -77,6 +77,9 @@
     <Compile Include="Models\Sprint.cs" />
     <Compile Include="Models\Task.cs" />
     <Compile Include="Models\User.cs" />
+    <Compile Include="Pages\ManageTasks.xaml.cs">
+      <DependentUpon>ManageTasks.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\BasePage.cs" />
     <Compile Include="Pages\CreateAcceptanceTest.xaml.cs">
       <DependentUpon>CreateAcceptanceTest.xaml</DependentUpon>
@@ -120,6 +123,7 @@
     <Compile Include="Service\ProjectClient.cs" />
     <Compile Include="Service\ServiceClient.cs" />
     <Compile Include="Service\SprintClient.cs" />
+    <Compile Include="Service\TaskClient.cs" />
     <Compile Include="Service\UserClient.cs" />
     <Compile Include="Service\UserStoryClient.cs" />
     <Compile Include="Utility\CamelCaseSerializationStrategy.cs" />
@@ -142,6 +146,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Pages\ManageTasks.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Pages\CreateAcceptanceTest.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

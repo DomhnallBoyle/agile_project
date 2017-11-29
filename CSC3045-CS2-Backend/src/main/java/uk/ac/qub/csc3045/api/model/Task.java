@@ -12,7 +12,7 @@ public class Task {
     private Integer initialEstimate;
 
     private UserStory userStory;
-    @NotNull
+
     private User assignee;
     
     public Task() {

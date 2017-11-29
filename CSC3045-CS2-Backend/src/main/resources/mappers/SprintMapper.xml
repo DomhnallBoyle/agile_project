@@ -14,7 +14,11 @@
     </resultMap>
     
     <!-- SELECT Queries -->
-    
+
+     <select id="getSprintStories" resultMap="uk.ac.qub.csc3045.api.mapper.UserStoryMapper.userStoryResultMap">
+        SELECT * FROM USER_STORY WHERE USER_STORY.SPRINT_ID = #{sprintId}
+    </select>
+
     <select id="getProjectSprints" resultMap="sprintResultMap">
         SELECT
             SPRINT.ID   AS ID,

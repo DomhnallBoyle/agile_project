@@ -36,6 +36,17 @@ namespace CSC3045_CS2.Service
 
             return Execute<List<Sprint>>(request);
         }
+
+        public List<UserStory> GetSprintStories(long sprintId)
+        {
+            var request = new RestRequest(BASE_ENDPOINT + "/" + sprintId+ "/story", Method.GET);
+            request.AddHeader("Content-Type", "application/json");
+            request.RequestFormat = DataFormat.Json;
+            SimpleJson.CurrentJsonSerializerStrategy = new CamelCaseSerializationStrategy();
+
+            return Execute<List<UserStory>>(request);
+        }
+
         public List<User> GetSprintTeam(long projectId, long sprintId)
         {
             var request = new RestRequest(BASE_ENDPOINT + "/" + projectId + "/sprint" + "/" + sprintId + "/user", Method.GET);

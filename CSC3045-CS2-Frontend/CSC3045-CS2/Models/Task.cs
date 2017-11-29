@@ -28,5 +28,19 @@ namespace CSC3045_CS2.Models
         public User Assignee { get; set; }
 
         public Task() { }
+
+        public Task(long id)
+        {
+            this.Id = id;
+        }
+
+        public Task(string name, string description, int initialEstimate, UserStory userStory, User assignee)
+        {
+            this.Name = name;
+            this.Description = description;
+            this.InitialEstimate = initialEstimate;
+            this.UserStory = userStory;
+            this.Assignee = assignee;
+        }
     }
 }

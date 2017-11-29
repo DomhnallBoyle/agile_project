@@ -58,7 +58,12 @@ public class SprintService {
        		throw new ResponseErrorException("Project Id does not exist in the database", HttpStatus.NOT_FOUND);
         }
     }
-    
+    public List<UserStory> getSprintStories(long sprintId){
+    	  if (ValidationUtility.validateSprintExists(sprintId, sprintMapper)) {
+              return sprintMapper.getSprintStories(sprintId);
+          }
+          throw new ResponseErrorException("Sprint does not exist", HttpStatus.NOT_FOUND);
+      }
 	public List<Sprint> getProjectSprints(long projectId) {
 		if (ValidationUtility.validateProjectExists(projectId, projectMapper)) {
 	        List<Sprint> sprints = sprintMapper.getProjectSprints(projectId);
