@@ -6,17 +6,17 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:local="clr-namespace:CSC3045_CS2.Pages"
       mc:Ignorable="d" 
-      d:DesignHeight="600" d:DesignWidth="1060"
+      d:DesignHeight="900" d:DesignWidth="1280"
       Background="{StaticResource BackgroundGradient}"
       Title="User Dashboard">
 
-    <StackPanel Width="750" Margin="0,25,0,0">
+    <StackPanel Width="750" Margin="0,75,0,0">
         <ContentControl Template="{StaticResource Headers}" Name="Header"/>
         
-        <TextBlock Text="Your Projects" HorizontalAlignment="Left" Style="{StaticResource Header}" Margin="0,10,0,0"/>
+        <TextBlock Text="Your Projects" HorizontalAlignment="Left" Style="{StaticResource Header}"/>
         <TextBlock Text="Select One of the Following Rows To See Project Details" HorizontalAlignment="Left" Style="{StaticResource Label}" Foreground="Gold"  Margin="5,0,0,0" />
 
-        <Grid Height="375" Margin="50,10,50,10">
+        <Grid Height="600" Margin="50,10,50,10">
             <Grid.RowDefinitions>
                 <RowDefinition Height="0.9*"/>
                 <RowDefinition Height="0.1*"/>

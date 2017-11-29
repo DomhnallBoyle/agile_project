@@ -36,7 +36,6 @@ namespace CSC3045_CS2.Pages
         public List<Sprint> Sprints { get; set; }
         public Permissions Permissions { get; set; }
 
-
         #endregion
 
         public ManageSprints(Project project)

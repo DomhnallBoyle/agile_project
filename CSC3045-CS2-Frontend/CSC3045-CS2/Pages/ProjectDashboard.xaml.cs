@@ -248,10 +248,17 @@ namespace CSC3045_CS2.Pages
                 {
                     try
                     {
-                        User searchUser = new User("", "", SearchEmailTextBox.Text, new Roles(false, false, false));
-                        SearchResultUser = _userClient.Search(searchUser);
+                        if (!string.IsNullOrEmpty(SearchEmailTextBox.Text))
+                        {
+                            User searchUser = new User("", "", SearchEmailTextBox.Text, new Roles(false, false, false));
+                            SearchResultUser = _userClient.Search(searchUser);
 
-                        updateSearchUI();
+                            updateSearchUI();
+                        }
+                        else
+                        {
+                            MessageBoxUtil.ShowWarningBox("Please enter a user email to search for");
+                        }
                     }
                     catch (RestResponseErrorException ex)
                     {
@@ -276,6 +283,8 @@ namespace CSC3045_CS2.Pages
                         {
                             List<User> teamMembers = new List<User>(TeamMembers);
                             _projectClient.Add(teamMembers, _currentProject);
+
+                            updateSearchUI();
                         }
                         catch (RestResponseErrorException ex)
                         {

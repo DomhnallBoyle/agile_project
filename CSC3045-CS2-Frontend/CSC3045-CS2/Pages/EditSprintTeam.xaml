@@ -7,13 +7,15 @@
       xmlns:local="clr-namespace:CSC3045_CS2.Pages"
       Background="{StaticResource BackgroundGradient}"
       mc:Ignorable="d" 
-      d:DesignHeight="600" d:DesignWidth="1060"
+      d:DesignHeight="900" d:DesignWidth="1280"
       Title="Manage Sprint Team">
 
-    <StackPanel Width="750" Margin="0,25,0,0">
-        <ContentControl  Template="{StaticResource Headers}" Name="Header" Margin="0,0,0,15"/>
+    <StackPanel Width="750" Margin="0,75,0,0">
+        <ContentControl Template="{StaticResource Headers}" Name="Header"/>
 
-        <Grid Height="400">
+        <TextBlock Name="SprintNameTextBlock" HorizontalAlignment="Center" Style="{StaticResource Header}"  Text="{Binding CurrentSprint.Name}" Margin="0,0,0,15"/>
+        
+        <Grid Height="650">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
