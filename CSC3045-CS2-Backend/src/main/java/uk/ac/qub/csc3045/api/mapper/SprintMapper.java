@@ -25,7 +25,7 @@ public interface SprintMapper {
     
     List<User> getSprintTeam(@Param("sprintId") long sprintId);
     
-    List<UserStory> getUserStoriesInSprint(@Param("sprintId") long sprintId);
+    List<UserStory> getSprintBacklog(@Param("sprintId") long sprintId);
 
     List<Sprint> getClashingSprintsForUser(@Param("userId") long userId, @Param("startDate") LocalDateTime startDate, @Param("endDate") LocalDateTime endDate);
 

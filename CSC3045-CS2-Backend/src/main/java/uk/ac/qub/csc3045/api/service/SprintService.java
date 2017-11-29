@@ -86,7 +86,7 @@ public class SprintService {
 
     public List<UserStory> getSprintBacklog(long sprintId) {
         if (ValidationUtility.validateSprintExists(sprintId, sprintMapper)) {
-            return sprintMapper.getUserStoriesInSprint(sprintId);
+            return sprintMapper.getSprintBacklog(sprintId);
         }
         throw new ResponseErrorException("Sprint does not exist", HttpStatus.NOT_FOUND);
     }
@@ -154,15 +154,20 @@ public class SprintService {
     }
     
     public List<UserStory> updateSprintBacklog(Sprint sprint) {
-        sprintMapper.resetSprintBacklog(sprint.getId());
-        for (UserStory userStory : sprint.getUserStories()) {
-        	sprintMapper.addToSprintBacklog(sprint.getId(), userStory.getId());
-        }
-
-       List<UserStory> newBacklog = sprintMapper.getUserStoriesInSprint(sprint.getId());
-        return newBacklog;
-        
-        
+    	if (ValidationUtility.validateSprintExists(sprint.getId(), sprintMapper)) {
+	        sprintMapper.resetSprintBacklog(sprint.getId());
+	        for (UserStory userStory : sprint.getUserStories()) {
+	        	if(sprint.getId() == userStory.getId()) {
+	        		sprintMapper.addToSprintBacklog(sprint.getId(), userStory.getId());
+	        	}else {
+	        		throw new ResponseErrorException("Sprint and user story aren't in same Project", HttpStatus.NOT_FOUND);
+	        	}	        	
+	        }
+		       List<UserStory> newBacklog = sprintMapper.getSprintBacklog(sprint.getId());
+	        return newBacklog;
+    	}else {
+    		throw new ResponseErrorException("Sprint Id does not exists in the database", HttpStatus.NOT_FOUND);
+    	}       
     }
    
 }

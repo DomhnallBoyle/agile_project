@@ -59,12 +59,12 @@ public class SprintController {
         return new ResponseEntity<>(this.sprintService.getAvailableDevelopers(projectId, sprintId), HttpStatus.OK);
     }
     
-    @PutMapping(value = "/backlog")
+    @PutMapping(value = "/{sprintId}/story")
     public ResponseEntity<List<UserStory>> updateSprintBacklog(@Valid @RequestBody Sprint sprint) {
         return new ResponseEntity<>(this.sprintService.updateSprintBacklog(sprint), HttpStatus.OK);
     }
     
-    @GetMapping(value = "/story/{sprintId}")
+    @GetMapping(value = "/{sprintId}/story")
     public ResponseEntity<List<UserStory>> getSprintBacklog(@PathVariable("sprintId") long sprintId) {
         return new ResponseEntity<>(this.sprintService.getSprintBacklog(sprintId), HttpStatus.OK);
     }

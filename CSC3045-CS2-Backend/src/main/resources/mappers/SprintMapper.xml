@@ -65,7 +65,7 @@
                    #{endDate} &gt;= SPRINT.START_DATE)
     </select>
     
-    <select id="getUserStoriesInSprint" resultMap="uk.ac.qub.csc3045.api.mapper.UserStoryMapper.userStoryResultMap">
+    <select id="getSprintBacklog" resultMap="uk.ac.qub.csc3045.api.mapper.UserStoryMapper.userStoryResultMap">
         SELECT
             USER_STORY.ID AS ID,
             USER_STORY.NAME AS NAME,

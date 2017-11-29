@@ -208,7 +208,7 @@ public class SprintServiceTest {
     
     @Test
     public void handleGetBacklogRequestSuccessful() {
-        when(sprintMapperMock.getUserStoriesInSprint(sprint.getId())).thenReturn(sprint.getUserStories());
+        when(sprintMapperMock.getSprintBacklog(sprint.getId())).thenReturn(sprint.getUserStories());
         when(sprintMapperMock.getSprintById(sprint.getId())).thenReturn(sprint);
 
         List<UserStory> response = sprintService.getSprintBacklog(sprint.getId());
