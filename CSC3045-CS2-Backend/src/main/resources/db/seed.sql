@@ -79,7 +79,7 @@ VALUES ('The New Internet', 'Using middle-out compression, de-centralise the int
 INSERT INTO PROJECT (NAME, DESCRIPTION, MANAGER_ID, PRODUCT_OWNER_ID) -- id: 5
 VALUES ('e2eProjectName1', 'e2eProjectDescription1', 15, 15);
 INSERT INTO PROJECT (NAME, DESCRIPTION, MANAGER_ID, PRODUCT_OWNER_ID) -- id: 6
-VALUES ('e2eProjectName1', 'e2eProjectDescription1', 16, 16);
+VALUES ('e2eProjectName2', 'e2eProjectDescription2', 16, 16);
 
 
 

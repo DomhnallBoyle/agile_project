@@ -13,8 +13,6 @@ namespace AutomationTests.Tests.Authentication
         public void OneTimeSetupLogin()
         {
             _userDashboardPage = new UserDashboardPage(MainWindow);
-
-            Assert.IsTrue(LoginPage.IsCurrentPage());
         }
 
         [Test]
