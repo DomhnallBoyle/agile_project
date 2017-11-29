@@ -23,9 +23,9 @@ INSERT INTO USER (FORENAME, SURNAME, EMAIL, PROFILE_PICTURE, ROLES_ID) VALUES ('
 INSERT INTO USER (FORENAME, SURNAME, EMAIL, PROFILE_PICTURE, ROLES_ID) VALUES ('Jack', 'Barker', 'j.barker@valley.com', 'jack_barker.jpg', 8); -- id: 12
 INSERT INTO USER (FORENAME, SURNAME, EMAIL, PROFILE_PICTURE, ROLES_ID) VALUES ('Keenan', 'Feldspar', 'k.feldspar@valley.com', 'keenan_feldspar.jpg', 8); -- id: 13
 
-INSERT INTO USER (FORENAME, SURNAME, EMAIL, PROFILE_PICTURE, ROLES_ID) VALUES ('e2eForename1', 'e2eSurname1', 'e2eUser1@email.e2e', 'default.jpg', 1); -- id: 14
-INSERT INTO USER (FORENAME, SURNAME, EMAIL, PROFILE_PICTURE, ROLES_ID) VALUES ('e2eForename2', 'e2eSurname2', 'e2eUser2@email.e2e', 'default.jpg', 8); -- id: 15
-INSERT INTO USER (FORENAME, SURNAME, EMAIL, PROFILE_PICTURE, ROLES_ID) VALUES ('e2eForename3', 'e2eSurname3', 'e2eUser3@email.e2e', 'default.jpg', 2); -- id: 16
+INSERT INTO USER (FORENAME, SURNAME, EMAIL, PROFILE_PICTURE, ROLES_ID) VALUES ('e2eForename1', 'e2eSurname1', 'user1@e2e.com', 'default.jpg', 1); -- id: 14
+INSERT INTO USER (FORENAME, SURNAME, EMAIL, PROFILE_PICTURE, ROLES_ID) VALUES ('e2eForename2', 'e2eSurname2', 'user2@e2e.com', 'default.jpg', 8); -- id: 15
+INSERT INTO USER (FORENAME, SURNAME, EMAIL, PROFILE_PICTURE, ROLES_ID) VALUES ('e2eForename3', 'e2eSurname3', 'user3@e2e.com', 'default.jpg', 2); -- id: 16
 
 
 
@@ -57,13 +57,13 @@ VALUES ('$2a$12$erdr9N/9eM/j479kPmdqnustR3jwHydY5BzbmUMVFKrPDTpSH2r1q', 12);
 INSERT INTO ACCOUNT (PASSWORD, USER_ID)
 VALUES ('$2a$12$erdr9N/9eM/j479kPmdqnustR3jwHydY5BzbmUMVFKrPDTpSH2r1q', 13);
 
--- All the passwords below are 'Aut0mation{id}'
+-- All the passwords below are 'Aut0mation'
 INSERT INTO ACCOUNT (PASSWORD, USER_ID)
-VALUES ('$2a$12$K0UaUJru7ke0jKkqHvmThOJmPNeBoh3naigumtLsYLls5gELAw5I6', 14);
+VALUES ('$2a$04$OqV735nAjlL9ddhdoCFTNeuxCgperWBOrt4j1RHlleE8lTgY40Ntq', 14);
 INSERT INTO ACCOUNT (PASSWORD, USER_ID)
-VALUES ('$2a$12$jGLT0L79KT/HRGreALLOZ.xa0mnEUP5WhKiBgoASPkfSaxbh3r2La', 15);
+VALUES ('$2a$04$OqV735nAjlL9ddhdoCFTNeuxCgperWBOrt4j1RHlleE8lTgY40Ntq', 15);
 INSERT INTO ACCOUNT (PASSWORD, USER_ID)
-VALUES ('$2a$12$8J4UVOrxbMQQCAW2cGxWHuENJCJKJUu11lrsWouJtLN8HI5/xaLuO', 16);
+VALUES ('$2a$04$OqV735nAjlL9ddhdoCFTNeuxCgperWBOrt4j1RHlleE8lTgY40Ntq', 16);
 
 
 
