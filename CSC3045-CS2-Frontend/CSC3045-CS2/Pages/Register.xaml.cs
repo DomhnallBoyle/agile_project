@@ -179,12 +179,6 @@ namespace CSC3045_CS2.Pages
                 valid = false;
                 sb.Append("You must enter a first name\n");
             }
-            else if(FirstnameTextBox.Text.Length >= 35)
-            {
-                FirstnameTextBox.Style = _invalidTextBoxStyle;
-                valid = false;
-                sb.Append("First name must be less than 35 characters\n");
-            }
             else
             {
                 FirstnameTextBox.Style = _validTextBoxStyle;
@@ -195,12 +189,6 @@ namespace CSC3045_CS2.Pages
                 SurnameTextBox.Style = _invalidTextBoxStyle;
                 valid = false;
                 sb.Append("You must enter a surname\n");
-            }
-            else if (SurnameTextBox.Text.Length >= 35)
-            {
-                SurnameTextBox.Style = _invalidTextBoxStyle;
-                valid = false;
-                sb.Append("Surname must be less than 35 characters\n");
             }
             else
             {
@@ -213,12 +201,6 @@ namespace CSC3045_CS2.Pages
                 valid = false;
                 sb.Append("You must enter an email\n");
             }
-            else if (EmailTextBox.Text.Length >= 255)
-            {
-                EmailTextBox.Style = _invalidTextBoxStyle;
-                valid = false;
-                sb.Append("Email must be less than 255 characters\n");
-            }
             else
             {
                 EmailTextBox.Style = _validTextBoxStyle;
@@ -230,12 +212,6 @@ namespace CSC3045_CS2.Pages
                 valid = false;
                 sb.Append("You must enter a password\n");
             }
-            else if (PasswordTextBox.Password.Length >= 40)
-            {
-                PasswordTextBox.Style = _invalidPasswordBoxStyle;
-                valid = false;
-                sb.Append("Password must be less than 40 characters\n");
-            }
             else
             {
                 PasswordTextBox.Style = _validPasswordBoxStyle;
@@ -246,11 +222,6 @@ namespace CSC3045_CS2.Pages
                 ConfirmPasswordTextBox.Style = _invalidPasswordBoxStyle;
                 valid = false;
                 sb.Append("You must confirm your password\n");
-            }
-            else if (ConfirmPasswordTextBox.Password.Length >= 40)
-            {
-                ConfirmPasswordTextBox.Style = _invalidPasswordBoxStyle;
-                valid = false;
             }
             else
             {
