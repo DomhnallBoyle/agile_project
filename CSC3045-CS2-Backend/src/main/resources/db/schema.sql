@@ -25,7 +25,7 @@ CREATE TABLE ACCOUNT
 CREATE TABLE PROJECT
 (
   ID               BIGINT AUTO_INCREMENT PRIMARY KEY NOT NULL,
-  DESCRIPTION      VARCHAR(255)                      NOT NULL,
+  DESCRIPTION      VARCHAR(500)                      NOT NULL,
   NAME             VARCHAR(255)                      NOT NULL,
   MANAGER_ID       BIGINT                            NOT NULL,
   PRODUCT_OWNER_ID BIGINT,

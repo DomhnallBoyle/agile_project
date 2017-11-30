@@ -68,6 +68,12 @@ public partial class CreateProject : BasePage
             valid = false;
             sb.Append("You must enter a project name\n");
         }
+        else if(ProjectNameTextBox.Text.Length >= 255)
+        {
+                ProjectNameTextBox.Style = _invalidTextBoxStyle;
+                valid = false;
+                sb.Append("Project name must be less than 255 characters\n");
+        }
         else
         {
             ProjectNameTextBox.Style = _validTextBoxStyle;
@@ -78,6 +84,12 @@ public partial class CreateProject : BasePage
             ProjectDescriptionTextBox.Style = _invalidTextBoxStyle;
             valid = false;
             sb.Append("You must enter a project description\n");
+        }
+        else if (ProjectDescriptionTextBox.Text.Length >= 500)
+        {
+                ProjectDescriptionTextBox.Style = _invalidTextBoxStyle;
+            valid = false;
+            sb.Append("Project description must be less than 500 characters\n");
         }
         else
         {
