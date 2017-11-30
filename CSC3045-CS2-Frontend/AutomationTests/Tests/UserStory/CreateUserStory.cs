@@ -100,8 +100,6 @@ namespace AutomationTests.Tests.UserStory
             Assert.NotNull(messageBox);
 
             MessageBoxUtil.ClickOKButton(messageBox);
-
-
         }
 
         [Test]
@@ -129,8 +127,6 @@ namespace AutomationTests.Tests.UserStory
             Assert.NotNull(messageBox);
 
             MessageBoxUtil.ClickOKButton(messageBox);
-
-
         }
 
         [Test]
@@ -158,7 +154,6 @@ namespace AutomationTests.Tests.UserStory
             Assert.NotNull(messageBox);
 
             MessageBoxUtil.ClickOKButton(messageBox);
-
         }
 
         [Test]
