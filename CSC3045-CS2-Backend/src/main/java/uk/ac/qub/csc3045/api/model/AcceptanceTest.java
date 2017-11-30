@@ -1,12 +1,14 @@
 package uk.ac.qub.csc3045.api.model;
 
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 public class AcceptanceTest {
 	
 	private Long id;
 	
 	@NotNull
+	@Size(max=255)
 	private String given, when, then;
 	
 	private Boolean completed = false;

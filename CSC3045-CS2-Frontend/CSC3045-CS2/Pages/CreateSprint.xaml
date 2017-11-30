@@ -15,7 +15,7 @@
 
         <StackPanel Width="300">
             <AdornerDecorator>
-                <TextBox Name="SprintNameTextBox" Style="{StaticResource DefaultTextBox}" HorizontalContentAlignment="Center">
+                <TextBox Name="SprintNameTextBox" MaxLength="50" Style="{StaticResource DefaultTextBox}" HorizontalContentAlignment="Center">
                     <utility:WatermarkService.Watermark>
                         <TextBlock Style="{StaticResource Watermark}" HorizontalAlignment="Center" Margin="0,5,0,0" Name="SprintNameTextBlock">Sprint Name</TextBlock>
                     </utility:WatermarkService.Watermark>

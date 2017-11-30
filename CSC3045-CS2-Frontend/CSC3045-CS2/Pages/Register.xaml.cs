@@ -183,6 +183,7 @@ namespace CSC3045_CS2.Pages
             {
                 FirstnameTextBox.Style = _validTextBoxStyle;
             }
+
             if (String.IsNullOrEmpty(SurnameTextBox.Text))
             {
                 SurnameTextBox.Style = _invalidTextBoxStyle;
@@ -193,6 +194,7 @@ namespace CSC3045_CS2.Pages
             {
                 SurnameTextBox.Style = _validTextBoxStyle;
             }
+                
             if (String.IsNullOrEmpty(EmailTextBox.Text))
             {
                 EmailTextBox.Style = _invalidTextBoxStyle;
@@ -203,6 +205,7 @@ namespace CSC3045_CS2.Pages
             {
                 EmailTextBox.Style = _validTextBoxStyle;
             }
+
             if (String.IsNullOrEmpty(PasswordTextBox.Password.ToString()))
             {
                 PasswordTextBox.Style = _invalidPasswordBoxStyle;
@@ -213,6 +216,7 @@ namespace CSC3045_CS2.Pages
             {
                 PasswordTextBox.Style = _validPasswordBoxStyle;
             }
+
             if (String.IsNullOrEmpty(ConfirmPasswordTextBox.Password.ToString()))
             {
                 ConfirmPasswordTextBox.Style = _invalidPasswordBoxStyle;
@@ -223,6 +227,7 @@ namespace CSC3045_CS2.Pages
             {
                 ConfirmPasswordTextBox.Style = _validPasswordBoxStyle;
             }
+
             if (!CheckPasswordsMatch())
             {
                 PasswordTextBox.Style = _invalidPasswordBoxStyle;
