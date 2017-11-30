@@ -2,7 +2,7 @@
 using TestStack.White.UIItems;
 using TestStack.White.UIItems.ListBoxItems;
 using TestStack.White.UIItems.WindowItems;
-
+using TestStack.White.UIItems.WPFUIItems;
 
 namespace AutomationTests.PageTemplates
 {
@@ -31,6 +31,10 @@ namespace AutomationTests.PageTemplates
             get { return MainWindow.Get<Label>("StoryNameTextBlock"); }
         }
 
+        public CheckBox CompleteLabelBlock(WPFListItem listItem)
+        {
+            return listItem.Get<CheckBox>("CompleteLabelBlock");
+        }
     }
 
     

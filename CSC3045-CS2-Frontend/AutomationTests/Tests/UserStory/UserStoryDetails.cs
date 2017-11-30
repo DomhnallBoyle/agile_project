@@ -84,7 +84,8 @@ namespace AutomationTests.Tests.UserStory
         [Test]
         public void ShouldSuccessfullyCheckUserStoryAsChecked()
         {
-            
-        }
+            var UserStoryAcceptanceTests = (WPFListItem)_userStoryDetailsPage.UserStoryAcceptanceTests.Items.Find(item => "e2eGiven1".Equals(item.Text));
+            _userStoryDetailsPage.CompleteLabelBlock(UserStoryAcceptanceTests).Click();
+        }   
     }
 }
