@@ -11,12 +11,15 @@ using CSC3045_CS2.Models;
 using System.Windows.Media.Imaging;
 using System.IO;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace CSC3045_CS2.Pages
 {
     public partial class Register : Page
     {
+
         #region Private Variables 
+
         private AuthenticationClient _client;
         private BitmapImage _profileImage;
         private String _warningMessage;
@@ -24,6 +27,7 @@ namespace CSC3045_CS2.Pages
         private Style _validTextBoxStyle;
         private Style _invalidPasswordBoxStyle;
         private Style _validPasswordBoxStyle;
+
         #endregion
 
         public Register()
@@ -31,11 +35,11 @@ namespace CSC3045_CS2.Pages
             InitializeComponent();
             DataContext = this;
             _client = new AuthenticationClient();
-
             _profileImage = new BitmapImage(new Uri(Properties.Settings.Default.ProfileImageDirectory + Properties.Settings.Default.DefaultProfileImage, UriKind.Absolute));
             ImageBrush profileButtonBackground = new ImageBrush();
             profileButtonBackground.ImageSource = _profileImage;
             ProfileButton.Background = profileButtonBackground;
+
             _invalidTextBoxStyle = FindResource("InvalidTextBox") as Style;
             _validTextBoxStyle = FindResource("DefaultTextBox") as Style;
             _validPasswordBoxStyle = FindResource("DefaultPasswordBox") as Style;
@@ -43,6 +47,7 @@ namespace CSC3045_CS2.Pages
         }
 
         #region Command Methods
+
         /// <summary>
         /// Method for Creating The action that occurs on button click, calls the checkValidationMethod, if
         /// it returns true then attempt to register to the backend. If the response returned is equal to 
@@ -65,21 +70,18 @@ namespace CSC3045_CS2.Pages
                 {
                     profileImagePath = Properties.Settings.Default.DefaultProfileImage;
                 }
-                User user = new User(FirstnameTextBox.Text, SurnameTextBox.Text, EmailTextBox.Text, profileImagePath , roles);
+                User user = new User(FirstnameTextBox.Text, SurnameTextBox.Text, EmailTextBox.Text, profileImagePath, roles);
                 Account account = new Account(user, PasswordTextBox.Password.ToString());
-
                 try
                 {
                     Account returnedAccount = this._client.Register(account);
-
                     MessageBoxUtil.ShowSuccessBox("Registration successful!");
-
                     Page loginPage = new Login();
-                    if(_profileImage != null)
+                    if (_profileImage != null)
                     {
                         SaveImage(_profileImage, Properties.Settings.Default.ProfileImageDirectory + returnedAccount.User.Email + Properties.Settings.Default.DefaultProfileImageFileExtension);
                     }
-                    
+
                     NavigationService.GetNavigationService(this).Navigate(loginPage);
                 }
                 catch (RestResponseErrorException ex)
@@ -97,21 +99,17 @@ namespace CSC3045_CS2.Pages
         {
             // Create OpenFileDialog 
             Microsoft.Win32.OpenFileDialog dlg = new Microsoft.Win32.OpenFileDialog();
-
             // Set filter for file extension and default file extension 
             dlg.DefaultExt = ".png";
             dlg.Filter = "JPEG Files (*.jpeg)|*.jpeg|PNG Files (*.png)|*.png|JPG Files (*.jpg)|*.jpg|GIF Files (*.gif)|*.gif";
-
             // Display OpenFileDialog by calling ShowDialog method 
             Nullable<bool> result = dlg.ShowDialog();
-
-            if (result == true )
+            if (result == true)
             {
                 string filename = dlg.FileName;
                 FileInfo fi = new FileInfo(dlg.FileName);
                 long fileSize = fi.Length;
                 Console.WriteLine(fileSize);
-
                 //limiting file size upload to 1mb for performance reasons
                 if (fileSize < (1000000))
                 {
@@ -137,7 +135,6 @@ namespace CSC3045_CS2.Pages
                 return new RelayCommand(param =>
                 {
                     Page loginPage = new Login();
-
                     NavigationService.GetNavigationService(this).Navigate(loginPage);
                 });
             }
@@ -146,25 +143,27 @@ namespace CSC3045_CS2.Pages
         #endregion
 
         #region Class Methods
-        public void SaveImage( BitmapImage image, string filePath)
+
+        public void SaveImage(BitmapImage image, string filePath)
         {
             BitmapEncoder encoder = new PngBitmapEncoder();
             encoder.Frames.Add(BitmapFrame.Create(image));
-
             using (var fileStream = new FileStream(filePath, FileMode.Create))
             {
                 encoder.Save(fileStream);
             }
         }
+
         #endregion
 
         #region Form Validation
-        /// <summary>
-        /// Check the 2 passwords match 
-        /// </summary>
-        /// <param name="mainPasswordBox"></param>
-        /// <param name="confirmPasswordBox"></param>
-        /// <returns></returns>
+
+        private void LetterOnlyTextBoxValidation(object sender, TextCompositionEventArgs e)
+        {
+            Regex regex = new Regex("[^A-Za-z]+");
+            e.Handled = regex.IsMatch(e.Text);
+        }
+
         private Boolean CheckPasswordsMatch()
         {
             return PasswordTextBox.Password.ToString() == ConfirmPasswordTextBox.Password.ToString();
@@ -184,7 +183,6 @@ namespace CSC3045_CS2.Pages
             {
                 FirstnameTextBox.Style = _validTextBoxStyle;
             }
-
             if (String.IsNullOrEmpty(SurnameTextBox.Text))
             {
                 SurnameTextBox.Style = _invalidTextBoxStyle;
@@ -195,7 +193,6 @@ namespace CSC3045_CS2.Pages
             {
                 SurnameTextBox.Style = _validTextBoxStyle;
             }
-
             if (String.IsNullOrEmpty(EmailTextBox.Text))
             {
                 EmailTextBox.Style = _invalidTextBoxStyle;
@@ -206,7 +203,6 @@ namespace CSC3045_CS2.Pages
             {
                 EmailTextBox.Style = _validTextBoxStyle;
             }
-
             if (String.IsNullOrEmpty(PasswordTextBox.Password.ToString()))
             {
                 PasswordTextBox.Style = _invalidPasswordBoxStyle;
@@ -217,7 +213,6 @@ namespace CSC3045_CS2.Pages
             {
                 PasswordTextBox.Style = _validPasswordBoxStyle;
             }
-
             if (String.IsNullOrEmpty(ConfirmPasswordTextBox.Password.ToString()))
             {
                 ConfirmPasswordTextBox.Style = _invalidPasswordBoxStyle;
@@ -228,7 +223,6 @@ namespace CSC3045_CS2.Pages
             {
                 ConfirmPasswordTextBox.Style = _validPasswordBoxStyle;
             }
-
             if (!CheckPasswordsMatch())
             {
                 PasswordTextBox.Style = _invalidPasswordBoxStyle;
@@ -236,7 +230,6 @@ namespace CSC3045_CS2.Pages
                 valid = false;
                 sb.Append("Passwords must match\n");
             }
-
             _warningMessage = sb.ToString();
             return valid;
         }

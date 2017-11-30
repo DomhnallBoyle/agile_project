@@ -6,10 +6,10 @@
       xmlns:utility="clr-namespace:CSC3045_CS2.Utility"
       mc:Ignorable="d" 
       Background="{StaticResource BackgroundGradient}"
-      d:DesignHeight="600" d:DesignWidth="1060"
+      d:DesignHeight="900" d:DesignWidth="1280"
       Title="Register">
 
-    <StackPanel Width="500" Margin="0,75,0,0">
+    <StackPanel Width="500" Margin="0,175,0,0">
         <TextBlock Name="PageTitle" Text="Registration" Style="{StaticResource Title}" HorizontalAlignment="Center" Margin="0,10,0,10"/>
         <Grid>
             <Grid.ColumnDefinitions>
@@ -18,53 +18,53 @@
             </Grid.ColumnDefinitions>
 
             <StackPanel Grid.Column="0">
-                <AdornerDecorator Margin="0,6,0,0">
-                    <TextBox Name="FirstnameTextBox" Style="{StaticResource DefaultTextBox}">
+                <AdornerDecorator Margin="0,12,0,0">
+                    <TextBox Name="FirstnameTextBox" Style="{StaticResource DefaultTextBox}" PreviewTextInput="LetterOnlyTextBoxValidation" HorizontalContentAlignment="Center">
                         <utility:WatermarkService.Watermark>
-                            <TextBlock Style="{StaticResource Watermark}" HorizontalAlignment="Center" Name="FirstnameTextBlock">Firstname</TextBlock>
+                            <TextBlock Style="{StaticResource Watermark}" HorizontalAlignment="Center" Margin="0,5,0,0" Name="FirstnameTextBlock">Firstname</TextBlock>
                         </utility:WatermarkService.Watermark>
                     </TextBox>
                 </AdornerDecorator>
 
-                <AdornerDecorator Margin="0,6,0,0">
-                    <TextBox Name="SurnameTextBox" Style="{StaticResource DefaultTextBox}">
+                <AdornerDecorator Margin="0,12,0,0">
+                    <TextBox Name="SurnameTextBox" Style="{StaticResource DefaultTextBox}" PreviewTextInput="LetterOnlyTextBoxValidation" HorizontalContentAlignment="Center">
                         <utility:WatermarkService.Watermark>
-                            <TextBlock Style="{StaticResource Watermark}" HorizontalAlignment="Center"  Name="SurnameTextBlock">Surname</TextBlock>
+                            <TextBlock Style="{StaticResource Watermark}" HorizontalAlignment="Center" Margin="0,5,0,0" Name="SurnameTextBlock">Surname</TextBlock>
                         </utility:WatermarkService.Watermark>
                     </TextBox>
                 </AdornerDecorator>
             </StackPanel>
 
             <DockPanel Grid.Column="1" Width="64" Height="64">
-                <Button Name="ProfileButton" Margin="0,0,0,0" Click="ProfileButton_Click"/>
+                <Button Name="ProfileButton" Click="ProfileButton_Click"/>
             </DockPanel>
         </Grid>
 
-        <AdornerDecorator>
-            <TextBox Name="EmailTextBox" Style="{StaticResource DefaultTextBox}" Margin="0,5,0,0">
+        <AdornerDecorator Margin="0,12,0,0">
+            <TextBox Name="EmailTextBox" Style="{StaticResource DefaultTextBox}" HorizontalContentAlignment="Center">
                 <utility:WatermarkService.Watermark>
-                    <TextBlock Style="{StaticResource Watermark}" HorizontalAlignment="Center" Name="EmailTextBlock">E-mail</TextBlock>
+                    <TextBlock Style="{StaticResource Watermark}" HorizontalAlignment="Center" Margin="0,5,0,0" Name="EmailTextBlock">E-mail</TextBlock>
                 </utility:WatermarkService.Watermark>
             </TextBox>
         </AdornerDecorator>
 
-        <AdornerDecorator>
-            <PasswordBox Name="PasswordTextBox" Style="{StaticResource DefaultPasswordBox}" Margin="0,5,0,0" >
+        <AdornerDecorator Margin="0,12,0,0">
+            <PasswordBox Name="PasswordTextBox" Style="{StaticResource DefaultPasswordBox}" HorizontalContentAlignment="Center">
                 <utility:WatermarkService.Watermark>
-                    <TextBlock Style="{StaticResource Watermark}" HorizontalAlignment="Center" Name="PasswordTextBlock" >Password</TextBlock>
+                    <TextBlock Style="{StaticResource Watermark}" HorizontalAlignment="Center" Margin="0,5,0,0" Name="PasswordTextBlock" >Password</TextBlock>
                 </utility:WatermarkService.Watermark>
             </PasswordBox>
         </AdornerDecorator>
 
-        <AdornerDecorator>
-            <PasswordBox Name="ConfirmPasswordTextBox" Style="{StaticResource DefaultPasswordBox}" Margin="0,5,0,0" ToolTip="Passwords Must Match" >
+        <AdornerDecorator Margin="0,12,0,0">
+            <PasswordBox Name="ConfirmPasswordTextBox" Style="{StaticResource DefaultPasswordBox}" ToolTip="Passwords Must Match" HorizontalContentAlignment="Center">
                 <utility:WatermarkService.Watermark>
-                    <TextBlock Style="{StaticResource Watermark}" HorizontalAlignment="Center" Name="ConfirmPasswordTextBlock">Confirm Password</TextBlock>
+                    <TextBlock Style="{StaticResource Watermark}" HorizontalAlignment="Center" Margin="0,5,0,0" Name="ConfirmPasswordTextBlock">Confirm Password</TextBlock>
                 </utility:WatermarkService.Watermark>
             </PasswordBox>
         </AdornerDecorator>
 
-        <Grid Margin="100,15,100,0">
+        <Grid Margin="15,15,15,0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
@@ -76,12 +76,24 @@
                 <RowDefinition/>
             </Grid.RowDefinitions>
 
-            <TextBlock Grid.Column="0" Grid.Row="0" Margin="0,5" Style="{StaticResource Label}" FontSize="12" FontFamily="Lato Thin"  HorizontalAlignment="Center">Product Owner</TextBlock>
-            <TextBlock Grid.Column="1" Grid.Row="0" Margin="0,5" Style="{StaticResource Label}" FontSize="12" FontFamily="Lato Thin"  HorizontalAlignment="Center">Scrum Master</TextBlock>
-            <TextBlock Grid.Column="2" Grid.Row="0" Margin="0,5" Style="{StaticResource Label}" FontSize="12" FontFamily="Lato Thin"  HorizontalAlignment="Center">Developer</TextBlock>
-            <CheckBox Name="ProductOwnerCheckBox" Grid.Column="0" Grid.Row="1" Margin="0,5"  HorizontalAlignment="Center"></CheckBox>
-            <CheckBox Name="ScrumMasterCheckBox" Grid.Column="1" Grid.Row="1" Margin="0,5"  HorizontalAlignment="Center"></CheckBox>
-            <CheckBox Name="DeveloperCheckBox" Grid.Column="2" Grid.Row="1" Margin="0,5" HorizontalAlignment="Center"></CheckBox>
+            <TextBlock Grid.Column="0" Grid.Row="0" Margin="0,5" Style="{StaticResource Label}" HorizontalAlignment="Center">Product Owner</TextBlock>
+            <TextBlock Grid.Column="1" Grid.Row="0" Margin="0,5" Style="{StaticResource Label}" HorizontalAlignment="Center">Scrum Master</TextBlock>
+            <TextBlock Grid.Column="2" Grid.Row="0" Margin="0,5" Style="{StaticResource Label}"  HorizontalAlignment="Center">Developer</TextBlock>
+            <CheckBox Name="ProductOwnerCheckBox" Grid.Column="0" Grid.Row="1" Margin="0,5"  HorizontalAlignment="Center">
+                <CheckBox.LayoutTransform>
+                    <ScaleTransform ScaleX="1.5" ScaleY="1.5"/>
+                </CheckBox.LayoutTransform>
+            </CheckBox>
+            <CheckBox Name="ScrumMasterCheckBox" Grid.Column="1" Grid.Row="1" Margin="0,5"  HorizontalAlignment="Center">
+                <CheckBox.LayoutTransform>
+                    <ScaleTransform ScaleX="1.5" ScaleY="1.5"/>
+                </CheckBox.LayoutTransform>
+            </CheckBox>
+            <CheckBox Name="DeveloperCheckBox" Grid.Column="2" Grid.Row="1" Margin="0,5" HorizontalAlignment="Center">
+                <CheckBox.LayoutTransform>
+                    <ScaleTransform ScaleX="1.5" ScaleY="1.5"/>
+                </CheckBox.LayoutTransform>
+            </CheckBox>
         </Grid>
 
         <Grid Margin="100,15,100,0">

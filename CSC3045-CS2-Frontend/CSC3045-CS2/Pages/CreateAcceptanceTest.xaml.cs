@@ -21,11 +21,13 @@ namespace CSC3045_CS2.Pages
 
         private UserStoryClient _client;
 
-        private UserStory _currentUserStory;
-
         #endregion
 
+        #region Public Variables
 
+        public UserStory CurrentUserStory { get; set; }
+
+        #endregion
 
         public CreateAcceptanceTest(UserStory userStory)
         {
@@ -35,10 +37,9 @@ namespace CSC3045_CS2.Pages
             _client = new UserStoryClient();
 
             CurrentPage = this.Title;
-            _currentUserStory = userStory;
+            CurrentUserStory = userStory;
         }
     
-
         #region Command Methods
 
         public ICommand CancelCommand
@@ -47,7 +48,7 @@ namespace CSC3045_CS2.Pages
             {
                 return new RelayCommand(param =>
                 {
-                    Page userStoryDetail = new UserStoryDetails(_currentUserStory);
+                    Page userStoryDetail = new UserStoryDetails(CurrentUserStory);
 
                     NavigationService.GetNavigationService(this).Navigate(userStoryDetail);
                 });
@@ -60,7 +61,7 @@ namespace CSC3045_CS2.Pages
             {
                 return new RelayCommand(param =>
                 {
-                    AcceptanceTest acceptanceTest = new AcceptanceTest(GivenTextBox.Text, WhenTextBox.Text, ThenTextBox.Text, _currentUserStory);
+                    AcceptanceTest acceptanceTest = new AcceptanceTest(GivenTextBox.Text, WhenTextBox.Text, ThenTextBox.Text, CurrentUserStory);
 
                     try
                     {
@@ -68,7 +69,7 @@ namespace CSC3045_CS2.Pages
 
                         MessageBoxUtil.ShowSuccessBox("Acceptance Test Creation Successful!");
 
-                        Page userStoryDetails = new UserStoryDetails(_currentUserStory);
+                        Page userStoryDetails = new UserStoryDetails(CurrentUserStory);
 
                         NavigationService.GetNavigationService(this).Navigate(userStoryDetails);
                     }

@@ -51,6 +51,7 @@ namespace CSC3045_CS2.Pages
         {
             _invalidTextBoxStyle = FindResource("InvalidTextBox") as Style;
             _validTextBoxStyle = FindResource("DefaultTextBox") as Style;
+            
         }
 
         private bool CheckFields()
@@ -94,6 +95,12 @@ namespace CSC3045_CS2.Pages
             {
                 valid = false;
                 sb.Append("The Sprint End Date must be after the Sprint Start Date");
+            }
+
+            if (StartDatePicker.SelectedDate < DateTime.Now)
+            {
+                valid = false;
+                sb.Append("The Sprint Start Date can't be in the past");
             }
 
             _warningMessage = sb.ToString();

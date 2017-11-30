@@ -6,11 +6,11 @@
       xmlns:local="clr-namespace:CSC3045_CS2.Pages"
       mc:Ignorable="d" 
       Background="{StaticResource BackgroundGradient}"
-      d:DesignHeight="300" d:DesignWidth="300"
+      d:DesignHeight="900" d:DesignWidth="1280"
       Title="Sprint Dashboard">
 
     <StackPanel>
-        <ContentControl  Template="{StaticResource Headers}" Name="Header" ></ContentControl>
+        <ContentControl Template="{StaticResource Headers}" Name="Header" ></ContentControl>
 
         <ListBox Name="SprintTeamListBox" ItemsSource="{Binding CurrentSprint.Users}" HorizontalContentAlignment="Center">
             <ListBox.ItemTemplate>
