@@ -29,6 +29,21 @@ namespace CSC3045_CS2.Service
         }
 
         /// <summary>
+        /// Gets user story
+        /// </summary>
+        /// <param name="userStoryId">The ID of the User Story</param>
+        /// <returns>The user story, or will throw RestResponseException if error</returns>
+        public UserStory GetUserStory(long projectId, long userStoryId)
+        {
+            var request = new RestRequest("/project/" + projectId + "/story" + "/" + userStoryId, Method.GET);
+            request.AddHeader("Content-Type", "application/json");
+            request.RequestFormat = DataFormat.Json;
+            SimpleJson.CurrentJsonSerializerStrategy = new CamelCaseSerializationStrategy();
+
+            return Execute<UserStory>(request);
+        }
+
+        /// <summary>
         /// Gets user stories for current project
         /// </summary>
         /// <param name="projectId">The ID of the project</param>

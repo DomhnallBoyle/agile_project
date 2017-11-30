@@ -1,20 +1,27 @@
 package uk.ac.qub.csc3045.api.model;
 
+import javax.validation.constraints.NotNull;
+
 public class Task {
+	
     private Long id;
-
+    @NotNull
     private String name;
-
+    @NotNull
     private String description;
-
+    @NotNull
     private Integer initialEstimate;
-
+    @NotNull
     private UserStory userStory;
 
     private User assignee;
+    
+    public Task() {
+    	
+    }
 
-    public Task(Long id, String name, String description, Integer initialEstimate, UserStory userStory, User assignee) {
-        this.id = id;
+    public Task(String name, String description, Integer initialEstimate, UserStory userStory, User assignee) {
+
         this.name = name;
         this.description = description;
         this.initialEstimate = initialEstimate;
