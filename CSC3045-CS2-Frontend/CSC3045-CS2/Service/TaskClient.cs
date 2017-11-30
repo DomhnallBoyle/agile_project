@@ -61,12 +61,12 @@ namespace CSC3045_CS2.Service
         /// <returns></returns>
         public Task UpdateTask(long projectId, long userStoryId,Task task)
         {
-            var request = new RestRequest(string.Format(BASE_ENDPOINT, projectId, userStoryId), Method.PUT);
+            var request = new RestRequest(string.Format(BASE_ENDPOINT+"/"+task.Id, projectId, userStoryId), Method.PUT);
             request.AddHeader("Content-Type", "application/json");
             request.RequestFormat = DataFormat.Json;
             SimpleJson.CurrentJsonSerializerStrategy = new CamelCaseSerializationStrategy();
             request.AddBody(task);
-
+            ///"/project/{projectId}/story/{userStoryId}/task/{taskid}"
             return Execute<Task>(request);
         }
     }

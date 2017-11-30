@@ -16,7 +16,7 @@ namespace CSC3045_CS2.Pages
     /// <summary>
     /// Interaction logic for AddTask.xaml
     /// </summary>
-    public partial class ManageTasks : BasePage
+    public partial class CreateTask : BasePage
     {
         # region private variables
 
@@ -33,7 +33,7 @@ namespace CSC3045_CS2.Pages
 
         # endregion 
 
-        public ManageTasks(UserStory userStory, long sprintId)
+        public CreateTask(UserStory userStory, long sprintId)
         {
             InitializeComponent();
             DataContext = this;

@@ -31,22 +31,24 @@ public class TaskController {
 	public ResponseEntity<Task> create(@Valid @PathVariable("projectId") long projectId,
 			@Valid @PathVariable("userStoryId") long userStoryId,
 			@Valid @RequestBody Task task) {
-		return new ResponseEntity<>(taskService.create(userStoryId,task), HttpStatus.CREATED);
+		return new ResponseEntity<>(taskService.create(projectId, userStoryId, task), HttpStatus.CREATED);
 	}
 	
 	@GetMapping()
 	public ResponseEntity<List<Task>> getTasks(@Valid @PathVariable("projectId") long projectId,
 			@Valid @PathVariable("userStoryId") long userStoryId) {
-		return new ResponseEntity<List<Task>>(taskService.getTasks(userStoryId), HttpStatus.OK);
+		return new ResponseEntity<List<Task>>(taskService.getUserStoryTasks(projectId, userStoryId), HttpStatus.OK);
 	}
 	
-	@GetMapping(value = "/{id}")
-	public ResponseEntity<Task>getTask(@Valid @PathVariable("id") long taskId) {
-		return new ResponseEntity<Task>(taskService.getTask(taskId), HttpStatus.OK);
+	@GetMapping(value = "/{taskId}")
+	public ResponseEntity<Task>getTask(@Valid @PathVariable("projectId") long projectId,
+			@Valid @PathVariable("userStoryId") long userStoryId, @Valid @PathVariable("taskId") long taskId) {
+		return new ResponseEntity<Task>(taskService.getTask(projectId, userStoryId, taskId), HttpStatus.OK);
 	}
 	
-	@PutMapping()
-	public ResponseEntity<Task>updateTask(@Valid @RequestBody Task task) {
-		return new ResponseEntity<>(taskService.updateTask(task), HttpStatus.OK);
+	@PutMapping(value = "/{taskId}")
+	public ResponseEntity<Task>updateTask(@Valid @RequestBody Task task, 
+			@Valid @PathVariable("taskId") long taskId) {
+		return new ResponseEntity<>(taskService.updateTask(task, taskId), HttpStatus.OK);
 	}
 }

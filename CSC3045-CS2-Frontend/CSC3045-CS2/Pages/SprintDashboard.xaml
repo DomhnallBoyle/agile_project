@@ -94,7 +94,7 @@
                                 </TextBlock>
                                 <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" Margin="10,0,10,0"/>
                                 <Button  Margin ="20,0,0,0" Name="AddTask" HorizontalAlignment="Right" Content="Add Task" Style="{StaticResource StandardButton}"  
-                                    Command="{Binding RelativeSource={RelativeSource AncestorType={x:Type Page}}, Path=DataContext.TaskCommand}"
+                                    Command="{Binding RelativeSource={RelativeSource AncestorType={x:Type Page}}, Path=DataContext.CreateTaskCommand}"
                                          CommandParameter="{Binding}"/>
 
 
@@ -149,8 +149,7 @@
 
                                 <Button  Margin ="0,0,0,0" Name="Assign" HorizontalAlignment="Right" Content="Assign to Me" Style="{StaticResource StandardButton}"  
                                     Command="{Binding RelativeSource={RelativeSource AncestorType={x:Type Page}}, Path =DataContext.AssignCommand}" CommandParameter="{Binding}" 
-                                    Visibility="{Binding RelativeSource={RelativeSource AncestorType={x:Type Page}}, Path =DataContext.AssignedToMe, Converter={StaticResource BoolToVisConverter}}" />
-
+                                    />
 
                             </StackPanel>
 

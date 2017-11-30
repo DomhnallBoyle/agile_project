@@ -5,6 +5,7 @@ import uk.ac.qub.csc3045.api.exception.ResponseErrorException;
 import uk.ac.qub.csc3045.api.mapper.AuthenticationMapper;
 import uk.ac.qub.csc3045.api.mapper.ProjectMapper;
 import uk.ac.qub.csc3045.api.mapper.SprintMapper;
+import uk.ac.qub.csc3045.api.mapper.TaskMapper;
 import uk.ac.qub.csc3045.api.mapper.UserStoryMapper;
 import uk.ac.qub.csc3045.api.model.Account;
 import uk.ac.qub.csc3045.api.model.UserStory;
@@ -92,6 +93,16 @@ public class ValidationUtility {
      */
     public static boolean validateUserStoryExists(long storyId, UserStoryMapper mapper) {
         return (mapper.getUserStoryById(storyId) != null);
+    }
+    
+    /**
+     * Validates Task exists in the database
+     * @param taskId id of the task to be searched for
+     * @param mapper Task mapper
+     * @return
+     */
+    public static boolean validateTaskExists(long taskId, TaskMapper mapper) {
+    	return (mapper.getTaskById(taskId) != null);
     }
     
     /**

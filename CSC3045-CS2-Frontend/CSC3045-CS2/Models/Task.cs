@@ -29,11 +29,6 @@ namespace CSC3045_CS2.Models
 
         public Task() { }
 
-        public Task(long id)
-        {
-            this.Id = id;
-        }
-
         public Task(string name, string description, int initialEstimate, UserStory userStory, User assignee)
         {
             this.Name = name;

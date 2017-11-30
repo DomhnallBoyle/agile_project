@@ -21,7 +21,7 @@ namespace CSC3045_CS2.Pages
     {
         #region Private variables
 
-        private SprintClient _client;
+        private SprintClient _sprintClient;
         private TaskClient _taskClient;
         private Boolean _fromFile;
         private List<Task> _tasks { get; set; }
@@ -35,6 +35,15 @@ namespace CSC3045_CS2.Pages
         public Task CurrentTask { get; set; }
         public List<UserStory> UserStories { get; set; }
         public Permissions Permissions { get; set; }
+        public List<Task> Tasks
+        {
+            get { return _tasks; }
+            set
+            {
+                _tasks = value;
+                OnPropertyChanged();
+            }
+        }
 
         #endregion
 
@@ -45,13 +54,13 @@ namespace CSC3045_CS2.Pages
             this._fromFile = fromFile;
             DataContext = this;
 
-            _client = new SprintClient();
+            _sprintClient = new SprintClient();
             _taskClient = new TaskClient();
 
             Permissions = new Permissions((User)Application.Current.Properties["user"], sprint.Project);
          
-            sprint.Users = _client.GetSprintTeam(sprint.Project.Id, sprint.Id);
-            UserStories = _client.GetSprintStories(sprint.Project.Id, sprint.Id);
+            sprint.Users = _sprintClient.GetSprintTeam(sprint.Project.Id, sprint.Id);
+            UserStories = _sprintClient.GetSprintStories(sprint.Project.Id, sprint.Id);
 
             CurrentSprint = sprint;
 
@@ -140,32 +149,17 @@ namespace CSC3045_CS2.Pages
         /// <summary>
         /// Brings user to the manage tasks screen to add more tasks to user story
         /// </summary>
-        public ICommand TaskCommand
+        public ICommand CreateTaskCommand
         {
             get
             {
                 return new RelayCommand(param =>
                 {
                     UserStory userStory = (UserStory)param;
-                    Page manageTaskPage = new ManageTasks(userStory, CurrentSprint.Id);
+                    Page manageTaskPage = new CreateTask(userStory, CurrentSprint.Id);
 
                     NavigationService.GetNavigationService(this).Navigate(manageTaskPage);
                 });
-            }
-        }
-
-        /// <summary>
-        /// Getter/Setter for list of tasks
-        /// Includes property changed event for tasks
-        /// Binded to UI
-        /// </summary>
-        public List<Task> Tasks
-        {
-            get { return _tasks; }
-            set
-            {
-                _tasks = value;
-                OnPropertyChanged();
             }
         }
 
