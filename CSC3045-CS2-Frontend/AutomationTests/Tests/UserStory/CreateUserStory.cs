@@ -16,15 +16,18 @@ namespace AutomationTests.Tests.UserStory
 
         private CreateUserStoryPage _createUserStoryPage;
 
-        [Test]
-        public void ShouldSuccessfullyCreateAUserStoryAsAProductOwner()
+        [OneTimeSetUp]
+        public void OneTimeSetupLogin()
         {
             _userDashboardPage = new UserDashboardPage(MainWindow);
             _projectDashboardPage = new ProjectDashboardPage(MainWindow);
             _productBacklogPage = new ProductBacklogPage(MainWindow);
             _createUserStoryPage = new CreateUserStoryPage(MainWindow);
+        }
 
-
+        [Test]
+        public void ShouldSuccessfullyCreateAUserStoryAsAProductOwner()
+        {          
             LoginPage.Login("user2@e2e.com", "Aut0mation");
             Assert.IsTrue(_userDashboardPage.IsCurrentPage());
 
@@ -51,11 +54,6 @@ namespace AutomationTests.Tests.UserStory
         [Test]
         public void ShouldSuccessfullyAccessCreateAUserStoryAndCancel()
         {
-            _userDashboardPage = new UserDashboardPage(MainWindow);
-            _projectDashboardPage = new ProjectDashboardPage(MainWindow);
-            _productBacklogPage = new ProductBacklogPage(MainWindow);
-            _createUserStoryPage = new CreateUserStoryPage(MainWindow);
-
             LoginPage.Login("user2@e2e.com", "Aut0mation");
             Assert.IsTrue(_userDashboardPage.IsCurrentPage());
 
@@ -78,20 +76,8 @@ namespace AutomationTests.Tests.UserStory
         }
 
         [Test]
-        public void ShouldSuccessfullyAccessCreateAUserStoryAndLogOut()
-        {
-    
-        }
-
-        [Test]
         public void ShouldFailCreatingAUserStoryWithEmptyName()
         {
-            _userDashboardPage = new UserDashboardPage(MainWindow);
-            _projectDashboardPage = new ProjectDashboardPage(MainWindow);
-            _productBacklogPage = new ProductBacklogPage(MainWindow);
-            _createUserStoryPage = new CreateUserStoryPage(MainWindow);
-
-
             LoginPage.Login("user2@e2e.com", "Aut0mation");
             Assert.IsTrue(_userDashboardPage.IsCurrentPage());
 
@@ -121,12 +107,6 @@ namespace AutomationTests.Tests.UserStory
         [Test]
         public void ShouldFailCreatingAUserStoryWithEmptyDescription()
         {
-            _userDashboardPage = new UserDashboardPage(MainWindow);
-            _projectDashboardPage = new ProjectDashboardPage(MainWindow);
-            _productBacklogPage = new ProductBacklogPage(MainWindow);
-            _createUserStoryPage = new CreateUserStoryPage(MainWindow);
-
-
             LoginPage.Login("user2@e2e.com", "Aut0mation");
             Assert.IsTrue(_userDashboardPage.IsCurrentPage());
 
@@ -155,13 +135,7 @@ namespace AutomationTests.Tests.UserStory
 
         [Test]
         public void ShouldFailCreatingAUserStoryWithEmptyMarketValue()
-        {
-            _userDashboardPage = new UserDashboardPage(MainWindow);
-            _projectDashboardPage = new ProjectDashboardPage(MainWindow);
-            _productBacklogPage = new ProductBacklogPage(MainWindow);
-            _createUserStoryPage = new CreateUserStoryPage(MainWindow);
-
-
+        { 
             LoginPage.Login("user2@e2e.com", "Aut0mation");
             Assert.IsTrue(_userDashboardPage.IsCurrentPage());
 
@@ -190,12 +164,6 @@ namespace AutomationTests.Tests.UserStory
         [Test]
         public void ShouldFailCreatingAUserStoryWithTextMarketValue()
         {
-             _userDashboardPage = new UserDashboardPage(MainWindow);
-            _projectDashboardPage = new ProjectDashboardPage(MainWindow);
-            _productBacklogPage = new ProductBacklogPage(MainWindow);
-            _createUserStoryPage = new CreateUserStoryPage(MainWindow);
-
-
             LoginPage.Login("user2@e2e.com", "Aut0mation");
             Assert.IsTrue(_userDashboardPage.IsCurrentPage());
 
@@ -218,8 +186,6 @@ namespace AutomationTests.Tests.UserStory
             Assert.NotNull(messageBox);
 
             MessageBoxUtil.ClickOKButton(messageBox);
-
-
         }
 
     }
