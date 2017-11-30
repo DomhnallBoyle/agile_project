@@ -24,6 +24,11 @@ namespace AutomationTests.PageTemplates
             get { return MainWindow.Get<Button>("CancelButton"); }
         }
 
+        public Button LogOutButton
+        {
+            get { return MainWindow.Get<Button>("CancelButton"); }
+        }
+
         public TextBox StoryNameTextBox
         {
             get { return MainWindow.Get<TextBox>("StoryNameTextBox"); }
@@ -39,10 +44,34 @@ namespace AutomationTests.PageTemplates
             get { return MainWindow.Get<TextBox>("StoryDescriptionTextBox"); }
         }
 
-        public void enterStoryDetails(string storyName, string storyMarketValue, string storyDescription)
+        public void enterCorrectStoryDetails(string storyName, string storyMarketValue, string storyDescription)
         {
             StoryNameTextBox.Text = storyName;
             StoryMarketValueTextBox.Text = storyMarketValue;
+            StoryDescriptionTextBox.Text = storyDescription;
+
+            CreateButton.Click();
+        }
+
+        public void enterEmptyNameStoryDetails( string storyMarketValue, string storyDescription)
+        {
+            StoryMarketValueTextBox.Text = storyMarketValue;
+            StoryDescriptionTextBox.Text = storyDescription;
+
+            CreateButton.Click();
+        }
+
+        public void enterEmptyDescriptionStoryDetails(string storyName, string storyMarketValue)
+        {
+            StoryNameTextBox.Text = storyName;
+            StoryMarketValueTextBox.Text = storyMarketValue;
+
+            CreateButton.Click();
+        }
+
+        public void enterEmptyMarketValueStoryDetails(string storyName, string storyDescription)
+        {
+            StoryNameTextBox.Text = storyName;
             StoryDescriptionTextBox.Text = storyDescription;
 
             CreateButton.Click();
