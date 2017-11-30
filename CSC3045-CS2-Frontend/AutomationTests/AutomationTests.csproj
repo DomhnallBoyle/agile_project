@@ -55,7 +55,9 @@
   <ItemGroup>
     <Compile Include="PageTemplates\BasePage.cs" />
     <Compile Include="PageTemplates\CreateSprintPage.cs" />
+    <Compile Include="PageTemplates\CreateUserStoryPage.cs" />
     <Compile Include="PageTemplates\ManageSprintsPage.cs" />
+    <Compile Include="PageTemplates\ProductBacklogPage.cs" />
     <Compile Include="PageTemplates\ProjectDashboardPage.cs" />
     <Compile Include="PageTemplates\UserDashboardPage.cs" />
     <Compile Include="Tests\Authentication\Login.cs" />
