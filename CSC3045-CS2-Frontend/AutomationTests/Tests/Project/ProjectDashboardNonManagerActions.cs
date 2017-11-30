@@ -29,7 +29,6 @@ namespace AutomationTests.Tests.Project
             _userDashboardPage.GetProjectListItem("e2eProjectName1").Click();
 
             Assert.IsTrue(_projectDashboardPage.IsCurrentPage());
-            Assert.AreEqual("e2eForename3 e2eSurname3", _projectDashboardPage.ProjectManagerNameTextBlock.Text);
         }
 
         [Test]
