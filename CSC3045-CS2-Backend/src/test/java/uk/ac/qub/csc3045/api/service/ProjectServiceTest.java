@@ -56,10 +56,14 @@ public class ProjectServiceTest {
         assertTrue(response.equals(project));
     }
 
-    @Test(expected = ResponseErrorException.class)
+    @Test()
     public void handleUpdateProjectRequestFailure() {
         when(projectMapperMock.getProjectById(project.getId())).thenReturn(null);
-        projectService.update(project);
+        try {
+        	 projectService.update(project);
+        }catch(ResponseErrorException e) {
+        	assertTrue(e.getMessage() == "Project does not exist");
+        }
     }
 
     @Test
@@ -70,10 +74,14 @@ public class ProjectServiceTest {
         assertTrue(response.equals(project));
     }
 
-    @Test(expected = ResponseErrorException.class)
+    @Test()
     public void handleGetProjectRequestFailure() {
         when(projectMapperMock.getProjectById(project.getId())).thenReturn(null);
-        projectService.get(project.getId());
+       try {
+        	projectService.get(project.getId());
+       }catch(ResponseErrorException e) {
+       	assertTrue(e.getMessage() == "Project does not exist");
+       }
     }
 
     @Test
@@ -100,9 +108,14 @@ public class ProjectServiceTest {
         assertEquals(project.getUsers(), response);
     }
 
-    @Test(expected = ResponseErrorException.class)
+    @Test()
     public void handleGetTeamRequestFailure() {
         when(projectMapperMock.getProjectById(project.getId())).thenReturn(null);
-        projectService.getTeamMembers(project.getId());
+        try {
+        	  projectService.getTeamMembers(project.getId());
+       }catch(ResponseErrorException e) {
+       	assertTrue(e.getMessage() == "Project does not exist");
+       }
+        
     }
 }
