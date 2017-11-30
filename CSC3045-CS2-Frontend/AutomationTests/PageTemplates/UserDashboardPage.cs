@@ -2,6 +2,7 @@
 using TestStack.White.UIItems;
 using TestStack.White.UIItems.ListBoxItems;
 using TestStack.White.UIItems.WindowItems;
+using TestStack.White.UIItems.WPFUIItems;
 
 namespace AutomationTests.PageTemplates
 {
@@ -38,9 +39,24 @@ namespace AutomationTests.PageTemplates
             }
         }
 
-        public WPFListItem GetProjectListItem(string name)
+        public Image ManagerIcon(WPFListItem listItem)
         {
-            return (WPFListItem)ProjectListBox.Items.Find(item => name.Equals(item.Text));
+            return listItem.Get<Image>("Manager");
+        }
+
+        public Image DeveloperIcon(WPFListItem listItem)
+        {
+            return listItem.Get<Image>("Developer");
+        }
+
+        public Image ScrumMaserIcon(WPFListItem listItem)
+        {
+            return listItem.Get<Image>("ScrumMaster");
+        }
+
+        public Image ProductOwnerIcon(WPFListItem listItem)
+        {
+            return listItem.Get<Image>("ProductOwner");
         }
     }
 }
