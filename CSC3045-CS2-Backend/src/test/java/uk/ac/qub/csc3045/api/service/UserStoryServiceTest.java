@@ -53,10 +53,15 @@ public class UserStoryServiceTest {
 	
 	    assertTrue(response.equals(userStory));
 	}
-	@Test(expected = ResponseErrorException.class)
+	@Test()
 	public void testCreateUserStoryThrowsExceptionWhenProjectNull() {
 		when(projectMapper.getProjectById(project.getId())).thenReturn(null);
-	     userStoryService.create(userStory);
+	     try {
+				userStoryService.create(userStory);
+			}
+		    catch(ResponseErrorException e) {
+		    	assertTrue(e.getMessage() == "Project does not exist");
+		    }
 	
 	}
 	@Test
@@ -67,20 +72,30 @@ public class UserStoryServiceTest {
 		
 		assertTrue(response.equals(userStory));
 	}
-	@Test(expected = ResponseErrorException.class)
+	@Test()
 	public void testGetUserStoryThrowsExceptionWhenProjectNull() {
 		 when(projectMapper.getProjectById(project.getId())).thenReturn(null);
 		 when(userStoryMapper.getUserStoryById(userStory.getSprint().getId())).thenReturn(userStory);
-		 UserStory response = userStoryService.getUserStory(project.getId(), userStory.getSprint().getId());
-		 assertTrue(response.equals(userStory));
+		 
+		 try {
+			 userStoryService.getUserStory(project.getId(), userStory.getSprint().getId());
+			}
+		 catch(ResponseErrorException e) {
+		    	assertTrue(e.getMessage() == "Project does not exist");
+		    }
+
 	}
-	@Test(expected = ResponseErrorException.class)
+	@Test()
 	public void testGetUserStoryThrowsExceptionWhenStoryNull() {
 		when(projectMapper.getProjectById(project.getId())).thenReturn(project);
 		when(userStoryMapper.getUserStoryById(userStory.getSprint().getId())).thenReturn(null);
-		UserStory response = userStoryService.getUserStory(project.getId(), userStory.getSprint().getId());
+		 try {
+			 userStoryService.getUserStory(project.getId(), userStory.getSprint().getId());
+			}
+		 catch(ResponseErrorException e) {
+		    	assertTrue(e.getMessage() == "The User story does not exist");
+		    }
 		
-		assertTrue(response.equals(userStory));
 	}
 	@Test
 	public void testAddAcceptanceTestReturnsAcceptanceTestById() {
@@ -90,24 +105,43 @@ public class UserStoryServiceTest {
 		AcceptanceTest response = userStoryService.addAcceptanceTest(project.getId(), userStory.getId(), acceptanceTest);
 		assertTrue(response.equals(acceptanceTest));
 	}
-	@Test (expected = ResponseErrorException.class)
+	@Test ()
 	public void testAddAcceptanceTestThrowsExceptionWhenProjectNull() {
-		
 		when(projectMapper.getProjectById(project.getId())).thenReturn(null);
-		AcceptanceTest response = userStoryService.addAcceptanceTest(project.getId(), userStory.getId(), acceptanceTest);
-		assertTrue(response.equals(acceptanceTest));
+		 try {
+			 userStoryService.addAcceptanceTest(project.getId(), userStory.getId(), acceptanceTest);
+			}
+		 catch(ResponseErrorException e) {
+		    	assertTrue(e.getMessage() == "Project does not exist");
+		    }
+
 	}
-	@Test (expected = ResponseErrorException.class)
+	@Test ()
 	public void testAddAcceptanceTestThrowsExceptionWhenUserStoryNull() {
+		when(projectMapper.getProjectById(project.getId())).thenReturn(project);
 		when(userStoryMapper.getUserStoryById(userStory.getId())).thenReturn(null);
-		AcceptanceTest response = userStoryService.addAcceptanceTest(project.getId(), userStory.getId(), acceptanceTest);
-		assertTrue(response.equals(acceptanceTest));
+		 try {
+			 userStoryService.addAcceptanceTest(project.getId(), userStory.getId(), acceptanceTest);
+			}
+		 catch(ResponseErrorException e) {
+			 	System.out.print(e.getMessage());
+		    	assertTrue(e.getMessage() == "The User story does not exist");
+		    }
 	}
-	@Test (expected = ResponseErrorException.class)
+
+	@Test ()
 	public void testAddAcceptanceTestThrowsExceptionWhenAcceptanceTestNull() {
+		when(projectMapper.getProjectById(project.getId())).thenReturn(project);
+		when(userStoryMapper.getUserStoryById(userStory.getId())).thenReturn(null);
 		when(userStoryMapper.getAcceptanceTestById(acceptanceTest.getId())).thenReturn(null);
-		AcceptanceTest response = userStoryService.addAcceptanceTest(project.getId(), userStory.getId(), acceptanceTest);
-		assertTrue(response.equals(acceptanceTest));
+		
+		 try {
+			 userStoryService.addAcceptanceTest(project.getId(), userStory.getId(), acceptanceTest);
+			}
+		 catch(ResponseErrorException e) {
+			 	System.out.print(e.getMessage());
+		    	assertTrue(e.getMessage() == "Project does not exist");
+		    }
 	}
 	
 	@Test
@@ -118,10 +152,17 @@ public class UserStoryServiceTest {
 
         assertTrue(response.equals(userStories));
 	}
-	@Test(expected = ResponseErrorException.class)
+	@Test()
 	 public void testGetAllUserStoriesThrowsExceptionWhenProjectNull() {
 		 when(projectMapper.getProjectById(project.getId())).thenReturn(null);
-	     userStoryService.getAllUserStories(project.getId());
+	     
+		 try {
+			 userStoryService.getAllUserStories(project.getId());
+			}
+		 catch(ResponseErrorException e) {
+			 	System.out.print(e.getMessage());
+		    	assertTrue(e.getMessage() == "Project does not exist");
+		 }  
 	 }
 	 @Test
 	 public void testGetAvailableUserStoriesReturnsStoriesThatAreAvailable() {
@@ -130,19 +171,29 @@ public class UserStoryServiceTest {
 			List<UserStory> response = userStoryService.getAvailableUserStories(project.getId());
 			assertTrue(response.equals(userStories));
 	 }
-	 @Test(expected = ResponseErrorException.class)
+	 @Test()
 	 public void testGetAvailableUserStoriesThrowsExceptionWhenProjectDoesntExist() {
 		when(projectMapper.getProjectById(project.getId())).thenReturn(null);
 		when(userStoryMapper.getAvailableUserStories(project.getId())).thenReturn(userStories);
-		List<UserStory> response = userStoryService.getAvailableUserStories(project.getId());
-		assertTrue(response.equals(userStories));
+	
+		 try {
+			 userStoryService.getAvailableUserStories(project.getId());
+			}
+		 catch(ResponseErrorException e) {
+			 	System.out.print(e.getMessage());
+		    	assertTrue(e.getMessage() == "Project does not exist");
+		 }  
 	 }
-	 @Test(expected = ResponseErrorException.class)
+	 @Test()
 	 public void testGetAvailableUserStoriesThrowsExceptionWhenNoAvailableUserStories() {
-		 	when(projectMapper.getProjectById(project.getId())).thenReturn(null);
+		 	when(projectMapper.getProjectById(project.getId())).thenReturn(project);
 			when(userStoryMapper.getAvailableUserStories(project.getId())).thenReturn(null);
-			List<UserStory> response = userStoryService.getAvailableUserStories(project.getId());
-			assertTrue(response.equals(userStories));
+			try {
+				userStoryService.getAvailableUserStories(project.getId());
+				}
+			 catch(ResponseErrorException e) {
+			    	assertTrue(e.getMessage() == "The User story does not exist");
+			    }
 	 }
 
 }
