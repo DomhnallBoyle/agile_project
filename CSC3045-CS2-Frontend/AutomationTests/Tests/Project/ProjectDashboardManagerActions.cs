@@ -1,15 +1,7 @@
 ﻿using AutomationTests.PageTemplates;
 using AutomationTests.Util;
 using NUnit.Framework;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using TestStack.White.UIItems;
 using TestStack.White.UIItems.ListBoxItems;
-using TestStack.White.UIItems.WPFUIItems;
 
 namespace AutomationTests.Tests.Project
 {
