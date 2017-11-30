@@ -80,5 +80,11 @@ namespace AutomationTests.Tests.UserStory
         {
             Assert.AreEqual("e2eUserStory1", _userStoryDetailsPage.StoryNameTextBlock.Text);
         }
+
+        [Test]
+        public void ShouldSuccessfullyCheckUserStoryAsChecked()
+        {
+            
+        }
     }
 }
