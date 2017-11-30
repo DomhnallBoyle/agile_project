@@ -27,12 +27,16 @@
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="*"/>
                                     <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
                                 </Grid.ColumnDefinitions>
 
                                 <TextBlock Grid.Column="0" Text="{Binding Name}" Name="StoryNameTextBlock"
                                            Style="{StaticResource ListBoxItemHeader}" HorizontalAlignment="Left"/>
-                                <TextBlock Grid.Column="1" Text="{Binding Points}" Name="StoryPointsTextBlock"
-                                           Style="{StaticResource ListBoxItemHeader}" HorizontalAlignment="Right"/>
+                                <ComboBox Grid.Column="2" Width="50" HorizontalAlignment="Right" 
+                                          ItemsSource="{Binding RelativeSource={RelativeSource AncestorType={x:Type Page}}, Path=DataContext.StoryPoints}"
+                                          SelectedItem="{Binding Points}"
+                                          IsEnabled="{Binding RelativeSource={RelativeSource AncestorType={x:Type Page}}, Path=DataContext.Permissions.ScrumMaster, Converter={StaticResource BoolToEnabledConverter}}"/>
+
                             </Grid>
 
                             <Separator/>
@@ -50,22 +54,29 @@
                                 <TextBlock Name="StoryDescription" Text="{Binding Description}" 
                                            Width="375" TextWrapping="Wrap" Margin="0,0,5,0"
                                            Style="{StaticResource ButtonLabel}" HorizontalAlignment="Left"/>
-                                <Button Name="ViewStoryDetailsButton" Content="View Details" 
+                                <Button Name="UpdateStoryButton" Content="Update" 
                                         Style="{StaticResource StandardButton}" HorizontalAlignment="Right"
-                                        Command="{Binding RelativeSource={RelativeSource AncestorType={x:Type Page}}, Path=DataContext.ViewDetailsCommand}" 
+                                        Margin="30,0,0,0"
+                                        Command="{Binding RelativeSource={RelativeSource AncestorType={x:Type Page}}, Path=DataContext.UpdateStoryCommand}"
+                                        Visibility="{Binding RelativeSource={RelativeSource AncestorType={x:Type Page}}, Path=DataContext.Permissions.ScrumMaster, Converter={StaticResource BoolToVisConverter}}"
                                         CommandParameter="{Binding}" />
                             </StackPanel>
                         </StackPanel>
                     </DataTemplate>
                 </ListBox.ItemTemplate>
+                <ListBox.ItemContainerStyle>
+                    <Style TargetType="{x:Type ListBoxItem}" BasedOn="{StaticResource {x:Type ListBoxItem}}">
+                        <EventSetter Event="MouseUp" Handler="PreviewMouseUp"/>
+                    </Style>
+                </ListBox.ItemContainerStyle>
             </ListBox>
         </Grid>
 
         <Grid>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="0.25*"/>
+                <ColumnDefinition Width="0.60*"/>
+                <ColumnDefinition Width="0.15*"/>
             </Grid.ColumnDefinitions>
 
             <Button Grid.Column="0" Name="BackButton" Content="Project Dashboard" Width="125"
@@ -77,7 +88,15 @@
 
             <Button Grid.Column="2" Name="CreateStoryButton" Content="Create Story" Width="125"
                     Command="{Binding CreateStoryCommand}" Style="{StaticResource StandardButton}"
-                    Visibility="{Binding Permissions.ProductOwner, Converter={StaticResource BoolToVisConverter}}" Click="CreateStoryButton_Click"/>
+
+                    Visibility="{Binding Permissions.ProductOwner, Converter={StaticResource BoolToVisConverter}}"/>
+
+            <TextBlock Grid.Column="1" Text="{Binding Description}"/>
+            <Button Grid.Column="2" Grid.Row="2" Content="Update" 
+                Command="{Binding RelativeSource={RelativeSource AncestorType={x:Type Page}}, Path=DataContext.UpdateStoryCommand}"
+                CommandParameter="{Binding}"
+                Visibility="{Binding RelativeSource={RelativeSource AncestorType={x:Type Page}}, Path=DataContext.Permissions.ScrumMaster, Converter={StaticResource BoolToVisConverter}}"
+                Style="{StaticResource StandardButton}"/>
         </Grid>
     </StackPanel>
 </local:BasePage>

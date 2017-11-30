@@ -140,5 +140,20 @@ namespace CSC3045_CS2.Service
             return Execute<List<AcceptanceTest>>(request);
         }
 
+        /// Updates a particular User Story
+        /// </summary>
+        /// <param name="userStory">User Story to be updated</param>
+        /// <returns>Updated User Story</returns>
+        public UserStory UpdateUserStory(long projectId, long userStoryId, UserStory userStory)
+        {
+            var request = new RestRequest("/project/" + projectId + "/story/" + userStoryId, Method.PUT);
+            request.AddHeader("Content-Type", "application/json");
+            request.RequestFormat = DataFormat.Json;
+            request.AddBody(userStory);
+            SimpleJson.CurrentJsonSerializerStrategy = new CamelCaseSerializationStrategy();
+
+            return Execute<UserStory>(request);
+        }
+
     }
 }

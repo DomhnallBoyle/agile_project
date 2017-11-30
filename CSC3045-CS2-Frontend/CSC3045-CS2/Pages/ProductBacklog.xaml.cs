@@ -3,6 +3,8 @@ using CSC3045_CS2.Models;
 using CSC3045_CS2.Pages;
 using CSC3045_CS2.Service;
 using CSC3045_CS2.Utility;
+using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
@@ -43,6 +45,10 @@ namespace CSC3045_CS2
 
         public string CreateStoryButtonLabel { get; set; } = "Create Story";
 
+        public string UpdateStory { get; set; } = "Update";
+
+        public ObservableCollection<int> StoryPoints { get; set; } = new ObservableCollection<int>() { 0, 1, 2, 3, 5, 8, 13, 20, 40, 100 };
+
         #endregion
 
         public ProductBacklog(Project project)
@@ -66,6 +72,17 @@ namespace CSC3045_CS2
             {
                 MessageBoxUtil.ShowErrorBox(ex.Message);
             }
+        }
+
+        /// <summary>
+        /// Performs Regex Validation live on the TextBox's as data is entered
+        /// Ensures that only digits can be entered into the TextBox
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void NumberOnlyTextBoxValidation(object sender, TextCompositionEventArgs e)
+        {
+            Utility.Validation.NumberOnlyTextBoxValidation(e);
         }
 
         #region ICommands
@@ -132,25 +149,65 @@ namespace CSC3045_CS2
             }
         }
 
-        public ICommand ViewDetailsCommand
+        /// <summary>
+        /// Mouse up event on user story backlog
+        /// Clicking on user story will take the user to the Acceptance test page
+        /// </summary>
+        /// <param name="sender">ListBoxItem that is clicked</param>
+        /// <param name="e"></param>
+        private void PreviewMouseUp(object sender, MouseButtonEventArgs e)
+        {
+            UserStory selectedStory = (UserStory)(sender as ListBoxItem).DataContext;
+            Page userStoryDetailsPage = new UserStoryDetails(selectedStory);
+            NavigationService.GetNavigationService(this).Navigate(userStoryDetailsPage);
+        }
+
+        /// <summary>
+        /// Allows ScrumMaster's only to update the story points
+        /// of a User Story
+        /// </summary>
+        public ICommand UpdateStoryCommand
         {
             get
             {
                 return new RelayCommand(param =>
                 {
-                    UserStory selectedStory = (UserStory)param;
-                    Page userStoryDetailsPage = new UserStoryDetails(selectedStory);
-                    NavigationService.GetNavigationService(this).Navigate(userStoryDetailsPage);
+                    try
+                    {
+                        UserStory userStory = ((UserStory)param);
+                        _client.UpdateUserStory(userStory.Project.Id, userStory.Id, userStory);
+
+                        MessageBox.Show("User story updated successfully!");
+                    }
+                    catch (RestResponseErrorException ex)
+                    {
+                        MessageBoxUtil.ShowErrorBox(ex.Message);
+                    }
                 });
             }
         }
 
         #endregion
 
-        private void CreateStoryButton_Click(object sender, RoutedEventArgs e)
-        {
+        #region drag & drop functionality
 
+        /// <summary>
+        /// Method to run on mouse left click
+        /// Checks to see if a list box item was clicked 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        public void MouseLeftDown(object sender, MouseButtonEventArgs e)
+        {
+            if (sender is ListBoxItem && Permissions.ProductOwner)
+            {
+                ListBoxItem draggedItem = sender as ListBoxItem;
+                DragDrop.DoDragDrop(draggedItem, draggedItem.DataContext, DragDropEffects.Move);
+                draggedItem.IsSelected = true;
+            }
         }
+
+        #endregion      
     }
 
 
