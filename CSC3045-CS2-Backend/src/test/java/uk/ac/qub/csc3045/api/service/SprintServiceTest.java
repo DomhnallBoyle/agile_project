@@ -13,6 +13,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import uk.ac.qub.csc3045.api.exception.ResponseErrorException;
 import uk.ac.qub.csc3045.api.mapper.ProjectMapper;
 import uk.ac.qub.csc3045.api.mapper.SprintMapper;
+import uk.ac.qub.csc3045.api.model.Project;
 import uk.ac.qub.csc3045.api.model.Sprint;
 import uk.ac.qub.csc3045.api.model.User;
 import uk.ac.qub.csc3045.api.model.UserStory;
@@ -208,6 +209,7 @@ public class SprintServiceTest {
     
     @Test
     public void handleGetBacklogRequestSuccessful() {
+    	when(projectMapperMock.getProjectById(sprint.getProject().getId())).thenReturn(sprint.getProject());
         when(sprintMapperMock.getSprintStories(sprint.getId())).thenReturn(sprint.getUserStories());
         when(sprintMapperMock.getSprintById(sprint.getId())).thenReturn(sprint);
 

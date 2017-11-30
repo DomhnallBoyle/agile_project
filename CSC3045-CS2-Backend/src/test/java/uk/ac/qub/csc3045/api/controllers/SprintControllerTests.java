@@ -123,7 +123,7 @@ public class SprintControllerTests {
         when(sprintService.getSprintBacklog(sprint.getProject().getId(), sprint.getId())).thenReturn(sprint.getUserStories());
 
         //Act
-        ResponseEntity response = sprintController.getSprintStories(sprint.getProject().getId(), sprint.getId());
+        ResponseEntity response = sprintController.getSprintBacklog(sprint.getProject().getId(), sprint.getId());
 
         //Assert
         assertEquals(HttpStatus.OK, response.getStatusCode());

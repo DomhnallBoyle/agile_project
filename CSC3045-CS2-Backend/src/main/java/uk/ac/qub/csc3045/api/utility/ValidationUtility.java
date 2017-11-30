@@ -84,6 +84,7 @@ public class ValidationUtility {
     public static boolean validateProjectExists(long projectId, ProjectMapper mapper) {
         return (mapper.getProjectById(projectId) != null);
     }
+    
     /**
      * Validates that User Story with the specified User Story ID exists within the database
      * 

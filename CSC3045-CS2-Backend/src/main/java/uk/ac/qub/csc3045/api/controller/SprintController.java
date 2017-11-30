@@ -65,7 +65,7 @@ public class SprintController {
     }
 
     @GetMapping(value = "/{sprintId}/story")
-    public ResponseEntity<List<UserStory>> getSprintStories(@PathVariable("projectId") long projectId, @PathVariable("sprintId") long sprintId){
-    	return new ResponseEntity<List<UserStory>>(this.sprintService.getSprintStories(projectId, sprintId), HttpStatus.OK);
+    public ResponseEntity<List<UserStory>> getSprintBacklog(@PathVariable("projectId") long projectId, @PathVariable("sprintId") long sprintId){
+    	return new ResponseEntity<List<UserStory>>(this.sprintService.getSprintBacklog(projectId, sprintId), HttpStatus.OK);
     }
 }
