@@ -1,5 +1,6 @@
 package uk.ac.qub.csc3045.api.service;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.*;
 import static uk.ac.qub.csc3045.api.setup.UnitTestObjectGenerator.*;
@@ -14,7 +15,9 @@ import uk.ac.qub.csc3045.api.mapper.ProjectMapper;
 import uk.ac.qub.csc3045.api.mapper.SprintMapper;
 import uk.ac.qub.csc3045.api.model.Sprint;
 import uk.ac.qub.csc3045.api.model.User;
+import uk.ac.qub.csc3045.api.model.UserStory;
 import uk.ac.qub.csc3045.api.utility.ValidationUtility;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -201,6 +204,22 @@ public class SprintServiceTest {
 
         //Assert
         assertTrue(response.equals(newTeam));
+    }
+    
+    @Test
+    public void handleGetBacklogRequestSuccessful() {
+        when(sprintMapperMock.getSprintBacklog(sprint.getId())).thenReturn(sprint.getUserStories());
+        when(sprintMapperMock.getSprintById(sprint.getId())).thenReturn(sprint);
+
+        List<UserStory> response = sprintService.getSprintBacklog(sprint.getProject().getId(), sprint.getId());
+
+        assertEquals(sprint.getUserStories(), response);
+    }
+
+    @Test(expected = ResponseErrorException.class)
+    public void handleGetBacklogRequestFailure() {
+        when(sprintMapperMock.getSprintById(sprint.getId())).thenReturn(null);
+        sprintService.getSprintBacklog(sprint.getProject().getId(), sprint.getId());
     }
 
 }

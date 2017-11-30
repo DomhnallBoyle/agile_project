@@ -13,6 +13,7 @@
         <result column="points" property="points"/>
         <result column="market_value" property="marketValue"/>
         <association property="project" column="project_id" javaType="Project" select="selectProject"/>
+        <association property="sprint" column="sprint_id" javaType="Sprint" select="selectSprint"/>
         <collection property="acceptanceTests" column="id" javaType="List" ofType="AcceptanceTest" select="getAcceptanceTestsByStoryId"/>
     </resultMap>
     
@@ -94,6 +95,12 @@
         SELECT *
         FROM PROJECT
         WHERE project.id = #{user_story.project_id}
+    </select>
+    
+    <select id="selectSprint" resultMap="uk.ac.qub.csc3045.api.mapper.SprintMapper.sprintResultMap">
+        SELECT *
+        FROM SPRINT
+        WHERE sprint.id = #{user_story.sprint_id}
     </select>
 
 </mapper>
