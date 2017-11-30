@@ -29,6 +29,8 @@ namespace CSC3045_CS2.Models
 
         [DeserializeAs(Name = "users")]
         public List<User> Users { get; set; }
+        [DeserializeAs(Name = "userStories")]
+        public List<UserStory> UserStories { get; set; }
 
         public Sprint() { }
 

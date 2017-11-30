@@ -11,7 +11,7 @@
 
     <StackPanel>
 
-        
+
         <ContentControl  Template="{StaticResource Headers}" Name="Header" ></ContentControl>
         <Grid Margin ="20,20,20,0">
             <Grid.ColumnDefinitions >
@@ -27,7 +27,7 @@
                 <RowDefinition Height="50"/>
             </Grid.RowDefinitions>
             <TextBlock Text="{Binding SprintDetails}" Grid.ColumnSpan="2" HorizontalAlignment="Left" Grid.Column="0" Style="{StaticResource Label}" Foreground="Gold" Margin="20,0,0,15" />
-            
+
             <TextBlock Text="Sprint Team" Grid.Column="0" Style="{StaticResource Label}" Grid.Row="1" Foreground="Gold" HorizontalAlignment="Center" Margin="5,0,0,0" />
 
             <ListBox Name="SprintTeamListBox" Margin ="20,5,15,0" Style="{StaticResource DefaultListBox}" Grid.Row ="2" ScrollViewer.VerticalScrollBarVisibility="Visible" ItemsSource="{Binding CurrentSprint.Users}" Grid.Column="0" HorizontalContentAlignment="Center">
@@ -175,11 +175,21 @@
 
             <Button   Grid.Row ="5" Name="EditSprintTeam"
                 Content="Edit Team"
+                 Grid.Column="1"
                 Style="{StaticResource StandardButton}"
                 HorizontalAlignment="Center"
                 Command="{Binding NavigateToManageSprintsCommand}"
                 Visibility="{Binding Path=Permissions.ScrumMaster, Converter={StaticResource BoolToVisConverter}}"/>
-            <Button  Grid.Row ="5" Name="BackButton" Content="Back" Style="{StaticResource StandardButton}" HorizontalAlignment="Left" Grid.Column="2" Command="{Binding BackCommand}"/>
+            <Button  Grid.Row ="5" Name="BackButton" Content="Back" Style="{StaticResource StandardButton}" HorizontalAlignment="Left" Grid.Column="0" Command="{Binding BackCommand}"/>
+
+            <Button   Grid.Row ="5" Name="EditSprintBacklog"
+                Content="Edit Backlog"
+                Style="{StaticResource StandardButton}"
+                HorizontalAlignment="Right"
+                Grid.Column="1"
+                Command="{Binding NavigateToManageSprintBacklogCommand}"
+                Visibility="{Binding Path=Permissions.ScrumMaster, Converter={StaticResource BoolToVisConverter}}"/>
+
 
 
         </Grid>

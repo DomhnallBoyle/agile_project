@@ -84,6 +84,9 @@
     <Compile Include="Pages\CreateAcceptanceTest.xaml.cs">
       <DependentUpon>CreateAcceptanceTest.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Pages\EditSprintBacklog.xaml.cs">
+      <DependentUpon>EditSprintBacklog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\EditSprintTeam.xaml.cs">
       <DependentUpon>EditSprintTeam.xaml</DependentUpon>
     </Compile>
@@ -151,6 +154,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Pages\CreateAcceptanceTest.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\EditSprintBacklog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
