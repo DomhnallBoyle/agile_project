@@ -26,6 +26,11 @@ namespace AutomationTests.PageTemplates
             get { return MainWindow.Get<ListBox>("UserStoryAcceptanceTests"); }
         }
 
+        public Label StoryNameTextBlock
+        {
+            get { return MainWindow.Get<Label>("StoryNameTextBlock"); }
+        }
+
     }
 
     
