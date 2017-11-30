@@ -25,7 +25,6 @@ public class Sprint {
     private List<User> users;
     
     private List<UserStory> userStories;
-    
 
     public Sprint() {
 
