@@ -47,6 +47,16 @@ namespace AutomationTests.PageTemplates
             return PageTitle.Text.Equals("Project Dashboard");
         }
 
+        public Button CreateProjectButton
+        {
+            get { return MainWindow.Get<Button>("CreateProjectButton"); }
+        }
+
+        public Button ProductBacklogButton
+        {
+            get { return MainWindow.Get<Button>("ProductBacklogButton"); }
+        }
+
         public WPFListItem GetTeamMemberListItem(string fullName)
         {
             try

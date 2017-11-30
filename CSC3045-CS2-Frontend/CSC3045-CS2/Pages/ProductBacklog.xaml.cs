@@ -145,7 +145,12 @@ namespace CSC3045_CS2
             }
         }
 
-        #endregion      
+        #endregion
+
+        private void CreateStoryButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 
 

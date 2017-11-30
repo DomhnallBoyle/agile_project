@@ -77,7 +77,7 @@
 
             <Button Grid.Column="2" Name="CreateStoryButton" Content="Create Story" Width="125"
                     Command="{Binding CreateStoryCommand}" Style="{StaticResource StandardButton}"
-                    Visibility="{Binding Permissions.ProductOwner, Converter={StaticResource BoolToVisConverter}}"/>
+                    Visibility="{Binding Permissions.ProductOwner, Converter={StaticResource BoolToVisConverter}}" Click="CreateStoryButton_Click"/>
         </Grid>
     </StackPanel>
 </local:BasePage>
