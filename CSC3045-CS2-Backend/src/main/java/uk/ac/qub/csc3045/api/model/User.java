@@ -1,6 +1,8 @@
 package uk.ac.qub.csc3045.api.model;
 
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
 import java.util.List;
 
 public class User {
@@ -8,14 +10,18 @@ public class User {
     private Long id;
 
     @NotNull
+    @Size(max=35)
     private String forename;
 
     @NotNull
+    @Size(max=35)
     private String surname;
 
     @NotNull
+    @Size(max=255)
     private String email;
     
+    @Size(max=260)
     private String profilePicture;
 
     private Roles roles = new Roles();
