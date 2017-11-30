@@ -10,7 +10,8 @@ using System.Windows.Navigation;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using CSC3045_CS2.Exception;
-
+using OxyPlot;
+using OxyPlot.Series;
 
 namespace CSC3045_CS2.Pages
 {
@@ -45,6 +46,13 @@ namespace CSC3045_CS2.Pages
             }
         }
 
+        private PlotModel plotModel;
+        public PlotModel PlotModel
+        {
+            get { return plotModel; }
+            set { plotModel = value; OnPropertyChanged("PlotModel"); }
+        }
+
         #endregion
 
         public SprintDashboard(Sprint sprint, bool fromFile)
@@ -64,7 +72,17 @@ namespace CSC3045_CS2.Pages
 
             CurrentSprint = sprint;
 
-            SprintDetails = string.Format("Name: {0}, Start Date: {1}, End Date: {2}", CurrentSprint.Name, CurrentSprint.StartDate, CurrentSprint.EndDate); 
+            SprintDetails = string.Format("Name: {0}, Start Date: {1}, End Date: {2}", CurrentSprint.Name, CurrentSprint.StartDate, CurrentSprint.EndDate);
+
+            PlotModel = new PlotModel { Title = "Burndown Chart" };
+            int[] x = { 1, 2, 3,4,5,6,7,8,9,10 };
+            int[] y = { 100, 200, 300, 400, 500, 600, 700, 800, 900, 1000 };
+            LineSeries lineSeries = new LineSeries();
+            for(int i = 0; i < x.Length; i++)
+            {
+                lineSeries.Points.Add(new DataPoint(x[i], y[i]));
+            }
+            PlotModel.Series.Add(lineSeries);
         }
 
         /// <summary>

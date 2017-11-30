@@ -4,7 +4,8 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:CSC3045_CS2.Pages"
-      mc:Ignorable="d" 
+                xmlns:oxy="http://oxyplot.org/wpf"
+                mc:Ignorable="d" 
       Background="{StaticResource BackgroundGradient}"
       d:DesignHeight="900" d:DesignWidth="1280"
       Title="Sprint Dashboard">
@@ -114,6 +115,10 @@
                 </ListBox.ItemTemplate>
             </ListBox>
 
+
+            <oxy:PlotView x:Name="Plot1"  Model="{Binding PlotModel}" Grid.Row="4" Grid.Column="0" Margin ="20,5,15,0"/>
+
+            
             <TextBlock Text="User Stories Tasks" Grid.Column="1" Grid.Row="3" Style="{StaticResource Label}" Foreground="Gold" HorizontalAlignment="Center" Margin="5,0,0,0" />
             <ListBox Name="StoryTasks" Style="{StaticResource DefaultListBox}" Margin ="0,5,15,0"  Grid.Row ="4" Grid.Column="1" ScrollViewer.VerticalScrollBarVisibility="Visible" ItemsSource="{Binding Tasks}" HorizontalContentAlignment="Center">
                 <ListBox.ItemTemplate>
