@@ -22,7 +22,7 @@ namespace AutomationTests.Tests.AcceptanceTest
         private CreateAcceptanceTestPage _createAcceptanceTestPage;
 
         [OneTimeSetUp]
-        public void OneTimeSetupLogin()
+        public void OneTimeSetup()
         {
             _userDashboardPage = new UserDashboardPage(MainWindow);
             _projectDashboardPage = new ProjectDashboardPage(MainWindow);
@@ -69,21 +69,19 @@ namespace AutomationTests.Tests.AcceptanceTest
             MessageBoxUtil.ClickOKButton(messageBox);
 
             var UserStoryAcceptanceTests = (WPFListItem)_userStoryDetailsPage.UserStoryAcceptanceTests.Items.Find(item => "e2eGiven1".Equals(item.Text));
+
+            _userStoryDetailsPage.CreateAcceptanceTestButton.Click();
         }
 
         [Test]
         public void ShouldSuccessfullyAccessCreateAAcceptanceTestAndCancel()
         {
-            _userStoryDetailsPage.CreateAcceptanceTestButton.Click();
-
             _createAcceptanceTestPage.CancelButton.Click();
         }
 
         [Test]
         public void ShouldFailCreatingAnAcceptanceTestWithEmptyGiven()
         {
-            _userStoryDetailsPage.CreateAcceptanceTestButton.Click();
-
             _createAcceptanceTestPage.enterEmptyGivenAcceptanceDetails("e2eWhen2", "e2eThen2");
 
             _createAcceptanceTestPage.CreateButton.Click();
@@ -97,8 +95,6 @@ namespace AutomationTests.Tests.AcceptanceTest
         [Test]
         public void ShouldFailCreatingAnAcceptanceTestWithEmptyWhen()
         {
-            _userStoryDetailsPage.CreateAcceptanceTestButton.Click();
-
             _createAcceptanceTestPage.enterEmptyWhenAcceptanceDetails("e2eGiven3", "e2eThen3");
 
             _createAcceptanceTestPage.CreateButton.Click();
@@ -112,8 +108,6 @@ namespace AutomationTests.Tests.AcceptanceTest
         [Test]
         public void ShouldFailCreatingAnAcceptanceTestWithEmptyThen()
         {
-            _userStoryDetailsPage.CreateAcceptanceTestButton.Click();
-
             _createAcceptanceTestPage.enterEmptyThenAcceptanceDetails("e2eGiven4", "e2eWhen4");
 
             _createAcceptanceTestPage.CreateButton.Click();
