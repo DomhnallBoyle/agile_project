@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import uk.ac.qub.csc3045.api.exception.ResponseErrorException;
 import uk.ac.qub.csc3045.api.model.Sprint;
 import uk.ac.qub.csc3045.api.model.User;
+import uk.ac.qub.csc3045.api.model.UserStory;
 import uk.ac.qub.csc3045.api.service.SprintService;
 
 import javax.validation.Valid;
@@ -56,5 +57,15 @@ public class SprintController {
     @GetMapping(value = "{sprintId}/user/available")
     public ResponseEntity<List<User>> getAvailableDevelopers(@PathVariable("projectId") long projectId, @PathVariable("sprintId") long sprintId) {
         return new ResponseEntity<>(this.sprintService.getAvailableDevelopers(projectId, sprintId), HttpStatus.OK);
+    }
+    
+    @PutMapping(value = "/{sprintId}/story")
+    public ResponseEntity<List<UserStory>> updateSprintBacklog(@PathVariable("projectId") long projectId, @Valid @RequestBody Sprint sprint) {
+        return new ResponseEntity<>(this.sprintService.updateSprintBacklog(projectId, sprint), HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/{sprintId}/story")
+    public ResponseEntity<List<UserStory>> getSprintBacklog(@PathVariable("projectId") long projectId, @PathVariable("sprintId") long sprintId){
+    	return new ResponseEntity<List<UserStory>>(this.sprintService.getSprintBacklog(projectId, sprintId), HttpStatus.OK);
     }
 }

@@ -92,6 +92,27 @@ namespace CSC3045_CS2.Pages
             return valid;
         }
 
+        private int SetMarketValue()
+        {
+            int marketValue;
+            if (int.TryParse(StoryMarketValueTextBox.Text, out marketValue)) {
+                return marketValue;
+            }
+            return int.MaxValue;
+        }
+
+        /// <summary>
+        /// Performs Regex Validation live on the TextBox's as data is entered
+        /// Ensures that only digits can be entered into the TextBox
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void NumberOnlyTextBoxValidation(object sender, TextCompositionEventArgs e)
+        {
+            Regex regex = new Regex("[^0-9]+");
+            e.Handled = regex.IsMatch(e.Text);
+        }
+
         #endregion
 
         #region Command Methods
@@ -117,10 +138,12 @@ namespace CSC3045_CS2.Pages
                 {
                     if (CheckFields())
                     {
+                        int marketValue = SetMarketValue();
+
                         UserStory userStory = new UserStory(
                                 StoryNameTextBox.Text,
                                 StoryDescriptionTextBox.Text,
-                                int.Parse(StoryMarketValueTextBox.Text),
+                                marketValue,
                                 _currentProject);
 
                         try
@@ -140,22 +163,6 @@ namespace CSC3045_CS2.Pages
                     }
                 });
             }
-        }
-
-        #endregion
-
-        #region Private Methods
-
-        /// <summary>
-        /// Performs Regex Validation live on the TextBox's as data is entered
-        /// Ensures that only digits can be entered into the TextBox
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void NumberOnlyTextBoxValidation(object sender, TextCompositionEventArgs e)
-        {
-            Regex regex = new Regex("[^0-9]+");
-            e.Handled = regex.IsMatch(e.Text);
         }
 
         #endregion

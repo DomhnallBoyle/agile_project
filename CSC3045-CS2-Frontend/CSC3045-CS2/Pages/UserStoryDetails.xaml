@@ -5,74 +5,64 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:CSC3045_CS2.Pages"
       mc:Ignorable="d" 
-      d:DesignHeight="300" d:DesignWidth="300"
+      d:DesignHeight="900" d:DesignWidth="1280"
       Background="{StaticResource BackgroundGradient}"
-    Title="User Story Dashboard">
+      Title="Acceptance Tests">
 
-    <StackPanel>
-        <ContentControl  Template="{StaticResource Headers}" Name="Header" ></ContentControl>
+    <StackPanel Width="800" Margin="0,75,0,0">
+        <ContentControl Template="{StaticResource Headers}" Name="Header"/>
 
-        <Grid Margin="10,0,0,0">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
-            </Grid.RowDefinitions>
+        <TextBlock Name="StoryNameTextBlock" HorizontalAlignment="Center" Style="{StaticResource Header}"  Text="{Binding CurrentUserStory.Name}"/>
 
-            <Grid Grid.Row="0">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="2*"/>
-                    <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
 
-                <Button Grid.Row="0" Grid.Column="0" Content="Add Acceptance Test" Style="{StaticResource StandardButton}"
-                    Command="{Binding GoToCreateAcceptanceTestCommand}"
-                    Visibility="{Binding Permissions.ProductOwner, Converter={StaticResource BoolToVisConverter}}" Margin="0,0,0,35" Width="Auto">
-                </Button>
+            <Button Grid.Column="0" Name="BackButton" Content="Back" Command="{Binding GoToProductBacklogCommand}"
+                    Style="{StaticResource StandardButton}" HorizontalAlignment="Right" Width="175" Margin="0,0,15,0"/>
+            <Button Grid.Column="1" Name="CreateAcceptanceTestButton" Content="Create Acceptance Test" Command="{Binding GoToCreateAcceptanceTestCommand}"
+                    Style="{StaticResource StandardButton}" HorizontalAlignment="Left" Width="175" Margin="15,0,0,0"
+                    Visibility="{Binding Permissions.ProductOwner, Converter={StaticResource BoolToVisConverter}}">
+            </Button>
+        </Grid>
 
-                <Button Grid.Column="1" Content="Back" Style="{StaticResource StandardButton}" HorizontalAlignment="Center" Margin="0,0,10,35" Command="{Binding GoToProductBacklogCommand}" IsDefault="True"/>
-            </Grid>
+        <Grid Margin="0,12,0,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="0.5*"/>
+            </Grid.ColumnDefinitions>
 
-            <TextBlock Grid.Row="1" Text="Acceptance Tests" TextAlignment="Center" FontWeight="Bold" Style="{StaticResource Label}" FontSize="16" Margin="10"></TextBlock>
+            <TextBlock Grid.Column="0" Name="GivenLabelBlock" Text="Given" TextAlignment="Center" Style="{StaticResource Header}"/>
+            <TextBlock Grid.Column="1" Name="WhenLabelBlock" Text="When" TextAlignment="Center" Style="{StaticResource Header}"/>
+            <TextBlock Grid.Column="2" Name="ThenLabelBlock" Text="Then" TextAlignment="Center" Style="{StaticResource Header}"/>
+            <TextBlock Grid.Column="3" Name="CompleteLabelBlock" Text="Complete" TextAlignment="Center" Style="{StaticResource Header}"/>
+        </Grid>
 
-            <Grid Grid.Row="2">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions>
-
-                <TextBlock Grid.Column="0" Text="Given" TextAlignment="Center" FontWeight="Bold" Style="{StaticResource Label}" FontSize="12" Margin="10,41,10,10" Grid.Row="2"></TextBlock>
-                <TextBlock Grid.Column="1" Text="When" TextAlignment="Center" FontWeight="Bold" Style="{StaticResource Label}" FontSize="12" Margin="10,41,10,10" Grid.Row="2"></TextBlock>
-                <TextBlock Grid.Column="2" Text="Then" TextAlignment="Center" FontWeight="Bold" Style="{StaticResource Label}" FontSize="12" Margin="10,41,10,10" Grid.Row="2"></TextBlock>
-                <TextBlock Grid.Column="3" Text="Complete" TextAlignment="Center" FontWeight="Bold" Style="{StaticResource Label}" FontSize="12" Margin="10,41,10,10" Grid.Row="2"></TextBlock>
-            </Grid>
-
-            <ListBox Grid.Row="3" Name="UserStoryAcceptanceTests" HorizontalContentAlignment="Stretch">
+        <Grid Height="500">
+            <ListBox Grid.Row="3" Name="UserStoryAcceptanceTests" HorizontalContentAlignment="Stretch" Style="{StaticResource DefaultListBox}">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="*"/>
-                            </Grid.ColumnDefinitions>
-                            <TextBlock Grid.Column="0" Text="{Binding Given}" Margin="10" FontWeight="Bold" FontSize="12" HorizontalAlignment="Center"/>
-                           
-                            <TextBlock Grid.Column="1" Text="{Binding When}" Margin="10" FontWeight="Bold" FontSize="12" HorizontalAlignment="Center"/>
-                            
-                            <TextBlock Grid.Column="2" Text="{Binding Then}" Margin="10" FontWeight="Bold" FontSize="12" HorizontalAlignment="Center"/>
+                        <StackPanel Orientation="Horizontal" Margin="0,15,0,0">
+                            <TextBlock Name="GivenTextBlock" Text="{Binding Given}" Style="{StaticResource ButtonLabel}" Width="210" TextWrapping="Wrap"/>
 
-                            <CheckBox Grid.Column="3"
-                                              IsChecked="{Binding Completed}"
-                                              HorizontalAlignment="Center"
-                                              Margin="10" 
-                                              Command="{Binding RelativeSource={RelativeSource AncestorType={x:Type Page}}, Path=DataContext.UpdateCommand}"
-                                              CommandParameter="{Binding}"/>
-                        </Grid>
+                            <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" Margin="10,0,10,0"/>
+
+                            <TextBlock Name="WhenTextBlock" Text="{Binding When}" Style="{StaticResource ButtonLabel}" Width="210" TextWrapping="Wrap"/>
+
+                            <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" Margin="10,0,10,0"/>
+
+                            <TextBlock Name="ThenTextBlock" Text="{Binding Then}" Style="{StaticResource ButtonLabel}" Width="210" TextWrapping="Wrap"/>
+
+                            <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" Margin="10,0,10,0"/>
+
+                            <CheckBox Name="CompletedCheckBox" IsChecked="{Binding Completed}" VerticalAlignment="Center" Margin="35,0,0,0"
+                                        Command="{Binding RelativeSource={RelativeSource AncestorType={x:Type Page}}, Path=DataContext.UpdateCommand}"
+                                        CommandParameter="{Binding}"/>
+                        </StackPanel>
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>
