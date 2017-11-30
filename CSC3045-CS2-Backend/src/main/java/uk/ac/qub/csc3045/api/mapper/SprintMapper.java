@@ -1,14 +1,13 @@
 package uk.ac.qub.csc3045.api.mapper;
 
 import java.time.LocalDateTime;
-import java.util.Date;
+
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
-import uk.ac.qub.csc3045.api.model.Project;
 import uk.ac.qub.csc3045.api.model.Sprint;
 import uk.ac.qub.csc3045.api.model.User;
 import uk.ac.qub.csc3045.api.model.UserStory;
@@ -25,7 +24,7 @@ public interface SprintMapper {
     
     List<User> getSprintTeam(@Param("sprintId") long sprintId);
     
-    List<UserStory> getSprintBacklog(@Param("sprintId") long sprintId);
+    List<UserStory> getSprintStories(@Param("sprintId")long sprintId);
 
     List<Sprint> getClashingSprintsForUser(@Param("userId") long userId, @Param("startDate") LocalDateTime startDate, @Param("endDate") LocalDateTime endDate);
 

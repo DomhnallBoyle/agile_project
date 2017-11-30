@@ -14,7 +14,11 @@
     </resultMap>
     
     <!-- SELECT Queries -->
-    
+
+     <select id="getSprintStories" resultMap="uk.ac.qub.csc3045.api.mapper.UserStoryMapper.userStoryResultMap">
+        SELECT * FROM USER_STORY WHERE USER_STORY.SPRINT_ID = #{sprintId}
+    </select>
+
     <select id="getProjectSprints" resultMap="sprintResultMap">
         SELECT
             SPRINT.ID   AS ID,
@@ -127,14 +131,9 @@
             JOIN roles ON roles_id = roles.id
         WHERE user.id = #{sprint.scrum_master_id}
     </select>
-    
-    <select id="selectProject" resultMap="uk.ac.qub.csc3045.api.mapper.ProjectMapper.simpleProjectResultMap">
-        SELECT
-            ID,
-            NAME,
-            DESCRIPTION,
-            MANAGER_ID,
-            PRODUCT_OWNER_ID
+
+    <select id="selectProject" resultMap="uk.ac.qub.csc3045.api.mapper.ProjectMapper.projectResultMap">
+        SELECT *
         FROM PROJECT
         WHERE ID = #{sprint.project_id}
     </select>

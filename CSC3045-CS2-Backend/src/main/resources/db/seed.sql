@@ -108,7 +108,6 @@ INSERT INTO PROJECT_USER (PROJECT_ID, USER_ID) VALUES (4, 10);
 INSERT INTO PROJECT_USER (PROJECT_ID, USER_ID) VALUES (4, 6);
 INSERT INTO PROJECT_USER (PROJECT_ID, USER_ID) VALUES (6, 15);
 
-
 INSERT INTO SPRINT (PROJECT_ID, NAME, START_DATE, END_DATE, SCRUM_MASTER_ID) -- id: 1
 VALUES (1, 'Sprint 1 - Compression', DATEADD('WEEK', 4, CURRENT_DATE), DATEADD('WEEK', 6, CURRENT_DATE), 2);
 INSERT INTO SPRINT (PROJECT_ID, NAME, START_DATE, END_DATE, SCRUM_MASTER_ID) -- id: 2
@@ -136,6 +135,8 @@ VALUES ('Auto-sync photos', 'Auto-synchronisation should be an option to automat
 INSERT INTO USER_STORY (NAME, DESCRIPTION, INDEX, POINTS, MARKET_VALUE, PROJECT_ID) -- id: 4
 VALUES ('Offline mode', 'Saving files locally via the app to be access offline.', 3, 5, 15, 1);
 
+INSERT INTO TASK (USER_STORY_ID, ASSIGNEE_ID, NAME, DESCRIPTION, INITIAL_ESTIMATE) VALUES (1,1,'Compress the File','Compressing Task',5);
+INSERT INTO TASK (USER_STORY_ID, ASSIGNEE_ID, NAME, DESCRIPTION, INITIAL_ESTIMATE) VALUES (1,2,'Upload the File','Uploading the File',15);
 
 INSERT INTO ACCEPTANCE_TEST (GIVEN, WHEN, THEN, USER_STORY_ID) -- id: 1
 VALUES ('The user has selected a file', 'The user tries to upload it', 'The file should be compressed and uploaded', 1);

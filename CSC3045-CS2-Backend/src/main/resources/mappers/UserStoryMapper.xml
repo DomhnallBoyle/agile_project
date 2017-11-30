@@ -100,7 +100,7 @@
     <select id="selectSprint" resultMap="uk.ac.qub.csc3045.api.mapper.SprintMapper.sprintResultMap">
         SELECT *
         FROM SPRINT
-        WHERE sprint.id = #{user_story.sprint_id}
+        WHERE sprint.id = #{sprint.id}
     </select>
 
 </mapper>
