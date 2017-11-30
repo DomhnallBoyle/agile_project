@@ -64,6 +64,7 @@
     <Compile Include="PageTemplates\ProductBacklogPage.cs" />
     <Compile Include="PageTemplates\ProjectDashboardPage.cs" />
     <Compile Include="PageTemplates\UserDashboardPage.cs" />
+    <Compile Include="PageTemplates\UserStoryDetailsPage.cs" />
     <Compile Include="Tests\AcceptanceTest\CreateAcceptanceTest.cs" />
     <Compile Include="Tests\Authentication\Login.cs" />
     <Compile Include="Tests\Authentication\Registration.cs" />
@@ -74,7 +75,9 @@
     <Compile Include="Tests\Project\ProjectDashboardManagerActions.cs" />
     <Compile Include="Tests\Project\ProjectDashboardNonManagerActions.cs" />
     <Compile Include="Tests\Sprint\CreateSprint.cs" />
-    <Compile Include="Tests\UserStory\CreateUserStory.cs" />
+    <Compile Include="Tests\UserStory\CreateUserStoryAsNonProductOwner.cs" />
+    <Compile Include="Tests\UserStory\CreateUserStoryAsProductOwner.cs" />
+    <Compile Include="Tests\UserStory\UserStoryDetails.cs" />
     <Compile Include="Util\MessageBoxUtil.cs" />
   </ItemGroup>
   <ItemGroup>

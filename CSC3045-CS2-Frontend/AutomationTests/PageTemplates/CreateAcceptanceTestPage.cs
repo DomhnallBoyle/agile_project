@@ -5,10 +5,13 @@ namespace AutomationTests.PageTemplates
 {
     public class CreateAcceptanceTestPage : BasePage
     {
-    
+
+        public CreateAcceptanceTestPage(Window window) : base(window)
+        { }
+
         public override bool IsCurrentPage()
         {
-            return PageTitle.Text.Equals("");
+            return PageTitle.Text.Equals("Create Acceptance Test");
         }
 
         public Button CreateButton
@@ -39,16 +42,16 @@ namespace AutomationTests.PageTemplates
         public void enterCorrectAcceptanceDetails(string given, string when, string then)
         {
             GivenTextBox.Text = given;
-            whenTextBox.Text = when;
-            thenTextBox.Text = then;
+            WhenTextBox.Text = when;
+            ThenTextBox.Text = then;
 
             CreateButton.Click();
         }
 
         public void enterEmptyGivenAcceptanceDetails(string when, string then)
         {
-            whenTextBox.Text = when;
-            thenTextBox.Text = then;
+            WhenTextBox.Text = when;
+            ThenTextBox.Text = then;
 
             CreateButton.Click();
         }
@@ -56,7 +59,7 @@ namespace AutomationTests.PageTemplates
         public void enterEmptyWhenAcceptanceDetails(string given, string then)
         {
             GivenTextBox.Text = given;
-            thenTextBox.Text = then;
+            ThenTextBox.Text = then;
 
             CreateButton.Click();
         }
@@ -64,7 +67,7 @@ namespace AutomationTests.PageTemplates
         public void enterEmptyThenAcceptanceDetails(string given, string when)
         {
             GivenTextBox.Text = given;
-            whenTextBox.Text = when;
+            WhenTextBox.Text = when;
 
             CreateButton.Click();
         }

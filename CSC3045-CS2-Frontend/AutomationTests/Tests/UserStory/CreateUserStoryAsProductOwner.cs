@@ -23,12 +23,8 @@ namespace AutomationTests.Tests.UserStory
             _projectDashboardPage = new ProjectDashboardPage(MainWindow);
             _productBacklogPage = new ProductBacklogPage(MainWindow);
             _createUserStoryPage = new CreateUserStoryPage(MainWindow);
-        }
 
-        [Test]
-        public void ShouldSuccessfullyCreateAUserStoryAsAProductOwner()
-        {          
-            LoginPage.Login("user2@e2e.com", "Aut0mation");
+            LoginPage.Login("user3@e2e.com", "Aut0mation");
             Assert.IsTrue(_userDashboardPage.IsCurrentPage());
 
             var projectListItem = (WPFListItem)_userDashboardPage.ProjectListBox.Items.Find(item => "e2eProjectName1".Equals(item.Text));
@@ -36,12 +32,14 @@ namespace AutomationTests.Tests.UserStory
 
             Assert.IsTrue(_projectDashboardPage.IsCurrentPage());
 
-            Assert.AreEqual("e2eForename2 e2eSurname2", _projectDashboardPage.ProjectManagerNameTextBlock.Text);
-
             _projectDashboardPage.ProductBacklogButton.Click();
 
             Assert.IsTrue(_productBacklogPage.IsCurrentPage());
+        }
 
+        [Test]
+        public void ShouldSuccessfullyCreateAUserStoryAsAProductOwner()
+        {                  
             _productBacklogPage.CreateStoryButton.Click();
 
             _createUserStoryPage.enterCorrectStoryDetails("e2eUserStory1", "10", "e2eDescription");
@@ -54,20 +52,6 @@ namespace AutomationTests.Tests.UserStory
         [Test]
         public void ShouldSuccessfullyAccessCreateAUserStoryAndCancel()
         {
-            LoginPage.Login("user2@e2e.com", "Aut0mation");
-            Assert.IsTrue(_userDashboardPage.IsCurrentPage());
-
-            var projectListItem = (WPFListItem)_userDashboardPage.ProjectListBox.Items.Find(item => "e2eProjectName1".Equals(item.Text));
-            projectListItem.Click();
-
-            Assert.IsTrue(_projectDashboardPage.IsCurrentPage());
-
-            Assert.AreEqual("e2eForename2 e2eSurname2", _projectDashboardPage.ProjectManagerNameTextBlock.Text);
-
-            _projectDashboardPage.ProductBacklogButton.Click();
-
-            Assert.IsTrue(_productBacklogPage.IsCurrentPage());
-
             _productBacklogPage.CreateStoryButton.Click();
 
             _createUserStoryPage.CancelButton.Click();
@@ -78,20 +62,6 @@ namespace AutomationTests.Tests.UserStory
         [Test]
         public void ShouldFailCreatingAUserStoryWithEmptyName()
         {
-            LoginPage.Login("user2@e2e.com", "Aut0mation");
-            Assert.IsTrue(_userDashboardPage.IsCurrentPage());
-
-            var projectListItem = (WPFListItem)_userDashboardPage.ProjectListBox.Items.Find(item => "e2eProjectName1".Equals(item.Text));
-            projectListItem.Click();
-
-            Assert.IsTrue(_projectDashboardPage.IsCurrentPage());
-
-            Assert.AreEqual("e2eForename2 e2eSurname2", _projectDashboardPage.ProjectManagerNameTextBlock.Text);
-
-            _projectDashboardPage.ProductBacklogButton.Click();
-
-            Assert.IsTrue(_productBacklogPage.IsCurrentPage());
-
             _productBacklogPage.CreateStoryButton.Click();
 
             _createUserStoryPage.enterEmptyNameStoryDetails("10", "e2eDescription");
@@ -105,20 +75,6 @@ namespace AutomationTests.Tests.UserStory
         [Test]
         public void ShouldFailCreatingAUserStoryWithEmptyDescription()
         {
-            LoginPage.Login("user2@e2e.com", "Aut0mation");
-            Assert.IsTrue(_userDashboardPage.IsCurrentPage());
-
-            var projectListItem = (WPFListItem)_userDashboardPage.ProjectListBox.Items.Find(item => "e2eProjectName1".Equals(item.Text));
-            projectListItem.Click();
-
-            Assert.IsTrue(_projectDashboardPage.IsCurrentPage());
-
-            Assert.AreEqual("e2eForename2 e2eSurname2", _projectDashboardPage.ProjectManagerNameTextBlock.Text);
-
-            _projectDashboardPage.ProductBacklogButton.Click();
-
-            Assert.IsTrue(_productBacklogPage.IsCurrentPage());
-
             _productBacklogPage.CreateStoryButton.Click();
 
             _createUserStoryPage.enterEmptyNameStoryDetails("e2eUserStory", "10");
@@ -132,20 +88,6 @@ namespace AutomationTests.Tests.UserStory
         [Test]
         public void ShouldFailCreatingAUserStoryWithEmptyMarketValue()
         { 
-            LoginPage.Login("user2@e2e.com", "Aut0mation");
-            Assert.IsTrue(_userDashboardPage.IsCurrentPage());
-
-            var projectListItem = (WPFListItem)_userDashboardPage.ProjectListBox.Items.Find(item => "e2eProjectName1".Equals(item.Text));
-            projectListItem.Click();
-
-            Assert.IsTrue(_projectDashboardPage.IsCurrentPage());
-
-            Assert.AreEqual("e2eForename2 e2eSurname2", _projectDashboardPage.ProjectManagerNameTextBlock.Text);
-
-            _projectDashboardPage.ProductBacklogButton.Click();
-
-            Assert.IsTrue(_productBacklogPage.IsCurrentPage());
-
             _productBacklogPage.CreateStoryButton.Click();
 
             _createUserStoryPage.enterEmptyDescriptionStoryDetails("e2eUserStory", "e2eDesciption");
@@ -159,20 +101,6 @@ namespace AutomationTests.Tests.UserStory
         [Test]
         public void ShouldFailCreatingAUserStoryWithTextMarketValue()
         {
-            LoginPage.Login("user2@e2e.com", "Aut0mation");
-            Assert.IsTrue(_userDashboardPage.IsCurrentPage());
-
-            var projectListItem = (WPFListItem)_userDashboardPage.ProjectListBox.Items.Find(item => "e2eProjectName1".Equals(item.Text));
-            projectListItem.Click();
-
-            Assert.IsTrue(_projectDashboardPage.IsCurrentPage());
-
-            Assert.AreEqual("e2eForename2 e2eSurname2", _projectDashboardPage.ProjectManagerNameTextBlock.Text);
-
-            _projectDashboardPage.ProductBacklogButton.Click();
-
-            Assert.IsTrue(_productBacklogPage.IsCurrentPage());
-
             _productBacklogPage.CreateStoryButton.Click();
 
             _createUserStoryPage.enterEmptyNameStoryDetails("Ten", "e2eDescription");
@@ -183,5 +111,6 @@ namespace AutomationTests.Tests.UserStory
             MessageBoxUtil.ClickOKButton(messageBox);
         }
 
+   
     }
 }
