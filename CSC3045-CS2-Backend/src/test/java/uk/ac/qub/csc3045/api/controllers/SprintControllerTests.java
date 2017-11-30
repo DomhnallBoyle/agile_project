@@ -120,10 +120,10 @@ public class SprintControllerTests {
     @Test
     public void getSprintBacklogShouldReturn200OnSuccess() {
         //Arrange
-        when(sprintService.getSprintBacklog(sprint.getId())).thenReturn(sprint.getUserStories());
+        when(sprintService.getSprintBacklog(sprint.getProject().getId(), sprint.getId())).thenReturn(sprint.getUserStories());
 
         //Act
-        ResponseEntity response = sprintController.getSprintBacklog(sprint.getId());
+        ResponseEntity response = sprintController.getSprintBacklog(sprint.getProject().getId(), sprint.getId());
 
         //Assert
         assertEquals(HttpStatus.OK, response.getStatusCode());
@@ -133,10 +133,10 @@ public class SprintControllerTests {
     @Test
     public void updateSprintBacklogShouldReturn200OnSuccess() {
         //Arrange
-        when(sprintService.updateSprintBacklog(sprint)).thenReturn(sprint.getUserStories());
+        when(sprintService.updateSprintBacklog(sprint.getProject().getId(), sprint)).thenReturn(sprint.getUserStories());
 
         //Act
-        ResponseEntity response = sprintController.updateSprintBacklog(sprint);
+        ResponseEntity response = sprintController.updateSprintBacklog(sprint.getProject().getId(), sprint);
 
         //Assert
         assertEquals(HttpStatus.OK, response.getStatusCode());

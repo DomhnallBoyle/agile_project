@@ -84,11 +84,15 @@ public class SprintService {
     	}
     }
 
-    public List<UserStory> getSprintBacklog(long sprintId) {
-        if (ValidationUtility.validateSprintExists(sprintId, sprintMapper)) {
-            return sprintMapper.getSprintBacklog(sprintId);
-        }
+    public List<UserStory> getSprintBacklog(long projectId, long sprintId) {
+    	if (ValidationUtility.validateProjectExists(projectId, projectMapper)) {
+	        if (ValidationUtility.validateSprintExists(sprintId, sprintMapper)) {
+	            return sprintMapper.getSprintBacklog(sprintId);
+	        }
         throw new ResponseErrorException("Sprint does not exist", HttpStatus.NOT_FOUND);
+    	}else {
+    		throw new ResponseErrorException("Project Id does not exists in the database", HttpStatus.NOT_FOUND);
+    	}
     }
     
     public List<User> getAvailableDevelopers(long projectId, long sprintId) {
@@ -153,21 +157,24 @@ public class SprintService {
     	}
     }
     
-    public List<UserStory> updateSprintBacklog(Sprint sprint) {
-    	if (ValidationUtility.validateSprintExists(sprint.getId(), sprintMapper)) {
-	        sprintMapper.resetSprintBacklog(sprint.getId());
-	        for (UserStory userStory : sprint.getUserStories()) {
-	        	if(sprint.getId() == userStory.getId()) {
-	        		sprintMapper.addToSprintBacklog(sprint.getId(), userStory.getId());
-	        	}else {
-	        		throw new ResponseErrorException("Sprint and user story aren't in same Project", HttpStatus.NOT_FOUND);
-	        	}	        	
-	        }
-		       List<UserStory> newBacklog = sprintMapper.getSprintBacklog(sprint.getId());
-	        return newBacklog;
+    public List<UserStory> updateSprintBacklog(long projectId, Sprint sprint) {
+    	if(ValidationUtility.validateProjectExists(projectId, projectMapper)) {
+	    	if (ValidationUtility.validateSprintExists(sprint.getId(), sprintMapper)) {
+		        sprintMapper.resetSprintBacklog(sprint.getId());
+		        for (UserStory userStory : sprint.getUserStories()) {
+		        	if( sprint.getProject().getId() == userStory.getProject().getId()) {
+		        		sprintMapper.addToSprintBacklog(sprint.getId(), userStory.getId());
+		        	}else {
+		        		throw new ResponseErrorException("Sprint and user story aren't in same Project", HttpStatus.NOT_FOUND);
+		        	}	        	
+		        }
+			       List<UserStory> newBacklog = sprintMapper.getSprintBacklog(sprint.getId());
+		        return newBacklog;
+	    	}else {
+	    		throw new ResponseErrorException("Sprint Id does not exists in the database", HttpStatus.NOT_FOUND);
+	    	}       
     	}else {
-    		throw new ResponseErrorException("Sprint Id does not exists in the database", HttpStatus.NOT_FOUND);
-    	}       
+    		throw new ResponseErrorException("Project Id does not exists in the database", HttpStatus.NOT_FOUND);
+    	}
     }
-   
 }
