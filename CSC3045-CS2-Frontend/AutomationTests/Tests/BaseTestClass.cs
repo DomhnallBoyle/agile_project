@@ -28,7 +28,7 @@ namespace AutomationTests
 
             var appPath = Path.Combine(TestContext.CurrentContext.TestDirectory, "csc3045-cs2.exe");
             Application application = Application.Launch(appPath);
-            MainWindow = application.GetWindow("MainWindow", InitializeOption.NoCache);
+            MainWindow = application.GetWindow("Waterfall Systems", InitializeOption.NoCache);
 
             LoginPage = new LoginPage(MainWindow);
             Assert.IsTrue(LoginPage.IsCurrentPage());

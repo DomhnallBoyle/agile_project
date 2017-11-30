@@ -37,5 +37,10 @@ namespace AutomationTests.PageTemplates
                 MessageBoxUtil.ClickOKButton(messageBox);
             }
         }
+
+        public WPFListItem GetProjectListItem(string name)
+        {
+            return (WPFListItem)ProjectListBox.Items.Find(item => name.Equals(item.Text));
+        }
     }
 }
