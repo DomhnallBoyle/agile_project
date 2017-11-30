@@ -121,7 +121,7 @@
                     <DataTemplate>
                         <StackPanel Margin="0,10,0,0">
                             <StackPanel Orientation="Horizontal">
-                                <TextBlock Grid.Column="0" VerticalAlignment="Center" TextWrapping="Wrap" Width="115" Style="{StaticResource ListBoxItem}"  Margin ="0,0,20,0" HorizontalAlignment="Left" >
+                                <TextBlock Grid.Column="0" VerticalAlignment="Center" TextWrapping="Wrap" Width="80" Style="{StaticResource ListBoxItem}"  Margin ="0,0,20,0" HorizontalAlignment="Left" >
                                     <TextBlock.Text>
                                         <MultiBinding StringFormat="{}{0}">
                                             <Binding Path="Name"/>
@@ -129,7 +129,7 @@
                                     </TextBlock.Text>
                                 </TextBlock>
                                 <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}"  Margin="10,0,10,0"/>
-                                <TextBlock  TextWrapping="Wrap" Width="135" Style="{StaticResource ListBoxItem}"  HorizontalAlignment="Center" >
+                                <TextBlock  TextWrapping="Wrap" Width="100" Style="{StaticResource ListBoxItem}"  HorizontalAlignment="Center" >
                                     <TextBlock.Text>
                                         <MultiBinding StringFormat="{}{0}">
                                             <Binding Path="Description"/>
@@ -137,10 +137,19 @@
                                     </TextBlock.Text>
                                 </TextBlock>
                                 <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" Margin="10,0,10,0"/>
-                                <TextBlock   TextWrapping="Wrap"  Style="{StaticResource ListBoxItem}" Width="20" HorizontalAlignment="Center">
+                                <TextBlock   TextWrapping="Wrap"  Style="{StaticResource ListBoxItem}" Width="19" HorizontalAlignment="Center">
                                     <TextBlock.Text>
                                         <MultiBinding StringFormat="{}{0}">
                                             <Binding Path="InitialEstimate"/>
+                                        </MultiBinding>
+                                    </TextBlock.Text>
+                                </TextBlock>
+                                <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" Margin="10,0,10,0"/>
+                                <TextBlock   TextWrapping="Wrap"  Style="{StaticResource ListBoxItem}" Width="60" HorizontalAlignment="Center">
+                                    <TextBlock.Text>
+                                        <MultiBinding StringFormat="{}{0} {1}">
+                                            <Binding Path="Assignee.Forename"/>
+                                            <Binding Path="Assignee.Surname"/>
                                         </MultiBinding>
                                     </TextBlock.Text>
                                 </TextBlock>

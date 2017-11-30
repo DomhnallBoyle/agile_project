@@ -162,6 +162,15 @@ namespace CSC3045_CS2.Pages
                             _client.CreateTask(task, _taskUserStory.Project.Id, _taskUserStory.Id);
 
                             MessageBoxUtil.ShowSuccessBox("Task Creation Successful!");
+                            NameTextBox.Text = "";
+                            DescriptionTextBox.Text = "";
+                            InitialEstimateTextBox.Text = "";
+                            Keyboard.Focus(NameTextBox);
+                            Keyboard.ClearFocus();
+                            Keyboard.Focus(DescriptionTextBox);
+                            Keyboard.ClearFocus();
+                            Keyboard.Focus(InitialEstimateTextBox);
+                            Keyboard.ClearFocus();
                         }
                         catch (RestResponseErrorException ex)
                         {

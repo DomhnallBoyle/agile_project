@@ -99,7 +99,7 @@ public class SprintService {
     public List<UserStory> getSprintBacklog(long projectId, long sprintId) {
     	if (ValidationUtility.validateProjectExists(projectId, projectMapper)) {
 	        if (ValidationUtility.validateSprintExists(sprintId, sprintMapper)) {
-	            return sprintMapper.getSprintBacklog(sprintId);
+	            return sprintMapper.getSprintStories(sprintId);
 	        }
         throw new ResponseErrorException("Sprint does not exist", HttpStatus.NOT_FOUND);
     	}else {
@@ -180,7 +180,7 @@ public class SprintService {
 		        		throw new ResponseErrorException("Sprint and user story aren't in same Project", HttpStatus.NOT_FOUND);
 		        	}	        	
 		        }
-			       List<UserStory> newBacklog = sprintMapper.getSprintBacklog(sprint.getId());
+			       List<UserStory> newBacklog = sprintMapper.getSprintStories(sprint.getId());
 		        return newBacklog;
 	    	}else {
 	    		throw new ResponseErrorException("Sprint Id does not exists in the database", HttpStatus.NOT_FOUND);
