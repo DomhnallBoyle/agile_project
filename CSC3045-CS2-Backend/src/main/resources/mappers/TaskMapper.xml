@@ -4,68 +4,98 @@
 <!-- Set the namespace below to the interface side of the taskMapper -->
 <mapper namespace="uk.ac.qub.csc3045.api.mapper.TaskMapper">
 
-	<!-- Result Maps -->
+    <!-- Result Maps -->
 
-	<resultMap id="taskResultMap" type="Task">
-	    <id column="id" property="id"/>
-	    <result column="name" property="name"/>
-	    <result column="description" property="description"/>
-	    <result column="initial_estimate" property="initialEstimate"/>
-	    <association column="user_story_id" property="userStory" javaType="UserStory" select="selectUserStory"/>
-	    <association column="assignee_id" property="assignee" javaType="User" select="selectAssignee"/>
-		<association column="project_id" property="project" javaType="Project" select="selectProject"/>
-	</resultMap>
-	
-	<!-- SELECT Queries -->
-	
-	<select id="getTaskById" resultMap="taskResultMap">
-		SELECT * FROM TASK WHERE ID = #{id}
-	</select>
-    
-	<select id="getUserStoryTasks" resultMap="taskResultMap">
-		SELECT *
-		FROM TASK
-		WHERE USER_STORY_ID = #{userStoryId}
-	</select>
-    
+    <resultMap id="taskResultMap" type="Task">
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="description" property="description"/>
+        <result column="initial_estimate" property="initialEstimate"/>
+        <association column="user_story_id" property="userStory" javaType="UserStory" select="selectUserStory"/>
+        <association column="assignee_id" property="assignee" javaType="User" select="selectAssignee"/>
+        <association column="project_id" property="project" javaType="Project" select="selectProject"/>
+    </resultMap>
+
+    <resultMap id="taskEstimateResultMap" type="TaskEstimate">
+        <id column="task_id" property="taskId"/>
+        <id column="date" property="date"/>
+        <result column="estimate" property="estimate"/>
+    </resultMap>
+
+    <!-- SELECT Queries -->
+
+    <select id="getTaskById" resultMap="taskResultMap">
+        SELECT *
+        FROM TASK
+        WHERE ID = #{id}
+    </select>
+
+    <select id="getUserStoryTasks" resultMap="taskResultMap">
+        SELECT *
+        FROM TASK
+        WHERE USER_STORY_ID = #{userStoryId}
+    </select>
+
+    <select id="getTaskEstimates" resultMap="taskEstimateResultMap">
+        SELECT *
+        FROM TASK_ESTIMATE
+        WHERE TASK_ID = #{taskId}
+    </select>
+
     <!-- UPDATE Queries -->
-    
- 	<update id="updateTask" parameterType="Task">
-		UPDATE TASK
-			SET ASSIGNEE_ID = #{task.assignee.id},
-			NAME = #{task.name}, 
-			DESCRIPTION = #{task.description},
-			INITIAL_ESTIMATE = #{task.initialEstimate},
-			USER_STORY_ID = #{task.userStory.id}
-		WHERE ID = #{task.id}
+
+    <update id="updateTask" parameterType="Task">
+        UPDATE TASK
+        SET ASSIGNEE_ID      = #{task.assignee.id},
+            NAME             = #{task.name},
+            DESCRIPTION      = #{task.description},
+            INITIAL_ESTIMATE = #{task.initialEstimate},
+            USER_STORY_ID    = #{task.userStory.id}
+        WHERE ID = #{task.id}
+    </update>
+
+    <update id="updateTaskEstimate" parameterType="TaskEstimate">
+        UPDATE TASK_ESTIMATE
+        SET ESTIMATE = #{taskEstimate.estimate}
+        WHERE TASK_ID = #{taskEstimate.taskId}
+              AND DATE = #{taskEstimate.date}
     </update>
 
     <!-- INSERT Queries -->
 
-	<insert id="createTask" parameterType="Task" useGeneratedKeys="true" keyProperty="task.id" keyColumn="id">
-		INSERT INTO TASK (USER_STORY_ID, ASSIGNEE_ID, NAME, DESCRIPTION, INITIAL_ESTIMATE)
-	 	VALUES (#{userStoryId}, #{task.assignee.id}, #{task.name}, #{task.description}, #{task.initialEstimate})
-	</insert>
-	
-	 <!-- Nested SELECT queries for User Story -->
-	 
-	<select id="selectUserStory" resultMap="uk.ac.qub.csc3045.api.mapper.UserStoryMapper.userStoryResultMap">
-		SELECT * FROM USER_STORY WHERE USER_STORY.ID = #{userStory.Id}
-	</select>
-	
-	<select id="selectAssignee" resultMap="uk.ac.qub.csc3045.api.mapper.UserMapper.userResultMap">
-		SELECT * FROM USER WHERE ID = #{assignee.id}
-	</select>
+    <insert id="createTask" parameterType="Task" useGeneratedKeys="true" keyProperty="task.id" keyColumn="id">
+        INSERT INTO TASK (USER_STORY_ID, ASSIGNEE_ID, NAME, DESCRIPTION, INITIAL_ESTIMATE)
+        VALUES (#{userStoryId}, #{task.assignee.id}, #{task.name}, #{task.description}, #{task.initialEstimate})
+    </insert>
 
-	<select id="selectProject" resultMap="uk.ac.qub.csc3045.api.mapper.ProjectMapper.simpleProjectResultMap">
-		SELECT
-		    ID,
-		    NAME,
-		    DESCRIPTION,
-		    MANAGER_ID,
-		    PRODUCT_OWNER_ID
-		FROM PROJECT
-		WHERE ID = #{sprint.project_id}
-	</select>
+    <insert id="createTaskEstimate" parameterType="TaskEstimate">
+        INSERT INTO TASK_ESTIMATE (TASK_ID, DATE, ESTIMATE)
+        VALUES (#{taskEstimate.taskId}, #{taskEstimate.date}, #{taskEstimate.estimate})
+    </insert>
+
+    <!-- Nested SELECT queries for User Story -->
+
+    <select id="selectUserStory" resultMap="uk.ac.qub.csc3045.api.mapper.UserStoryMapper.userStoryResultMap">
+        SELECT *
+        FROM USER_STORY
+        WHERE USER_STORY.ID = #{userStory.Id}
+    </select>
+
+    <select id="selectAssignee" resultMap="uk.ac.qub.csc3045.api.mapper.UserMapper.userResultMap">
+        SELECT *
+        FROM USER
+        WHERE ID = #{assignee.id}
+    </select>
+
+    <select id="selectProject" resultMap="uk.ac.qub.csc3045.api.mapper.ProjectMapper.simpleProjectResultMap">
+        SELECT
+            ID,
+            NAME,
+            DESCRIPTION,
+            MANAGER_ID,
+            PRODUCT_OWNER_ID
+        FROM PROJECT
+        WHERE ID = #{sprint.project_id}
+    </select>
 
 </mapper>

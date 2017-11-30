@@ -76,6 +76,7 @@
     <Compile Include="Models\Roles.cs" />
     <Compile Include="Models\Sprint.cs" />
     <Compile Include="Models\Task.cs" />
+    <Compile Include="Models\TaskEstimation.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Pages\CreateTask.xaml.cs">
       <DependentUpon>CreateTask.xaml</DependentUpon>
