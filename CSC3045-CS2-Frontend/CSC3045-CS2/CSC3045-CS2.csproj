@@ -84,6 +84,9 @@
     <Compile Include="Pages\CreateAcceptanceTest.xaml.cs">
       <DependentUpon>CreateAcceptanceTest.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Pages\EditSprintBacklog.xaml.cs">
+      <DependentUpon>EditSprintBacklog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\EditSprintTeam.xaml.cs">
       <DependentUpon>EditSprintTeam.xaml</DependentUpon>
     </Compile>
@@ -126,12 +129,14 @@
     <Compile Include="Service\TaskClient.cs" />
     <Compile Include="Service\UserClient.cs" />
     <Compile Include="Service\UserStoryClient.cs" />
+    <Compile Include="Utility\BoolToHiddenConverter.cs" />
     <Compile Include="Utility\CamelCaseSerializationStrategy.cs" />
     <Compile Include="Utility\MessageBoxUtil.cs" />
     <Compile Include="Utility\Permissions.cs" />
     <Compile Include="Utility\PermissonDragHandler.cs" />
     <Compile Include="Utility\ProjectPermissions.cs" />
     <Compile Include="Utility\RelayCommand.cs" />
+    <Compile Include="Utility\UserImagePathValueConverter.cs" />
     <Compile Include="Utility\WatermarkAdorner.cs" />
     <Compile Include="Utility\WatermarkService.cs" />
     <Page Include="MainWindow.xaml">
@@ -151,6 +156,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Pages\CreateAcceptanceTest.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\EditSprintBacklog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -273,6 +282,12 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\Images\Logo\waterfall icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Images\Icons\DeveloperIcon.png" />
+    <Resource Include="Resources\Images\Icons\ManagerIcon.png" />
+    <Resource Include="Resources\Images\Icons\ProductOwnerIcon.png" />
+    <Resource Include="Resources\Images\Icons\ScrumMasterIcon.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
