@@ -106,6 +106,22 @@ namespace CSC3045_CS2.Pages
         }
 
         /// <summary>
+        /// Relay command for navigating to the edit sprint backlog page
+        /// </summary>
+        public ICommand NavigateToManageSprintBacklogCommand
+        {
+            get
+            {
+                return new RelayCommand(param =>
+                {
+                    Page editSprintBacklog = new EditSprintBacklog(CurrentSprint);
+
+                    NavigationService.GetNavigationService(this).Navigate(editSprintBacklog);
+                });
+            }
+        }
+
+        /// <summary>
         /// Returns user to the previous page
         /// </summary>
         public ICommand BackCommand
@@ -175,5 +191,6 @@ namespace CSC3045_CS2.Pages
         public event PropertyChangedEventHandler PropertyChanged;
 
         #endregion
+
     }
 }
