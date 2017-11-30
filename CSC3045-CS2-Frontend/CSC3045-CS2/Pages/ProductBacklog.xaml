@@ -7,13 +7,15 @@
       xmlns:local="clr-namespace:CSC3045_CS2.Pages"
       mc:Ignorable="d" 
       Background="{StaticResource BackgroundGradient}"
-      d:DesignHeight="600" d:DesignWidth="1060"
+      d:DesignHeight="900" d:DesignWidth="1280"
       Title="Product Backlog">
 
-    <StackPanel Width="750" Margin="0,25,0,0">
+    <StackPanel Width="750" Margin="0,75,0,0">
         <ContentControl Template="{StaticResource Headers}" Name="Header"/>
 
-        <Grid Height="375" Margin="50,15,50,15">
+        <TextBlock Name="ProjectNameTextBlock" HorizontalAlignment="Center" Style="{StaticResource Header}"  Text="{Binding CurrentProject.Name}" Margin="0,0,0,15"/>
+        
+        <Grid Height="600" Margin="50,0,50,15">
             <ListBox Name="StoryList" ItemsSource="{Binding Backlog}" 
                      Style="{StaticResource DefaultListBox}" HorizontalContentAlignment="Stretch"
                      dd:DragDrop.IsDragSource="True" dd:DragDrop.IsDropTarget="True"

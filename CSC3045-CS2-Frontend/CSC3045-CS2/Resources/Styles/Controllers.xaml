@@ -29,6 +29,8 @@
                                 Command="{Binding LogoutCommand}"/>
                     </StackPanel>
                 </Grid>
+
+                <Separator Margin="0,15,0,15"/>
             </StackPanel>
         </ItemsControl>
     </ControlTemplate>

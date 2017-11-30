@@ -6,10 +6,10 @@
         mc:Ignorable="d"
         Icon="Resources/Images/Logo/waterfall icon.png"
         WindowStartupLocation="CenterScreen"
-        MinWidth="1060"
-        MinHeight="600"
-        Title="MainWindow" Width="1060" Height="600">
+        MinWidth="1280"
+        MinHeight="900"
+        Title="Waterfall Systems" Width="1280" Height="900">
     <!-- Min and Max Width/Height of the window can be specified here in the above tag-->
-    
-    <Frame x:Name="frame" Content="Frame" Margin="0" Source="Pages/Login.xaml"/>
+
+    <Frame x:Name="frame" Content="Frame" Margin="0" NavigationUIVisibility="Hidden" Source="Pages/Login.xaml"/>
 </Window>

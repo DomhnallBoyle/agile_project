@@ -32,6 +32,7 @@ public class SprintControllerTests {
         sprint.setProject(generateProject());
         sprint.setScrumMaster(generateUser());
         sprint.setUsers(generateUserList(5));
+        sprint.setUserStories(generateUserStoryList(3));
     }
 
     @Test
@@ -114,5 +115,31 @@ public class SprintControllerTests {
         //Assert
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertEquals(sprint.getUsers(), response.getBody());
+    }
+    
+    @Test
+    public void getSprintBacklogShouldReturn200OnSuccess() {
+        //Arrange
+        when(sprintService.getSprintBacklog(sprint.getProject().getId(), sprint.getId())).thenReturn(sprint.getUserStories());
+
+        //Act
+        ResponseEntity response = sprintController.getSprintBacklog(sprint.getProject().getId(), sprint.getId());
+
+        //Assert
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals(sprint.getUserStories(), response.getBody());
+    }
+    
+    @Test
+    public void updateSprintBacklogShouldReturn200OnSuccess() {
+        //Arrange
+        when(sprintService.updateSprintBacklog(sprint.getProject().getId(), sprint)).thenReturn(sprint.getUserStories());
+
+        //Act
+        ResponseEntity response = sprintController.updateSprintBacklog(sprint.getProject().getId(), sprint);
+
+        //Assert
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals(sprint.getUserStories(), response.getBody());
     }
 }

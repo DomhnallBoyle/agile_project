@@ -91,7 +91,7 @@ public class Sprint {
     public void setUsers(List<User> users) {
         this.users = users;
     }
-
+     
     public List<UserStory> getUserStories() {
         return userStories;
     }
