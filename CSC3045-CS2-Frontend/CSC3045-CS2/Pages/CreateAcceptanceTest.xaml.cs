@@ -50,13 +50,19 @@ namespace CSC3045_CS2.Pages
 
         #region Class Methods
 
+        /// <summary>
+        /// Set style variables on page setup
+        /// </summary>
         private void PageSetup()
         {
             _invalidTextBoxStyle = FindResource("InvalidTextBox") as Style;
             _validTextBoxStyle = FindResource("DefaultTextBox") as Style;
         }
 
-
+        /// <summary>
+        /// Performs a check to ensure that no fields are left
+        /// blank when creating an acceptance test
+        /// </summary>
         private bool CheckFields()
         {
             bool valid = true;

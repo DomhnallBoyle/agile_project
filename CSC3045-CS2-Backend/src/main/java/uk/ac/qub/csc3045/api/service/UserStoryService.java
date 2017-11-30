@@ -40,6 +40,18 @@ public class UserStoryService {
     		throw new ResponseErrorException("Project does not exist", HttpStatus.NOT_FOUND);
     	}
     }
+    
+    public UserStory updateUserStory(UserStory userStory, long userStoryId) {
+    	if (ValidationUtility.validateUserStoryExists(userStoryId, userStoryMapper)) {
+        	userStoryMapper.updateUserStory(userStory);
+        	
+        	return userStoryMapper.getUserStoryById(userStory.getId());
+    	}
+    	else {
+    		throw new ResponseErrorException("User Story does not exist", HttpStatus.NOT_FOUND);
+    	}
+    }
+
     public List<UserStory> getAllUserStories(Long id) {
         if (ValidationUtility.validateProjectExists(id, projectMapper)) {
             return userStoryMapper.getUserStoriesByProject(id);

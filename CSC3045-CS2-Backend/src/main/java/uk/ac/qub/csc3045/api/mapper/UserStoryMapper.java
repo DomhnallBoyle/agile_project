@@ -33,6 +33,8 @@ public interface UserStoryMapper {
     void createAcceptanceTest(@Param("userStoryId") long userStoryId, @Param("acceptanceTest") AcceptanceTest acceptanceTest);
 
     // UPDATE Queries
+    
+    void updateUserStory(UserStory userStory);
 
     void updateUserStoryIndex(@Param("userStoryId") long userStoryId, @Param("index") int index);
     
