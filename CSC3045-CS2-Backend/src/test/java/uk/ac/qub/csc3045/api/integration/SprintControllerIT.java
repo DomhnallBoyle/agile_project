@@ -34,10 +34,10 @@ public class SprintControllerIT {
 
 	private Account account;
 	private Sprint existingSprint;
+	private Sprint newSprint;
 	private Project existingProject;
 	private User existingUser;
 	private User existingScrum;
-	private User nonExistingScrum;
 
 	@Before
 	public void setup() throws IOException {
@@ -53,12 +53,7 @@ public class SprintControllerIT {
 	 * Create Sprint tests
 	 */
 	@Test
-	public void createSprintShouldReturn201() {
-
-		Sprint newSprint = new Sprint();
-		newSprint.setName("SprintName");
-		newSprint.setStartDate(LocalDateTime.of(2018, Month.JULY, 20, 19, 30, 40));
-		newSprint.setEndDate(LocalDateTime.of(2018, Month.JULY, 29, 19, 30, 40));
+	public void createSprintShouldReturn201() {	
 		newSprint.setScrumMaster(existingScrum);
 		newSprint.setProject(existingProject);
 
@@ -71,26 +66,21 @@ public class SprintControllerIT {
 
 	@Test
 	public void createSprintProjectDoesNotExistShouldReturn404() {
-		Sprint newSprint = new Sprint();
-		newSprint.setName("SprintName");
-		newSprint.setStartDate(LocalDateTime.of(2018, Month.JULY, 20, 19, 30, 40));
-		newSprint.setEndDate(LocalDateTime.of(2018, Month.JULY, 29, 19, 30, 40));;
-
-		Response r = requestHelper.sendPostRequestWithAuthHeader("/project" + "/1000" + "/sprint", authHeader, existingSprint);
+		Response r = requestHelper.sendPostRequestWithAuthHeader("/project/1000/sprint", authHeader, existingSprint);
 
 		assertEquals(404, r.statusCode());
 		assertEquals(projectDoesNotExistInDatabaseErrorMessage, r.body().asString());
 	}
 	
 	@Test
-	public void createSprintScrumMasterDoesNotExistShouldReturn404() {
+	public void createSprintScrumMasterDoesNotExistShouldReturn400() {
 		Sprint newSprint = new Sprint();
 		newSprint.setName("SprintName");
 		newSprint.setStartDate(LocalDateTime.of(2018, Month.JULY, 20, 19, 30, 40));
 		newSprint.setEndDate(LocalDateTime.of(2018, Month.JULY, 29, 19, 30, 40));;
-		User newUser = new User();
-	    newUser.setId(1L);
-	    newSprint.setScrumMaster(newUser);
+		User nonExistingScrumMaster = new User();
+		nonExistingScrumMaster.setId(-1L);
+	    newSprint.setScrumMaster(nonExistingScrumMaster);
 	    
 		Response r = requestHelper.sendPostRequestWithAuthHeader(BASE_PATH, authHeader, existingSprint);
 
@@ -119,13 +109,20 @@ public class SprintControllerIT {
 		assertEquals(sprintDoesNotExistErrorMessage, r.getBody().asString());
 
 	}
+	
+	@Test
+	public void getSprintWhereProjectDoesntExistShouldReturn404() {
+		Response r = requestHelper.sendGetRequestWithAuthHeader("/project/1000/sprint/6500", authHeader);
+
+		r.then().assertThat().statusCode(404);
+		assertEquals(projectDoesNotExistInDatabaseErrorMessage, r.getBody().asString());
+
+	}
 
 	private void setupBacklog() {
 		existingUser = new User("Snoop", "Dogg", "snoop.dogg@shizzle.hold.up", new Roles(true, true, true));
 		existingScrum = new User("Richard", "Hendrix", "r.hendrix@valley.com", new Roles(true, true, true));
 		existingScrum.setId(1L);
-		nonExistingScrum = new User("Forename3", "Surname3", "user3@email.com", new Roles(true, true, true));
-		nonExistingScrum.setId(300L);
 
 		List<User> users = new ArrayList<>();
 		users.add(existingUser);
@@ -138,7 +135,8 @@ public class SprintControllerIT {
 		existingSprint.setProject(existingProject);
 		existingSprint.setScrumMaster(existingUser);
 		existingSprint.setId(1L);
-
+		
+		newSprint = new Sprint("SprintName", LocalDateTime.of(2018, Month.JULY, 20, 19, 30, 40), LocalDateTime.of(2018, Month.JULY, 29, 19, 30, 40) );
 	}
 
 	private void setupTestAccount() {
