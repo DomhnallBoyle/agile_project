@@ -2,6 +2,7 @@ package uk.ac.qub.csc3045.api.service;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 import static org.mockito.Mockito.*;
 import static uk.ac.qub.csc3045.api.setup.UnitTestObjectGenerator.*;
 import static uk.ac.qub.csc3045.api.setup.UnitTestObjectGenerator.generateUserList;
@@ -25,6 +26,10 @@ import java.util.List;
 
 public class SprintServiceTest {
 
+	private String projectDoesNotExistErrorMessage = "Project does not exist in the database";
+	private String scrumMasterDoesNotExistErrorMessage = "Scrum Master does not exist in the database";
+	private String sprintDoesNotExistErrorMessage = "Sprint does not exist in the database";
+	
     private SprintService sprintService;
     private SprintMapper sprintMapperMock;
     private ProjectMapper projectMapperMock;
@@ -58,16 +63,35 @@ public class SprintServiceTest {
         assertTrue(response.equals(sprint));
     }
 
-    @Test()
-    public void createInvalidSprintShouldThrowException() {
-        //Arrange
-        doThrow(new DataIntegrityViolationException("")).when(sprintMapperMock).createSprint(sprint);
-        try {
-        	 sprintService.createSprint(sprint.getProject().getId(), sprint);
-             
-        }catch(ResponseErrorException e) {
-        	assertTrue(e.getMessage() == "Project Id does not exist in the database");
-        }
+    @Test
+    public void createSprintWithInvalidScrumMasterShouldThrowException() {
+    	// Arrange
+    	when(projectMapperMock.getProjectById(sprint.getProject().getId())).thenReturn(sprint.getProject());
+    	doThrow(new DataIntegrityViolationException("")).when(sprintMapperMock).createSprint(sprint);
+    	
+    	// Act
+    	try {
+    		sprintService.createSprint(sprint.getProject().getId(), sprint);
+    		
+    		fail();
+    	} catch (ResponseErrorException e) {
+    		assertEquals(e.getMessage(), scrumMasterDoesNotExistErrorMessage);
+    	}
+    }
+    
+    @Test
+    public void createSprintWithNoExistingProjectShouldThrowException() {
+    	// Arrange
+    	when(projectMapperMock.getProjectById(sprint.getProject().getId())).thenReturn(null);
+    	
+    	// Act
+    	try {
+    		sprintService.createSprint(sprint.getProject().getId(), sprint);
+    		
+    		fail();
+    	} catch (ResponseErrorException e) {
+    		assertEquals(e.getMessage(), projectDoesNotExistErrorMessage);
+    	}
     }
 	
     @Test
@@ -85,21 +109,25 @@ public class SprintServiceTest {
 
     @Test()
     public void getNonExistingSprintShouldThrowException() {
-    	//Arrange
-       when(sprintMapperMock.getSprintById(sprint.getId())).thenReturn(null);
-       try {
-        	 sprintService.getSprint(sprint.getProject().getId(), sprint.getId());
-            
-       }catch(ResponseErrorException e) {
-       	assertTrue(e.getMessage() == "Project Id does not exist in the database");
-       }
+    	// Arrange
+    	when(projectMapperMock.getProjectById(sprint.getProject().getId())).thenReturn(sprint.getProject());
+    	when(sprintMapperMock.getSprintById(sprint.getId())).thenReturn(null);
+    	
+    	// Act
+    	try {
+    		sprintService.getSprint(sprint.getProject().getId(), sprint.getId());
+    		
+    		fail();
+    	} catch (ResponseErrorException e) {
+    		assertEquals(e.getMessage(), sprintDoesNotExistErrorMessage);
+    	}
     }
 
     @Test
     public void getProjectSprintsOnProjectWithSprintsShouldReturnSprints() {
         //Arrange
+    	when(projectMapperMock.getProjectById(sprint.getProject().getId())).thenReturn(sprint.getProject());
         when(sprintMapperMock.getProjectSprints(sprint.getProject().getId())).thenReturn(sprints);
-        when(projectMapperMock.getProjectById(sprint.getProject().getId())).thenReturn(sprint.getProject());
         
         //Act
         List<Sprint> response = sprintService.getProjectSprints(sprint.getProject().getId());
@@ -110,13 +138,16 @@ public class SprintServiceTest {
 
     @Test()
     public void getProjectSprintsOnProjectWithNoSprintsShouldThrowException() {
-        //Arrange
+        // Arrange
+    	when(projectMapperMock.getProjectById(sprint.getProject().getId())).thenReturn(sprint.getProject());
         when(sprintMapperMock.getProjectSprints(sprint.getProject().getId())).thenReturn(new ArrayList<>());
+        
+        // Act
         try {
-       	 sprintService.getProjectSprints(sprint.getProject().getId());
-       }catch(ResponseErrorException e) {
-       	assertTrue(e.getMessage() == "Project Id does not exists in the database");
-       }
+        	sprintService.getProjectSprints(sprint.getProject().getId());
+        } catch (ResponseErrorException e) {
+        	assertEquals(e.getMessage(), "There are currently no sprints in this project");
+        }
     }
 
     @Test
@@ -135,16 +166,16 @@ public class SprintServiceTest {
 
     @Test()
     public void getSprintTeamOnNonExistingSprintShouldThrowException() {
-        //Arrange
+        // Arrange
     	when(projectMapperMock.getProjectById(sprint.getProject().getId())).thenReturn(sprint.getProject());
         when(sprintMapperMock.getSprintById(sprint.getId())).thenReturn(null);
 
+        // Act
         try {
-            sprintService.getSprintTeam(sprint.getProject().getId(), sprint.getId());
-          }catch(ResponseErrorException e) {
-          	assertTrue(e.getMessage() == "Sprint does not exist");
-          }
-       
+        	sprintService.getSprintTeam(sprint.getProject().getId(), sprint.getId());
+        } catch (ResponseErrorException e) {
+        	assertEquals(e.getMessage(), sprintDoesNotExistErrorMessage);
+        }
     }
 
     @Test
@@ -219,25 +250,26 @@ public class SprintServiceTest {
     
     @Test
     public void handleGetBacklogRequestSuccessful() {
+    	// Arrange
     	when(projectMapperMock.getProjectById(sprint.getProject().getId())).thenReturn(sprint.getProject());
         when(sprintMapperMock.getSprintStories(sprint.getId())).thenReturn(sprint.getUserStories());
         when(sprintMapperMock.getSprintById(sprint.getId())).thenReturn(sprint);
 
+        // Act
         List<UserStory> response = sprintService.getSprintBacklog(sprint.getProject().getId(), sprint.getId());
 
+        // Assert
         assertEquals(sprint.getUserStories(), response);
     }
 
-    @Test()
+    @Test(expected = ResponseErrorException.class)
     public void handleGetBacklogRequestFailure() {
+    	// Arrange
     	when(projectMapperMock.getProjectById(sprint.getProject().getId())).thenReturn(sprint.getProject());
         when(sprintMapperMock.getSprintById(sprint.getId())).thenReturn(null);
         
-        try {
-        	 sprintService.getSprintBacklog(sprint.getProject().getId(), sprint.getId());
-        }catch(ResponseErrorException e) {
-        	assertTrue(e.getMessage() == "Sprint does not exist");
-        }
+        // Act
+        sprintService.getSprintBacklog(sprint.getProject().getId(), sprint.getId());
     }
 
 }

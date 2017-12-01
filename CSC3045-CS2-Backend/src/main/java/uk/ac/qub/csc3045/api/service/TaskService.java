@@ -112,7 +112,7 @@ public class TaskService {
                 Sprint sprint = sprintMapper.getSprintById(userStory.getSprint().getId());
                 generateTaskEstimatesInDatabase(sprint, task);
             } else {
-                throw new ResponseErrorException("User Story does not exist in the database", HttpStatus.NOT_FOUND);
+                throw new ResponseErrorException("Sprint does not exist in the database", HttpStatus.NOT_FOUND);
             }
         } else {
             throw new ResponseErrorException("User Story does not exist in the database", HttpStatus.NOT_FOUND);
