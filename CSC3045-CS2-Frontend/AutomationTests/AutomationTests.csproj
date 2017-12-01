@@ -73,6 +73,8 @@
     <Compile Include="PageTemplates\LoginPage.cs" />
     <Compile Include="PageTemplates\RegisterPage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Tests\ProductBacklog\ProductBacklogAsProductOwner.cs" />
+    <Compile Include="Tests\ProductBacklog\ProductBacklogAsScrumMaster.cs" />
     <Compile Include="Tests\Project\CreateProjectActions.cs" />
     <Compile Include="Tests\Project\ProjectDashboardManagerActions.cs" />
     <Compile Include="Tests\Project\ProjectDashboardNonManagerActions.cs" />
