@@ -13,7 +13,6 @@
                         <ColumnDefinition Width="3*"/>
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
 
                     <Image Grid.Column="0" Source="{Binding HomeImage}" Width="50" Height="50" Stretch="Fill" Cursor="Hand">
@@ -26,52 +25,54 @@
                                Text="{Binding CurrentPage}" Style="{StaticResource Title}" 
                                HorizontalAlignment="Center" VerticalAlignment="Center"/>
 
-                    <Grid Grid.Column="2">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="*"/>
-                        </Grid.ColumnDefinitions>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="*"/>
-                            <RowDefinition Height="*"/>
-                        </Grid.RowDefinitions>
+                    <StackPanel Grid.Column="2" Orientation="Horizontal">
+                        <Grid Grid.Column="2" HorizontalAlignment="Right" Margin="0,0,5,0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
 
-                        <Image Grid.Column="0" Grid.Row="0" Height="24" Width="24" Stretch="Fill" VerticalAlignment="Center"
+                            <Image Grid.Column="0" Grid.Row="0" Height="24" Width="24" Stretch="Fill" VerticalAlignment="Center"
                                                Visibility="{Binding Permissions.Manager, Converter={StaticResource BoolToVisConverter}}"
                                                ToolTip="Manager">
-                            <Image.Source>
-                                <BitmapImage UriSource="/Resources/Images/Icons/ManagerIcon.png" />
-                            </Image.Source>
-                        </Image>
-                        <Image Grid.Column="1" Grid.Row="0" Height="24" Width="24" Stretch="Fill" VerticalAlignment="Center"
+                                <Image.Source>
+                                    <BitmapImage UriSource="/Resources/Images/Icons/ManagerIcon.png" />
+                                </Image.Source>
+                            </Image>
+                            <Image Grid.Column="1" Grid.Row="0" Height="24" Width="24" Stretch="Fill" VerticalAlignment="Center"
                                                Visibility="{Binding Permissions.Developer, Converter={StaticResource BoolToVisConverter}}"
                                                ToolTip="Developer">
-                            <Image.Source>
-                                <BitmapImage UriSource="/Resources/Images/Icons/DeveloperIcon.png" />
-                            </Image.Source>
-                        </Image>
-                        <Image Grid.Column="1" Grid.Row="1" Height="24" Width="24" Stretch="Fill" VerticalAlignment="Center"
+                                <Image.Source>
+                                    <BitmapImage UriSource="/Resources/Images/Icons/DeveloperIcon.png" />
+                                </Image.Source>
+                            </Image>
+                            <Image Grid.Column="1" Grid.Row="1" Height="24" Width="24" Stretch="Fill" VerticalAlignment="Center"
                                                Visibility="{Binding Permissions.ScrumMaster, Converter={StaticResource BoolToVisConverter}, FallbackValue=Collapsed}"
                                                ToolTip="Scrum Master">
-                            <Image.Source>
-                                <BitmapImage UriSource="/Resources/Images/Icons/ScrumMasterIcon.png" />
-                            </Image.Source>
-                        </Image>
+                                <Image.Source>
+                                    <BitmapImage UriSource="/Resources/Images/Icons/ScrumMasterIcon.png" />
+                                </Image.Source>
+                            </Image>
 
-                        <Image Grid.Column="0" Grid.Row="1" Height="24" Width="24" Stretch="Fill" VerticalAlignment="Center"
+                            <Image Grid.Column="0" Grid.Row="1" Height="24" Width="24" Stretch="Fill" VerticalAlignment="Center"
                                                Visibility="{Binding Permissions.ProductOwner, Converter={StaticResource BoolToVisConverter}, FallbackValue=Collapsed}"
                                                ToolTip="Product Owner">
-                            <Image.Source>
-                                <BitmapImage UriSource="/Resources/Images/Icons/ProductOwnerIcon.png" />
-                            </Image.Source>
-                        </Image>
-                    </Grid>
-
-                    <Image Grid.Column="3" Name="ProfilePicture"
+                                <Image.Source>
+                                    <BitmapImage UriSource="/Resources/Images/Icons/ProductOwnerIcon.png" />
+                                </Image.Source>
+                            </Image>
+                        </Grid>
+                        
+                        <Image Name="ProfilePicture"
                            Height="64" Width="64" Stretch="Fill"
                            HorizontalAlignment="Right" Source="{Binding Image}"/>
+                    </StackPanel>
 
-                    <StackPanel Grid.Column="4" Margin="5,0,0,0">
+                    <StackPanel Grid.Column="3" Margin="5,0,0,0">
                         <controls:TextBlockPlus x:Name="UserLabel" Text="{Binding UserLabel}" HorizontalAlignment="Center" Style="{StaticResource Label}" TextWrapping="Wrap"/>
                         <Button Name="LogoutButton" Content="Logout" 
                                 HorizontalAlignment="Center" Margin="0,15,0,0"
