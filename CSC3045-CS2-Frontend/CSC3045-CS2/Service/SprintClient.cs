@@ -69,6 +69,28 @@ namespace CSC3045_CS2.Service
             return Execute<List<User>>(request);
         }
 
+        public List<UserStory> UpdateSprintBacklog(Sprint sprint)
+        {
+            var request = new RestRequest(BASE_ENDPOINT + "/" + sprint.Project.Id + "/sprint" + "/" + sprint.Id + "/story", Method.PUT);
+            request.AddHeader("Content-Type", "application/json");
+            request.RequestFormat = DataFormat.Json;
+            SimpleJson.CurrentJsonSerializerStrategy = new CamelCaseSerializationStrategy();
+
+            request.AddBody(sprint);
+
+            return Execute<List<UserStory>>(request);
+        }
+
+        public List<UserStory> GetSprintBacklog(long projectId, long sprintId)
+        {
+            var request = new RestRequest(BASE_ENDPOINT + "/" + projectId + "/sprint" + "/" + sprintId + "/story", Method.GET);
+            request.AddHeader("Content-Type", "application/json");
+            request.RequestFormat = DataFormat.Json;
+            SimpleJson.CurrentJsonSerializerStrategy = new CamelCaseSerializationStrategy();
+
+            return Execute<List<UserStory>>(request);
+        }
+
         public List<User> GetAvailableDevelopers(long projectId, long sprintId)
         {
             var request = new RestRequest(BASE_ENDPOINT + "/" + projectId + "/sprint" + "/" + sprintId + "/user/available", Method.GET);

@@ -70,6 +70,25 @@ namespace CSC3045_CS2.Pages
 
         public Permissions Permissions { get; set; }
 
+        public bool IsCurrentProductOwner
+        {
+            get
+            {
+                User selectedUser = (User)TeamMembersListBox.SelectedItem;
+                
+                return CurrentProject.ProductOwner == null ? false : selectedUser.Id == CurrentProject.ProductOwner.Id;
+            }
+        }
+
+        public bool IsCurrentScrumMaster
+        {
+            get
+            {
+                User selectedUser = (User)TeamMembersListBox.SelectedItem;
+
+                return CurrentProject.ScrumMasters.Find(user => user.Id == selectedUser.Id) != null;
+            }
+        }
 
         #endregion
 
@@ -134,7 +153,7 @@ namespace CSC3045_CS2.Pages
             }
         }
 
-        private void updateSearchUI()
+        private void UpdateSearchUI()
         {
             if (TeamMembers.Any(user => user.Id == SearchResultUser.Id))
             {
@@ -253,7 +272,7 @@ namespace CSC3045_CS2.Pages
                             User searchUser = new User("", "", SearchEmailTextBox.Text, new Roles(false, false, false));
                             SearchResultUser = _userClient.Search(searchUser);
 
-                            updateSearchUI();
+                            UpdateSearchUI();
                         }
                         else
                         {
@@ -277,14 +296,14 @@ namespace CSC3045_CS2.Pages
                 {
                     if (!TeamMembers.Any(user => user.Id == SearchResultUser.Id))
                     {
-                        TeamMembers.Add(SearchResultUser);
-
                         try
                         {
                             List<User> teamMembers = new List<User>(TeamMembers);
                             _projectClient.Add(teamMembers, _currentProject);
 
-                            updateSearchUI();
+                            TeamMembers.Add(SearchResultUser);
+
+                            UpdateSearchUI();
                         }
                         catch (RestResponseErrorException ex)
                         {
@@ -333,6 +352,30 @@ namespace CSC3045_CS2.Pages
 
         #endregion
 
+        #region Event methods
+
+        private void TeamMembersListBox_ContextMenuOpening(object sender, ContextMenuEventArgs e)
+        {
+            var selectedItem = (User)TeamMembersListBox.SelectedItem;
+
+            if ((!Permissions.Manager || (!selectedItem.Roles.ProductOwner && !selectedItem.Roles.ScrumMaster)) || selectedItem == null)
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void ScrumMastersListBox_ContextMenuOpening(object sender, ContextMenuEventArgs e)
+        {
+            var selectedItem = (User)ScrumMastersListBox.SelectedItem;
+
+            if ((!Permissions.Manager || (!selectedItem.Roles.ProductOwner && !selectedItem.Roles.ScrumMaster)) || selectedItem == null)
+            {
+                e.Handled = true;
+            }
+        }
+
+        #endregion
+
         #region Binding
 
         private void OnPropertyChanged([CallerMemberName] string propertyName = null)
@@ -343,5 +386,6 @@ namespace CSC3045_CS2.Pages
         public event PropertyChangedEventHandler PropertyChanged;
 
         #endregion
+
     }
 }

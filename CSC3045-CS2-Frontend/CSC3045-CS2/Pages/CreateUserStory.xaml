@@ -22,7 +22,7 @@
                 </Grid.ColumnDefinitions>
 
                 <AdornerDecorator Grid.Column="0" Margin="0,12,0,0">
-                    <TextBox Name="StoryNameTextBox" Style="{StaticResource DefaultTextBox}" HorizontalContentAlignment="Center">
+                    <TextBox Name="StoryNameTextBox" MaxLength="50" Style="{StaticResource DefaultTextBox}" HorizontalContentAlignment="Center">
                         <utility:WatermarkService.Watermark>
                             <TextBlock Style="{StaticResource Watermark}" HorizontalAlignment="Center" Margin="0,5,0,0" Name="StoryNameTextBlock">Story Name</TextBlock>
                         </utility:WatermarkService.Watermark>
@@ -39,7 +39,7 @@
             </Grid>
 
             <AdornerDecorator Margin="0,12,0,0">
-                <TextBox Name="StoryDescriptionTextBox" Style="{StaticResource DefaultTextBox}" Height="75" TextWrapping="Wrap" AcceptsReturn="True" HorizontalContentAlignment="Center">
+                <TextBox Name="StoryDescriptionTextBox" MaxLength="500" Style="{StaticResource DefaultTextBox}" Height="75" TextWrapping="Wrap" AcceptsReturn="True" HorizontalContentAlignment="Center">
                     <utility:WatermarkService.Watermark>
                         <TextBlock Style="{StaticResource Watermark}" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,5" Name="StoryDescriptionTextBlock">Story Description</TextBlock>
                     </utility:WatermarkService.Watermark>

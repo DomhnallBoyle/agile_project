@@ -12,7 +12,7 @@
 
     <StackPanel Width="750" Margin="0,75,0,0">
         <ContentControl Template="{StaticResource Headers}" Name="Header"/>
-        
+
         <TextBlock Text="Your Projects" HorizontalAlignment="Left" Style="{StaticResource Header}"/>
         <TextBlock Text="Select One of the Following Rows To See Project Details" HorizontalAlignment="Left" Style="{StaticResource Label}" Foreground="Gold"  Margin="5,0,0,0" />
 
@@ -21,7 +21,7 @@
                 <RowDefinition Height="0.9*"/>
                 <RowDefinition Height="0.1*"/>
             </Grid.RowDefinitions>
-            
+
             <ListBox Name="ProjectListBox" Grid.Row="0" Style="{StaticResource DefaultListBox}" ItemsSource="{Binding ProjectList}" SelectionChanged="ProjectListBox_SelectionChanged">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
@@ -42,11 +42,40 @@
 
                                     <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" Margin="10,0,10,0"/>
 
-                                    <StackPanel Width="90">
-                                        <TextBlock Text="Manager" Visibility="{Binding Path=Permissions.Manager,Converter={StaticResource BoolToVisConverter}}" Style="{StaticResource ButtonLabel}"/>
+                                    <StackPanel Width="100" Orientation="Horizontal">
+                                        <Image Height="24" Width="24" Stretch="Fill" VerticalAlignment="Center"
+                                               Visibility="{Binding Permissions.Manager, Converter={StaticResource BoolToVisConverter}}"
+                                               ToolTip="Manager">
+                                            <Image.Source>
+                                                <BitmapImage UriSource="/Resources/Images/Icons/ManagerIcon.png" />
+                                            </Image.Source>
+                                        </Image>
+                                        <Image Height="24" Width="24" Stretch="Fill" VerticalAlignment="Center"
+                                               Visibility="{Binding Permissions.Developer, Converter={StaticResource BoolToVisConverter}}"
+                                               ToolTip="Developer">
+                                            <Image.Source>
+                                                <BitmapImage UriSource="/Resources/Images/Icons/DeveloperIcon.png" />
+                                            </Image.Source>
+                                        </Image>
+                                        <Image Height="24" Width="24" Stretch="Fill" VerticalAlignment="Center"
+                                               Visibility="{Binding Permissions.ScrumMaster, Converter={StaticResource BoolToVisConverter}, FallbackValue=Collapsed}"
+                                               ToolTip="Scrum Master">
+                                            <Image.Source>
+                                                <BitmapImage UriSource="/Resources/Images/Icons/ScrumMasterIcon.png" />
+                                            </Image.Source>
+                                        </Image>
+
+                                        <Image Height="24" Width="24" Stretch="Fill" VerticalAlignment="Center"
+                                               Visibility="{Binding Permissions.ProductOwner, Converter={StaticResource BoolToVisConverter}, FallbackValue=Collapsed}"
+                                               ToolTip="Product Owner">
+                                            <Image.Source>
+                                                <BitmapImage UriSource="/Resources/Images/Icons/ProductOwnerIcon.png" />
+                                            </Image.Source>
+                                        </Image>
+                                        <!--<TextBlock Text="Manager" Visibility="{Binding Path=Permissions.Manager,Converter={StaticResource BoolToVisConverter}}" Style="{StaticResource ButtonLabel}"/>
                                         <TextBlock Text="Developer" Visibility="{Binding Path=Permissions.Developer, Converter={StaticResource BoolToVisConverter}}" Style="{StaticResource ButtonLabel}"/>
                                         <TextBlock Text="Scrum Master" Visibility="{Binding Path=Permissions.ScrumMaster, Converter={StaticResource BoolToVisConverter}}" Style="{StaticResource ButtonLabel}"/>
-                                        <TextBlock Text="Project Owner" Visibility="{Binding Path=Permissions.ProductOwner, Converter={StaticResource BoolToVisConverter}}" Style="{StaticResource ButtonLabel}"/>
+                                        <TextBlock Text="Project Owner" Visibility="{Binding Path=Permissions.ProductOwner, Converter={StaticResource BoolToVisConverter}}" Style="{StaticResource ButtonLabel}"/>-->
                                     </StackPanel>
                                 </StackPanel>
                             </Grid>

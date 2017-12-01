@@ -76,6 +76,7 @@
     <Compile Include="Models\Roles.cs" />
     <Compile Include="Models\Sprint.cs" />
     <Compile Include="Models\Task.cs" />
+    <Compile Include="Models\TaskEstimate.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Pages\CreateTask.xaml.cs">
       <DependentUpon>CreateTask.xaml</DependentUpon>
@@ -83,6 +84,9 @@
     <Compile Include="Pages\BasePage.cs" />
     <Compile Include="Pages\CreateAcceptanceTest.xaml.cs">
       <DependentUpon>CreateAcceptanceTest.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\EditSprintBacklog.xaml.cs">
+      <DependentUpon>EditSprintBacklog.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\EditSprintTeam.xaml.cs">
       <DependentUpon>EditSprintTeam.xaml</DependentUpon>
@@ -109,6 +113,9 @@
     <Compile Include="Pages\SprintDashboard.xaml.cs">
       <DependentUpon>SprintDashboard.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Pages\TaskDetails.xaml.cs">
+      <DependentUpon>TaskDetails.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\UserDashboard.xaml.cs">
       <DependentUpon>UserDashboard.xaml</DependentUpon>
     </Compile>
@@ -126,12 +133,16 @@
     <Compile Include="Service\TaskClient.cs" />
     <Compile Include="Service\UserClient.cs" />
     <Compile Include="Service\UserStoryClient.cs" />
+    <Compile Include="Utility\BoolToEnabledConverter.cs" />
+    <Compile Include="Utility\BoolToHiddenConverter.cs" />
     <Compile Include="Utility\CamelCaseSerializationStrategy.cs" />
+    <Compile Include="Utility\Validation.cs" />
     <Compile Include="Utility\MessageBoxUtil.cs" />
     <Compile Include="Utility\Permissions.cs" />
     <Compile Include="Utility\PermissonDragHandler.cs" />
     <Compile Include="Utility\ProjectPermissions.cs" />
     <Compile Include="Utility\RelayCommand.cs" />
+    <Compile Include="Utility\UserImagePathValueConverter.cs" />
     <Compile Include="Utility\WatermarkAdorner.cs" />
     <Compile Include="Utility\WatermarkService.cs" />
     <Page Include="MainWindow.xaml">
@@ -151,6 +162,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Pages\CreateAcceptanceTest.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\EditSprintBacklog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -187,6 +202,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Pages\SprintDashboard.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\TaskDetails.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -273,6 +292,12 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\Images\Logo\waterfall icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Images\Icons\DeveloperIcon.png" />
+    <Resource Include="Resources\Images\Icons\ManagerIcon.png" />
+    <Resource Include="Resources\Images\Icons\ProductOwnerIcon.png" />
+    <Resource Include="Resources\Images\Icons\ScrumMasterIcon.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

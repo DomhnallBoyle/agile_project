@@ -9,9 +9,12 @@ import uk.ac.qub.csc3045.api.model.Roles;
 import uk.ac.qub.csc3045.api.model.User;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
+
+import javax.validation.constraints.AssertTrue;
 
 public class UserServiceTest {
 
@@ -36,12 +39,14 @@ public class UserServiceTest {
     	assertEquals(returnedUser, user);
     }
     
-    @Test(expected = ResponseErrorException.class)
+    @Test()
     public void searchForNonExistingUserShouldThrowException() {
     	when(userMapper.findUserByEmail(user.getEmail())).thenReturn(null);
-    	
-    	userService.search(user);
-    	
-    	fail();
+    	try {
+    		userService.search(user);
+    	}
+    	catch(ResponseErrorException e) {
+    		assertTrue(e.getMessage() == "User with the specified email does not exist");
+    	}
     }
 }

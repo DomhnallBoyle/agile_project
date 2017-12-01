@@ -58,7 +58,8 @@ namespace AutomationTests.Tests.Project
             WPFListItem teamMemberListItem = _projectDashboardPage.GetTeamMemberListItem("e2eForename4 e2eSurname4");
             Assert.NotNull(teamMemberListItem);
 
-            _projectDashboardPage.GetSetProductOwnerButtonForListItem(teamMemberListItem).Click();
+            teamMemberListItem.RightClick();
+            _projectDashboardPage.GetSetProductOwnerContextMenuItem(MainWindow).Click();
 
             Assert.AreEqual("e2eForename4 e2eSurname4", _projectDashboardPage.ProductOwnerNameTextBlock.Text);
         }
@@ -69,7 +70,8 @@ namespace AutomationTests.Tests.Project
             WPFListItem teamMemberListItem = _projectDashboardPage.GetTeamMemberListItem("e2eForename6 e2eSurname6");
             Assert.NotNull(teamMemberListItem);
 
-            _projectDashboardPage.GetSetScrumMasterButtonForListItem(teamMemberListItem).Click();
+            teamMemberListItem.RightClick();
+            _projectDashboardPage.GetSetScrumMasterContextMenuItem(MainWindow).Click();
 
             Assert.NotNull(_projectDashboardPage.GetScrumMasterListItem("e2eForename6 e2eSurname6"));
         }
@@ -80,7 +82,8 @@ namespace AutomationTests.Tests.Project
             WPFListItem scrumMasterListItem = _projectDashboardPage.GetScrumMasterListItem("e2eForename5 e2eSurname5");
             Assert.NotNull(scrumMasterListItem);
 
-            _projectDashboardPage.GetRemoveButtonForScrumMasterListItem(scrumMasterListItem).Click();
+            scrumMasterListItem.RightClick();
+            _projectDashboardPage.GetRemoveScrumMasterContextMenuItem(MainWindow).Click();
 
             Assert.Null(_projectDashboardPage.GetScrumMasterListItem("e2eForename5 e2eSurname5"));
         }
