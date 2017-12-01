@@ -71,7 +71,7 @@ namespace CSC3045_CS2.Service
 
         public List<TaskEstimate> GetTaskEstimates(long projectId, long userStoryId, long taskId)
         {
-            var request = new RestRequest(string.Format(BASE_ENDPOINT + "/" + taskId, projectId, userStoryId), Method.GET);
+            var request = new RestRequest(string.Format(BASE_ENDPOINT + "/" + taskId + "/estimates", projectId, userStoryId), Method.GET);
             request.AddHeader("Content-Type", "application/json");
             request.RequestFormat = DataFormat.Json;
             SimpleJson.CurrentJsonSerializerStrategy = new CamelCaseSerializationStrategy();
@@ -81,7 +81,7 @@ namespace CSC3045_CS2.Service
 
         public List<TaskEstimate> UpdateTaskEstimates(long projectId, long userStoryId, long taskId, List<TaskEstimate> taskEstimates)
         {
-            var request = new RestRequest(string.Format(BASE_ENDPOINT + "/" + taskId, projectId, userStoryId), Method.PUT);
+            var request = new RestRequest(string.Format(BASE_ENDPOINT + "/" + taskId + "/estimates", projectId, userStoryId), Method.PUT);
             request.AddHeader("Content-Type", "application/json");
             request.RequestFormat = DataFormat.Json;
             SimpleJson.CurrentJsonSerializerStrategy = new CamelCaseSerializationStrategy();
