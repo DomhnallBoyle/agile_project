@@ -5,8 +5,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TestStack.White.Factory;
 using TestStack.White.UIItems;
 using TestStack.White.UIItems.ListBoxItems;
+using TestStack.White.UIItems.MenuItems;
 using TestStack.White.UIItems.WPFUIItems;
 
 namespace AutomationTests.Tests.Project
@@ -39,22 +41,13 @@ namespace AutomationTests.Tests.Project
         }
 
         [Test]
-        public void ProjectTeamListShouldNotDisplaySetAsButtons()
+        public void ProjectTeamListShouldNotAllowContextMenu()
         {
-            foreach (WPFListItem item in _projectDashboardPage.TeamMembersListBox.Items)
-            {
-                Assert.False(item.Get<Button>("SetProductOwnerButton").Visible);
-                Assert.False(item.Get<Button>("SetScrumMasterButton").Visible);
-            }
-        }
+            _projectDashboardPage.TeamMembersListBox.RightClick();
 
-        [Test]
-        public void ScrumMasterListShouldNotDisplayRemoveButtons()
-        {
-            foreach (WPFListItem item in _projectDashboardPage.ScrumMastersListBox.Items)
-            {
-                Assert.False(item.Get<Button>("ScrumMasterRemoveButton").Visible);
-            }
+            Menus popItems;
+
+            Assert.Throws<UIItemSearchException>(() => popItems = MainWindow.Popup.Items);
         }
     }
 }
