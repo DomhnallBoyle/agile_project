@@ -87,7 +87,7 @@ namespace CSC3045_CS2.Pages
             {
                 WhenTextBox.Style = _invalidTextBoxStyle;
                 valid = false;
-                sb.Append("You must enter a 'When' for Acceptance Test");
+                sb.Append("You must enter a 'When' for Acceptance Test\n");
             }
 
             if (!String.IsNullOrEmpty(ThenTextBox.Text))
@@ -105,6 +105,7 @@ namespace CSC3045_CS2.Pages
             return valid;
         }
         #endregion
+
         #region Command Methods
 
         public ICommand CancelCommand
