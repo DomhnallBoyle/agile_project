@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import uk.ac.qub.csc3045.api.controller.UserController;
 import uk.ac.qub.csc3045.api.model.Roles;
+import uk.ac.qub.csc3045.api.model.Skill;
 import uk.ac.qub.csc3045.api.model.User;
 import uk.ac.qub.csc3045.api.service.UserService;
 
@@ -36,7 +37,7 @@ public class UserControllerTest {
     private List<Skill> setUpSkills() {
     	List<Skill> skills = new ArrayList<Skill>();
     	for (int i=0; i<5; i++) {
-    		skills.add(new Skill("skill " + i, userId));
+    		skills.add(new Skill("skill " + i, user));
     	}
     	return skills;
     }
@@ -52,7 +53,7 @@ public class UserControllerTest {
     
     @Test
     public void getUserSkillsShouldReturn200OnSuccess() {
-    	when(userService.getUserSkills(userId).thenReturn(skills));
+    	when(userService.getUserSkills(userId)).thenReturn(skills);
     	
     	ResponseEntity response = userController.getUserSkills(userId);
     	
@@ -62,7 +63,7 @@ public class UserControllerTest {
     
     @Test
     public void updateUserSkillsShouldReturn200OnSuccess() {
-    	when(userService.updateUserSkills(userId).thenReturn(skills));
+    	when(userService.updateUserSkills(userId, user)).thenReturn(skills);
     	
     	ResponseEntity response = userController.updateUserSkills(userId, user);
     	

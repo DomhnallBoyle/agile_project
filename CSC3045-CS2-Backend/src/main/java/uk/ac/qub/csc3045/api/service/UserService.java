@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import uk.ac.qub.csc3045.api.exception.ResponseErrorException;
 import uk.ac.qub.csc3045.api.mapper.UserMapper;
 import uk.ac.qub.csc3045.api.model.Project;
+import uk.ac.qub.csc3045.api.model.Skill;
 import uk.ac.qub.csc3045.api.model.User;
 
 @Service
@@ -38,5 +39,19 @@ public class UserService {
         }
 
         return projects;
+    }
+    
+    public List<Skill> getUserSkills(long userId) {
+    	return userMapper.getUserSkills(userId);
+    }
+    
+    public List<Skill> updateUserSkills(long userId, User user) {
+    	userMapper.removeUserSkills(userId);
+    	
+    	for(Skill skill: user.getSkills()) {
+    		userMapper.addUserSkill(userId, skill);
+    	}
+    	
+    	return userMapper.getUserSkills(userId);
     }
 }

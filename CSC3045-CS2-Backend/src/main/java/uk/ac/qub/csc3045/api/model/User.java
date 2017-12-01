@@ -29,15 +29,26 @@ public class User {
     private List<Project> projects;
 
     private List<Sprint> sprints;
+    
+    private List<Skill> skills;
 
     public User() {
     }
-
+    
     public User(String forename, String surname, String email, Roles roles) {
         this.forename = forename;
         this.surname = surname;
         this.email = email;
         this.roles = roles;
+        this.skills = skills;
+    }
+
+    public User(String forename, String surname, String email, Roles roles, List<Skill> skills) {
+        this.forename = forename;
+        this.surname = surname;
+        this.email = email;
+        this.roles = roles;
+        this.skills = skills;
     }
     
     public User(String forename, String surname, String email, String profilePicture, Roles roles) {
@@ -110,6 +121,14 @@ public class User {
 
     public void setSprints(List<Sprint> sprints) {
         this.sprints = sprints;
+    }
+    
+    public List<Skill> getSkills() {
+    	return skills;
+    }
+    
+    public void setSkillSet(List<Skill> skills) {
+    	this.skills = skills;
     }
 
 	@Override
