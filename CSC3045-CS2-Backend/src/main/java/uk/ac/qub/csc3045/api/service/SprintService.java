@@ -42,7 +42,7 @@ public class SprintService {
 	        } catch (DataIntegrityViolationException e) {
 	            throw new ResponseErrorException("Scrum Master does not exist in the database", HttpStatus.BAD_REQUEST);
 	        }
-    	}else {
+    	} else {
     		throw new ResponseErrorException("Project does not exist in the database", HttpStatus.NOT_FOUND);
     	}
     }
