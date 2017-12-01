@@ -2,6 +2,7 @@
 using TestStack.White.UIItems;
 using TestStack.White.UIItems.ListBoxItems;
 using TestStack.White.UIItems.WindowItems;
+using TestStack.White.UIItems.WPFUIItems;
 
 namespace AutomationTests.PageTemplates
 {
@@ -15,9 +16,30 @@ namespace AutomationTests.PageTemplates
         {
             get { return MainWindow.Get<Button>("LogoutButton"); }
         }
+
         public ListBox ProjectListBox
         {
             get { return MainWindow.Get<ListBox>("ProjectListBox"); }
+        }
+
+        public Image ManagerIcon(WPFListItem listItem)
+        {
+            return listItem.Get<Image>("TeamMemberListManagerIcon");
+        }
+
+        public Image DeveloperIcon(WPFListItem listItem)
+        {
+            return listItem.Get<Image>("TeamMemberListDeveloperIcon");
+        }
+
+        public Image ScrumMaserIcon(WPFListItem listItem)
+        {
+            return listItem.Get<Image>("TeamMemberListScrumMasterIcon");
+        }
+
+        public Image ProductOwnerIcon(WPFListItem listItem)
+        {
+            return listItem.Get<Image>("TeamMemberListProductOwnerIcon");
         }
 
         public UserDashboardPage(Window window) : base(window)
