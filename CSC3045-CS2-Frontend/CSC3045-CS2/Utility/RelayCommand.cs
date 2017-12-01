@@ -8,6 +8,11 @@ using System.Windows.Input;
 
 namespace CSC3045_CS2.Utility
 {
+    /// <summary>
+    /// Allows creation of commands that separate UI elements from the logic they invoke
+    /// Obtained from: https://github.com/Microsoft/Windows-universal-samples/blob/master/Samples/XamlUIBasics/cs/AppUIBasics/Common/RelayCommand.cs
+    /// Official Microsoft universal sample
+    /// </summary>
     public class RelayCommand : ICommand
     {
         #region Fields 

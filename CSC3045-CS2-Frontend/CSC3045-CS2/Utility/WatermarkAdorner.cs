@@ -13,6 +13,8 @@ namespace CSC3045_CS2.Utility
 
     /// <summary>
     /// Adorner for the watermark
+    /// Obtained from: https://github.com/jsreport/vstools/tree/master/JsReportVSTools/JsRepEditor
+    /// Official website: https://jsreport.net/learn/visual-studio-extension
     /// </summary>
     internal class WatermarkAdorner : Adorner
     {
