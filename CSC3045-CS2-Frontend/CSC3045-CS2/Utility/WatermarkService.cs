@@ -15,6 +15,8 @@ namespace CSC3045_CS2.Utility
 
     /// <summary>
     /// Class that provides the Watermark attached property
+    /// Obtained from: https://github.com/jsreport/vstools/tree/master/JsReportVSTools/JsRepEditor
+    /// Official website: https://jsreport.net/learn/visual-studio-extension
     /// </summary>
     public static class WatermarkService
     {

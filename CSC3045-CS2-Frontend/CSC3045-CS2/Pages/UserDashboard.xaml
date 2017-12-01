@@ -72,10 +72,6 @@
                                                 <BitmapImage UriSource="/Resources/Images/Icons/ProductOwnerIcon.png" />
                                             </Image.Source>
                                         </Image>
-                                        <!--<TextBlock Text="Manager" Visibility="{Binding Path=Permissions.Manager,Converter={StaticResource BoolToVisConverter}}" Style="{StaticResource ButtonLabel}"/>
-                                        <TextBlock Text="Developer" Visibility="{Binding Path=Permissions.Developer, Converter={StaticResource BoolToVisConverter}}" Style="{StaticResource ButtonLabel}"/>
-                                        <TextBlock Text="Scrum Master" Visibility="{Binding Path=Permissions.ScrumMaster, Converter={StaticResource BoolToVisConverter}}" Style="{StaticResource ButtonLabel}"/>
-                                        <TextBlock Text="Project Owner" Visibility="{Binding Path=Permissions.ProductOwner, Converter={StaticResource BoolToVisConverter}}" Style="{StaticResource ButtonLabel}"/>-->
                                     </StackPanel>
                                 </StackPanel>
                             </Grid>

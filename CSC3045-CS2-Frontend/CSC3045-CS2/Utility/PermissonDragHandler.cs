@@ -9,6 +9,10 @@ using System.Windows;
 
 namespace CSC3045_CS2.Utility
 {
+    /// <summary>
+    /// Edited Drag Handler for the Gong package (via NuGet) to include permissions
+    /// Gong: https://github.com/punker76/gong-wpf-dragdrop
+    /// </summary>
     public class PermissonDragHandler : IDragSource
     {
         private bool _permission;
