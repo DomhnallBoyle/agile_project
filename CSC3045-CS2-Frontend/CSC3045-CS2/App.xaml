@@ -21,6 +21,7 @@
             <utility:BoolToHiddenConverter x:Key="BoolToHiddenConverter"/>
             <utility:UserImagePathValueConverter x:Key="ImageConverter"/>
             <utility:BoolToEnabledConverter x:Key="BoolToEnabledConverter"/>
+            <utility:NullToVisibilityConverter x:Key="NullToVisConverter"/>
         </ResourceDictionary>
     </Application.Resources>
 </Application>

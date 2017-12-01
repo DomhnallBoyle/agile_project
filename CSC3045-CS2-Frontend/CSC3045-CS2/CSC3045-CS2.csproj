@@ -142,6 +142,7 @@
     <Compile Include="Utility\BoolToEnabledConverter.cs" />
     <Compile Include="Utility\BoolToHiddenConverter.cs" />
     <Compile Include="Utility\CamelCaseSerializationStrategy.cs" />
+    <Compile Include="Utility\NullToVisibilityConverter.cs" />
     <Compile Include="Utility\Validation.cs" />
     <Compile Include="Utility\MessageBoxUtil.cs" />
     <Compile Include="Utility\Permissions.cs" />
