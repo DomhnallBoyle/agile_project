@@ -39,22 +39,11 @@ namespace AutomationTests.Tests.Project
         }
 
         [Test]
-        public void ProjectTeamListShouldNotDisplaySetAsButtons()
+        public void ProjectTeamListShouldNotAllowContextMenu()
         {
-            foreach (WPFListItem item in _projectDashboardPage.TeamMembersListBox.Items)
-            {
-                Assert.False(item.Get<Button>("SetProductOwnerButton").Visible);
-                Assert.False(item.Get<Button>("SetScrumMasterButton").Visible);
-            }
-        }
+            _projectDashboardPage.TeamMembersListBox.RightClick();
 
-        [Test]
-        public void ScrumMasterListShouldNotDisplayRemoveButtons()
-        {
-            foreach (WPFListItem item in _projectDashboardPage.ScrumMastersListBox.Items)
-            {
-                Assert.False(item.Get<Button>("ScrumMasterRemoveButton").Visible);
-            }
+            Assert.IsNull(MainWindow.Popup.Items);
         }
     }
 }

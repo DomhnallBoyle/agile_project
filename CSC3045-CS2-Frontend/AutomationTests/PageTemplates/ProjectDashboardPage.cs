@@ -2,6 +2,8 @@
 using TestStack.White.UIItems.ListBoxItems;
 using TestStack.White.UIItems.WPFUIItems;
 using TestStack.White.UIItems.WindowItems;
+using TestStack.White.UIItems.Finders;
+using TestStack.White.UIItems.MenuItems;
 
 namespace AutomationTests.PageTemplates
 {
@@ -72,19 +74,19 @@ namespace AutomationTests.PageTemplates
             }
         }
 
-        public Button GetSetProductOwnerButtonForListItem(WPFListItem listItem)
+        public Menu GetSetProductOwnerContextMenuItem(Window window)
         {
-            return listItem.Get<Button>("SetProductOwnerButton");
+            return window.Popup.ItemBy(SearchCriteria.ByAutomationId("SetAsProductOwnerMenuOption"));
+        }
+        
+        public Menu GetSetScrumMasterContextMenuItem(Window window)
+        {
+            return window.Popup.ItemBy(SearchCriteria.ByAutomationId("SetAsScrumMasterMenuOption"));
         }
 
-        public Button GetSetScrumMasterButtonForListItem(WPFListItem listItem)
+        public Menu GetRemoveScrumMasterContextMenuItem(Window window)
         {
-            return listItem.Get<Button>("SetScrumMasterButton");
-        }
-
-        public Button GetRemoveButtonForScrumMasterListItem(WPFListItem listItem)
-        {
-            return listItem.Get<Button>("ScrumMasterRemoveButton");
+            return window.Popup.ItemBy(SearchCriteria.ByAutomationId("RemoveScrumMasterMenuOption"));
         }
     }
 }
