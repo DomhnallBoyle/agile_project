@@ -108,9 +108,6 @@ public class SprintService {
 
 	                developer.setSprints(clashingSprints);
 	                availableDevelopers.add(developer);
-//	                if (clashingSprints.isEmpty()) {
-//	                    availableDevelopers.add(developer);
-//	                }
 	            }
 	
 	            if (availableDevelopers.isEmpty()) {
