@@ -33,6 +33,7 @@ namespace AutomationTests.PageTemplates
             return PageTitle.Text.Equals("Manage Sprints");
         }
 
+
         public WPFListItem GetSprintListItem(string sprintName)
         {
             try
