@@ -63,7 +63,8 @@ namespace CSC3045_CS2.Pages
 
             CurrentSprint = sprint;
 
-            SprintDetails = string.Format("Name: {0}, Start Date: {1}, End Date: {2}", CurrentSprint.Name, CurrentSprint.StartDate, CurrentSprint.EndDate); 
+            SprintDetails = string.Format("{0}, \n\tStart Date: {1}, \n\tEnd Date: {2}", CurrentSprint.Name, CurrentSprint.StartDate.ToShortDateString(), CurrentSprint.EndDate.ToShortDateString()); 
+        
         }
 
         #region Command and Event methods
