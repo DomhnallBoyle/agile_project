@@ -115,8 +115,7 @@ public class SprintService {
     		throw new ResponseErrorException("Project does not exist in the database", HttpStatus.NOT_FOUND);
     	}
     }
-    
-    //
+
     public List<User> getAvailableDevelopers(long projectId, long sprintId) {
     	if (ValidationUtility.validateProjectExists(projectId, projectMapper)) {
 	        if (ValidationUtility.validateSprintExists(sprintId, sprintMapper)) {
@@ -131,11 +130,7 @@ public class SprintService {
 	                developer.setSprints(clashingSprints);
 	                availableDevelopers.add(developer);
 	            }
-	
-	            if (availableDevelopers.isEmpty()) {
-	                throw new ResponseErrorException("There are no available developers for this sprint.", HttpStatus.NOT_FOUND);
-	            }
-	
+		
 	            return availableDevelopers;
 	        }
 	
@@ -145,7 +140,6 @@ public class SprintService {
     	}
     }
 
-    //
     public List<User> updateSprintTeam(long projectId, Sprint sprint) {
     	if (ValidationUtility.validateProjectExists(projectId, projectMapper)) {
 	        List<User> oldTeam = sprintMapper.getSprintTeam(sprint.getId());

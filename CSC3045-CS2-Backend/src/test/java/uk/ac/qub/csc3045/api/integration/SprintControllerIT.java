@@ -34,6 +34,7 @@ public class SprintControllerIT {
 	private String scrumMasterDoesNotExistInDatabaseErrorMessage = "Scrum Master does not exist in the database";
 	private String sprintAndUserStoryHaveDifferentProjects = "Sprint and user story aren't in same Project";
 	private String projectHasNoSprints = "There are currently no sprints in this project";
+	private String urlAndBodyDoNotMatch = "Id in URL and body do not match";
 	
 	private Account account;
 	private Sprint sprint;
@@ -163,8 +164,8 @@ public class SprintControllerIT {
         r.then().assertThat().statusCode(200);
         
         for (int i = 0; i < returnedUsers.size() - 1; i++) {
-            assertEquals(returnedUsers.get(i).getForename() + " " + returnedUsers.get(i).getForename(), userList.get(i).getForename() + " " + userList.get(i).getForename());
-            assertEquals(returnedUsers.get(i).getId(), userList.get(i).getId());
+            assertEquals(userList.get(i).getForename() + " " + userList.get(i).getSurname(), returnedUsers.get(i).getForename() + " " + returnedUsers.get(i).getSurname());
+            assertEquals(userList.get(i).getId(), returnedUsers.get(i).getId());
         }
     }
 	
@@ -253,17 +254,16 @@ public class SprintControllerIT {
         Response r = requestHelper.sendPutRequestWithAuthHeader("/project/" + existingProject.getId() + "/sprint/" + sprint.getId() + "/story", authHeader, sprint);
         
         r.then().assertThat().statusCode(404);
-        assertEquals(r.body().asString(), sprintAndUserStoryHaveDifferentProjects);
+        assertEquals(sprintAndUserStoryHaveDifferentProjects, r.body().asString());
     }
     
     @Test
     public void updateSprintBacklogSprintDoesNotExistShouldReturn404() {
-        sprint.setId(-1l);
-        
-        Response r = requestHelper.sendPutRequestWithAuthHeader("/project/" + existingProject.getId() + "/sprint/" + sprint.getId() + "/story", authHeader, sprint);
+        sprint.setId(-1L);
+        Response r = requestHelper.sendPutRequestWithAuthHeader("/project/" + existingProject.getId() + "/sprint/" + nonExistingId + "/story", authHeader, sprint);
         
         r.then().assertThat().statusCode(404);
-        assertEquals(r.body().asString(), sprintDoesNotExistErrorMessage);
+        assertEquals(sprintDoesNotExistErrorMessage, r.body().asString());
     }
     
     @Test
@@ -271,7 +271,7 @@ public class SprintControllerIT {
         Response r = requestHelper.sendPutRequestWithAuthHeader("/project/" + nonExistingId + "/sprint/" + sprint.getId() + "/story", authHeader, sprint);
        
         r.then().assertThat().statusCode(404);
-        assertEquals(r.body().asString(), projectDoesNotExistInDatabaseErrorMessage);
+        assertEquals(projectDoesNotExistInDatabaseErrorMessage, r.body().asString());
     }
 
     /**
@@ -280,24 +280,41 @@ public class SprintControllerIT {
     
     @Test
     public void getAvailableDevelopersShouldReturn200() {
+        Response r = requestHelper.sendGetRequestWithAuthHeader("/project/" + existingProject.getId() + "/sprint/" + sprint.getId() + "/user/available", authHeader);
+        List<User> returnedUsers = Arrays.asList(r.getBody().as(User[].class));
         
+        User tempUser = new User("Dinesh", "Yang", "d.chugtai@valley.com", "dinesh_chugtai.jpg", new Roles(true, false, false));
+        tempUser.setId(4L);
+        userList.add(tempUser);
+        tempUser = new User("Nelson", "Bighetti", "big.head@valley.com", "elson_bighetti.jpg", new Roles(true, false, false));
+        tempUser.setId(7L);
+        userList.add(tempUser);
+        
+        r.then().assertThat().statusCode(200);
+        
+//        for (int i = 0; i < returnedUsers.size() - 1; i++) {
+//            System.out.println(returnedUsers.get(i).getForename() + " - " + userList.get(i).getForename());
+//            assertEquals(userList.get(i).getForename() + " " + userList.get(i).getSurname(), returnedUsers.get(i).getForename() + " " + returnedUsers.get(i).getSurname());
+//            assertEquals(userList.get(i).getId(), returnedUsers.get(i).getId());
+//        }
     }
     
     @Test
     public void getAvailableDevelopersProjectDoesNotExistShouldReturn404() {
-        Response r = requestHelper.sendGetRequestWithAuthHeader("/project/" + nonExistingId + "/sprint/" + sprint.getId() + "/user", authHeader);
+        Response r = requestHelper.sendGetRequestWithAuthHeader("/project/" + nonExistingId + "/sprint/" + sprint.getId() + "/user/available", authHeader);
+        
+        r.then().assertThat().statusCode(404);
+        assertEquals(projectDoesNotExistInDatabaseErrorMessage, r.body().asString());
     }
     
     @Test
     public void getAvailableDevelopersSprintDoesNotExistShouldReturn404() {
+        Response r = requestHelper.sendGetRequestWithAuthHeader("/project/" + existingProject.getId() + "/sprint/" + nonExistingId + "/user/available", authHeader);
         
+        r.then().assertThat().statusCode(404);
+        assertEquals(sprintDoesNotExistErrorMessage, r.body().asString());
     }
-    
-    @Test
-    public void getAvailableDevelopersNodevelopersOnSprintShouldReturn404() {
-        
-    }
-    
+   
     /**
      * Update Sprint Team Tests
      */
@@ -309,7 +326,9 @@ public class SprintControllerIT {
     
     @Test
     public void updateSprintTeamProjectDoesNotExistShouldReturn404() {
-        
+        Response r = requestHelper.sendPutRequestWithAuthHeader("/project/" + nonExistingId + "/sprint/" + sprint.getId() + "/user", authHeader, sprint);
+        r.then().assertThat().statusCode(404);
+        assertEquals(projectDoesNotExistInDatabaseErrorMessage, r.body().asString());
     }
     
 	private void setupSprints() {
@@ -320,6 +339,8 @@ public class SprintControllerIT {
 		users.add(existingUser);
 		
 		UserStory existingUserStory = new UserStory("Compress and upload a file", "Using the algorithm, a user should be able to upload a file to the cloud.", 8, 32, existingProject);
+		existingUserStory.setId(-1L);
+		existingUserStory.setProject(existingProject);
 		List<UserStory> userStories = new ArrayList<>();
 		userStories.add(existingUserStory);
 		
