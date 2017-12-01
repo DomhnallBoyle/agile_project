@@ -14,17 +14,21 @@ import uk.ac.qub.csc3045.api.model.TaskEstimate;
 @Repository
 public interface TaskMapper {
 	
-    //insert
-	void createTask(@Param("userStoryId") long userStoryId, @Param("task") Task task);
+    // INSERT Queries
+	void createTask(@Param("userStoryId") long userStoryId,@Param("task") Task task);
+
 	void createTaskEstimate(@Param("taskEstimate") TaskEstimate taskEstimate);
 	
-	//select
+	// SELECT Queries
 	Task getTaskById(@Param("id") long id);
+	
 	List<Task> getUserStoryTasks(@Param("userStoryId") long userStoryId);
+	
     List<TaskEstimate> getTaskEstimates(@Param("taskId") long taskId);
 	
-	//update
-	void updateTask(@Param("task") Task task);
+	// UPDATE Queries
+	void updateTask(@Param("task")Task task);
+
 	void updateTaskEstimate(@Param("taskEstimate") TaskEstimate taskEstimate);
 	    
 }

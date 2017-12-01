@@ -25,15 +25,26 @@ import java.util.Date;
 import static uk.ac.qub.csc3045.api.security.SecurityConstants.*;
 
 public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
+	
+	/**
+	 * Private variables
+	 */
     private AuthenticationManager authenticationManager;
     private AuthenticationMapper authenticationMapper;
 
+    /**
+     * Constructor for Authentication Filter - Used in initial login to retrieve auth token
+     * @param authenticationManager
+     * @param authenticationMapper 
+     */
     public JWTAuthenticationFilter(AuthenticationManager authenticationManager, AuthenticationMapper authenticationMapper) {
         this.authenticationManager = authenticationManager;
         this.authenticationMapper = authenticationMapper;
     }
 
-    //Takes in account object from login request, and checks if credentials are valid
+    /**
+     * Takes in account object from login request, and checks if credentials are valid
+     */
     @Override
     public Authentication attemptAuthentication(HttpServletRequest req,
                                                 HttpServletResponse res) throws AuthenticationException {
@@ -52,13 +63,18 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         }
     }
 
+    /**
+     * Sets the authentication manager
+     */
     @Override
     @Autowired
     public void setAuthenticationManager(AuthenticationManager authenticationManager) {
         super.setAuthenticationManager(authenticationManager);
     }
 
-    //if credentials were valid builds the token and sends the response
+    /**
+     * If credentials were valid, this method builds the token and sends it back with the response
+     */
     @Override
     protected void successfulAuthentication(HttpServletRequest req,
                                             HttpServletResponse res,

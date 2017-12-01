@@ -6,6 +6,10 @@ import javax.validation.constraints.Size;
 import java.util.List;
 
 public class Project {
+	
+	/**
+	 * Model for a Project
+	 */
 
     private Long id;
 

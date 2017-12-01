@@ -24,18 +24,35 @@ import javax.validation.Valid;
 @RequestMapping(value = "/user")
 public class UserController {
 
+	/**
+	 * Private variables
+	 */
     private final UserService userService;
 
+    /**
+     * Constructor for the User controller
+     * @param userService - service for the controller
+     */
     @Autowired
     public UserController(UserService userService) {
         this.userService = userService;
     }
 
+    /**
+     * Endpoint for searching for a user
+     * @param user object from the request body
+     * @return user object returned from the database
+     */
     @PostMapping(value = "/search")
     public ResponseEntity<User> search(@Valid @RequestBody User user) {
         return new ResponseEntity<>(userService.search(user), HttpStatus.OK);
     }
     
+    /**
+     * Endpoint to retrieve a list of projects for the user
+     * @param userId id of the user to return the projects for
+     * @return list of projects
+     */
     @GetMapping(value = "/{userId}/project")
     public ResponseEntity<List<Project>> getProjectsForUser(@Valid @PathVariable("userId") long userId) {
         return new ResponseEntity<>(this.userService.getProjectsForUser(userId), HttpStatus.OK);

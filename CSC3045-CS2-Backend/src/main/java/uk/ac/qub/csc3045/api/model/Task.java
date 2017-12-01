@@ -5,6 +5,10 @@ import javax.validation.constraints.Size;
 
 public class Task {
 	
+	/**
+	 * Model for a Task
+	 */
+	
     private Long id;
     @NotNull
     @Size(max=50)

@@ -16,13 +16,25 @@ import javax.validation.Valid;
 @RequestMapping(value = "/authentication")
 public class AuthenticationController {
 
+	/**
+	 * Private variables
+	 */
     private final AuthenticationService authenticationService;
 
+    /**
+     * Constructor for the Authentication controller
+     * @param authenticationService - service for this controller
+     */
     @Autowired
     public AuthenticationController(AuthenticationService authenticationService) {
         this.authenticationService = authenticationService;
     }
 
+    /**
+     * Endpoint for registering
+     * @param account - Request takes in account object
+     * @return Account object from the database
+     */
     @PostMapping(value = "/register")
     public ResponseEntity<Account> register(@Valid @RequestBody Account account) {
         return new ResponseEntity<>(this.authenticationService.register(account), HttpStatus.CREATED);

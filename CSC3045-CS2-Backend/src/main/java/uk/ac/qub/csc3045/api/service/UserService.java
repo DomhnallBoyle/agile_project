@@ -15,13 +15,25 @@ import uk.ac.qub.csc3045.api.model.User;
 @Service
 public class UserService {
 
+	/**
+	 * Private variables
+	 */
     private final UserMapper userMapper;
 
+    /**
+     * 
+     * @param userMapper
+     */
     @Autowired
     public UserService(UserMapper userMapper) {
         this.userMapper = userMapper;
     }
 
+    /**
+     * 
+     * @param searchedUser
+     * @return
+     */
     public User search(User searchedUser) {
     	User returnedUser = userMapper.findUserByEmail(searchedUser.getEmail());
     	
@@ -31,6 +43,11 @@ public class UserService {
         throw new ResponseErrorException("User with the specified email does not exist", HttpStatus.NOT_FOUND);
     }
     
+    /**
+     * 
+     * @param userId
+     * @return
+     */
     public List<Project> getProjectsForUser(long userId) {
         List<Project> projects = userMapper.getProjectsForUser(userId);
 

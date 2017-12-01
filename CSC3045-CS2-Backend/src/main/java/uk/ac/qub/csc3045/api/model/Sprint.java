@@ -7,6 +7,11 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 public class Sprint {
+	
+	/**
+	 * Model for a Sprint
+	 */
+	
     private Long id;
 
     @NotNull

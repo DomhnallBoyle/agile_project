@@ -20,6 +20,9 @@ import uk.ac.qub.csc3045.api.utility.ValidationUtility;
 @Service
 public class SprintService {
 
+	/**
+	 * Private variables
+	 */
 	private SprintMapper sprintMapper;
 	private ProjectMapper projectMapper;
 	@Autowired
