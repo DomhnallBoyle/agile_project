@@ -33,7 +33,6 @@ namespace CSC3045_CS2.Pages
 
         #region Public variables
 
-        public String SprintDetails { get; set; }
         public Sprint CurrentSprint { get; set; }
         public Task CurrentTask { get; set; }
         public List<UserStory> UserStories { get; set; }
@@ -74,8 +73,6 @@ namespace CSC3045_CS2.Pages
             UserStories = _sprintClient.GetSprintStories(sprint.Project.Id, sprint.Id);
 
             CurrentSprint = sprint;
-
-            SprintDetails = string.Format("{0}, \n\tStart Date: {1}, \n\tEnd Date: {2}", CurrentSprint.Name, CurrentSprint.StartDate.ToShortDateString(), CurrentSprint.EndDate.ToShortDateString());
 
             _sprintBacklog = _sprintClient.GetSprintBacklog(sprint.Project.Id, sprint.Id);
 

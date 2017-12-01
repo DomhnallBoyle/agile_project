@@ -6,56 +6,57 @@
       xmlns:local="clr-namespace:CSC3045_CS2.Pages"
       xmlns:utility="clr-namespace:CSC3045_CS2.Utility"
       mc:Ignorable="d" 
-          Background="{StaticResource BackgroundGradient}"
+      Background="{StaticResource BackgroundGradient}"
       Title="Create Task">
-    <StackPanel>
-        <ContentControl Template="{StaticResource Headers}" Name="Header" ></ContentControl>
-        
-            <Grid >
+    
+    <StackPanel Width="700" Margin="0,75,0,0">
+        <ContentControl Template="{StaticResource Headers}" Name="Header"/>
+
+        <StackPanel Width="500">
+            <Grid>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"></ColumnDefinition>
-                    <ColumnDefinition Width="*"></ColumnDefinition>
-                    <ColumnDefinition Width="*"></ColumnDefinition>
-            </Grid.ColumnDefinitions>
-                <Grid Grid.Column="1">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="*"></RowDefinition>
-                    <RowDefinition Height="*"></RowDefinition>
-                    <RowDefinition Height="*"></RowDefinition>
-                    <RowDefinition Height="*"></RowDefinition>
-                    <RowDefinition Height="*"></RowDefinition>
-                </Grid.RowDefinitions>
-                    <AdornerDecorator Margin="0,6,0,0" Grid.Row="0" >
-                    <TextBox Name="NameTextBox" MaxLength="50" Style="{StaticResource DefaultTextBox}">
-                            <utility:WatermarkService.Watermark>
-                                <TextBlock Style="{StaticResource Watermark}" HorizontalAlignment="Center" Name="NameTextBlock">Name</TextBlock>
-                            </utility:WatermarkService.Watermark>
-                        </TextBox>
-                    </AdornerDecorator>
-                <AdornerDecorator Margin="0,6,0,0" Grid.Row="1">
-                    <TextBox Name="DescriptionTextBox" MaxLength="500" Style="{StaticResource DefaultTextBox}">
-                        <utility:WatermarkService.Watermark>
-                            <TextBlock Style="{StaticResource Watermark}" HorizontalAlignment="Center" Name="DescriptionTextBlock">Description</TextBlock>
-                        </utility:WatermarkService.Watermark>
-                    </TextBox>
-                </AdornerDecorator>
-                <AdornerDecorator Margin="0,6,0,0" Grid.Row="2">
-                    <TextBox Name="InitialEstimateTextBox" Style="{StaticResource DefaultTextBox}" PreviewTextInput="NumberOnlyTextBoxValidation">
-                        <utility:WatermarkService.Watermark>
-                            <TextBlock Style="{StaticResource Watermark}" HorizontalAlignment="Center" Name="InitialEstimateTextBlock" >Initial Estimate</TextBlock>
-                        </utility:WatermarkService.Watermark>
-                    </TextBox>
-                </AdornerDecorator>
-                <ComboBox Grid.Row="3" Margin="0,6,0,0" Name="AssigneesComboBox" IsEditable="True" Text="Select assignee...">
-                </ComboBox>
-                <Button Name="BackButton" Grid.Column="1" Margin="0,6,0,0" Content="Back Button" Grid.Row="4" HorizontalAlignment="Left" Style="{StaticResource StandardButton}" Command="{Binding BackCommand}"/>
-                <Button Name="CreateButton" Grid.Column="1" Margin="0,6,0,0" Content="Create Button"  Grid.Row="4" HorizontalAlignment="Right" Style="{StaticResource StandardButton}" Command="{Binding CreateCommand}"/>
+                    <ColumnDefinition Width="0.7*"/>
+                    <ColumnDefinition Width="0.3*"/>
+                </Grid.ColumnDefinitions>
 
+                <AdornerDecorator Grid.Column="0" Margin="0,12,0,0">
+                    <TextBox Name="NameTextBox" MaxLength="50" Style="{StaticResource DefaultTextBox}" HorizontalContentAlignment="Center">
+                        <utility:WatermarkService.Watermark>
+                            <TextBlock Style="{StaticResource Watermark}" HorizontalAlignment="Center" Margin="0,5,0,0" Name="NameTextBlock">Task Name</TextBlock>
+                        </utility:WatermarkService.Watermark>
+                    </TextBox>
+                </AdornerDecorator>
+
+                <AdornerDecorator Grid.Column="1" Margin="6,12,0,0">
+                    <TextBox Name="InitialEstimateTextBox" Style="{StaticResource DefaultTextBox}" PreviewTextInput="NumberOnlyTextBoxValidation" HorizontalContentAlignment="Center" MaxLength="4">
+                        <utility:WatermarkService.Watermark>
+                            <TextBlock Style="{StaticResource Watermark}" HorizontalAlignment="Center" Margin="0,5,0,0" Name="InitialEstimateTextBlock">Initial Estimate</TextBlock>
+                        </utility:WatermarkService.Watermark>
+                    </TextBox>
+                </AdornerDecorator>
             </Grid>
-             </Grid>
 
-          
-                
+            <AdornerDecorator Margin="0,12,0,0">
+                <TextBox Name="DescriptionTextBox" MaxLength="500" Style="{StaticResource DefaultTextBox}" Height="75" TextWrapping="Wrap" AcceptsReturn="True" HorizontalContentAlignment="Center">
+                    <utility:WatermarkService.Watermark>
+                        <TextBlock Style="{StaticResource Watermark}" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,5" Name="DescriptionTextBlock">Task Description</TextBlock>
+                    </utility:WatermarkService.Watermark>
+                </TextBox>
+            </AdornerDecorator>
 
+            <ComboBox Grid.Row="3" Margin="0,12,0,12" Name="AssigneesComboBox" IsEditable="True" Text="Select assignee..."/>
+
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <Button Grid.Column="0" Name="BackButton" Content="Cancel" 
+                        Style="{StaticResource StandardButton}" HorizontalAlignment="Right" Margin="0,0,15,0" Command="{Binding BackCommand}"/>
+                <Button Grid.Column="1" Name="CreateButton" Content="Create" 
+                        Style="{StaticResource StandardButton}" HorizontalAlignment="Left" Margin="15,0,0,0" Command="{Binding CreateCommand}"/>
+            </Grid>
+        </StackPanel>
     </StackPanel>
-    </local:BasePage>
+</local:BasePage>

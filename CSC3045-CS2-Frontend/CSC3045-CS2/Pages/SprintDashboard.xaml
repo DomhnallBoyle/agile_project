@@ -10,10 +10,10 @@
       d:DesignHeight="900" d:DesignWidth="1280"
       Title="Sprint Dashboard">
 
-    <StackPanel Width="750" Margin="0,75,0,0">
+    <StackPanel Width="850" Margin="0,75,0,0">
         <ContentControl  Template="{StaticResource Headers}" Name="Header" ></ContentControl>
 
-        <TextBlock Name="ProjectNameTextBlock" HorizontalAlignment="Center" Style="{StaticResource Header}" Margin="0,0,0,15">
+        <TextBlock Name="ProjectNameTextBlock" HorizontalAlignment="Center" Style="{StaticResource Header}">
             <TextBlock.Text>
                 <MultiBinding StringFormat="{}{0} - {1}">
                     <Binding Path="CurrentSprint.Project.Name"/>
@@ -22,7 +22,43 @@
             </TextBlock.Text>
         </TextBlock>
 
-        <Grid Margin ="20,20,20,0">
+        <TextBlock Name="SprintDetailsTextBlock" HorizontalAlignment="Center" Style="{StaticResource Label}" Margin="0,5,0,15">
+            <TextBlock.Text>
+                <MultiBinding StringFormat="{}{0}, {1}/{2}/{3} - {4}, {5}/{6}/{7}">
+                    <Binding Path="CurrentSprint.StartDate.DayOfWeek"/>
+                    <Binding Path="CurrentSprint.StartDate.Day"/>
+                    <Binding Path="CurrentSprint.StartDate.Month"/>
+                    <Binding Path="CurrentSprint.StartDate.Year"/>
+                    <Binding Path="CurrentSprint.EndDate.DayOfWeek"/>
+                    <Binding Path="CurrentSprint.EndDate.Day"/>
+                    <Binding Path="CurrentSprint.EndDate.Month"/>
+                    <Binding Path="CurrentSprint.EndDate.Year"/>
+                </MultiBinding>
+            </TextBlock.Text>
+        </TextBlock>
+
+        <Grid Margin="0,0,0,12">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <Button Grid.Row ="0" Name="BackButton" Content="Back" 
+                    Style="{StaticResource StandardButton}" HorizontalAlignment="Center" Grid.Column="0" Command="{Binding BackCommand}"/>
+
+            <Button Grid.Column="1" Name="EditSprintTeam" Content="Edit Team"
+                Style="{StaticResource StandardButton}" HorizontalAlignment="Center"
+                Command="{Binding NavigateToManageSprintsCommand}"
+                Visibility="{Binding Path=IsSprintScrumMaster, Converter={StaticResource BoolToVisConverter}}"/>
+
+            <Button Grid.Column="2" Name="EditSprintBacklog" Content="Edit Backlog"
+                Style="{StaticResource StandardButton}" HorizontalAlignment="Center"
+                Command="{Binding NavigateToManageSprintBacklogCommand}"
+                Visibility="{Binding Path=IsSprintScrumMaster, Converter={StaticResource BoolToVisConverter}}"/>
+        </Grid>
+
+        <Grid>
             <Grid.ColumnDefinitions >
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
@@ -30,21 +66,32 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="*"/>
-                <RowDefinition Height="185"/>
+                <RowDefinition Height="300"/>
                 <RowDefinition Height="*"/>
-                <RowDefinition Height="185"/>
+                <RowDefinition Height="300"/>
                 <RowDefinition Height="50"/>
             </Grid.RowDefinitions>
-            <TextBlock Text="{Binding SprintDetails}" Grid.ColumnSpan="2" HorizontalAlignment="Left" Grid.Column="0" Style="{StaticResource Label}" Foreground="Gold" Margin="20,0,0,15" />
 
-            <TextBlock Text="Sprint Team" Grid.Column="0" Style="{StaticResource Label}" Grid.Row="1" Foreground="Gold" HorizontalAlignment="Center" Margin="5,0,0,0" />
-
-            <ListBox Name="SprintTeamListBox" Margin ="20,5,15,0" Style="{StaticResource DefaultListBox}" Grid.Row ="2" ScrollViewer.VerticalScrollBarVisibility="Visible" ItemsSource="{Binding CurrentSprint.Users}" Grid.Column="0" HorizontalContentAlignment="Center">
+            <TextBlock Grid.Row="1" Text="Sprint Team" Style="{StaticResource Label}" Foreground="Gold" HorizontalAlignment="Center"/>
+            <ListBox Name="SprintTeamListBox" Margin="6,0,6,0" Style="{StaticResource DefaultListBox}" Grid.Row ="2" ScrollViewer.VerticalScrollBarVisibility="Visible" ItemsSource="{Binding CurrentSprint.Users}" Grid.Column="0" HorizontalContentAlignment="Center">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
-                        <StackPanel Margin="0,10,0,0">
-                            <StackPanel Orientation="Horizontal">
-                                <TextBlock Name="TeamMemberListUserNameTextBlock" Style="{StaticResource ListBoxItemHeader}" Width="150" TextWrapping="Wrap">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="0.2*"/>
+                                <ColumnDefinition Width="0.8*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <Image Grid.Column="0" Name="CurrentDevelopersProfilePicture"
+                                           Height="64" Width="64" Stretch="Fill"
+                                           VerticalAlignment="Center">
+                                <Image.Source>
+                                    <Binding Path="ProfilePicture" Converter="{StaticResource ImageConverter}"/>
+                                </Image.Source>
+                            </Image>
+
+                            <StackPanel Width="200" Margin="15,10,15,0" Grid.Column="1">
+                                <TextBlock HorizontalAlignment="Center" Style="{StaticResource ListBoxItemHeader}">
                                     <TextBlock.Text>
                                         <MultiBinding StringFormat="{}{0} {1}">
                                             <Binding Path="Forename"/>
@@ -53,112 +100,83 @@
                                     </TextBlock.Text>
                                 </TextBlock>
 
-                                <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" Margin="10,0,10,0"/>
+                                <Separator/>
 
-                                <TextBlock Name="TeamMemberListEmailTextBlock" Style="{StaticResource ButtonLabel}" Text="{Binding Email}"/>
+                                <TextBlock Text="{Binding Email}" HorizontalAlignment="Center" Style="{StaticResource ButtonLabel}"/>
                             </StackPanel>
-
-                            <Separator/>
-
-                            <StackPanel Orientation="Horizontal">
-                                <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" Margin="10,0,10,0"/>
-                                <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" Margin="10,0,10,0"/>
-                            </StackPanel>
-                        </StackPanel>
+                        </Grid>
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>
 
 
-            <TextBlock Text="Sprint User Stories - Double Click Story to Populate Tasks" Grid.Column="1" Grid.Row="1" Style="{StaticResource Label}" Foreground="Gold" HorizontalAlignment="Center" Margin="5,0,0,0" />
-            <ListBox Name="SprintBacklog"   Margin ="0,5,15,0" Grid.Row ="2" Grid.Column="1" ScrollViewer.VerticalScrollBarVisibility="Visible" ItemsSource="{Binding UserStories}" Style="{StaticResource DefaultListBox}" HorizontalContentAlignment="Center">
-
+            <TextBlock Text="Backlog - Double Click to see Tasks" Grid.Column="1" Grid.Row="1" Style="{StaticResource Label}" Foreground="Gold" HorizontalAlignment="Center" Margin="5,0,0,0" />
+            <ListBox Name="SprintBacklog" Margin="6,0,6,0" Grid.Row ="2" Grid.Column="1" ItemsSource="{Binding UserStories}" Style="{StaticResource DefaultListBox}" HorizontalContentAlignment="Stretch">
                 <ListBox.ItemContainerStyle>
                     <Style TargetType="{x:Type ListBoxItem}">
                         <EventSetter Event="PreviewMouseDoubleClick" Handler="ListBox_MouseDoubleClick" />
                     </Style>
                 </ListBox.ItemContainerStyle>
-
                 <ListBox.ItemTemplate>
-
                     <DataTemplate>
+                        <StackPanel Margin="15,10,15,0">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
 
-                        <StackPanel Margin="0,10,0,0">
-                            <StackPanel Orientation="Horizontal">
-
-                                <TextBlock Grid.Column="0" VerticalAlignment="Center" TextWrapping="Wrap" Style="{StaticResource ListBoxItem}"  Margin ="0,0,20,0" HorizontalAlignment="Left" MaxWidth="80">
-                                    <TextBlock.Text>
-                                        <MultiBinding StringFormat="{}{0}">
-                                            <Binding Path="Name"/>
-                                        </MultiBinding>
-                                    </TextBlock.Text>
-                                </TextBlock>
-                                <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" Margin="10,0,10,0"/>
-                                <TextBlock   Margin ="20,0,20,0" TextWrapping="Wrap"  Style="{StaticResource ListBoxItem}"  HorizontalAlignment="Center" MaxWidth="120">
-                                    <TextBlock.Text>
-                                        <MultiBinding StringFormat="{}{0}">
-                                            <Binding Path="Description"/>
-                                        </MultiBinding>
-                                    </TextBlock.Text>
-                                </TextBlock>
-                                <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" Margin="10,0,10,0"/>
-                                <Button  Margin ="20,0,0,0" Name="AddTask" HorizontalAlignment="Right" Content="Add Task" Style="{StaticResource StandardButton}"  
-                                    Command="{Binding RelativeSource={RelativeSource AncestorType={x:Type Page}}, Path=DataContext.CreateTaskCommand}"
-                                         CommandParameter="{Binding}"/>
-
-
-                                <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" Margin="10,0,10,0"/>
-
-                                <TextBlock Name="TeamMemberListEmailTextBlock" Style="{StaticResource ButtonLabel}" Text="{Binding Email}"/>
-                            </StackPanel>
+                                <TextBlock Grid.Column="0" Text="{Binding Name}" Name="StoryNameTextBlock"
+                                           Style="{StaticResource ListBoxItemHeader}" HorizontalAlignment="Left"/>
+                            </Grid>
 
                             <Separator/>
 
                             <StackPanel Orientation="Horizontal">
+                                <StackPanel>
+                                    <TextBlock Name="StoryMarketValueTextBlock" Text="Market Value" 
+                                               Style="{StaticResource ButtonLabel}" HorizontalAlignment="Center"/>
+                                    <TextBlock Name="StoryMarketValue" Text="{Binding MarketValue}"
+                                               Style="{StaticResource ButtonLabel}" HorizontalAlignment="Center"/>
+
+                                    <Button Name="UpdateStoryButton" Content="Add Task" 
+                                        Style="{StaticResource StandardButton}" HorizontalAlignment="Center"
+                                        Command="{Binding RelativeSource={RelativeSource AncestorType={x:Type Page}}, Path=DataContext.CreateTaskCommand}"
+                                        CommandParameter="{Binding}" />
+                                </StackPanel>
+
                                 <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" Margin="10,0,10,0"/>
-                                <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" Margin="10,0,10,0"/>
+
+                                <TextBlock Name="StoryDescription" Text="{Binding Description}" 
+                                           Width="225" TextWrapping="Wrap" Margin="0,0,5,0"
+                                           Style="{StaticResource ButtonLabel}" HorizontalAlignment="Left"/>
                             </StackPanel>
                         </StackPanel>
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>
             
-            <oxy:PlotView x:Name="Plot1"  Model="{Binding PlotModel}" Grid.Row="4" Grid.Column="0" Margin ="20,5,15,0"/>
-            
-            <TextBlock Text="User Stories Tasks" Grid.Column="1" Grid.Row="3" Style="{StaticResource Label}" Foreground="Gold" HorizontalAlignment="Center" Margin="5,0,0,0" />
+            <oxy:PlotView x:Name="Plot1" Model="{Binding PlotModel}" Grid.Row="4" Grid.Column="0" Margin ="20,5,15,0"/>
+
+            <TextBlock Text="User Stories Tasks" Grid.Column="1" Grid.Row="3" Style="{StaticResource Label}" Foreground="Gold" HorizontalAlignment="Center" Margin="6,6,6,6" />
             <ListBox Grid.Row ="4" Grid.Column="1" Name="StoryTasks" 
-                     Style="{StaticResource DefaultListBox}" Margin ="0,5,15,0" HorizontalContentAlignment="Center"
+                     Style="{StaticResource DefaultListBox}" HorizontalContentAlignment="Stretch"
                      ItemsSource="{Binding Tasks}" SelectionChanged="StoryTasks_SelectionChanged">
                 <ListBox.ItemTemplate>
-
                     <DataTemplate>
-                        <StackPanel Margin="0,10,0,0">
-                            <StackPanel Orientation="Horizontal">
-                                <TextBlock Grid.Column="0" VerticalAlignment="Center" TextWrapping="Wrap" Width="80" Style="{StaticResource ListBoxItem}"  Margin ="0,0,20,0" HorizontalAlignment="Left" >
-                                    <TextBlock.Text>
-                                        <MultiBinding StringFormat="{}{0}">
-                                            <Binding Path="Name"/>
-                                        </MultiBinding>
-                                    </TextBlock.Text>
-                                </TextBlock>
-                                <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}"  Margin="10,0,10,0"/>
-                                <TextBlock  TextWrapping="Wrap" Width="100" Style="{StaticResource ListBoxItem}"  HorizontalAlignment="Center" >
-                                    <TextBlock.Text>
-                                        <MultiBinding StringFormat="{}{0}">
-                                            <Binding Path="Description"/>
-                                        </MultiBinding>
-                                    </TextBlock.Text>
-                                </TextBlock>
-                                <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" Margin="10,0,10,0"/>
-                                <TextBlock   TextWrapping="Wrap"  Style="{StaticResource ListBoxItem}" Width="19" HorizontalAlignment="Center">
-                                    <TextBlock.Text>
-                                        <MultiBinding StringFormat="{}{0}">
-                                            <Binding Path="InitialEstimate"/>
-                                        </MultiBinding>
-                                    </TextBlock.Text>
-                                </TextBlock>
-                                <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" Margin="10,0,10,0"/>
-                                <TextBlock   TextWrapping="Wrap"  Style="{StaticResource ListBoxItem}" Width="60" HorizontalAlignment="Center">
+                        <StackPanel>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="0.4*"/>
+                                    <ColumnDefinition Width="0.4*"/>
+                                    <ColumnDefinition Width="0.2*"/>
+                                </Grid.ColumnDefinitions>
+
+                                <TextBlock Grid.Column="0" Text="{Binding Name}" Name="TaskNameTextBlock"
+                                           Style="{StaticResource ListBoxItemHeader}" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+
+                                <TextBlock Grid.Column="1" TextWrapping="Wrap" Style="{StaticResource ListBoxItem}" Width="125" VerticalAlignment="Center" HorizontalAlignment="Center">
                                     <TextBlock.Text>
                                         <MultiBinding StringFormat="{}{0} {1}">
                                             <Binding Path="Assignee.Forename"/>
@@ -167,44 +185,31 @@
                                     </TextBlock.Text>
                                 </TextBlock>
 
-                                <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" Margin="10,0,10,0"/>
-
-                                <Button  Margin ="0,0,0,0" Name="Assign" HorizontalAlignment="Right" Content="Assign to Me" Style="{StaticResource StandardButton}"  
-                                         Command="{Binding RelativeSource={RelativeSource AncestorType={x:Type Page}}, Path =DataContext.AssignCommand}" CommandParameter="{Binding}"
-                                         Visibility="{Binding Assignee, Converter={StaticResource NullToVisConverter}}"/>
-
-                            </StackPanel>
+                                <Button Grid.Column="2" Margin ="0,0,0,0" Name="Assign" HorizontalAlignment="Right" Content="Assign to Me" Style="{StaticResource StandardButton}"  
+                                        Command="{Binding RelativeSource={RelativeSource AncestorType={x:Type Page}}, Path =DataContext.AssignCommand}" CommandParameter="{Binding}"
+                                        Visibility="{Binding Assignee, Converter={StaticResource NullToVisConverter}}"/>
+                            </Grid>
 
                             <Separator/>
 
                             <StackPanel Orientation="Horizontal">
+                                <StackPanel>
+                                    <TextBlock Name="TaskMarketValueTextBlock" Text="Initial Estimate" 
+                                               Style="{StaticResource ButtonLabel}" HorizontalAlignment="Center"/>
+                                    <TextBlock Name="TaskMarketValue" Text="{Binding InitialEstimate}"
+                                               Style="{StaticResource ButtonLabel}" HorizontalAlignment="Center"/>
+                                </StackPanel>
+
                                 <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" Margin="10,0,10,0"/>
-                                <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" Margin="10,0,10,0"/>
+
+                                <TextBlock Name="TaskDescription" Text="{Binding Description}" 
+                                           Width="225" TextWrapping="Wrap" Margin="0,0,5,0"
+                                           Style="{StaticResource ButtonLabel}" HorizontalAlignment="Left"/>
                             </StackPanel>
                         </StackPanel>
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>
-
-            <Button   Grid.Row ="5" Name="EditSprintTeam"
-                Content="Edit Team"
-                 Grid.Column="1"
-                Style="{StaticResource StandardButton}"
-                HorizontalAlignment="Center"
-                Command="{Binding NavigateToManageSprintsCommand}"
-                Visibility="{Binding Path=IsSprintScrumMaster, Converter={StaticResource BoolToVisConverter}}"/>
-            <Button  Grid.Row ="5" Name="BackButton" Content="Back" Style="{StaticResource StandardButton}" HorizontalAlignment="Left" Grid.Column="0" Command="{Binding BackCommand}"/>
-
-            <Button   Grid.Row ="5" Name="EditSprintBacklog"
-                Content="Edit Backlog"
-                Style="{StaticResource StandardButton}"
-                HorizontalAlignment="Right"
-                Grid.Column="1"
-                Command="{Binding NavigateToManageSprintBacklogCommand}"
-                Visibility="{Binding Path=IsSprintScrumMaster, Converter={StaticResource BoolToVisConverter}}"/>
-
-
-
         </Grid>
     </StackPanel>
 </local:BasePage>

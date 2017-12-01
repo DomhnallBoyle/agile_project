@@ -10,10 +10,10 @@
       d:DesignHeight="900" d:DesignWidth="1280"
       Title="Create User Story">
 
-    <StackPanel Width="500" Margin="0,75,0,0">
+    <StackPanel Width="700" Margin="0,75,0,0">
         <ContentControl Template="{StaticResource Headers}" Name="Header"/>
 
-        <StackPanel Width="400">
+        <StackPanel Width="500">
 
             <Grid Margin="0,0,0,10">
                 <Grid.ColumnDefinitions>

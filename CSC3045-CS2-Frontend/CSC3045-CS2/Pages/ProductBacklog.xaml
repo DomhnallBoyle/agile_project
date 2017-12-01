@@ -10,7 +10,7 @@
       d:DesignHeight="900" d:DesignWidth="1280"
       Title="Product Backlog">
 
-    <StackPanel Width="750" Margin="0,75,0,0">
+    <StackPanel Width="775" Margin="0,75,0,0">
         <ContentControl Template="{StaticResource Headers}" Name="Header"/>
 
         <TextBlock Name="ProjectNameTextBlock" HorizontalAlignment="Center" Style="{StaticResource Header}"  Text="{Binding CurrentProject.Name}" Margin="0,0,0,15"/>

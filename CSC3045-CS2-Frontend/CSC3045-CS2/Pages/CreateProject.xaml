@@ -10,55 +10,57 @@
       d:DesignHeight="900" d:DesignWidth="1280"
       Title="Create Project">
 
-    <StackPanel Width="500" Margin="0,75,0,0">
+    <StackPanel Width="700" Margin="0,75,0,0">
         <ContentControl Template="{StaticResource Headers}" Name="Header"/>
+        
+        <StackPanel Width="500" >
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
 
-        <Grid>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
-
-            <TextBlock Grid.Column="0" Name="ProjectManagerHeaderTextBlock" Text="Project Manager:" 
+                <TextBlock Grid.Column="0" Name="ProjectManagerHeaderTextBlock" Text="Project Manager:" 
                     Style="{StaticResource Header}" HorizontalAlignment="Right" Margin="0,0,0,15"/>
 
-            <TextBlock Grid.Column="1" Name="ProjectManagerNameTextBlock"
+                <TextBlock Grid.Column="1" Name="ProjectManagerNameTextBlock"
                     Style="{StaticResource Header}" HorizontalAlignment="Left" Margin="15,0,0,0">
-                <TextBlock.Text>
-                    <MultiBinding StringFormat="{}{0} {1}">
-                        <Binding Path="CurrentUser.Forename"/>
-                        <Binding Path="CurrentUser.Surname"/>
-                    </MultiBinding>
-                </TextBlock.Text>
-            </TextBlock>
-        </Grid>
+                    <TextBlock.Text>
+                        <MultiBinding StringFormat="{}{0} {1}">
+                            <Binding Path="CurrentUser.Forename"/>
+                            <Binding Path="CurrentUser.Surname"/>
+                        </MultiBinding>
+                    </TextBlock.Text>
+                </TextBlock>
+            </Grid>
 
-        <AdornerDecorator>
-            <TextBox Name="ProjectNameTextBox" MaxLength="50" Style="{StaticResource DefaultTextBox}" HorizontalContentAlignment="Center">
-                <utility:WatermarkService.Watermark>
-                    <TextBlock Style="{StaticResource Watermark}"  HorizontalAlignment="Center" Margin="0,5,0,0" Name="ProjectNameTextBlock">Project Name</TextBlock>
-                </utility:WatermarkService.Watermark>
-            </TextBox>
-        </AdornerDecorator>
+            <AdornerDecorator>
+                <TextBox Name="ProjectNameTextBox" MaxLength="50" Style="{StaticResource DefaultTextBox}" HorizontalContentAlignment="Center">
+                    <utility:WatermarkService.Watermark>
+                        <TextBlock Style="{StaticResource Watermark}"  HorizontalAlignment="Center" Margin="0,5,0,0" Name="ProjectNameTextBlock">Project Name</TextBlock>
+                    </utility:WatermarkService.Watermark>
+                </TextBox>
+            </AdornerDecorator>
 
-        <AdornerDecorator Margin="0,12,0,0">
-            <TextBox Name="ProjectDescriptionTextBox" MaxLength="500" Height="75" TextWrapping="Wrap" AcceptsReturn="True" Style="{StaticResource DefaultTextBox}" HorizontalContentAlignment="Center">
-                <utility:WatermarkService.Watermark>
-                    <TextBlock Style="{StaticResource Watermark}"  HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,5"  Name="ProjectDescriptionTextBlock">Description</TextBlock>
-                </utility:WatermarkService.Watermark>
-            </TextBox>
-        </AdornerDecorator>
+            <AdornerDecorator Margin="0,12,0,0">
+                <TextBox Name="ProjectDescriptionTextBox" MaxLength="500" Height="75" TextWrapping="Wrap" AcceptsReturn="True" Style="{StaticResource DefaultTextBox}" HorizontalContentAlignment="Center">
+                    <utility:WatermarkService.Watermark>
+                        <TextBlock Style="{StaticResource Watermark}"  HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,5"  Name="ProjectDescriptionTextBlock">Description</TextBlock>
+                    </utility:WatermarkService.Watermark>
+                </TextBox>
+            </AdornerDecorator>
 
-        <Grid Margin="0,12,0,0">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
+            <Grid Margin="0,12,0,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
 
-            <Button Name="CancelButton" Content="Cancel" Grid.Column="0"
+                <Button Name="CancelButton" Content="Cancel" Grid.Column="0"
                     Style="{StaticResource StandardButton}" HorizontalAlignment="Right" Margin="0,0,15,0" Command="{Binding CancelCommand}"/>
-            <Button Name="CreateButton" Content="Create" Grid.Column="1"
+                <Button Name="CreateButton" Content="Create" Grid.Column="1"
                     Style="{StaticResource StandardButton}" HorizontalAlignment="Left" Margin="15,0,0,0" Command="{Binding CreateProjectCommand}"/>
-        </Grid>
+            </Grid>
+        </StackPanel>
     </StackPanel>
 </local:BasePage>
