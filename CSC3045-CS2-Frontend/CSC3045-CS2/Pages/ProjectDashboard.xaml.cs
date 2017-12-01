@@ -353,6 +353,7 @@ namespace CSC3045_CS2.Pages
         #endregion
 
         #region Event methods
+
         private void TeamMembersListBox_ContextMenuOpening(object sender, ContextMenuEventArgs e)
         {
             var selectedItem = (User)TeamMembersListBox.SelectedItem;

@@ -4,20 +4,17 @@ using CSC3045_CS2.Utility;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Navigation;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
 using System.Collections.ObjectModel;
 using CSC3045_CS2.Exception;
 using System.Collections.Generic;
-using System;
+using System.Text.RegularExpressions;
 
 namespace CSC3045_CS2.Pages
 {
-    public partial class TaskDetails : BasePage, INotifyPropertyChanged
+    public partial class TaskDetails : BasePage
     {
         #region Private Variables
 
-        private ObservableCollection<TaskEstimate> _dailyEstimates = new ObservableCollection<TaskEstimate>();
         private TaskClient _taskClient;
 
         #endregion
@@ -26,15 +23,7 @@ namespace CSC3045_CS2.Pages
 
         public Task CurrentTask { get; set; }
 
-        public ObservableCollection<TaskEstimate> DailyEstimates
-        {
-            get { return _dailyEstimates; }
-            set
-            {
-                _dailyEstimates = value;
-                OnPropertyChanged();
-            }
-        }
+        public ObservableCollection<TaskEstimate> DailyEstimates { get; set; }
 
         #endregion
 
@@ -50,18 +39,29 @@ namespace CSC3045_CS2.Pages
 
             try
             {
-                DailyEstimates = new ObservableCollection<TaskEstimate>(_taskClient.GetTaskEstimates(
-                                                                                CurrentTask.UserStory.Project.Id,
-                                                                                CurrentTask.UserStory.Id,
-                                                                                CurrentTask.Id));
+                List<TaskEstimate> dailyEstimateList = _taskClient.GetTaskEstimates(
+                                                                        CurrentTask.UserStory.Project.Id,
+                                                                        CurrentTask.UserStory.Id,
+                                                                        CurrentTask.Id);
+
+                // dailyEstimateList.RemoveAll(item => item.Date > DateTime.Now);
+                DailyEstimates = new ObservableCollection<TaskEstimate>(dailyEstimateList);
             }
             catch (RestResponseErrorException ex)
             {
                 MessageBoxUtil.ShowErrorBox(ex.Message);
             }
-
-            Console.WriteLine("Stop Here");
         }
+
+        #region Class Methods
+
+        private void NumberOnlyTextBoxValidation(object sender, TextCompositionEventArgs e)
+        {
+            Regex regex = new Regex("[^0-9]+");
+            e.Handled = regex.IsMatch(e.Text);
+        }
+
+        #endregion
 
         #region Command Methods
 
@@ -93,6 +93,8 @@ namespace CSC3045_CS2.Pages
                                 CurrentTask.UserStory.Id,
                                 CurrentTask.Id,
                                 dailyEstimates);
+
+                        MessageBoxUtil.ShowSuccessBox("Estimates updated Successfully");
                     }
                     catch (RestResponseErrorException ex)
                     {
@@ -101,17 +103,25 @@ namespace CSC3045_CS2.Pages
                 });
             }
         }
-        
-        #endregion
 
-        #region Binding
-
-        private void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        public ICommand CascadeCommand
         {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
+            get
+            {
+                return new RelayCommand(param =>
+                {
+                    TaskEstimate changedTask = (TaskEstimate)param;
 
-        public event PropertyChangedEventHandler PropertyChanged;
+                    foreach (TaskEstimate task in DailyEstimates)
+                    {
+                        if (task.Date > changedTask.Date)
+                        {
+                            task.Estimate = changedTask.Estimate;
+                        }
+                    }
+                });
+            }
+        }
 
         #endregion
     }

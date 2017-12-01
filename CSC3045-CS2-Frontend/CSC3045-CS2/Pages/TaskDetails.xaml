@@ -74,7 +74,7 @@
 
                             <TextBlock Grid.Column="0" Name="DateTextBlock" HorizontalAlignment="Center" VerticalAlignment="Center" Style="{StaticResource ListBoxItem}">
                                 <TextBlock.Text>
-                                    <MultiBinding StringFormat="{}{0}, {1}/{2}{3}">
+                                    <MultiBinding StringFormat="{}{0}, {1}/{2}/{3}">
                                         <Binding Path="Date.DayOfWeek"/>
                                         <Binding Path="Date.Day"/>
                                         <Binding Path="Date.Month"/>
@@ -83,11 +83,16 @@
                                 </TextBlock.Text>
                             </TextBlock>
 
+                            
                             <StackPanel Grid.Column="1">
                                 <TextBlock Name="HoursRemainingLabelTextBlock" HorizontalAlignment="Center" Text="Hours Remaining" Style="{StaticResource ListBoxItem}"/>
 
                                 <AdornerDecorator>
-                                    <TextBox Name="HoursRemainingTextBox" Text="{Binding Estimate}" Style="{StaticResource DefaultTextBox}" HorizontalContentAlignment="Center">
+                                    <TextBox Name="HoursRemainingTextBox" Text="{Binding Estimate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" PreviewTextInput="NumberOnlyTextBoxValidation"
+                                             Style="{StaticResource DefaultTextBox}" Width="40" MaxLength="3" HorizontalContentAlignment="Center">
+                                        <TextBox.InputBindings>
+                                            <KeyBinding Command="{Binding RelativeSource={RelativeSource AncestorType={x:Type Page}}, Path=DataContext.CascadeCommand}" CommandParameter="{Binding}" Key="Enter"/>
+                                        </TextBox.InputBindings>
                                         <utility:WatermarkService.Watermark>
                                             <TextBlock Name="HoursRemainingTextBoxPlaceholder" Style="{StaticResource Watermark}" HorizontalAlignment="Center" Margin="0,5,0,0"/>
                                         </utility:WatermarkService.Watermark>
