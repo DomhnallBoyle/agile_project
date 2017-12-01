@@ -7,7 +7,7 @@
         Icon="Resources/Images/Logo/waterfall icon.png"
         WindowStartupLocation="CenterScreen"
         MinWidth="1280"
-        MinHeight="900"
+        MinHeight="1000"
         Title="Waterfall Systems" Width="1280" Height="900">
     <!-- Min and Max Width/Height of the window can be specified here in the above tag-->
 
