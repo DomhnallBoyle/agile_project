@@ -17,6 +17,7 @@ import org.junit.Test;
 
 import uk.ac.qub.csc3045.api.exception.ResponseErrorException;
 import uk.ac.qub.csc3045.api.mapper.ProjectMapper;
+import uk.ac.qub.csc3045.api.mapper.SprintMapper;
 import uk.ac.qub.csc3045.api.mapper.TaskMapper;
 import uk.ac.qub.csc3045.api.mapper.UserStoryMapper;
 import uk.ac.qub.csc3045.api.model.AcceptanceTest;
@@ -32,6 +33,7 @@ public class TaskServiceTest {
 	private Task task;
 	private UserStoryMapper userStoryMapper;
 	private ProjectMapper projectMapper;
+	private SprintMapper sprintMapper;
 	private UserStory userStory;
 	private Project project;
 	private Sprint sprint;
@@ -58,10 +60,11 @@ public class TaskServiceTest {
 		taskMapper = mock(TaskMapper.class);
     	projectMapper = mock(ProjectMapper.class);
     	userStoryMapper = mock(UserStoryMapper.class);
-        tasks = new ArrayList<Task>();
+    	sprintMapper = mock(SprintMapper.class);
+        tasks = new ArrayList<>();
     	tasks.add(task);
     	userStory.setTasks(tasks);
-    	taskService = new TaskService(taskMapper,projectMapper,userStoryMapper);
+    	taskService = new TaskService(taskMapper,projectMapper,userStoryMapper, sprintMapper);
 
 	}
 	@Test

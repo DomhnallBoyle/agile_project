@@ -298,10 +298,9 @@ namespace CSC3045_CS2.Pages
                     {
                         try
                         {
+                            TeamMembers.Add(SearchResultUser);
                             List<User> teamMembers = new List<User>(TeamMembers);
                             _projectClient.Add(teamMembers, _currentProject);
-
-                            TeamMembers.Add(SearchResultUser);
 
                             UpdateSearchUI();
                         }

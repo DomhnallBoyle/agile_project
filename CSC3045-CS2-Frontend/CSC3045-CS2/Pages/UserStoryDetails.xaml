@@ -7,26 +7,46 @@
       mc:Ignorable="d" 
       d:DesignHeight="900" d:DesignWidth="1280"
       Background="{StaticResource BackgroundGradient}"
-      Title="Acceptance Tests">
+      Title="User Story Details">
 
     <StackPanel Width="800" Margin="0,75,0,0">
         <ContentControl Template="{StaticResource Headers}" Name="Header"/>
 
-        <TextBlock Name="StoryNameTextBlock" HorizontalAlignment="Center" Style="{StaticResource Header}"  Text="{Binding CurrentUserStory.Name}"/>
+        <TextBlock Name="ProjectNameTextBlock" HorizontalAlignment="Center" Style="{StaticResource Header}" Text="{Binding CurrentUserStory.Project.Name}" FontWeight="Bold" Margin="0,0,0,10"/>
 
-        <Grid>
+        <Grid Margin="0,10,0,10">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="0.2*" />
+                <ColumnDefinition Width="0.6*"/>
+                <ColumnDefinition Width="0.07*"/>
+                <ColumnDefinition Width="0.07*"/>
             </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
 
-            <Button Grid.Column="0" Name="BackButton" Content="Back" Command="{Binding GoToProductBacklogCommand}"
-                    Style="{StaticResource StandardButton}" HorizontalAlignment="Right" Width="175" Margin="0,0,15,0"/>
-            <Button Grid.Column="1" Name="CreateAcceptanceTestButton" Content="Create Acceptance Test" Command="{Binding GoToCreateAcceptanceTestCommand}"
-                    Style="{StaticResource StandardButton}" HorizontalAlignment="Left" Width="175" Margin="15,0,0,0"
-                    Visibility="{Binding Permissions.ProductOwner, Converter={StaticResource BoolToVisConverter}}">
-            </Button>
+            <TextBlock Grid.Column="0" Grid.Row="0" Name="StoryNameHeaderTextBlock" Text="Name" Style="{StaticResource Header}" HorizontalAlignment="Center" VerticalAlignment="Bottom"/>
+            <TextBlock Grid.Column="1" Grid.Row="0" Name="StoryDescriptionHeaderTextBlock" Text="Description" Style="{StaticResource Header}" HorizontalAlignment="Center" VerticalAlignment="Bottom"/>
+            <TextBlock Grid.Column="2" Grid.Row="0" Name="StoryMarketValueHeaderTextBlock" Text="Market Value" Style="{StaticResource Label}" HorizontalAlignment="Center" TextWrapping="Wrap" TextAlignment="Center"/>
+            <TextBlock Grid.Column="3" Grid.Row="0" Name="StoryPointsHeaderTextBlock" Text="Points" Style="{StaticResource Label}" HorizontalAlignment="Center" VerticalAlignment="Bottom"/>
+
+            <Separator Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="4" Margin="0,6,0,6"/>
+
+            <TextBlock Grid.Column="0" Grid.Row="2" Name="StoryNameTextBlock" Text="{Binding CurrentUserStory.Name}" Style="{StaticResource Label}" HorizontalAlignment="Center" TextWrapping="Wrap" Margin="0,0,5,0"/>
+
+            <ScrollViewer Grid.Column="1" Grid.Row="2" VerticalScrollBarVisibility="Auto" Height="75" Margin="5,0,5,0">
+                <TextBlock Name="StoryDescriptionTextBlock" Text="{Binding CurrentUserStory.Description}" Style="{StaticResource Label}" HorizontalAlignment="Center" TextWrapping="Wrap"/>
+            </ScrollViewer>
+
+            <TextBlock Grid.Column="2" Grid.Row="2" Name="StoryMarketValueTextBlock" Text="{Binding CurrentUserStory.MarketValue}" Style="{StaticResource Label}" HorizontalAlignment="Center"/>
+            <TextBlock Grid.Column="3" Grid.Row="2" Name="StoryPointsTextBlock" Text="{Binding CurrentUserStory.Points}" Style="{StaticResource Label}" HorizontalAlignment="Center"/>
         </Grid>
+
+        <TextBlock Name="AcceptanceTestsLabel" Text="Acceptance Tests" HorizontalAlignment="Center" Style="{StaticResource Header}"/>
+
+        <Separator/>
 
         <Grid Margin="0,12,0,0">
             <Grid.ColumnDefinitions>
@@ -42,7 +62,7 @@
             <TextBlock Grid.Column="3" Name="CompleteLabelBlock" Text="Complete" TextAlignment="Center" Style="{StaticResource Header}"/>
         </Grid>
 
-        <Grid Height="500">
+        <Grid Height="380">
             <ListBox Grid.Row="3" Name="UserStoryAcceptanceTests" HorizontalContentAlignment="Stretch" Style="{StaticResource DefaultListBox}">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
@@ -66,6 +86,20 @@
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>
+        </Grid>
+        
+        <Grid Margin="0,10,0,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <Button Grid.Column="0" Name="BackButton" Content="Back" Command="{Binding GoToProductBacklogCommand}"
+                    Style="{StaticResource StandardButton}" HorizontalAlignment="Right" Width="175" Margin="0,0,15,0"/>
+            <Button Grid.Column="1" Name="CreateAcceptanceTestButton" Content="Create Acceptance Test" Command="{Binding GoToCreateAcceptanceTestCommand}"
+                    Style="{StaticResource StandardButton}" HorizontalAlignment="Left" Width="175" Margin="15,0,0,0"
+                    Visibility="{Binding Permissions.ProductOwner, Converter={StaticResource BoolToVisConverter}}">
+            </Button>
         </Grid>
     </StackPanel>
 </local:BasePage>
