@@ -13,7 +13,7 @@ public class UserStory {
     private String name;
 
     @NotNull
-    @Size(max=50)
+    @Size(max=500)
     private String description;
 
     private Integer points;
