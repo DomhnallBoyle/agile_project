@@ -8,14 +8,6 @@ namespace AutomationTests.PageTemplates
 {
     class UserStoryDetailsPage : BasePage
     {
-        public UserStoryDetailsPage(Window window) : base(window)
-        { }
-
-        public override bool IsCurrentPage()
-        {
-            return PageTitle.Text.Equals("");
-        }
-
         public Button CreateAcceptanceTestButton
         {
             get { return MainWindow.Get<Button>("CreateAcceptanceTestButton"); }
@@ -35,7 +27,16 @@ namespace AutomationTests.PageTemplates
         {
             return listItem.Get<CheckBox>("CompleteLabelBlock");
         }
+
+        public UserStoryDetailsPage(Window window) : base(window)
+        { }
+
+        public override bool IsCurrentPage()
+        {
+            return PageTitle.Text.Equals("");
+        }
+
     }
 
-    
+
 }

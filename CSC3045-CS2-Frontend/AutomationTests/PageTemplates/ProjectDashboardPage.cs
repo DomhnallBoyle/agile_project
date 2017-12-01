@@ -40,13 +40,6 @@ namespace AutomationTests.PageTemplates
             get { return MainWindow.Get<ListBox>("ScrumMastersListBox"); }
         }
 
-        public ProjectDashboardPage(Window window) : base(window) { }
-
-        public override bool IsCurrentPage()
-        {
-            return PageTitle.Text.Equals("Project Dashboard");
-        }
-
         public Button CreateProjectButton
         {
             get { return MainWindow.Get<Button>("CreateProjectButton"); }
@@ -95,6 +88,13 @@ namespace AutomationTests.PageTemplates
         public Button GetRemoveButtonForScrumMasterListItem(WPFListItem listItem)
         {
             return listItem.Get<Button>("ScrumMasterRemoveButton");
+        }
+
+        public ProjectDashboardPage(Window window) : base(window) { }
+
+        public override bool IsCurrentPage()
+        {
+            return PageTitle.Text.Equals("Project Dashboard");
         }
     }
 }

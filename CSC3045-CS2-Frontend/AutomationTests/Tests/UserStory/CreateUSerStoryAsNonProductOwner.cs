@@ -16,8 +16,8 @@ namespace AutomationTests.Tests.UserStory
 
         private CreateUserStoryPage _createUserStoryPage;
 
-        [Test]
-        public void CreateAUserStoryAsAProjectMangerNotVisible()
+        [OneTimeSetUp]
+        public void OneTimeSetup()
         {
             _userDashboardPage = new UserDashboardPage(MainWindow);
             _projectDashboardPage = new ProjectDashboardPage(MainWindow);
@@ -26,7 +26,11 @@ namespace AutomationTests.Tests.UserStory
 
             LoginPage.Login("user2@e2e.com", "Aut0mation");
             Assert.IsTrue(_userDashboardPage.IsCurrentPage());
+        }
 
+        [Test]
+        public void CreateAUserStoryAsAProjectMangerNotVisible()
+        {
             var projectListItem = (WPFListItem)_userDashboardPage.ProjectListBox.Items.Find(item => "e2eProjectName1".Equals(item.Text));
             projectListItem.Click();
 
