@@ -1,7 +1,5 @@
 package uk.ac.qub.csc3045.api.service;
 
-
-
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -20,7 +18,6 @@ import uk.ac.qub.csc3045.api.mapper.ProjectMapper;
 import uk.ac.qub.csc3045.api.mapper.SprintMapper;
 import uk.ac.qub.csc3045.api.mapper.TaskMapper;
 import uk.ac.qub.csc3045.api.mapper.UserStoryMapper;
-import uk.ac.qub.csc3045.api.model.AcceptanceTest;
 import uk.ac.qub.csc3045.api.model.Project;
 import uk.ac.qub.csc3045.api.model.Sprint;
 import uk.ac.qub.csc3045.api.model.Task;
@@ -28,179 +25,171 @@ import uk.ac.qub.csc3045.api.model.UserStory;
 import static uk.ac.qub.csc3045.api.setup.UnitTestObjectGenerator.*;
 
 public class TaskServiceTest {
-	private TaskMapper taskMapper;
-	private TaskService taskService;
+	
 	private Task task;
-	private UserStoryMapper userStoryMapper;
-	private ProjectMapper projectMapper;
-	private SprintMapper sprintMapper;
-	private UserStory userStory;
+	private TaskService taskService;
+	
+	private ProjectMapper projectMapperMock;
+	private SprintMapper sprintMapperMock;
+	private TaskMapper taskMapperMock;
+	private UserStoryMapper userStoryMapperMock;
+	
+	private List<Task> tasks;
 	private Project project;
 	private Sprint sprint;
-	private AcceptanceTest acceptanceTest;
-	private List<UserStory>userStories;
-	private List<Task> tasks;
+	private UserStory userStory;
 
-	
-	
 	@Before
 	public void setup(){	
-		userStory = generateUserStory();	
-		sprint = generateSprint();
+    	projectMapperMock = mock(ProjectMapper.class);
+    	sprintMapperMock = mock(SprintMapper.class);
+		taskMapperMock = mock(TaskMapper.class);
+    	userStoryMapperMock = mock(UserStoryMapper.class);
+    	taskService = new TaskService(taskMapperMock, projectMapperMock, userStoryMapperMock, sprintMapperMock);
+		
 		project = generateProject();
-		acceptanceTest = new AcceptanceTest();
-		acceptanceTest.setId(1l);	
+		sprint = generateSprint();
+		task = generateTask();
+		userStory = generateUserStory();
+		
+		task.setUserStory(userStory);
+        tasks = new ArrayList<Task>();
+    	tasks.add(task);
+
 		userStory.setSprint(sprint);
 		userStory.setProject(project);
-		userStories = new ArrayList<>();
-        userStories.add(userStory);
-        task=generateTask();
-        task.setUserStory(userStory);
-		project.setUserStories(userStories);
-		taskMapper = mock(TaskMapper.class);
-    	projectMapper = mock(ProjectMapper.class);
-    	userStoryMapper = mock(UserStoryMapper.class);
-    	sprintMapper = mock(SprintMapper.class);
-        tasks = new ArrayList<>();
-    	tasks.add(task);
     	userStory.setTasks(tasks);
-    	taskService = new TaskService(taskMapper,projectMapper,userStoryMapper, sprintMapper);
-
 	}
+	
 	@Test
     public void testCreateTaskReturnsCreatedTask() {
-		when(projectMapper.getProjectById(project.getId())).thenReturn(project);
-	    when(userStoryMapper.getUserStoryById(userStory.getId())).thenReturn(userStory);
-	    when(taskMapper.getTaskById(task.getId())).thenReturn(task);
-	    Task response = taskService.create(project.getId(),userStory.getId(),task);
-	
-	    assertTrue(response.equals(task));    
-	
-	}
-	@Test()
-	public void testCreateTaskThrowsExceptionWhenProjectIsNull() {
-		when(projectMapper.getProjectById(project.getId())).thenReturn(null);
-		try {
-			taskService.create(project.getId(),userStory.getId(),task);
-		}
-	    catch(ResponseErrorException e) {
-	    	System.out.print(e.getMessage());
-	    	assertTrue(e.getMessage() == "Project does not exist in the database");
-	    }
-	}
-	@Test()
-	public void testCreateTaskThrowsExceptionWhenUserStoryIsNull() {
-		when(projectMapper.getProjectById(project.getId())).thenReturn(project);
-	    when(userStoryMapper.getUserStoryById(userStory.getId())).thenReturn(null);
-	    when(taskMapper.getTaskById(task.getId())).thenReturn(task);
+		// Arrange
+		when(projectMapperMock.getProjectById(project.getId())).thenReturn(project);
+	    when(userStoryMapperMock.getUserStoryById(userStory.getId())).thenReturn(userStory);
+	    when(taskMapperMock.getTaskById(task.getId())).thenReturn(task);
+	    when(sprintMapperMock.getSprintById(sprint.getId())).thenReturn(sprint);
 	    
-	    try {
-	    	taskService.create(project.getId(),userStory.getId(),task);
-	    }
-	    catch (ResponseErrorException e) {
-	    	assertTrue(e.getMessage() == "User Story does not exist in the database");
-	    }
+	    // Act
+	    Task response = taskService.create(project.getId(), userStory.getId(), task);
+	
+	    // Assert
+	    assertTrue(response.equals(task));    
 	}
+	
+	@Test(expected = ResponseErrorException.class)
+	public void testCreateTaskThrowsExceptionWhenProjectIsNull() {
+		// Arrange
+		when(projectMapperMock.getProjectById(project.getId())).thenReturn(null);
+		
+		// Act
+		taskService.create(project.getId(), userStory.getId(), task);
+	}
+	
+	@Test(expected = ResponseErrorException.class)
+	public void testCreateTaskThrowsExceptionWhenUserStoryIsNull() {
+		// Arrange
+		when(projectMapperMock.getProjectById(project.getId())).thenReturn(project);
+	    when(userStoryMapperMock.getUserStoryById(userStory.getId())).thenReturn(null);
+	    
+	    // Act
+	    taskService.create(project.getId(), userStory.getId(), task);
+	}
+	
 	@Test
 	public void testGetUserStoryTasksReturnsTasks() {
-		when(projectMapper.getProjectById(project.getId())).thenReturn(project);
-	    when(userStoryMapper.getUserStoryById(userStory.getId())).thenReturn(userStory);
-	    when(taskMapper.getUserStoryTasks(userStory.getId())).thenReturn(tasks);
+		// Arrange
+		when(projectMapperMock.getProjectById(project.getId())).thenReturn(project);
+	    when(userStoryMapperMock.getUserStoryById(userStory.getId())).thenReturn(userStory);
+	    when(taskMapperMock.getUserStoryTasks(userStory.getId())).thenReturn(tasks);
 	    
+	    // Act
 	    List<Task> response = taskService.getUserStoryTasks(userStory.getProject().getId(), userStory.getId());
+	    
+	    // Assert
 	    assertTrue(response.equals(tasks));
-	    
-	}
-	@Test()
-	public void testGetUserStoryTasksThrowsExceptionWhenProjectIsNull() {
-		when(projectMapper.getProjectById(project.getId())).thenReturn(null);
-	    when(userStoryMapper.getUserStoryById(userStory.getId())).thenReturn(userStory);
-	    when(taskMapper.getUserStoryTasks(userStory.getId())).thenReturn(tasks);
-	    
-	    try {
-	    	taskService.getUserStoryTasks(userStory.getProject().getId(), userStory.getId());
-	    }catch(ResponseErrorException e) {
-	    	assertTrue(e.getMessage() == "Project does not exist in the database");
-	    }
-	}
-	@Test()
-	public void testGetUserStoryTasksThrowsExceptionWhenUserStoryIsNull() {
-		when(projectMapper.getProjectById(project.getId())).thenReturn(project);
-	    when(userStoryMapper.getUserStoryById(userStory.getId())).thenReturn(null);
-	    when(taskMapper.getUserStoryTasks(userStory.getId())).thenReturn(tasks);
-	    
-	    try {
-	    	taskService.getUserStoryTasks(userStory.getProject().getId(), userStory.getId());
-	    }catch(ResponseErrorException e) {
-	    	assertTrue(e.getMessage() == "User Story does not exist in the database");
-	    }
-	}
-	@Test
-	public void testGetTaskReturnsATask() {
-		when(projectMapper.getProjectById(project.getId())).thenReturn(project);
-	    when(userStoryMapper.getUserStoryById(userStory.getId())).thenReturn(userStory);
-	    when(taskMapper.getTaskById(task.getId())).thenReturn(task);
-	    
-	    Task response = taskService.getTask(project.getId(),userStory.getId(), task.getId());
-	    assertTrue(response.equals(task));
-	}
-	@Test()
-	public void testGetTaskThrowsAnExceptionWhenProjectIsNull() {
-		when(projectMapper.getProjectById(project.getId())).thenReturn(null);
-	    when(userStoryMapper.getUserStoryById(userStory.getId())).thenReturn(userStory);
-	    when(taskMapper.getTaskById(task.getId())).thenReturn(task);
-	    
-	    try {
-	    	taskService.getTask(project.getId(),userStory.getId(), task.getId());
-	    }
-	    catch(ResponseErrorException e) {
-	    	assertTrue(e.getMessage() == "Project does not exist in the database");
-	    }
-	}
-	@Test()
-	public void testGetTaskThrowsAnExceptionWhenUserStoryIsNull() {
-		when(projectMapper.getProjectById(project.getId())).thenReturn(project);
-	    when(userStoryMapper.getUserStoryById(userStory.getId())).thenReturn(null);
-	    when(taskMapper.getTaskById(task.getId())).thenReturn(task);
-	    
-	    try {
-	    	taskService.getTask(project.getId(),userStory.getId(), task.getId());
-	    }
-	    catch(ResponseErrorException e){
-	    	assertTrue(e.getMessage()== "User Story does not exist in the database");
-	    }
-	    
-	    
-	}
-	@Test()
-	public void testGetTaskThrowsAnExceptionWhenTaskIsNull() {
-		when(projectMapper.getProjectById(project.getId())).thenReturn(project);
-	    when(userStoryMapper.getUserStoryById(userStory.getId())).thenReturn(userStory);
-	    when(taskMapper.getTaskById(task.getId())).thenReturn(null);
-	    try {
-	    taskService.getTask(project.getId(),userStory.getId(), task.getId());
-	    }
-	    catch(ResponseErrorException e){
-	    	assertTrue(e.getMessage()== "Task does not exist in the database");
-	    }
-	    
-	}
-	@Test
-	public void testUpdateTaskUpdatesATaskAndReturnsIt() {
-		when(taskMapper.getTaskById(task.getId())).thenReturn(task);
-		Task response = taskService.updateTask(task, task.getId());
-		assertTrue(response.equals(task));
-	}
-	@Test ()
-	public void testUpdateTaskThrowsExceptionWhenTaskIdIsNull() {
-		when(taskMapper.getTaskById(task.getId())).thenReturn(null);
-		try {
-		    taskService.updateTask(task, task.getId());
-		    }
-		catch(ResponseErrorException e){
-		    	assertTrue(e.getMessage()== "Task does not exist in the database");
-		}
 	}
 	
+	@Test(expected = ResponseErrorException.class)
+	public void testGetUserStoryTasksThrowsExceptionWhenProjectIsNull() {
+		// Arrange
+		when(projectMapperMock.getProjectById(project.getId())).thenReturn(null);
+	    
+	    // Act
+		taskService.getUserStoryTasks(userStory.getProject().getId(), userStory.getId());
+	}
+	
+	@Test(expected = ResponseErrorException.class)
+	public void testGetUserStoryTasksThrowsExceptionWhenUserStoryIsNull() {
+		// Arrange
+		when(projectMapperMock.getProjectById(project.getId())).thenReturn(project);
+	    when(userStoryMapperMock.getUserStoryById(userStory.getId())).thenReturn(null);
+	    
+	    // Act
+	    taskService.getUserStoryTasks(userStory.getProject().getId(), userStory.getId());
+	}
+	
+	@Test
+	public void testGetTaskReturnsATask() {
+		// Arrange
+		when(projectMapperMock.getProjectById(project.getId())).thenReturn(project);
+	    when(userStoryMapperMock.getUserStoryById(userStory.getId())).thenReturn(userStory);
+	    when(taskMapperMock.getTaskById(task.getId())).thenReturn(task);
+	    
+	    // Act
+	    Task response = taskService.getTask(project.getId(), userStory.getId(), task.getId());
+	    
+	    // Assert
+	    assertTrue(response.equals(task));
+	}
+	
+	@Test(expected = ResponseErrorException.class)
+	public void testGetTaskThrowsAnExceptionWhenProjectIsNull() {
+		// Arrange
+		when(projectMapperMock.getProjectById(project.getId())).thenReturn(null);
+	    
+		// Act
+		taskService.getTask(project.getId(), userStory.getId(), task.getId());
+	}
+	
+	@Test(expected = ResponseErrorException.class)
+	public void testGetTaskThrowsAnExceptionWhenUserStoryIsNull() {
+		// Arrange
+		when(projectMapperMock.getProjectById(project.getId())).thenReturn(project);
+	    when(userStoryMapperMock.getUserStoryById(userStory.getId())).thenReturn(null);
+    
+	    // Act
+	    taskService.getTask(project.getId(), userStory.getId(), task.getId());
+	}
+	
+	@Test(expected = ResponseErrorException.class)
+	public void testGetTaskThrowsAnExceptionWhenTaskIsNull() {
+		// Arrange
+		when(projectMapperMock.getProjectById(project.getId())).thenReturn(project);
+	    when(userStoryMapperMock.getUserStoryById(userStory.getId())).thenReturn(userStory);
+	    when(taskMapperMock.getTaskById(task.getId())).thenReturn(null);
 
+	    // Act
+	    taskService.getTask(project.getId(), userStory.getId(), task.getId());
+	}
+	
+	@Test
+	public void testUpdateTaskUpdatesATaskAndReturnsIt() {
+		// Arrange
+		when(taskMapperMock.getTaskById(task.getId())).thenReturn(task);
+		
+		// Act
+		Task response = taskService.updateTask(task, task.getId());
+		
+		// Assert
+		assertTrue(response.equals(task));
+	}
+	
+	@Test(expected = ResponseErrorException.class)
+	public void testUpdateTaskThrowsExceptionWhenTaskIdIsNull() {
+		// Arrange
+		when(taskMapperMock.getTaskById(task.getId())).thenReturn(null);
+
+		// Act
+		taskService.updateTask(task, task.getId());
+	}
 }

@@ -20,11 +20,6 @@ namespace AutomationTests.PageTemplates
             get { return MainWindow.Get<WpfDatePicker>("EndDatePicker"); }
         }
 
-        public Button CancelButton
-        {
-            get { return MainWindow.Get<Button>("CancelButton"); }
-        }
-
         public Button CreateButton
         {
             get { return MainWindow.Get<Button>("CreateButton"); }
