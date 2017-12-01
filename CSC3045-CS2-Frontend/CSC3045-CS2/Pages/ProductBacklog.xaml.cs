@@ -31,8 +31,6 @@ namespace CSC3045_CS2
 
         public Project CurrentProject { get; set; }
 
-        public Permissions Permissions { get; set; }
-
         public PermissonDragHandler PermissonDragHandler { get; set; }
 
         public ObservableCollection<UserStory> Backlog { get; set; }
