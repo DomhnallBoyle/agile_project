@@ -42,7 +42,8 @@ public class UserService {
     }
     
     public List<Skill> getUserSkills(long userId) {
-    	return userMapper.getUserSkills(userId);
+    	List<Skill> userSkills = userMapper.getUserSkills(userId);
+    	return userSkills;
     }
     
     public List<Skill> updateUserSkills(long userId, User user) {

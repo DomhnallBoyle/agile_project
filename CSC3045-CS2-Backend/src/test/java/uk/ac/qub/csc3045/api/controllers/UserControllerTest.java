@@ -37,7 +37,7 @@ public class UserControllerTest {
     private List<Skill> setUpSkills() {
     	List<Skill> skills = new ArrayList<Skill>();
     	for (int i=0; i<5; i++) {
-    		skills.add(new Skill("skill " + i, user));
+    		skills.add(new Skill("skill " + i));
     	}
     	return skills;
     }

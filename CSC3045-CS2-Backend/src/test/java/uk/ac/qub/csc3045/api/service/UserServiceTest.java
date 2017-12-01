@@ -43,7 +43,7 @@ public class UserServiceTest {
     private List<Skill> setUpSkills() {
     	List<Skill> skills = new ArrayList<Skill>();
     	for (int i=0; i<5; i++) {
-    		skills.add(new Skill("skill " + i, user));
+    		skills.add(new Skill("skill " + i));
     	}
     	return skills;
     }
@@ -69,7 +69,7 @@ public class UserServiceTest {
     }
     
     @Test
-    public void getUserSkillsShouldReturn200() {
+    public void retrievingUserSkillsShouldReturnSkillList() {
     	when(userMapper.getUserSkills(userId)).thenReturn(skills);
     	
     	List<Skill> returnedSkills = userService.getUserSkills(userId);
@@ -78,7 +78,7 @@ public class UserServiceTest {
     }
     
     @Test
-    public void updateUserSkillsShouldReturn200() {
+    public void updatingUserSkillsShouldReturnSkillList() {
     	doNothing().when(userMapper).removeUserSkills(userId);
     	doNothing().when(userMapper).addUserSkill(eq(userId), any(Skill.class));
     	when(userMapper.getUserSkills(userId)).thenReturn(skills);

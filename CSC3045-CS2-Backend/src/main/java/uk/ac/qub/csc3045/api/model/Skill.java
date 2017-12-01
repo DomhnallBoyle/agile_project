@@ -9,16 +9,12 @@ public class Skill {
 	@NotNull
 	private String description;
 	
-	@NotNull
-	private User user;
-	
 	public Skill() {
 		
 	}
 	
-	public Skill(String description, User user) {
+	public Skill(String description) {
 		this.description = description;
-		this.user = user;
 	}
 	
 	public long getId() {
@@ -37,11 +33,4 @@ public class Skill {
 		this.description = description;
 	}
 	
-	public User getUser() {
-		return user;
-	}
-	
-	public void setUser(User user) {
-		this.user = user;
-	}
 }

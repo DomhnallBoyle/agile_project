@@ -8,7 +8,9 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import uk.ac.qub.csc3045.api.mapper.AuthenticationMapper;
+import uk.ac.qub.csc3045.api.mapper.UserMapper;
 import uk.ac.qub.csc3045.api.model.Account;
+import uk.ac.qub.csc3045.api.model.Skill;
 import uk.ac.qub.csc3045.api.utility.ValidationUtility;
 
 import static java.util.Collections.emptyList;
@@ -16,28 +18,37 @@ import static java.util.Collections.emptyList;
 @Service
 public class AuthenticationService implements UserDetailsService {
 
-    private AuthenticationMapper mapper;
+    private AuthenticationMapper authMapper;
+    private UserMapper userMapper;
     private BCryptPasswordEncoder passwordEncoder;
 
     @Autowired
-    public AuthenticationService(AuthenticationMapper mapper, BCryptPasswordEncoder passwordEncoder) {
-        this.mapper = mapper;
+    public AuthenticationService(AuthenticationMapper authMapper, UserMapper userMapper, BCryptPasswordEncoder passwordEncoder) {
+        this.authMapper = authMapper;
+        this.userMapper = userMapper;
         this.passwordEncoder = passwordEncoder;
     }
 
     public Account register(Account account) {
-        ValidationUtility.validateAccount(account, mapper);
+        ValidationUtility.validateAccount(account, authMapper);
         account.setPassword(passwordEncoder.encode(account.getPassword()));
         
-        mapper.createRoles(account.getUser().getRoles());
-        mapper.createUser(account.getUser());
-        mapper.createAccount(account);
-        return mapper.findAccountByEmail(account.getUser().getEmail());
+        authMapper.createRoles(account.getUser().getRoles());
+        authMapper.createUser(account.getUser());
+        authMapper.createAccount(account);
+        
+        // adding the users skills
+    	for(Skill skill: account.getUser().getSkills()) {
+    		if (skill.getDescription() != "")
+    			userMapper.addUserSkill(account.getUser().getId(), skill);
+    	}
+    	
+        return authMapper.findAccountByEmail(account.getUser().getEmail());
     }
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        Account account = mapper.findAccountByEmail(email);
+        Account account = authMapper.findAccountByEmail(email);
         if (account == null) {
             throw new UsernameNotFoundException(email);
         }

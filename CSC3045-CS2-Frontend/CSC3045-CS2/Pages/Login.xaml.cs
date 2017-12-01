@@ -3,6 +3,7 @@ using CSC3045_CS2.Models;
 using CSC3045_CS2.Service;
 using CSC3045_CS2.Utility;
 using System;
+using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -17,7 +18,7 @@ namespace CSC3045_CS2.Pages
     {
         #region Private Variables
 
-        private AuthenticationClient _client;
+        private AuthenticationClient _authClient;
 
         #endregion
 
@@ -25,7 +26,7 @@ namespace CSC3045_CS2.Pages
         {
             InitializeComponent();
             DataContext = this;
-            _client = new AuthenticationClient();
+            _authClient = new AuthenticationClient();
         }
 
         #region Command methods
@@ -46,7 +47,7 @@ namespace CSC3045_CS2.Pages
 
                     try
                     {
-                        User returnedUser = _client.Login(account);
+                        User returnedUser = _authClient.Login(account);
 
                         if (Application.Current.Properties.Contains("user"))
                         {

@@ -22,18 +22,13 @@ namespace CSC3045_CS2.Pages
 
         private ProjectClient _projectClient;
         private UserClient _userClient;
+        private User user;
 
         #endregion
 
         #region Public variables
 
         public List<ProjectPermissions> ProjectList { get; set; }
-
-        public ObservableCollection<String> AvailableSkills
-        { get; set; }
-
-        public ObservableCollection<String> MySelectedObjects
-        { get; set; }
 
         #endregion
 
@@ -43,7 +38,7 @@ namespace CSC3045_CS2.Pages
             CurrentPage = this.Title;
             DataContext = this;
 
-            User user = ((User)Application.Current.Properties["user"]);
+            user = ((User)Application.Current.Properties["user"]);
             UserLabel = user.GetFullName();
             string profileImageFileName;
             if (user.ProfilePicture != null)

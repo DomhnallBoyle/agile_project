@@ -77,6 +77,7 @@
     </ApplicationDefinition>
     <Compile Include="Exception\RestResponseErrorException.cs" />
     <Compile Include="Models\AcceptanceTest.cs" />
+    <Compile Include="Models\Skill.cs" />
     <Compile Include="Models\Account.cs" />
     <Compile Include="Models\Project.cs" />
     <Compile Include="Models\Roles.cs" />

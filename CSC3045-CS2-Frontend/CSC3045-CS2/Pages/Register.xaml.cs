@@ -12,6 +12,8 @@ using System.Windows.Media.Imaging;
 using System.IO;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace CSC3045_CS2.Pages
 {
@@ -20,13 +22,15 @@ namespace CSC3045_CS2.Pages
 
         #region Private Variables 
 
-        private AuthenticationClient _client;
+        private AuthenticationClient _authenticationClient;
+        private UserClient _userClient;
         private BitmapImage _profileImage;
         private String _warningMessage;
         private Style _invalidTextBoxStyle;
         private Style _validTextBoxStyle;
         private Style _invalidPasswordBoxStyle;
         private Style _validPasswordBoxStyle;
+        private List<String> _userSkillSet;
 
         #endregion
 
@@ -34,7 +38,8 @@ namespace CSC3045_CS2.Pages
         {
             InitializeComponent();
             DataContext = this;
-            _client = new AuthenticationClient();
+            _authenticationClient = new AuthenticationClient();
+            _userClient = new UserClient();
             _profileImage = null;
             ImageBrush profileButtonBackground = new ImageBrush();
             profileButtonBackground.ImageSource = new BitmapImage(new Uri(Properties.Settings.Default.ProfileImageDirectory + Properties.Settings.Default.DefaultProfileImage, UriKind.Absolute));
@@ -70,11 +75,16 @@ namespace CSC3045_CS2.Pages
                 {
                     profileImagePath = Properties.Settings.Default.DefaultProfileImage;
                 }
-                User user = new User(FirstnameTextBox.Text, SurnameTextBox.Text, EmailTextBox.Text, profileImagePath, roles);
+                List<Skill> userSkills = new List<Skill>();
+                for (int i = 0; i < _userSkillSet.Count; i++)
+                {
+                    userSkills.Add(new Skill(_userSkillSet[i]));
+                }
+                User user = new User(FirstnameTextBox.Text, SurnameTextBox.Text, EmailTextBox.Text, profileImagePath, roles, userSkills);
                 Account account = new Account(user, PasswordTextBox.Password.ToString());
                 try
                 {
-                    Account returnedAccount = this._client.Register(account);
+                    Account returnedAccount = this._authenticationClient.Register(account);
                     MessageBoxUtil.ShowSuccessBox("Registration successful!");
                     Page loginPage = new Login();
                     if (_profileImage != null)
@@ -226,6 +236,11 @@ namespace CSC3045_CS2.Pages
             else
             {
                 ConfirmPasswordTextBox.Style = _validPasswordBoxStyle;
+            }
+
+            if (!String.IsNullOrEmpty(UserSkillSetTextBox.Text))
+            {
+                _userSkillSet = UserSkillSetTextBox.Text.Split(',').Select(p => p.Trim()).ToList();
             }
 
             if (!CheckPasswordsMatch())

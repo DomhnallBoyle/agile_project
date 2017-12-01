@@ -186,3 +186,17 @@ INSERT INTO ACCEPTANCE_TEST (GIVEN, WHEN, THEN, USER_STORY_ID) -- id: 4
 VALUES ('There is no internet connection', 'The user has taken a photo', 'The file should be added to a queue to be uploaded when connection is available', 3);
 INSERT INTO ACCEPTANCE_TEST (GIVEN, WHEN, THEN, USER_STORY_ID) -- id: 5
 VALUES ('There is internet connection', 'The user has selected a file for offline mode', 'The file should be downloaded and compressed to be accessible without a connection', 4);
+
+
+INSERT INTO SKILL (DESCRIPTION, USER_ID) 
+VALUES ('Java', 2);
+INSERT INTO SKILL (DESCRIPTION, USER_ID) 
+VALUES ('C++', 2);
+INSERT INTO SKILL (DESCRIPTION, USER_ID) 
+VALUES ('Ruby', 2);
+INSERT INTO SKILL (DESCRIPTION, USER_ID) 
+VALUES ('JavaScript', 2);
+INSERT INTO SKILL (DESCRIPTION, USER_ID) 
+VALUES ('Project Management', 2);
+INSERT INTO SKILL (DESCRIPTION, USER_ID) 
+VALUES ('Linux', 2);

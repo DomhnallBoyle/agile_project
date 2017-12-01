@@ -42,12 +42,12 @@ public class UserController {
     }
     
     @GetMapping(value = "/{userId}/skill")
-    public ResponseEntity<List<Skill>> getUserSkills(@Valid @PathVariable("userId") long userId) {
+    public ResponseEntity<List<Skill>> getUserSkills(@PathVariable("userId") long userId) {
     	return new ResponseEntity<>(this.userService.getUserSkills(userId), HttpStatus.OK);
     }
     
     @PutMapping(value = "/{userId}/skill")
-    public ResponseEntity<List<Skill>> updateUserSkills(@Valid @PathVariable("userId") long userId, @Valid @RequestBody User user) {
+    public ResponseEntity<List<Skill>> updateUserSkills(@PathVariable("userId") long userId, @Valid @RequestBody User user) {
     	return new ResponseEntity<>(this.userService.updateUserSkills(userId, user), HttpStatus.OK);
     }
 }
