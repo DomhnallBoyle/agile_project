@@ -74,12 +74,13 @@ namespace AutomationTests.Tests.AcceptanceTest
             MessageBoxUtil.ClickOKButton(messageBox);
 
             var UserStoryAcceptanceTests = (WPFListItem)_userStoryDetailsPage.UserStoryAcceptanceTests.Items.Find(item => "e2eGiven1".Equals(item.Text));
+            Assert.NotNull(UserStoryAcceptanceTests);
 
             Assert.IsTrue(_userStoryDetailsPage.IsCurrentPage());
         }
 
         [Test]
-        public void ShouldSuccessfullyAccessCreateAAcceptanceTestAndCancel()
+        public void ShouldSuccessfullyAccessCreateAcceptanceTestAndCancel()
         {
               Assert.IsTrue(_userStoryDetailsPage.IsCurrentPage());
 
@@ -87,9 +88,12 @@ namespace AutomationTests.Tests.AcceptanceTest
 
             Assert.IsTrue(_createAcceptanceTestPage.IsCurrentPage());
 
-            _createAcceptanceTestPage.CancelButton.Click();
+            _createAcceptanceTestPage.enterCorrectAcceptanceDetailsToCancel("e2eGivenCancel", "e2eWhenCancel", "e2eThenCancel");
 
             Assert.IsTrue(_userStoryDetailsPage.IsCurrentPage());
+
+            var UserStoryAcceptanceTests = (WPFListItem)_userStoryDetailsPage.UserStoryAcceptanceTests.Items.Find(item => "e2eGivenCancel".Equals(item.Text));
+            Assert.Null(UserStoryAcceptanceTests);
         }
 
         [Test]
