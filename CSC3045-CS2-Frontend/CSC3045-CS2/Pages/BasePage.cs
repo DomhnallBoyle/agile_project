@@ -12,6 +12,7 @@ namespace CSC3045_CS2.Pages
         public string UserLabel { get; set; }
         public string Image { get; set; }
         public string CurrentPage { get; set; }
+        public string HomeImage { get; set; }
 
         public BasePage()
         {
@@ -26,6 +27,7 @@ namespace CSC3045_CS2.Pages
             User user = ((User)Application.Current.Properties["user"]);
             UserLabel = user.GetFullName();
             Image = Properties.Settings.Default.ProfileImageDirectory + user.ProfilePicture;
+            HomeImage = Properties.Settings.Default.ProfileImageDirectory + "waterfallIcon.png";
         }
 
         /// <summary>
@@ -45,6 +47,17 @@ namespace CSC3045_CS2.Pages
                     Page loginPage = new Login();
 
                     NavigationService.GetNavigationService(this).Navigate(loginPage);
+                });
+            }
+        }
+        public ICommand HomeCommand
+        {
+            get
+            {
+                return new RelayCommand(param =>
+                {
+                    Page userDashboard = new UserDashboard();
+                    NavigationService.GetNavigationService(this).Navigate(userDashboard);
                 });
             }
         }
