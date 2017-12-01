@@ -296,12 +296,12 @@ namespace CSC3045_CS2.Pages
                 {
                     if (!TeamMembers.Any(user => user.Id == SearchResultUser.Id))
                     {
-                        TeamMembers.Add(SearchResultUser);
-
                         try
                         {
                             List<User> teamMembers = new List<User>(TeamMembers);
                             _projectClient.Add(teamMembers, _currentProject);
+
+                            TeamMembers.Add(SearchResultUser);
 
                             UpdateSearchUI();
                         }

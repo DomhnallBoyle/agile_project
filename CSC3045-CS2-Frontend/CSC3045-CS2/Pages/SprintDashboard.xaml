@@ -115,7 +115,9 @@
             </ListBox>
 
             <TextBlock Text="User Stories Tasks" Grid.Column="1" Grid.Row="3" Style="{StaticResource Label}" Foreground="Gold" HorizontalAlignment="Center" Margin="5,0,0,0" />
-            <ListBox Name="StoryTasks" Style="{StaticResource DefaultListBox}" Margin ="0,5,15,0"  Grid.Row ="4" Grid.Column="1" ScrollViewer.VerticalScrollBarVisibility="Visible" ItemsSource="{Binding Tasks}" HorizontalContentAlignment="Center">
+            <ListBox Grid.Row ="4" Grid.Column="1" Name="StoryTasks" 
+                     Style="{StaticResource DefaultListBox}" Margin ="0,5,15,0" HorizontalContentAlignment="Center"
+                     ItemsSource="{Binding Tasks}" SelectionChanged="StoryTasks_SelectionChanged">
                 <ListBox.ItemTemplate>
 
                     <DataTemplate>

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace CSC3045_CS2.Models
 {
-    public class TaskEstimation
+    public class TaskEstimate
     {
         [DeserializeAs(Name = "taskId")]
         public long TaskId { get; set; }
@@ -18,6 +18,6 @@ namespace CSC3045_CS2.Models
         [DeserializeAs(Name = "estimate")]
         public int Estimate { get; set; }
 
-        public TaskEstimation() { }
+        public TaskEstimate() { }
     }
 }
