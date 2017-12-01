@@ -17,8 +17,6 @@ namespace CSC3045_CS2.Utility
 
         public bool Manager { get; set; }
 
-        public string AsString { get { return getPermissionsAsString(); } }
-
         public Permissions(User user, Project project)
         {
             User userInProject = project.Users.Find(userOnProject => user.Id == userOnProject.Id);
@@ -40,17 +38,13 @@ namespace CSC3045_CS2.Utility
             this.ProductOwner = project.ProductOwner != null && project.ProductOwner.Id == user.Id ? true : false;
             this.Manager = project.Manager.Id == user.Id ? true : false;
         }
-
-        private string getPermissionsAsString()
+        
+        public Permissions()
         {
-            string permissions = "";
-
-            if (Developer) permissions += "D ";
-            if (ScrumMaster) permissions += "SM ";
-            if (ProductOwner) permissions += "PO ";
-            if (Manager) permissions += "M ";
-
-            return permissions;
+            this.Manager = false;
+            this.Developer = false;
+            this.ScrumMaster = false;
+            this.ProductOwner = false;
         }
     }
 }

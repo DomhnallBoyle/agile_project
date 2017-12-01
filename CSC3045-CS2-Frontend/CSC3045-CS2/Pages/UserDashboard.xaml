@@ -43,21 +43,21 @@
                                     <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" Margin="10,0,10,0"/>
 
                                     <StackPanel Width="100" Orientation="Horizontal">
-                                        <Image Height="24" Width="24" Stretch="Fill" VerticalAlignment="Center"
+                                        <Image Height="24" Width="24" Stretch="Fill" VerticalAlignment="Center" Name="Manager"
                                                Visibility="{Binding Permissions.Manager, Converter={StaticResource BoolToVisConverter}}"
                                                ToolTip="Manager">
                                             <Image.Source>
                                                 <BitmapImage UriSource="/Resources/Images/Icons/ManagerIcon.png" />
                                             </Image.Source>
                                         </Image>
-                                        <Image Height="24" Width="24" Stretch="Fill" VerticalAlignment="Center"
+                                        <Image Height="24" Width="24" Stretch="Fill" VerticalAlignment="Center" Name="Developer"
                                                Visibility="{Binding Permissions.Developer, Converter={StaticResource BoolToVisConverter}}"
                                                ToolTip="Developer">
                                             <Image.Source>
                                                 <BitmapImage UriSource="/Resources/Images/Icons/DeveloperIcon.png" />
                                             </Image.Source>
                                         </Image>
-                                        <Image Height="24" Width="24" Stretch="Fill" VerticalAlignment="Center"
+                                        <Image Height="24" Width="24" Stretch="Fill" VerticalAlignment="Center" Name="ScrumMaster"
                                                Visibility="{Binding Permissions.ScrumMaster, Converter={StaticResource BoolToVisConverter}, FallbackValue=Collapsed}"
                                                ToolTip="Scrum Master">
                                             <Image.Source>
@@ -65,17 +65,13 @@
                                             </Image.Source>
                                         </Image>
 
-                                        <Image Height="24" Width="24" Stretch="Fill" VerticalAlignment="Center"
+                                        <Image Height="24" Width="24" Stretch="Fill" VerticalAlignment="Center" Name="ProductOwner"
                                                Visibility="{Binding Permissions.ProductOwner, Converter={StaticResource BoolToVisConverter}, FallbackValue=Collapsed}"
                                                ToolTip="Product Owner">
                                             <Image.Source>
                                                 <BitmapImage UriSource="/Resources/Images/Icons/ProductOwnerIcon.png" />
                                             </Image.Source>
                                         </Image>
-                                        <!--<TextBlock Text="Manager" Visibility="{Binding Path=Permissions.Manager,Converter={StaticResource BoolToVisConverter}}" Style="{StaticResource ButtonLabel}"/>
-                                        <TextBlock Text="Developer" Visibility="{Binding Path=Permissions.Developer, Converter={StaticResource BoolToVisConverter}}" Style="{StaticResource ButtonLabel}"/>
-                                        <TextBlock Text="Scrum Master" Visibility="{Binding Path=Permissions.ScrumMaster, Converter={StaticResource BoolToVisConverter}}" Style="{StaticResource ButtonLabel}"/>
-                                        <TextBlock Text="Project Owner" Visibility="{Binding Path=Permissions.ProductOwner, Converter={StaticResource BoolToVisConverter}}" Style="{StaticResource ButtonLabel}"/>-->
                                     </StackPanel>
                                 </StackPanel>
                             </Grid>

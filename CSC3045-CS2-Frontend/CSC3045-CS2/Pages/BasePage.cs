@@ -13,6 +13,7 @@ namespace CSC3045_CS2.Pages
         public string Image { get; set; }
         public string CurrentPage { get; set; }
         public string HomeImage { get; set; }
+        public Permissions Permissions { get; set; }
 
         public BasePage()
         {
@@ -28,6 +29,7 @@ namespace CSC3045_CS2.Pages
             UserLabel = user.GetFullName();
             Image = Properties.Settings.Default.ProfileImageDirectory + user.ProfilePicture;
             HomeImage = Properties.Settings.Default.ProfileImageDirectory + "waterfallIcon.png";
+            Permissions = new Permissions();
         }
 
         /// <summary>

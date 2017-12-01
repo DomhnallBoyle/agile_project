@@ -64,11 +64,9 @@ namespace AutomationTests.PageTemplates
             get { return MainWindow.Get<ListBox>("ScrumMastersListBox"); }
         }
 
-        public ProjectDashboardPage(Window window) : base(window) { }
-
-        public override bool IsCurrentPage()
+        public Button CreateProjectButton
         {
-            return PageTitle.Text.Equals("Project Dashboard");
+            get { return MainWindow.Get<Button>("CreateProjectButton"); }
         }
 
         public WPFListItem GetTeamMemberListItem(string fullName)
@@ -109,6 +107,13 @@ namespace AutomationTests.PageTemplates
         public Menu GetRemoveScrumMasterContextMenuItem(Window window)
         {
             return window.Popup.ItemBy(SearchCriteria.ByAutomationId("RemoveScrumMasterMenuOption"));
+        }
+
+        public ProjectDashboardPage(Window window) : base(window) { }
+
+        public override bool IsCurrentPage()
+        {
+            return PageTitle.Text.Equals("Project Dashboard");
         }
     }
 }
