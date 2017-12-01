@@ -10,7 +10,9 @@ using System.Windows.Navigation;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using CSC3045_CS2.Exception;
-
+using OxyPlot;
+using OxyPlot.Series;
+using OxyPlot.Axes;
 
 namespace CSC3045_CS2.Pages
 {
@@ -25,7 +27,8 @@ namespace CSC3045_CS2.Pages
         private TaskClient _taskClient;
         private Boolean _fromFile;
         private List<Task> _tasks { get; set; }
-
+        private PlotModel plotModel;
+        private List<UserStory> _sprintBacklog { get; set; }
         #endregion
 
         #region Public variables
@@ -43,6 +46,12 @@ namespace CSC3045_CS2.Pages
                 _tasks = value;
                 OnPropertyChanged();
             }
+        }
+        
+        public PlotModel PlotModel
+        {
+            get { return plotModel; }
+            set { plotModel = value; OnPropertyChanged("PlotModel"); }
         }
 
         #endregion
@@ -64,15 +73,65 @@ namespace CSC3045_CS2.Pages
 
             CurrentSprint = sprint;
 
-            SprintDetails = string.Format("Name: {0}, Start Date: {1}, End Date: {2}", CurrentSprint.Name, CurrentSprint.StartDate, CurrentSprint.EndDate); 
+            SprintDetails = string.Format("Name: {0}, Start Date: {1}, End Date: {2}", CurrentSprint.Name, CurrentSprint.StartDate, CurrentSprint.EndDate);
+
+            _sprintBacklog = _sprintClient.GetSprintBacklog(sprint.Project.Id, sprint.Id);
+
+            PlotGraph();
         }
+
+        public void PlotGraph()
+        {
+            int sprintLength = (int)(CurrentSprint.EndDate - CurrentSprint.StartDate).TotalDays + 1;
+            List<long> burndownHours = new List<long>();
+
+            for (int i = 0; i < sprintLength; i++)
+            {
+                burndownHours.Add(0l);
+            }
+
+            foreach (UserStory userStory in _sprintBacklog)
+            {
+                userStory.Tasks = _taskClient.GetTasksByUserStoryId(userStory.Project.Id, userStory.Id);
+                foreach (Task task in userStory.Tasks)
+                {
+                    List<TaskEstimate> dailyEstimateList = _taskClient.GetTaskEstimates(
+                                                                        task.UserStory.Project.Id,
+                                                                        task.UserStory.Id,
+                                                                        task.Id);
+                    for (int i = 0; i < dailyEstimateList.Count; i++)
+                    {
+                        burndownHours[i] += dailyEstimateList[i].Estimate;
+                    }
+                }
+            }
+
+            long maxHours = 0;
+            for (int i = 0; i < burndownHours.Count; i++)
+            {
+                if (burndownHours[i] > maxHours)
+                    maxHours = burndownHours[i];
+            }
+
+            PlotModel = new PlotModel { Title = "Burndown Chart" };
+
+            LineSeries lineSeries = new LineSeries();
+            PlotModel.Axes.Add(new DateTimeAxis { Position = AxisPosition.Bottom, Minimum = DateTimeAxis.ToDouble(CurrentSprint.StartDate), Maximum = DateTimeAxis.ToDouble(CurrentSprint.EndDate), StringFormat = "d/M", Title = "Date" });
+            PlotModel.Axes.Add(new LinearAxis { Position = AxisPosition.Left, Minimum = 0, Maximum = (maxHours * 1.1) + 1, Title = "Hours" });
+            for (int i = 0; i < sprintLength; i++)
+            {
+                lineSeries.Points.Add(new DataPoint(DateTimeAxis.ToDouble(CurrentSprint.StartDate.AddDays(i)), burndownHours[i]));
+            }
+
+            PlotModel.Series.Add(lineSeries);
+        }
+
+        #region Command and Event methods
 
         /// <summary>
         /// Double Click event for mouse
         /// Displays tasks from clicked user story
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         public void ListBox_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             try
@@ -86,8 +145,6 @@ namespace CSC3045_CS2.Pages
                 MessageBoxUtil.ShowErrorBox(ex.Message);
             }
         }
-
-        #region Command and Event methods
 
         /// <summary>
         /// Relay command for navigating to the edit sprint team page
@@ -177,6 +234,14 @@ namespace CSC3045_CS2.Pages
                     NavigationService.GetNavigationService(this).Navigate(manageTaskPage);
                 });
             }
+        }
+
+        private void StoryTasks_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            Task selectedTask = (Task)StoryTasks.SelectedItem;
+            Page taskDetails = new TaskDetails(selectedTask);
+
+            NavigationService.GetNavigationService(this).Navigate(taskDetails);
         }
 
         /// <summary>

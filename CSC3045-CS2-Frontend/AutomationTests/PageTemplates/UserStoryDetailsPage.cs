@@ -23,6 +23,16 @@ namespace AutomationTests.PageTemplates
             get { return MainWindow.Get<Label>("StoryNameTextBlock"); }
         }
 
+        public Label StoryMarketValueTextBlock
+        {
+            get { return MainWindow.Get<Label>("StoryMarketValueTextBlock"); }
+        }
+
+        public Label StoryPointsTextBlock
+        {
+            get { return MainWindow.Get<Label>("StoryPointsTextBlock"); }
+        }
+
         public CheckBox CompleteLabelBlock
         {
             get { return MainWindow.Get<CheckBox>("CompleteLabelBlock"); }
@@ -33,7 +43,7 @@ namespace AutomationTests.PageTemplates
 
         public override bool IsCurrentPage()
         {
-            return PageTitle.Text.Equals("Acceptance Tests");
+            return PageTitle.Text.Equals("User Story Details");
         }
 
     }

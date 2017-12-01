@@ -2,6 +2,8 @@
 using TestStack.White.UIItems.ListBoxItems;
 using TestStack.White.UIItems.WPFUIItems;
 using TestStack.White.UIItems.WindowItems;
+using TestStack.White.UIItems.Finders;
+using TestStack.White.UIItems.MenuItems;
 
 namespace AutomationTests.PageTemplates
 {
@@ -11,30 +13,52 @@ namespace AutomationTests.PageTemplates
         {
             get { return MainWindow.Get<Label>("ProjectManagerNameTextBlock"); }
         }
+
         public Label ProductOwnerNameTextBlock
         {
             get { return MainWindow.Get<Label>("ProductOwnerNameTextBlock"); }
         }
-        public TextBox SearchEmailTextBox
-        {
-            get { return MainWindow.Get<TextBox>("SearchEmailTextBox"); }
-        }
-        public Button SearchButton
-        {
-            get { return MainWindow.Get<Button>("SearchButton"); }
-        }
+
         public Label SearchResultName
         {
             get { return MainWindow.Get<Label>("SearchResultName"); }
         }
+
+        public TextBox SearchEmailTextBox
+        {
+            get { return MainWindow.Get<TextBox>("SearchEmailTextBox"); }
+        }
+
+        public Button SearchButton
+        {
+            get { return MainWindow.Get<Button>("SearchButton"); }
+        }
+
         public Button AddToTeamButton
         {
             get { return MainWindow.Get<Button>("AddToTeamButton"); }
         }
+
+        public Button UserDashboardButton
+        {
+            get { return MainWindow.Get<Button>("UserDashboardButton"); }
+        }
+
+        public Button ProductBacklogButton
+        {
+            get { return MainWindow.Get<Button>("ProductBacklogButton"); }
+        }
+
+        public Button ManageSprintsButton
+        {
+            get { return MainWindow.Get<Button>("ManageSprintsButton"); }
+        }
+
         public ListBox TeamMembersListBox
         {
             get { return MainWindow.Get<ListBox>("TeamMembersListBox"); }
         }
+
         public ListBox ScrumMastersListBox
         {
             get { return MainWindow.Get<ListBox>("ScrumMastersListBox"); }
@@ -43,11 +67,6 @@ namespace AutomationTests.PageTemplates
         public Button CreateProjectButton
         {
             get { return MainWindow.Get<Button>("CreateProjectButton"); }
-        }
-
-        public Button ProductBacklogButton
-        {
-            get { return MainWindow.Get<Button>("ProductBacklogButton"); }
         }
 
         public WPFListItem GetTeamMemberListItem(string fullName)
@@ -75,19 +94,19 @@ namespace AutomationTests.PageTemplates
             }
         }
 
-        public Button GetSetProductOwnerButtonForListItem(WPFListItem listItem)
+        public Menu GetSetProductOwnerContextMenuItem(Window window)
         {
-            return listItem.Get<Button>("SetProductOwnerButton");
+            return window.Popup.ItemBy(SearchCriteria.ByAutomationId("SetAsProductOwnerMenuOption"));
+        }
+        
+        public Menu GetSetScrumMasterContextMenuItem(Window window)
+        {
+            return window.Popup.ItemBy(SearchCriteria.ByAutomationId("SetAsScrumMasterMenuOption"));
         }
 
-        public Button GetSetScrumMasterButtonForListItem(WPFListItem listItem)
+        public Menu GetRemoveScrumMasterContextMenuItem(Window window)
         {
-            return listItem.Get<Button>("SetScrumMasterButton");
-        }
-
-        public Button GetRemoveButtonForScrumMasterListItem(WPFListItem listItem)
-        {
-            return listItem.Get<Button>("ScrumMasterRemoveButton");
+            return window.Popup.ItemBy(SearchCriteria.ByAutomationId("RemoveScrumMasterMenuOption"));
         }
 
         public ProjectDashboardPage(Window window) : base(window) { }

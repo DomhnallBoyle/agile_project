@@ -42,6 +42,12 @@
     <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
+    <Reference Include="OxyPlot, Version=1.0.0.0, Culture=neutral, PublicKeyToken=638079a8f0bd61e9, processorArchitecture=MSIL">
+      <HintPath>..\packages\OxyPlot.Core.1.0.0\lib\net45\OxyPlot.dll</HintPath>
+    </Reference>
+    <Reference Include="OxyPlot.Wpf, Version=1.0.0.0, Culture=neutral, PublicKeyToken=75e952ba404cdbb0, processorArchitecture=MSIL">
+      <HintPath>..\packages\OxyPlot.Wpf.1.0.0\lib\net45\OxyPlot.Wpf.dll</HintPath>
+    </Reference>
     <Reference Include="RestSharp, Version=105.2.3.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\RestSharp.105.2.3\lib\net45\RestSharp.dll</HintPath>
     </Reference>
@@ -76,6 +82,7 @@
     <Compile Include="Models\Roles.cs" />
     <Compile Include="Models\Sprint.cs" />
     <Compile Include="Models\Task.cs" />
+    <Compile Include="Models\TaskEstimate.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Pages\CreateTask.xaml.cs">
       <DependentUpon>CreateTask.xaml</DependentUpon>
@@ -111,6 +118,9 @@
     </Compile>
     <Compile Include="Pages\SprintDashboard.xaml.cs">
       <DependentUpon>SprintDashboard.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\TaskDetails.xaml.cs">
+      <DependentUpon>TaskDetails.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\UserDashboard.xaml.cs">
       <DependentUpon>UserDashboard.xaml</DependentUpon>
@@ -198,6 +208,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Pages\SprintDashboard.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\TaskDetails.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

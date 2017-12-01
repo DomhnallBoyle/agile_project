@@ -39,7 +39,7 @@ namespace AutomationTests.Tests.UserDashboard
 
      
 
-        [Test]
+        //[Test]
         public void ShouldSuccessfullyDisplayManagerAsRole()
         {      
             Assert.IsTrue(_userDashboardPage.IsCurrentPage());

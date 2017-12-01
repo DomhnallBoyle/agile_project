@@ -81,7 +81,7 @@ namespace AutomationTests.Tests.UserStory
             var UserStoryAcceptanceTests = (WPFListItem)_userStoryDetailsPage.UserStoryAcceptanceTests.Items.Find(item => "e2eGiven1".Equals(item.Text));
         }
 
-       // [Test]
+        // [Test]
         public void ShouldSuccessfullyCheckAcceptanceTestAsCompleted()
         {
             var UserStoryAcceptanceTests = (WPFListItem)_userStoryDetailsPage.UserStoryAcceptanceTests.Items.Find(item => "e2eGiven1".Equals(item.Text));

@@ -42,8 +42,8 @@ public class SprintService {
 	        } catch (DataIntegrityViolationException e) {
 	            throw new ResponseErrorException("Scrum Master does not exist in the database", HttpStatus.BAD_REQUEST);
 	        }
-    	}else {
-    		throw new ResponseErrorException("Project Id does not exist in the database", HttpStatus.NOT_FOUND);
+    	} else {
+    		throw new ResponseErrorException("Project does not exist in the database", HttpStatus.NOT_FOUND);
     	}
     }
     
@@ -52,10 +52,10 @@ public class SprintService {
 	        if (ValidationUtility.validateSprintExists(sprintId, sprintMapper)) {
 	            return sprintMapper.getSprintById(sprintId);
 	        }
-	        throw new ResponseErrorException("Sprint does not exist", HttpStatus.NOT_FOUND);
+	        throw new ResponseErrorException("Sprint does not exist in the database", HttpStatus.NOT_FOUND);
     	}
        	else {
-       		throw new ResponseErrorException("Project Id does not exist in the database", HttpStatus.NOT_FOUND);
+       		throw new ResponseErrorException("Project does not exist in the database", HttpStatus.NOT_FOUND);
         }
     }
        
@@ -69,7 +69,7 @@ public class SprintService {
 	
 	        return sprints;
 		}else {
-			throw new ResponseErrorException("Project Id does not exists in the database", HttpStatus.NOT_FOUND);
+			throw new ResponseErrorException("Project does not exist in the database", HttpStatus.NOT_FOUND);
 		}
     }
 	
@@ -78,9 +78,9 @@ public class SprintService {
 	        if (ValidationUtility.validateSprintExists(sprintId, sprintMapper)) {
 	            return sprintMapper.getSprintTeam(sprintId);
 	        }
-	        throw new ResponseErrorException("Sprint does not exist", HttpStatus.NOT_FOUND);
+	        throw new ResponseErrorException("Sprint does not exist in the database", HttpStatus.NOT_FOUND);
     	}else {
-    		throw new ResponseErrorException("Project Id does not exists in the database", HttpStatus.NOT_FOUND);
+    		throw new ResponseErrorException("Project does not exist in the database", HttpStatus.NOT_FOUND);
     	}
     }
 
@@ -89,9 +89,9 @@ public class SprintService {
 	        if (ValidationUtility.validateSprintExists(sprintId, sprintMapper)) {
 	            return sprintMapper.getSprintStories(sprintId);
 	        }
-        throw new ResponseErrorException("Sprint does not exist", HttpStatus.NOT_FOUND);
+        throw new ResponseErrorException("Sprint does not exist in the database", HttpStatus.NOT_FOUND);
     	}else {
-    		throw new ResponseErrorException("Project Id does not exists in the database", HttpStatus.NOT_FOUND);
+    		throw new ResponseErrorException("Project does not exists in the database", HttpStatus.NOT_FOUND);
     	}
     }
     
@@ -105,10 +105,9 @@ public class SprintService {
 	
 	            for (User developer : developers) {
 	                List<Sprint> clashingSprints = sprintMapper.getClashingSprintsForUser(developer.getId(), sprint.getStartDate(), sprint.getEndDate());
-	
-	                if (clashingSprints.isEmpty()) {
-	                    availableDevelopers.add(developer);
-	                }
+
+	                developer.setSprints(clashingSprints);
+	                availableDevelopers.add(developer);
 	            }
 	
 	            if (availableDevelopers.isEmpty()) {
@@ -118,9 +117,9 @@ public class SprintService {
 	            return availableDevelopers;
 	        }
 	
-	        throw new ResponseErrorException("Sprint does not exist", HttpStatus.NOT_FOUND);
+	        throw new ResponseErrorException("Sprint does not exist in the database", HttpStatus.NOT_FOUND);
     	} else {
-    		throw new ResponseErrorException("Project does not exists in the database", HttpStatus.NOT_FOUND);
+    		throw new ResponseErrorException("Project does not exist in the database", HttpStatus.NOT_FOUND);
     	}
     }
 
@@ -139,7 +138,7 @@ public class SprintService {
 	
 	        return newTeam;
     	}else {
-    		throw new ResponseErrorException("Project Id does not exists in the database", HttpStatus.NOT_FOUND);
+    		throw new ResponseErrorException("Project does not exist in the database", HttpStatus.NOT_FOUND);
     	}
     }
 
@@ -171,10 +170,10 @@ public class SprintService {
 			       List<UserStory> newBacklog = sprintMapper.getSprintStories(sprint.getId());
 		        return newBacklog;
 	    	}else {
-	    		throw new ResponseErrorException("Sprint Id does not exists in the database", HttpStatus.NOT_FOUND);
+	    		throw new ResponseErrorException("Sprint does not exist in the database", HttpStatus.NOT_FOUND);
 	    	}       
     	}else {
-    		throw new ResponseErrorException("Project Id does not exists in the database", HttpStatus.NOT_FOUND);
+    		throw new ResponseErrorException("Project does not exist in the database", HttpStatus.NOT_FOUND);
     	}
     }
 }

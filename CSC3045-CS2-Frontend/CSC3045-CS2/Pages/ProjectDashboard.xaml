@@ -69,7 +69,8 @@
                              ContextMenuOpening="ScrumMastersListBox_ContextMenuOpening">
                         <ListBox.ContextMenu>
                             <ContextMenu>
-                                <MenuItem Header="Remove"
+                                <MenuItem Name="RemoveScrumMasterMenuOption"
+                                          Header="Remove"
                                           Command="{Binding RemoveScrumMasterCommand}"
                                           CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type ContextMenu}}, Path=PlacementTarget.SelectedItem}">
                                 </MenuItem>
@@ -180,7 +181,8 @@
                              ContextMenuOpening="TeamMembersListBox_ContextMenuOpening">
                         <ListBox.ContextMenu>
                             <ContextMenu>
-                                <MenuItem Header="Set as Product Owner" 
+                                <MenuItem Name="SetAsProductOwnerMenuOption"
+                                          Header="Set as Product Owner" 
                                           Command="{Binding SetProductOwnerCommand}"
                                           CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type ContextMenu}}, Path=PlacementTarget.SelectedItem}">
                                     <MenuItem.Icon>
@@ -204,7 +206,8 @@
                                         </Style>
                                     </MenuItem.Style>
                                 </MenuItem>
-                                <MenuItem Header="Set as ScrumMaster"
+                                <MenuItem Name="SetAsScrumMasterMenuOption"
+                                          Header="Set as ScrumMaster"
                                           Command="{Binding SetScrumMasterCommand}"
                                           CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type ContextMenu}}, Path=PlacementTarget.SelectedItem}">
                                     <MenuItem.Icon>

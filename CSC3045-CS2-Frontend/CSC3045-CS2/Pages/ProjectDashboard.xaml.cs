@@ -75,8 +75,8 @@ namespace CSC3045_CS2.Pages
             get
             {
                 User selectedUser = (User)TeamMembersListBox.SelectedItem;
-
-                return selectedUser.Id == CurrentProject.ProductOwner.Id;
+                
+                return CurrentProject.ProductOwner == null ? false : selectedUser.Id == CurrentProject.ProductOwner.Id;
             }
         }
 
@@ -296,10 +296,9 @@ namespace CSC3045_CS2.Pages
                 {
                     if (!TeamMembers.Any(user => user.Id == SearchResultUser.Id))
                     {
-                        TeamMembers.Add(SearchResultUser);
-
                         try
                         {
+                            TeamMembers.Add(SearchResultUser);
                             List<User> teamMembers = new List<User>(TeamMembers);
                             _projectClient.Add(teamMembers, _currentProject);
 
@@ -353,11 +352,12 @@ namespace CSC3045_CS2.Pages
         #endregion
 
         #region Event methods
+
         private void TeamMembersListBox_ContextMenuOpening(object sender, ContextMenuEventArgs e)
         {
             var selectedItem = (User)TeamMembersListBox.SelectedItem;
 
-            if (!Permissions.Manager || (!selectedItem.Roles.ProductOwner && !selectedItem.Roles.ScrumMaster))
+            if ((!Permissions.Manager || (!selectedItem.Roles.ProductOwner && !selectedItem.Roles.ScrumMaster)) || selectedItem == null)
             {
                 e.Handled = true;
             }
@@ -367,7 +367,7 @@ namespace CSC3045_CS2.Pages
         {
             var selectedItem = (User)ScrumMastersListBox.SelectedItem;
 
-            if (!Permissions.Manager || (!selectedItem.Roles.ProductOwner && !selectedItem.Roles.ScrumMaster))
+            if ((!Permissions.Manager || (!selectedItem.Roles.ProductOwner && !selectedItem.Roles.ScrumMaster)) || selectedItem == null)
             {
                 e.Handled = true;
             }

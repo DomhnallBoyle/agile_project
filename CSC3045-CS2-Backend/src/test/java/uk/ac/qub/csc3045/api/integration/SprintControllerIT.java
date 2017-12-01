@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.Month;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
@@ -20,6 +21,7 @@ import uk.ac.qub.csc3045.api.model.Project;
 import uk.ac.qub.csc3045.api.model.Roles;
 import uk.ac.qub.csc3045.api.model.Sprint;
 import uk.ac.qub.csc3045.api.model.User;
+import uk.ac.qub.csc3045.api.model.UserStory;
 
 public class SprintControllerIT {
 
@@ -28,9 +30,10 @@ public class SprintControllerIT {
 	private RequestHelper requestHelper;
 	private String authHeader;
 
-	private String sprintDoesNotExistErrorMessage = "Sprint does not exist";
-	private String projectDoesNotExistInDatabaseErrorMessage = "Project Id does not exist in the database";
+	private String sprintDoesNotExistErrorMessage = "Sprint does not exist in the database";
+	private String projectDoesNotExistInDatabaseErrorMessage = "Project does not exist in the database";
 	private String scrumMasterDoesNotExistInDatabaseErrorMessage = "Scrum Master does not exist in the database";
+	private String sprintAndUserStoryHaveDifferentProjects = "Sprint and user story aren't in same Project";
 
 	private Account account;
 	private Sprint existingSprint;
@@ -117,6 +120,63 @@ public class SprintControllerIT {
 		r.then().assertThat().statusCode(404);
 		assertEquals(projectDoesNotExistInDatabaseErrorMessage, r.getBody().asString());
 
+	}
+	
+	/**
+	 * Save sprint backlog tests
+	 */
+	@Test
+	public void updateSprintBacklogShouldReturn200() {
+		UserStory userStory = new UserStory("Compress and upload a file",
+				"Using the algorithm, a user should be able to upload a file to the cloud.", 
+				10, 100, existingProject);
+		userStory.setId(1l);
+		List<UserStory> sprintBacklog = new ArrayList<UserStory>();
+		sprintBacklog.add(userStory);
+		existingSprint.setUserStories(sprintBacklog);
+		
+		assertEquals(existingSprint.getUserStories().size(), 1);
+		Response r = requestHelper.sendPutRequestWithAuthHeader("/project/" + existingProject.getId() + "/sprint/" + existingSprint.getId() + "/story", authHeader, existingSprint);
+		List<UserStory> updatedUserStories = Arrays.asList(r.getBody().as(UserStory[].class));
+		
+		r.then().assertThat().statusCode(200);
+		assertEquals(updatedUserStories.size(), 1);
+		assertEquals(updatedUserStories.get(0).getName(), "Compress and upload a file");
+	}
+	
+	@Test
+	public void updateSprintBacklogDifferentProjectsShouldReturn404() {
+		UserStory userStory = new UserStory("Compress and upload a file",
+				"Using the algorithm, a user should be able to upload a file to the cloud.", 
+				10, 100, new Project());
+		userStory.setId(1l);
+		List<UserStory> sprintBacklog = new ArrayList<UserStory>();
+		sprintBacklog.add(userStory);
+		existingSprint.setUserStories(sprintBacklog);
+		
+		assertEquals(existingSprint.getUserStories().size(), 1);
+		Response r = requestHelper.sendPutRequestWithAuthHeader("/project/" + existingProject.getId() + "/sprint/" + existingSprint.getId() + "/story", authHeader, existingSprint);
+		
+		r.then().assertThat().statusCode(404);
+		assertEquals(r.body().asString(), sprintAndUserStoryHaveDifferentProjects);
+	}
+	
+	@Test
+	public void updateSprintBacklogSprintDoesNotExistShouldReturn404() {
+		existingSprint.setId(-1l);
+		
+		Response r = requestHelper.sendPutRequestWithAuthHeader("/project/" + existingProject.getId() + "/sprint/" + existingSprint.getId() + "/story", authHeader, existingSprint);
+		
+		r.then().assertThat().statusCode(404);
+		assertEquals(r.body().asString(), sprintDoesNotExistErrorMessage);
+	}
+	
+	@Test
+	public void updateSprintBacklogProjectDoesNotExistShouldReturn404() {
+		Response r = requestHelper.sendPutRequestWithAuthHeader("/project/-1/sprint/" + existingSprint.getId() + "/story", authHeader, existingSprint);
+		
+		r.then().assertThat().statusCode(404);
+		assertEquals(r.body().asString(), projectDoesNotExistInDatabaseErrorMessage);
 	}
 
 	private void setupBacklog() {

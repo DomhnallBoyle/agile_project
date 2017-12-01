@@ -52,7 +52,7 @@
         WHERE SPRINT_USER.SPRINT_ID = #{sprintId}
     </select>
     
-    <select id="getClashingSprintsForUser" resultMap="uk.ac.qub.csc3045.api.mapper.UserMapper.userResultMap">
+    <select id="getClashingSprintsForUser" resultMap="sprintResultMap">
         SELECT
             SPRINT.ID AS ID,
             NAME,
