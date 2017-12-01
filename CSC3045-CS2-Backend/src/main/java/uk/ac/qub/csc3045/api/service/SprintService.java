@@ -59,6 +59,7 @@ public class SprintService {
         }
     }
        
+    //
 	public List<Sprint> getProjectSprints(long projectId) {
 		if (ValidationUtility.validateProjectExists(projectId, projectMapper)) {
 	        List<Sprint> sprints = sprintMapper.getProjectSprints(projectId);
@@ -73,6 +74,7 @@ public class SprintService {
 		}
     }
 	
+	//
     public List<User> getSprintTeam(long projectId, long sprintId) {
     	if (ValidationUtility.validateProjectExists(projectId, projectMapper)) {
 	        if (ValidationUtility.validateSprintExists(sprintId, sprintMapper)) {
@@ -84,6 +86,7 @@ public class SprintService {
     	}
     }
 
+    //
     public List<UserStory> getSprintBacklog(long projectId, long sprintId) {
     	if (ValidationUtility.validateProjectExists(projectId, projectMapper)) {
 	        if (ValidationUtility.validateSprintExists(sprintId, sprintMapper)) {
@@ -95,6 +98,28 @@ public class SprintService {
     	}
     }
     
+    public List<UserStory> updateSprintBacklog(long projectId, Sprint sprint) {
+    	if (ValidationUtility.validateProjectExists(projectId, projectMapper)) {
+	    	if (ValidationUtility.validateSprintExists(sprint.getId(), sprintMapper)) {
+		        sprintMapper.resetSprintBacklog(sprint.getId());
+		        for (UserStory userStory : sprint.getUserStories()) {
+		        	if( sprint.getProject().getId() == userStory.getProject().getId()) {
+		        		sprintMapper.addToSprintBacklog(sprint.getId(), userStory.getId());
+		        	} else {
+		        		throw new ResponseErrorException("Sprint and user story aren't in same Project", HttpStatus.NOT_FOUND);
+		        	}	        	
+		        }
+			       List<UserStory> newBacklog = sprintMapper.getSprintStories(sprint.getId());
+		        return newBacklog;
+	    	} else {
+	    		throw new ResponseErrorException("Sprint does not exist in the database", HttpStatus.NOT_FOUND);
+	    	}       
+    	} else {
+    		throw new ResponseErrorException("Project does not exist in the database", HttpStatus.NOT_FOUND);
+    	}
+    }
+    
+    //
     public List<User> getAvailableDevelopers(long projectId, long sprintId) {
     	if (ValidationUtility.validateProjectExists(projectId, projectMapper)) {
 	        if (ValidationUtility.validateSprintExists(sprintId, sprintMapper)) {
@@ -124,6 +149,7 @@ public class SprintService {
     	}
     }
 
+    //
     public List<User> updateSprintTeam(long projectId, Sprint sprint) {
     	if (ValidationUtility.validateProjectExists(projectId, projectMapper)) {
 	        List<User> oldTeam = sprintMapper.getSprintTeam(sprint.getId());
@@ -154,27 +180,6 @@ public class SprintService {
              		}
     			}
     		}
-    	}
-    }
-    
-    public List<UserStory> updateSprintBacklog(long projectId, Sprint sprint) {
-    	if(ValidationUtility.validateProjectExists(projectId, projectMapper)) {
-	    	if (ValidationUtility.validateSprintExists(sprint.getId(), sprintMapper)) {
-		        sprintMapper.resetSprintBacklog(sprint.getId());
-		        for (UserStory userStory : sprint.getUserStories()) {
-		        	if( sprint.getProject().getId() == userStory.getProject().getId()) {
-		        		sprintMapper.addToSprintBacklog(sprint.getId(), userStory.getId());
-		        	}else {
-		        		throw new ResponseErrorException("Sprint and user story aren't in same Project", HttpStatus.NOT_FOUND);
-		        	}	        	
-		        }
-			       List<UserStory> newBacklog = sprintMapper.getSprintStories(sprint.getId());
-		        return newBacklog;
-	    	}else {
-	    		throw new ResponseErrorException("Sprint does not exist in the database", HttpStatus.NOT_FOUND);
-	    	}       
-    	}else {
-    		throw new ResponseErrorException("Project does not exist in the database", HttpStatus.NOT_FOUND);
     	}
     }
 }

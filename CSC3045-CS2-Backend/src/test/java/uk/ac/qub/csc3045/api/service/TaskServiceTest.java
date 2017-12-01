@@ -61,7 +61,7 @@ public class TaskServiceTest {
         tasks = new ArrayList<Task>();
     	tasks.add(task);
     	userStory.setTasks(tasks);
-    	taskService = new TaskService(taskMapper,projectMapper,userStoryMapper);
+//    	taskService = new TaskService(taskMapper,projectMapper,userStoryMapper);
 
 	}
 	@Test

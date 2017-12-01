@@ -2,6 +2,7 @@ package uk.ac.qub.csc3045.api.integration;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+import static uk.ac.qub.csc3045.api.setup.UnitTestObjectGenerator.*;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
@@ -25,7 +26,7 @@ import uk.ac.qub.csc3045.api.model.UserStory;
 
 public class SprintControllerIT {
 
-	private static final String BASE_PATH = "/project/1/sprint";
+	private long nonExistingId = -1L;
 
 	private RequestHelper requestHelper;
 	private String authHeader;
@@ -36,11 +37,10 @@ public class SprintControllerIT {
 	private String sprintAndUserStoryHaveDifferentProjects = "Sprint and user story aren't in same Project";
 
 	private Account account;
+	private Project existingProject;
 	private Sprint existingSprint;
 	private Sprint newSprint;
-	private Project existingProject;
 	private User existingUser;
-	private User existingScrum;
 
 	@Before
 	public void setup() throws IOException {
@@ -53,23 +53,22 @@ public class SprintControllerIT {
 	}
 
 	/**
-	 * Create Sprint tests
+	 * Create Sprint Tests
 	 */
 	@Test
 	public void createSprintShouldReturn201() {	
-		newSprint.setScrumMaster(existingScrum);
+		newSprint.setScrumMaster(existingUser);
 		newSprint.setProject(existingProject);
 
-		Response r = requestHelper.sendPostRequestWithAuthHeader(BASE_PATH, authHeader, newSprint);
+		Response r = requestHelper.sendPostRequestWithAuthHeader("/project/" + existingProject.getId() + "/sprint", authHeader, newSprint);
 
 		assertEquals(201, r.statusCode());
 		assertEquals(newSprint.getName(), r.getBody().as(Sprint.class).getName());
-
 	}
 
 	@Test
 	public void createSprintProjectDoesNotExistShouldReturn404() {
-		Response r = requestHelper.sendPostRequestWithAuthHeader("/project/1000/sprint", authHeader, existingSprint);
+		Response r = requestHelper.sendPostRequestWithAuthHeader("/project/" + nonExistingId + "/sprint", authHeader, newSprint);
 
 		assertEquals(404, r.statusCode());
 		assertEquals(projectDoesNotExistInDatabaseErrorMessage, r.body().asString());
@@ -77,53 +76,57 @@ public class SprintControllerIT {
 	
 	@Test
 	public void createSprintScrumMasterDoesNotExistShouldReturn400() {
-		Sprint newSprint = new Sprint();
-		newSprint.setName("SprintName");
-		newSprint.setStartDate(LocalDateTime.of(2018, Month.JULY, 20, 19, 30, 40));
-		newSprint.setEndDate(LocalDateTime.of(2018, Month.JULY, 29, 19, 30, 40));;
 		User nonExistingScrumMaster = new User();
 		nonExistingScrumMaster.setId(-1L);
 	    newSprint.setScrumMaster(nonExistingScrumMaster);
 	    
-		Response r = requestHelper.sendPostRequestWithAuthHeader(BASE_PATH, authHeader, existingSprint);
+		Response r = requestHelper.sendPostRequestWithAuthHeader("/project/" + existingProject.getId() + "/sprint", authHeader, newSprint);
 
 		assertEquals(400, r.statusCode());
 		assertEquals(scrumMasterDoesNotExistInDatabaseErrorMessage, r.body().asString());
 	}
 
 	/**
-	 * Get Sprint tests
+	 * Get Sprints For Project Tests
 	 */
 	@Test
-	public void getSprintThatExistsShouldReturn200() {
-
-		Response r = requestHelper.sendGetRequestWithAuthHeader(BASE_PATH + "/" + existingSprint.getId() , authHeader);
-		Sprint returnedSprint = r.getBody().as(Sprint.class);
-
+	public void getProjectSprintsThatExistShouldReturn200() {
+		Response r = requestHelper.sendGetRequestWithAuthHeader("/project/" + existingProject.getId() + "/sprint", authHeader);
+		List<Sprint> returnedSprints = Arrays.asList(r.getBody().as(Sprint[].class));
+		
 		r.then().assertThat().statusCode(200);
-		assertTrue(existingSprint.getId() == returnedSprint.getId());
-	}
-
-	@Test
-	public void getSprintThatDoesntExistShouldReturn404() {
-		Response r = requestHelper.sendGetRequestWithAuthHeader(BASE_PATH + "/6500", authHeader);
-
-		r.then().assertThat().statusCode(404);
-		assertEquals(sprintDoesNotExistErrorMessage, r.getBody().asString());
-
-	}
-	
-	@Test
-	public void getSprintWhereProjectDoesntExistShouldReturn404() {
-		Response r = requestHelper.sendGetRequestWithAuthHeader("/project/1000/sprint/6500", authHeader);
-
-		r.then().assertThat().statusCode(404);
-		assertEquals(projectDoesNotExistInDatabaseErrorMessage, r.getBody().asString());
-
 	}
 	
 	/**
-	 * Save sprint backlog tests
+	 * Get Sprint Tests
+	 */
+	@Test
+	public void getSprintThatExistsShouldReturn200() {
+		Response r = requestHelper.sendGetRequestWithAuthHeader("/project/" + existingProject.getId() + "/sprint/" + existingSprint.getId() , authHeader);
+		Sprint returnedSprint = r.getBody().as(Sprint.class);
+
+		r.then().assertThat().statusCode(200);
+		assertEquals(existingSprint.getId(), returnedSprint.getId());
+	}
+
+	@Test
+	public void getSprintWhereProjectDoesntExistShouldReturn404() {
+		Response r = requestHelper.sendGetRequestWithAuthHeader("/project/" + nonExistingId + "/sprint/" + existingSprint.getId(), authHeader);
+
+		r.then().assertThat().statusCode(404);
+		assertEquals(projectDoesNotExistInDatabaseErrorMessage, r.getBody().asString());
+	}
+	
+	@Test
+	public void getSprintThatDoesntExistShouldReturn404() {
+		Response r = requestHelper.sendGetRequestWithAuthHeader("/project/" + existingProject.getId() + "/sprint/" + nonExistingId, authHeader);
+
+		r.then().assertThat().statusCode(404);
+		assertEquals(sprintDoesNotExistErrorMessage, r.getBody().asString());
+	}
+	
+	/**
+	 * Update Sprint Backlog Tests
 	 */
 	@Test
 	public void updateSprintBacklogShouldReturn200() {
@@ -180,38 +183,26 @@ public class SprintControllerIT {
 	}
 
 	private void setupBacklog() {
-		existingUser = new User("Snoop", "Dogg", "snoop.dogg@shizzle.hold.up", new Roles(true, true, true));
-		existingScrum = new User("Richard", "Hendrix", "r.hendrix@valley.com", new Roles(true, true, true));
-		existingScrum.setId(1L);
+		existingUser = generateUser();
+		existingUser.setId(1L);
 
 		List<User> users = new ArrayList<>();
 		users.add(existingUser);
 
-		existingProject = new Project("Pied Piper", "Cloud storage using revolutionary middle-out compression.", existingUser, existingUser, users, users, new ArrayList<>());
+		existingProject = generateProject();
 		existingProject.setId(1L);
         existingProject.setManager(existingUser);
 
-		existingSprint = new Sprint("SprintName", LocalDateTime.of(2018, Month.JULY, 20, 19, 30, 40), LocalDateTime.of(2018, Month.JULY, 29, 19, 30, 40));
+		existingSprint = generateSprint();
 		existingSprint.setProject(existingProject);
 		existingSprint.setScrumMaster(existingUser);
 		existingSprint.setId(1L);
 		
-		newSprint = new Sprint("SprintName", LocalDateTime.of(2018, Month.JULY, 20, 19, 30, 40), LocalDateTime.of(2018, Month.JULY, 29, 19, 30, 40) );
+		newSprint = generateSprint();
 	}
 
 	private void setupTestAccount() {
-		Roles validRoles = new Roles();
-		User validUser = new User("Forename", "Surname", generateEmail(), validRoles);
+		User validUser = generateUser();
 		account = new Account(validUser, "Password1");
-	}
-
-	/**
-	 * Generates a random email
-	 *
-	 * @return the email generated
-	 */
-	private String generateEmail() {
-		Random random = new Random();
-		return "testing" + random.nextInt(5000) + "@testing.com";
 	}
 }
