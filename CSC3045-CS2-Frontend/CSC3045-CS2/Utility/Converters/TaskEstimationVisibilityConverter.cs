@@ -7,13 +7,13 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Data;
 
-namespace CSC3045_CS2.Utility
+namespace CSC3045_CS2.Utility.Converters
 {
-    class NullToVisibilityConverter : IValueConverter
+    public class TaskEstimationVisibilityConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return value == null ? Visibility.Visible : Visibility.Hidden;
+            return (DateTime)value > DateTime.Now ? Visibility.Collapsed : Visibility.Visible;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

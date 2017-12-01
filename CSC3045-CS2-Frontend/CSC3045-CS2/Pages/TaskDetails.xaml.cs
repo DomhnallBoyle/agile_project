@@ -8,6 +8,7 @@ using System.Collections.ObjectModel;
 using CSC3045_CS2.Exception;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
+using System;
 
 namespace CSC3045_CS2.Pages
 {
@@ -44,7 +45,7 @@ namespace CSC3045_CS2.Pages
                                                                         CurrentTask.UserStory.Id,
                                                                         CurrentTask.Id);
 
-                // dailyEstimateList.RemoveAll(item => item.Date > DateTime.Now);
+                dailyEstimateList.Sort((x, y) => DateTime.Compare(y.Date, x.Date));
                 DailyEstimates = new ObservableCollection<TaskEstimate>(dailyEstimateList);
             }
             catch (RestResponseErrorException ex)

@@ -68,8 +68,6 @@ namespace CSC3045_CS2.Pages
             }
         }
 
-        public Permissions Permissions { get; set; }
-
         public bool IsCurrentProductOwner
         {
             get
