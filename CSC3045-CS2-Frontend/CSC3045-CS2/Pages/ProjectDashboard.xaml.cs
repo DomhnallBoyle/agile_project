@@ -296,12 +296,12 @@ namespace CSC3045_CS2.Pages
                 {
                     if (!TeamMembers.Any(user => user.Id == SearchResultUser.Id))
                     {
-                        TeamMembers.Add(SearchResultUser);
-
                         try
                         {
                             List<User> teamMembers = new List<User>(TeamMembers);
                             _projectClient.Add(teamMembers, _currentProject);
+
+                            TeamMembers.Add(SearchResultUser);
 
                             UpdateSearchUI();
                         }
@@ -353,6 +353,7 @@ namespace CSC3045_CS2.Pages
         #endregion
 
         #region Event methods
+
         private void TeamMembersListBox_ContextMenuOpening(object sender, ContextMenuEventArgs e)
         {
             var selectedItem = (User)TeamMembersListBox.SelectedItem;

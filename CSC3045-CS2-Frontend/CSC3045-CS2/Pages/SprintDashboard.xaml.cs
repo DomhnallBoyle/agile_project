@@ -11,7 +11,6 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using CSC3045_CS2.Exception;
 
-
 namespace CSC3045_CS2.Pages
 {
     /// <summary>
@@ -67,12 +66,12 @@ namespace CSC3045_CS2.Pages
             SprintDetails = string.Format("Name: {0}, Start Date: {1}, End Date: {2}", CurrentSprint.Name, CurrentSprint.StartDate, CurrentSprint.EndDate); 
         }
 
+        #region Command and Event methods
+
         /// <summary>
         /// Double Click event for mouse
         /// Displays tasks from clicked user story
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         public void ListBox_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             try
@@ -86,8 +85,6 @@ namespace CSC3045_CS2.Pages
                 MessageBoxUtil.ShowErrorBox(ex.Message);
             }
         }
-
-        #region Command and Event methods
 
         /// <summary>
         /// Relay command for navigating to the edit sprint team page
@@ -177,6 +174,14 @@ namespace CSC3045_CS2.Pages
                     NavigationService.GetNavigationService(this).Navigate(manageTaskPage);
                 });
             }
+        }
+
+        private void StoryTasks_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            Task selectedTask = (Task)StoryTasks.SelectedItem;
+            Page taskDetails = new TaskDetails(selectedTask);
+
+            NavigationService.GetNavigationService(this).Navigate(taskDetails);
         }
 
         /// <summary>

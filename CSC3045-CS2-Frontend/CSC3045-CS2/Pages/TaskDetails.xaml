@@ -1,0 +1,120 @@
+﻿<local:BasePage x:Class="CSC3045_CS2.Pages.TaskDetails"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:utility="clr-namespace:CSC3045_CS2.Utility"
+      xmlns:local="clr-namespace:CSC3045_CS2.Pages"
+      mc:Ignorable="d" 
+      d:DesignHeight="1000" d:DesignWidth="1280"
+      Background="{StaticResource BackgroundGradient}"
+      Title="Task Details">
+
+    <StackPanel Width="525" Margin="0,75,0,0">
+        <ContentControl Template="{StaticResource Headers}" Name="Header"/>
+
+        <TextBlock Name="NameTextBlock" HorizontalAlignment="Center" Style="{StaticResource Header}" Margin="0,0,0,15">
+            <TextBlock.Text>
+                <MultiBinding StringFormat="{}{0} - {1}">
+                    <Binding Path="CurrentTask.UserStory.Name"/>
+                    <Binding Path="CurrentTask.Name"/>
+                </MultiBinding>
+            </TextBlock.Text>
+        </TextBlock>
+
+        <Grid Margin="0,12,0,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="0.7*"/>
+                <ColumnDefinition Width="0.3*"/>
+            </Grid.ColumnDefinitions>
+
+            <Grid Grid.Column="0">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="100"/>
+                    </Grid.RowDefinitions>
+                    <TextBlock Grid.Row="0" Name="DescriptionHeaderTextBlock" Text="Task Description" Style="{StaticResource Header}" HorizontalAlignment="Center"/>
+                    
+                    <Separator Grid.Row="1" Margin="0,6,0,6"/>
+                    
+                    <ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Auto">
+                        <TextBlock Name="DescriptionTextBlock" Text="{Binding CurrentTask.Description}" Style="{StaticResource Label}" HorizontalAlignment="Center" TextWrapping="Wrap"/>
+                    </ScrollViewer>
+                </Grid>
+            </Grid>
+
+            <StackPanel Grid.Column="1">
+                <TextBlock Name="AssigneeHeaderTextBlock" Text="Assigned To" Style="{StaticResource Header}" HorizontalAlignment="Center"/>
+
+                <Separator Grid.Row="1" Margin="0,6,0,6"/>
+
+                <TextBlock Name="AssigneeTextBlock" Style="{StaticResource Label}" HorizontalAlignment="Center">
+                    <TextBlock.Text>
+                        <MultiBinding StringFormat="{}{0} {1}">
+                            <Binding Path="CurrentTask.Assignee.Forename"/>
+                            <Binding Path="CurrentTask.Assignee.Surname"/>
+                        </MultiBinding>
+                    </TextBlock.Text>
+                </TextBlock>
+            </StackPanel>
+        </Grid>
+        
+        <Grid Height="400" Margin="0,12,0,0">
+            <ListBox Name="DailyEstimateListBox" ItemsSource="{Binding DailyEstimates}"
+                     Style="{StaticResource DefaultListBox}" HorizontalContentAlignment="Stretch">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <Grid Margin="0,12,0,0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <TextBlock Grid.Column="0" Name="DateTextBlock" HorizontalAlignment="Center" VerticalAlignment="Center" Style="{StaticResource ListBoxItem}">
+                                <TextBlock.Text>
+                                    <MultiBinding StringFormat="{}{0}, {1}/{2}/{3}">
+                                        <Binding Path="Date.DayOfWeek"/>
+                                        <Binding Path="Date.Day"/>
+                                        <Binding Path="Date.Month"/>
+                                        <Binding Path="Date.Year"/>
+                                    </MultiBinding>
+                                </TextBlock.Text>
+                            </TextBlock>
+
+                            
+                            <StackPanel Grid.Column="1">
+                                <TextBlock Name="HoursRemainingLabelTextBlock" HorizontalAlignment="Center" Text="Hours Remaining" Style="{StaticResource ListBoxItem}"/>
+
+                                <AdornerDecorator>
+                                    <TextBox Name="HoursRemainingTextBox" Text="{Binding Estimate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" PreviewTextInput="NumberOnlyTextBoxValidation"
+                                             Style="{StaticResource DefaultTextBox}" Width="40" MaxLength="3" HorizontalContentAlignment="Center">
+                                        <TextBox.InputBindings>
+                                            <KeyBinding Command="{Binding RelativeSource={RelativeSource AncestorType={x:Type Page}}, Path=DataContext.CascadeCommand}" CommandParameter="{Binding}" Key="Enter"/>
+                                        </TextBox.InputBindings>
+                                        <utility:WatermarkService.Watermark>
+                                            <TextBlock Name="HoursRemainingTextBoxPlaceholder" Style="{StaticResource Watermark}" HorizontalAlignment="Center" Margin="0,5,0,0"/>
+                                        </utility:WatermarkService.Watermark>
+                                    </TextBox>
+                                </AdornerDecorator>
+                            </StackPanel>
+                        </Grid>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+        </Grid>
+
+        <Grid Margin="0,12,0,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <Button Grid.Column="0" Grid.Row="0" Name="BackButton" Content="Sprint Dashboard" 
+                        Style="{StaticResource StandardButton}" HorizontalAlignment="Right" Margin="0,0,15,0" Width="125" Command="{Binding BackCommand}"/>
+            <Button Grid.Column="1" Grid.Row="0" Name="SaveButton" Content="Save Changes" 
+                        Style="{StaticResource StandardButton}" HorizontalAlignment="Left" Margin="15,0,0,0" Width="125" Command="{Binding SaveChangesCommand}"/>
+        </Grid>
+    </StackPanel>
+</local:BasePage>
