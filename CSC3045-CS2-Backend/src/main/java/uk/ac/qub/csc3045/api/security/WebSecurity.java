@@ -18,18 +18,30 @@ import static uk.ac.qub.csc3045.api.security.SecurityConstants.SIGN_UP_URL;
 
 @EnableWebSecurity
 public class WebSecurity extends WebSecurityConfigurerAdapter {
+	
+	/**
+	 * Private variables
+	 */
     private AuthenticationService authenticationService;
     private BCryptPasswordEncoder bCryptPasswordEncoder;
     private AuthenticationMapper mapper;
 
+    /**
+     * Constructor for the web security
+     * @param authenticationService
+     * @param bCryptPasswordEncoder
+     * @param mapper
+     */
     public WebSecurity(AuthenticationService authenticationService, BCryptPasswordEncoder bCryptPasswordEncoder, AuthenticationMapper mapper) {
         this.authenticationService = authenticationService;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
         this.mapper = mapper;
     }
 
-    // Configures security filters, SIGN_UP_URL and LOGIN_URL are allowed to be hit with no token, all other endpoints must receive a token that is
-    // checked by the authorization filter
+    /**
+     * Configures security filters, SIGN_UP_URL and LOGIN_URL are allowed to be hit with no token, all other endpoints must receive a token that is
+	 * checked by the authorization filter
+     */
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.cors().and().csrf().disable().authorizeRequests()

@@ -5,6 +5,10 @@ import javax.validation.constraints.Size;
 
 public class AcceptanceTest {
 	
+	/**
+	 * Model for an Acceptance Test
+	 */
+	
 	private Long id;
 	
 	@NotNull

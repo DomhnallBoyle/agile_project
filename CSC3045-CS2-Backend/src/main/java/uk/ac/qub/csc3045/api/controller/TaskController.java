@@ -21,15 +21,22 @@ import uk.ac.qub.csc3045.api.service.TaskService;
 @RestController
 @RequestMapping(value = "/project/{projectId}/story/{userStoryId}/task")
 public class TaskController {
-
+		
+	/**
+	 * Private variables
+	 */
 	private TaskService taskService;
 	
+	/**
+	 * Constructor for the task controller
+	 * @param taskService - service for the controller 
+	 */
 	public TaskController(TaskService taskService) {
 		this.taskService = taskService;
 	}
 
 	/**
-	 * Controller for creating a task
+	 * Endpoint for creating a task
 	 * @param projectId id of the project the story belongs to
 	 * @param userStoryId id of the story the task belongs to
 	 * @param task object from the request
@@ -55,14 +62,14 @@ public class TaskController {
 	}
 	
 	/**
-	 * Controller to retrieve a particular task
+	 * Endpoint to retrieve a particular task
 	 * @param projectId id of the project the user story belongs to
 	 * @param userStoryId id of the user story the task belongs to
 	 * @param taskId id of the task
 	 * @return task object from the database
 	 */
 	@GetMapping(value = "/{taskId}")
-	public ResponseEntity<Task>getTask(@Valid @PathVariable("projectId") long projectId,
+	public ResponseEntity<Task> getTask(@Valid @PathVariable("projectId") long projectId,
 			@Valid @PathVariable("userStoryId") long userStoryId, @Valid @PathVariable("taskId") long taskId) {
 		return new ResponseEntity<Task>(taskService.getTask(projectId, userStoryId, taskId), HttpStatus.OK);
 	}
@@ -74,7 +81,7 @@ public class TaskController {
 	 * @return updated task from the database
 	 */
 	@PutMapping(value = "/{taskId}")
-	public ResponseEntity<Task>updateTask(@Valid @RequestBody Task task, 
+	public ResponseEntity<Task> updateTask(@Valid @RequestBody Task task, 
 			@Valid @PathVariable("taskId") long taskId) {
 		return new ResponseEntity<>(taskService.updateTask(task, taskId), HttpStatus.OK);
 	}

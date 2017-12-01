@@ -6,6 +6,10 @@ import javax.validation.constraints.Size;
 import java.util.List;
 
 public class User {
+	
+	/**
+	 * Model for a User
+	 */
 
     private Long id;
 

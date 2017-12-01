@@ -16,6 +16,9 @@ import java.util.List;
 @Service
 public class ProjectService {
 
+	/**
+	 * Private variables
+	 */
     private ProjectMapper mapper;
     private EmailUtility emailSender;
 

@@ -1,6 +1,10 @@
 package uk.ac.qub.csc3045.api.model;
 
 public class Roles {
+	
+	/**
+	 * Model for the user Roles
+	 */
 
     private Long id;
 

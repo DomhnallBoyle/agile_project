@@ -16,6 +16,11 @@ public class EmailUtility {
 
 private JavaMailSender javaMailSender;
 	
+	/**
+	 * Constructor for sending mail class
+	 * Email sent async to speed up program - waits until mail sent otherwise
+	 * @param javaMailSender
+	 */
 	@Autowired
 	public EmailUtility(JavaMailSender javaMailSender){
 		this.javaMailSender = javaMailSender;
@@ -32,6 +37,7 @@ private JavaMailSender javaMailSender;
 				+ "added as Product Owner for "+project.getName()+" \n\nThanks,\nYour Sys Admin Team");
 		javaMailSender.send(mail);
 	}
+	
 	@Async
 	public void sendTeamMemberEmails(Project project, User user) throws MailException, InterruptedException {
         Thread.sleep(100);
@@ -43,6 +49,7 @@ private JavaMailSender javaMailSender;
 				+ "added to the team for "+project.getName()+" \n\nThanks,\nYour Sys Admin Team");
 		javaMailSender.send(mail);
 	}
+	
 	@Async
 	public void sendScrumMasterEmails(Project project, User user) throws MailException, InterruptedException {
         Thread.sleep(100);
@@ -54,6 +61,7 @@ private JavaMailSender javaMailSender;
 				+ "added as a Scrum Master for "+project.getName()+" \n\nThanks,\nYour Sys Admin Team");
 		javaMailSender.send(mail);
 	}
+	
 	@Async
 	public void sendSprintEmails(String projectName, User user) throws MailException, InterruptedException {
         Thread.sleep(100);

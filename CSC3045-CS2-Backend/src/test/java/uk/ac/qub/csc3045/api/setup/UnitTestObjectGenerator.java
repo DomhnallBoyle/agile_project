@@ -3,6 +3,7 @@ package uk.ac.qub.csc3045.api.setup;
 import uk.ac.qub.csc3045.api.model.Project;
 import uk.ac.qub.csc3045.api.model.Sprint;
 import uk.ac.qub.csc3045.api.model.Task;
+import uk.ac.qub.csc3045.api.model.TaskEstimate;
 import uk.ac.qub.csc3045.api.model.User;
 import uk.ac.qub.csc3045.api.model.UserStory;
 
@@ -81,6 +82,12 @@ public class UnitTestObjectGenerator {
 
         return userStory;
     }
+    
+    public static TaskEstimate generateTaskEstimate() {
+    	TaskEstimate taskEstimate = new TaskEstimate();
+    	
+    	return taskEstimate;
+    }
 
 
     public static List<User> generateUserList(int size) {
@@ -93,6 +100,17 @@ public class UnitTestObjectGenerator {
         return users;
     }
     
+    public static List<Task> generateTaskList(int size) {
+        List<Task> tasks = new ArrayList<>();
+
+        for (int i = 0; i < size; i++) {
+        	tasks.add(generateTask());
+        }
+
+        return tasks;
+    }
+    
+    
     public static List<UserStory> generateUserStoryList(int size) {
         List<UserStory> userStories = new ArrayList<>();
 
@@ -101,5 +119,15 @@ public class UnitTestObjectGenerator {
         }
 
         return userStories;
+    }
+    
+    public static List<TaskEstimate> generateTaskEstimates(int size) {
+    	List<TaskEstimate> taskEstimates = new ArrayList<>();
+
+        for (int i = 0; i < size; i++) {
+        	taskEstimates.add(generateTaskEstimate());
+        }
+
+        return taskEstimates;
     }
 }

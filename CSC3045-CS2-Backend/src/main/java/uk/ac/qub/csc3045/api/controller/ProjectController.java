@@ -17,8 +17,15 @@ import java.util.List;
 @RequestMapping(value = "/project")
 public class ProjectController {
 
+	/**
+	 * Private variables
+	 */
     private final ProjectService projectService;
 
+    /**
+     * Constructor for the Project Controller
+     * @param projectService - service for this controller
+     */
     @Autowired
     public ProjectController(ProjectService projectService) {
         this.projectService = projectService;
@@ -51,9 +58,9 @@ public class ProjectController {
     }
 
     /**
-     * 
-     * @param projectId
-     * @return
+     * Endpoint to get a particular project
+     * @param projectId id of the project you are retrieving
+     * @return Project object from the database
      */
     @GetMapping(value = "/{projectId}")
     public ResponseEntity<Project> get(@Valid @PathVariable("projectId") long projectId) {
@@ -61,10 +68,10 @@ public class ProjectController {
     }
 
     /**
-     * 
-     * @param project
-     * @param projectId
-     * @return
+     * Endpoint to add users to a project team
+     * @param project project where the users exist
+     * @param projectId id of the project to add the users to
+     * @return updated project objects with new members
      */
     @PostMapping(value = "/{projectId}/user")
     public ResponseEntity<Project> addToTeam(@Valid @RequestBody Project project,  @PathVariable("projectId") long projectId) {
@@ -77,9 +84,9 @@ public class ProjectController {
     }
 
     /**
-     * 
-     * @param projectId
-     * @return
+     * Endpoint to retrieve the team members in a project
+     * @param projectId id of the project that the members belong to
+     * @return List of user objects from that project
      */
     @GetMapping(value = "/{projectId}/user")
     public ResponseEntity<List<User>> getTeamMembers(@Valid @PathVariable("projectId") long projectId) {

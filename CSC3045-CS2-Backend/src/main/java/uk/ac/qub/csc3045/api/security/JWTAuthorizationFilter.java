@@ -19,13 +19,25 @@ import static uk.ac.qub.csc3045.api.security.SecurityConstants.*;
 
 public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
 
+	/**
+	 * Private variables
+	 */
     private AuthenticationMapper mapper;
 
+    /**
+     * Constructor for Authorization - used to check if auth token is apart of 
+     * request headers
+     * @param authManager
+     * @param mapper
+     */
     public JWTAuthorizationFilter(AuthenticationManager authManager, AuthenticationMapper mapper) {
         super(authManager);
         this.mapper = mapper;
     }
 
+    /**
+     * 
+     */
     @Override
     protected void doFilterInternal(HttpServletRequest req,
                                     HttpServletResponse res,
@@ -36,7 +48,11 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
         chain.doFilter(req, res);
     }
 
-    //takes in the token supplied by the user, checks it's in a valid format and that the user still exists
+    /**
+     * Checks request headers for auth token.
+     * @param request
+     * @return Authentication token
+     */
     private UsernamePasswordAuthenticationToken getAuthentication(HttpServletRequest request) {
         String token = request.getHeader(HEADER_STRING);
         if (token != null) {

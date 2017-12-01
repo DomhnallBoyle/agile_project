@@ -4,6 +4,10 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
 public class Account {
+	
+	/**
+	 * Model for a Account
+	 */
 
     private Long id;
 

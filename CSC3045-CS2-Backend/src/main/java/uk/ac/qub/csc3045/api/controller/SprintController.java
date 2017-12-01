@@ -18,8 +18,15 @@ import java.util.List;
 @RequestMapping(value = "/project/{projectId}/sprint")
 public class SprintController {
 
+	/**
+	 * Private variables
+	 */
 	private final SprintService sprintService;
 
+	/**
+	 * Constructor for the sprint controller
+	 * @param sprintService - service for the controller
+	 */
     @Autowired
     public SprintController(SprintService sprintService) {
         this.sprintService = sprintService;
@@ -37,7 +44,7 @@ public class SprintController {
     }
 
     /**
-     * Controller for getting sprints for a particular project
+     * Endpoint for getting sprints for a particular project
      * @param projectId id of the project
      * @return List of sprint objects that are related to the project
      */
@@ -47,7 +54,7 @@ public class SprintController {
     }
     
     /**
-     * Controller for getting a particular sprint
+     * Endpoint for getting a particular sprint
      * @param projectId id of the project the sprint belongs to
      * @param sprintId id of the sprint
      * @return sprint object from the database
@@ -58,7 +65,7 @@ public class SprintController {
     }
 
     /**
-     * Controller for getting users for a particular team
+     * Endpoint for getting users for a particular team
      * @param projectId id of the project the sprint belongs to
      * @param sprintId id of the sprint for which the users belongs to
      * @return list of user objects that are members of that particular sprint
@@ -69,7 +76,7 @@ public class SprintController {
     }
 	
     /**
-     * Controller for updating a particular sprint team
+     * Endpoint for updating a particular sprint team
      * i.e. adding/removing users from the sprint team
      * @param projectId id of the project the sprint belongs to
      * @param sprintId id of the sprint object
@@ -86,7 +93,7 @@ public class SprintController {
     }
 
 	/**
-	 * Controller to get the available developers i.e. developers who have not been assigned to a sprint
+	 * Endpoint to get the available developers i.e. developers who have not been assigned to a sprint
 	 * @param projectId id of the project
 	 * @param sprintId id of the sprint
 	 * @return list of available users
@@ -97,7 +104,7 @@ public class SprintController {
     }
     
     /**
-     * Controller to update the sprint backlog i.e. add/remove tasks from the backlog
+     * Endpoint to update the sprint backlog i.e. add/remove tasks from the backlog
      * @param projectId - id of the project the sprint belongs to
      * @param sprint sprint object from the request body
      * @return list of updated user stories 
@@ -108,7 +115,7 @@ public class SprintController {
     }
 
     /**
-     * Controller to get a particular sprint backlog
+     * Endpoint to get a particular sprint backlog
      * @param projectId id of the project the sprint belongs to
      * @param sprintId id of the sprint object
      * @return list of user stories associated with that sprint
