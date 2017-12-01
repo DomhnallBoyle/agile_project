@@ -1,6 +1,8 @@
 ﻿using AutomationTests.PageTemplates;
+using AutomationTests.Util;
 using NUnit.Framework;
 using System;
+using TestStack.White.UIItems.ListBoxItems;
 
 namespace AutomationTests.Tests.Sprints
 {
@@ -40,43 +42,104 @@ namespace AutomationTests.Tests.Sprints
         [Test]
         public void ShouldSuccessfullyCreateASprint()
         {
-            _createSprintPage.SprintNameTextBox.Text = ""
+            EnterValidCredentials();
+
+            string sprintName = _createSprintPage.SprintNameTextBox.Text;
+
+            _createSprintPage.CreateButton.Click();
+            Assert.IsTrue(_manageSprintsPage.IsCurrentPage());
+
+            WPFListItem sprintListItem = _manageSprintsPage.GetSprintListItem(sprintName);
+            Assert.NotNull(sprintListItem);
+
+            _manageSprintsPage.CreateSprintButton.Click();
         }
 
         [Test]
         public void ShouldFailIfNoSprintNameEntered()
         {
+            EnterValidCredentials();
+            _createSprintPage.SprintNameTextBox.Text = "";
 
+            _createSprintPage.CreateButton.Click();
+            var messageBox = MessageBoxUtil.GetWarningMessageBox(MainWindow);
+            Assert.NotNull(messageBox);
+            Assert.IsTrue(MessageBoxUtil.GetTextContent(messageBox).Contains("You must enter"));
+
+            MessageBoxUtil.ClickOKButton(messageBox);
+            ResetCreateSprintFields();
         }
 
         [Test]
         public void ShouldFailIfNoStartDateEntered()
         {
+            EnterValidCredentials();
+            _createSprintPage.StartDatePicker.Date = null;
 
+            _createSprintPage.CreateButton.Click();
+            var messageBox = MessageBoxUtil.GetWarningMessageBox(MainWindow);
+            Assert.NotNull(messageBox);
+            Assert.IsTrue(MessageBoxUtil.GetTextContent(messageBox).Contains("You must select"));
+
+            MessageBoxUtil.ClickOKButton(messageBox);
+            ResetCreateSprintFields();
         }
 
         [Test]
         public void ShouldFailIfNoEndDateEntered()
         {
+            EnterValidCredentials();
+            _createSprintPage.EndDatePicker.Date = null;
 
+            _createSprintPage.CreateButton.Click();
+            var messageBox = MessageBoxUtil.GetWarningMessageBox(MainWindow);
+            Assert.NotNull(messageBox);
+            Assert.IsTrue(MessageBoxUtil.GetTextContent(messageBox).Contains("You must select"));
+
+            MessageBoxUtil.ClickOKButton(messageBox);
+            ResetCreateSprintFields();
         }
 
         [Test]
-        public void ShouldFailIfAllLeftBlankWithCompundErrorMessage()
+        public void ShouldFailIfAllLeftBlankWithCompoundErrorMessage()
         {
+            _createSprintPage.CreateButton.Click();
+            var messageBox = MessageBoxUtil.GetWarningMessageBox(MainWindow);
+            Assert.NotNull(messageBox);
+            Assert.IsTrue(MessageBoxUtil.GetTextContent(messageBox).Contains("You must enter"));
+            Assert.IsTrue(MessageBoxUtil.GetTextContent(messageBox).Contains("You must select"));
 
+            MessageBoxUtil.ClickOKButton(messageBox);
         }
 
         [Test]
         public void ShouldFailIfStartDateIsInThePast()
         {
+            EnterValidCredentials();
+            _createSprintPage.StartDatePicker.Date = DateTime.Now.AddDays(-7);
 
+            _createSprintPage.CreateButton.Click();
+            var messageBox = MessageBoxUtil.GetWarningMessageBox(MainWindow);
+            Assert.NotNull(messageBox);
+            Assert.IsTrue(MessageBoxUtil.GetTextContent(messageBox).Contains("can't be in the past"));
+
+            MessageBoxUtil.ClickOKButton(messageBox);
+            ResetCreateSprintFields();
         }
 
         [Test]
         public void ShouldFailIfEndDateIsBeforeStartDate()
         {
+            EnterValidCredentials();
+            _createSprintPage.StartDatePicker.Date = DateTime.Now.AddDays(21);
 
+            _createSprintPage.CreateButton.Click();
+            var messageBox = MessageBoxUtil.GetWarningMessageBox(MainWindow);
+            Assert.NotNull(messageBox);
+            Assert.IsTrue(MessageBoxUtil.GetTextContent(messageBox).Contains("must be after"));
+
+            MessageBoxUtil.ClickOKButton(messageBox);
+            ResetCreateSprintFields();
         }
 
         private void ResetCreateSprintFields()
@@ -88,7 +151,9 @@ namespace AutomationTests.Tests.Sprints
 
         private void EnterValidCredentials()
         {
-
+            _createSprintPage.SprintNameTextBox.Text = "user3@e2e.com";
+            _createSprintPage.StartDatePicker.Date = DateTime.Now;
+            _createSprintPage.EndDatePicker.Date = DateTime.Now.AddDays(14);
         }
     }
 }
