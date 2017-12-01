@@ -5,8 +5,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TestStack.White.Factory;
 using TestStack.White.UIItems;
 using TestStack.White.UIItems.ListBoxItems;
+using TestStack.White.UIItems.MenuItems;
 using TestStack.White.UIItems.WPFUIItems;
 
 namespace AutomationTests.Tests.Project
@@ -43,7 +45,9 @@ namespace AutomationTests.Tests.Project
         {
             _projectDashboardPage.TeamMembersListBox.RightClick();
 
-            Assert.IsNull(MainWindow.Popup.Items);
+            Menus popItems;
+
+            Assert.Throws<UIItemSearchException>(() => popItems = MainWindow.Popup.Items);
         }
     }
 }
