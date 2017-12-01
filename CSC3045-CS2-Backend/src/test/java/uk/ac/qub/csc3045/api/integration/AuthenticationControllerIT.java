@@ -6,9 +6,12 @@ import org.junit.Test;
 import uk.ac.qub.csc3045.api.integration.util.RequestHelper;
 import uk.ac.qub.csc3045.api.model.Account;
 import uk.ac.qub.csc3045.api.model.Roles;
+import uk.ac.qub.csc3045.api.model.Skill;
 import uk.ac.qub.csc3045.api.model.User;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 import static org.junit.Assert.*;
@@ -269,6 +272,11 @@ public class AuthenticationControllerIT {
     public void setupTestAccount() {
         Roles validRoles = new Roles();
         User validUser = new User("Forename", "Surname", generateEmail(), "profilepic", validRoles);
+        List<Skill> userSkills = new ArrayList<Skill>();
+        Skill skill = new Skill("Fake skill");
+        skill.setId(1l);
+        userSkills.add(skill);
+        validUser.setSkillSet(userSkills);
         account = new Account(validUser, "Password1");
     }
 

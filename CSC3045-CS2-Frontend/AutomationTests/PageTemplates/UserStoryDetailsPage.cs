@@ -13,6 +13,11 @@ namespace AutomationTests.PageTemplates
             get { return MainWindow.Get<Button>("CreateAcceptanceTestButton"); }
         }
 
+        public Button BackButton
+        {
+            get { return MainWindow.Get<Button>("BackButton"); }
+        }
+        
         public ListBox UserStoryAcceptanceTests
         {
             get { return MainWindow.Get<ListBox>("UserStoryAcceptanceTests"); }

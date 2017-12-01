@@ -29,6 +29,9 @@ namespace CSC3045_CS2.Models
         [DeserializeAs(Name = "sprints")]
         public List<Sprint> Sprints { get; set; }
 
+        [DeserializeAs(Name = "skills")]
+        public List<Skill> Skills { get; set; }
+
         public User() { }
 
         public User(long id)
@@ -42,6 +45,16 @@ namespace CSC3045_CS2.Models
             this.Surname = surname;
             this.Email = email;
             this.Roles = roles;
+        }
+
+        public User(string forename, string surname, string email, string profilePicture, Roles roles, List<Skill> skills)
+        {
+            this.Forename = forename;
+            this.Surname = surname;
+            this.Email = email;
+            this.ProfilePicture = profilePicture;
+            this.Roles = roles;
+            this.Skills = skills;
         }
 
         public User(string forename, string surname, string email, string profilePicture, Roles roles)

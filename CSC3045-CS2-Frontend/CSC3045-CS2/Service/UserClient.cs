@@ -36,5 +36,16 @@ namespace CSC3045_CS2.Service
 
             return Execute<List<Project>>(request);
         }
+
+        public List<Skill> GetUserSkills(long userId)
+        {
+            var request = new RestRequest(BASE_ENDPOINT + "/" + userId + "/skill", Method.GET);
+            request.AddHeader("Content-Type", "application/json");
+            request.RequestFormat = DataFormat.Json;
+            SimpleJson.CurrentJsonSerializerStrategy = new CamelCaseSerializationStrategy();
+
+            return Execute<List<Skill>>(request);
+        }
+
     }
 }

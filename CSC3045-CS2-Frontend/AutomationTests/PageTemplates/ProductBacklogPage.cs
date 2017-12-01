@@ -22,6 +22,12 @@ namespace AutomationTests.PageTemplates
             return listItem.Get<Button>("ViewStoryDetailsButton");
         }
 
+        public Label ProjectNameTextBlock
+        {
+            get { return MainWindow.Get<Label>("ProjectNameTextBlock"); }
+
+        }
+
         public ProductBacklogPage(Window window) : base(window)
         { }
 
