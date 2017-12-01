@@ -105,10 +105,12 @@ public class SprintService {
 	
 	            for (User developer : developers) {
 	                List<Sprint> clashingSprints = sprintMapper.getClashingSprintsForUser(developer.getId(), sprint.getStartDate(), sprint.getEndDate());
-	
-	                if (clashingSprints.isEmpty()) {
-	                    availableDevelopers.add(developer);
-	                }
+
+	                developer.setSprints(clashingSprints);
+	                availableDevelopers.add(developer);
+//	                if (clashingSprints.isEmpty()) {
+//	                    availableDevelopers.add(developer);
+//	                }
 	            }
 	
 	            if (availableDevelopers.isEmpty()) {

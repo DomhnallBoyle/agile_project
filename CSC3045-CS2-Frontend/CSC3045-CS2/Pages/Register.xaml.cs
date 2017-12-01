@@ -35,9 +35,9 @@ namespace CSC3045_CS2.Pages
             InitializeComponent();
             DataContext = this;
             _client = new AuthenticationClient();
-            _profileImage = new BitmapImage(new Uri(Properties.Settings.Default.ProfileImageDirectory + Properties.Settings.Default.DefaultProfileImage, UriKind.Absolute));
+            _profileImage = null;
             ImageBrush profileButtonBackground = new ImageBrush();
-            profileButtonBackground.ImageSource = _profileImage;
+            profileButtonBackground.ImageSource = new BitmapImage(new Uri(Properties.Settings.Default.ProfileImageDirectory + Properties.Settings.Default.DefaultProfileImage, UriKind.Absolute));
             ProfileButton.Background = profileButtonBackground;
 
             _invalidTextBoxStyle = FindResource("InvalidTextBox") as Style;

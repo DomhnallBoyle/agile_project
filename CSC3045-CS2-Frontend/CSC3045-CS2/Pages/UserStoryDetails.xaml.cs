@@ -28,6 +28,8 @@ namespace CSC3045_CS2.Pages
 
         public UserStory CurrentUserStory { get; set; }
 
+        public Permissions Permissions { get; set; }
+
         #endregion
 
         public UserStoryDetails(UserStory selectedUserStory)
@@ -37,6 +39,8 @@ namespace CSC3045_CS2.Pages
             DataContext = this;
 
             _client = new UserStoryClient();
+
+            Permissions = new Permissions((User)Application.Current.Properties["user"], selectedUserStory.Project);
 
             CurrentUserStory = selectedUserStory;
 

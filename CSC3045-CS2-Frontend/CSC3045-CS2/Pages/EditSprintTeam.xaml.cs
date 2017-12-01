@@ -39,6 +39,8 @@ namespace CSC3045_CS2.Pages
 
         public ObservableCollection<User> AvailableDevelopers { get; set; }
 
+        public ObservableCollection<User> UnavailableDevelopers { get; set; }
+
         #endregion
 
         public EditSprintTeam(Sprint sprint)
@@ -54,12 +56,34 @@ namespace CSC3045_CS2.Pages
 
             try
             {
-                AvailableDevelopers = new ObservableCollection<User>(_sprintClient.GetAvailableDevelopers(sprint.Project.Id, sprint.Id));
+                SetupDevelopers();
             }
             catch (RestResponseErrorException ex)
             {
                 MessageBoxUtil.ShowInfoBox(ex.Message);
             }
+        }
+
+        private void SetupDevelopers()
+        {
+            List<User> developers = _sprintClient.GetAvailableDevelopers(CurrentSprint.Project.Id, CurrentSprint.Id);
+            List<User> availableDevelopers = new List<User>();
+            List<User> unavailableDevelopers = new List<User>();
+
+            foreach (User developer in developers)
+            {
+                if (developer.Sprints == null || developer.Sprints.Count == 0)
+                {
+                    availableDevelopers.Add(developer);
+                }
+                else
+                {
+                    unavailableDevelopers.Add(developer);
+                }
+            }
+
+            AvailableDevelopers = new ObservableCollection<User>(availableDevelopers);
+            UnavailableDevelopers = new ObservableCollection<User>(unavailableDevelopers);
         }
 
         #region Command methods

@@ -158,6 +158,7 @@ namespace CSC3045_CS2
         private void PreviewMouseUp(object sender, MouseButtonEventArgs e)
         {
             UserStory selectedStory = (UserStory)(sender as ListBoxItem).DataContext;
+            selectedStory.Project = CurrentProject;
             Page userStoryDetailsPage = new UserStoryDetails(selectedStory);
             NavigationService.GetNavigationService(this).Navigate(userStoryDetailsPage);
         }
