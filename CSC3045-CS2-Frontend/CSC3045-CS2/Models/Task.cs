@@ -1,8 +1,10 @@
 ﻿using RestSharp.Deserializers;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 
 namespace CSC3045_CS2.Models
 {
-    public class Task
+    public class Task : INotifyPropertyChanged
     {
         [DeserializeAs(Name = "id")]
         public long Id { get; set; }
@@ -19,8 +21,18 @@ namespace CSC3045_CS2.Models
         [DeserializeAs(Name = "userStory")]
         public UserStory UserStory { get; set; }
 
+        private User _assignee;
+
         [DeserializeAs(Name = "assignee")]
-        public User Assignee { get; set; }
+        public User Assignee
+        {
+            get { return _assignee; }
+            set
+            {
+                _assignee = value;
+                OnPropertyChanged();
+            }
+        }
 
         public Task() { }
 
@@ -32,5 +44,12 @@ namespace CSC3045_CS2.Models
             this.UserStory = userStory;
             this.Assignee = assignee;
         }
+
+        private void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
     }
 }

@@ -28,8 +28,6 @@ namespace CSC3045_CS2.Pages
 
         public UserStory CurrentUserStory { get; set; }
 
-        public Permissions Permissions { get; set; }
-
         #endregion
 
         public UserStoryDetails(UserStory selectedUserStory)

@@ -14,7 +14,14 @@
     <StackPanel Width="750" Margin="0,75,0,0">
         <ContentControl Template="{StaticResource Headers}" Name="Header"/>
 
-        <TextBlock Name="SprintNameTextBlock" HorizontalAlignment="Center" Style="{StaticResource Header}"  Text="{Binding CurrentSprint.Name}" Margin="0,0,0,15"/>
+        <TextBlock Name="ProjectNameTextBlock" HorizontalAlignment="Center" Style="{StaticResource Header}" Margin="0,0,0,15">
+            <TextBlock.Text>
+                <MultiBinding StringFormat="{}{0} - {1}">
+                    <Binding Path="CurrentSprint.Project.Name"/>
+                    <Binding Path="CurrentSprint.Name"/>
+                </MultiBinding>
+            </TextBlock.Text>
+        </TextBlock>
 
         <Grid Height="650">
             <Grid.ColumnDefinitions>

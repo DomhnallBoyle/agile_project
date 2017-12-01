@@ -74,7 +74,7 @@ namespace CSC3045_CS2.Pages
             {
                 StoryMarketValueTextBox.Style = _invalidTextBoxStyle;
                 valid = false;
-                sb.Append("You must enter a Market Value");
+                sb.Append("You must enter a Market Value\n");
             }
 
             if (!String.IsNullOrEmpty(StoryDescriptionTextBox.Text))

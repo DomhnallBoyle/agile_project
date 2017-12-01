@@ -76,7 +76,7 @@ namespace CSC3045_CS2.Pages
                 {
                     availableDevelopers.Add(developer);
                 }
-                else
+                else if (CurrentSprint.Users.Find(item => item.Id == developer.Id) == null)
                 {
                     unavailableDevelopers.Add(developer);
                 }

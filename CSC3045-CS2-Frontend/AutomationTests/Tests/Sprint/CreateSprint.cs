@@ -26,13 +26,18 @@ namespace AutomationTests.Tests.Sprints
             _manageSprintsPage = new ManageSprintsPage(MainWindow);
             _createSprintPage = new CreateSprintPage(MainWindow);
 
-            LoginPage.Login("user3@e2e.com", "Aut0mation");
+            LoginPage.Login("user5@e2e.com", "Aut0mation");
             Assert.IsTrue(_userDashboardPage.IsCurrentPage());
 
-            _userDashboardPage.GetProjectListItem("e2eProjectName2").Click();
+            _userDashboardPage.GetProjectListItem("e2eProjectName1").Click();
             Assert.IsTrue(_projectDashboardPage.IsCurrentPage());
 
             _projectDashboardPage.ManageSprintsButton.Click();
+
+            var messageBox = MessageBoxUtil.GetInfoMessageBox(MainWindow);
+            Assert.NotNull(messageBox);
+            MessageBoxUtil.ClickOKButton(messageBox);
+
             Assert.IsTrue(_manageSprintsPage.IsCurrentPage());
 
             _manageSprintsPage.CreateSprintButton.Click();
@@ -47,6 +52,11 @@ namespace AutomationTests.Tests.Sprints
             string sprintName = _createSprintPage.SprintNameTextBox.Text;
 
             _createSprintPage.CreateButton.Click();
+
+            var messageBox = MessageBoxUtil.GetSuccessMessageBox(MainWindow);
+            Assert.NotNull(messageBox);
+            MessageBoxUtil.ClickOKButton(messageBox);
+
             Assert.IsTrue(_manageSprintsPage.IsCurrentPage());
 
             WPFListItem sprintListItem = _manageSprintsPage.GetSprintListItem(sprintName);

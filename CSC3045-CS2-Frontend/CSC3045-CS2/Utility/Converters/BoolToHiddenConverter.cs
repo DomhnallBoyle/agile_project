@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Data;
 
-namespace CSC3045_CS2.Utility
+namespace CSC3045_CS2.Utility.Converters
 {
     [ValueConversion(typeof(bool), typeof(Visibility))]
     public class BoolToHiddenConverter : IValueConverter

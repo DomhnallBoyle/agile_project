@@ -13,14 +13,6 @@
     <StackPanel Width="750" Margin="0,75,0,0">
         <ContentControl Template="{StaticResource Headers}" Name="Header"/>
         
-        <TextBlock Text="Click to Navigate Projects" HorizontalAlignment="Left" Style="{StaticResource Label}" Foreground="Gold"  Margin="5,0,0,0" />
-        <Button HorizontalAlignment="Left" Name="ProjectDropDownButton" Margin="0,5,5,5" Content="Select a Project" Style="{StaticResource StandardButton}" Command="{Binding ProjectDropDown}" ContextMenuService.IsEnabled="True">
-            <Button.ContextMenu>
-                <ContextMenu Name="projectMenuItems">
-                </ContextMenu>
-            </Button.ContextMenu>
-        </Button>
-        
         <TextBlock Name="ProjectNameTextBlock" HorizontalAlignment="Center" Style="{StaticResource Header}"  Text="{Binding CurrentProject.Name}" Margin="0,0,0,15"/>
         <Grid>
             <Grid.ColumnDefinitions>
@@ -34,11 +26,23 @@
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
-                    <Button Grid.Column="0" Name="UserDashboardButton" Content="User Dashboard" Style="{StaticResource StandardButton}" Command="{Binding GoToUserDashboardCommand}" Width="110"/>
+
+                    <StackPanel Grid.Column="0">
+                        <Button HorizontalAlignment="Center" Name="ProjectDropDownButton" Content="Select a Project" Style="{StaticResource StandardButton}" Command="{Binding ProjectDropDown}" ContextMenuService.IsEnabled="True" Width="110">
+                            <Button.ContextMenu>
+                                <ContextMenu Name="projectMenuItems">
+                                </ContextMenu>
+                            </Button.ContextMenu>
+                        </Button>
+                        <Button Name="UserDashboardButton" Content="User Dashboard" Style="{StaticResource StandardButton}" Command="{Binding GoToUserDashboardCommand}" Width="110" Margin="0,12,0,0"/>
+                    </StackPanel>
+                    
                     <Button Grid.Column="1" Name="ProductBacklogButton" Content="Product Backlog" Style="{StaticResource StandardButton}" Command="{Binding GoToProductBacklogCommand}" Width="110" Margin="5,0,5,0"/>
                     <Button Grid.Column="2" Name="ManageSprintsButton" Content="Sprint Overview" Style="{StaticResource StandardButton}" Command="{Binding GoToManageSprintsCommand}" Width="110"/>
                 </Grid>
+                
                 <Separator/>
+                
                 <TextBlock Name="ProjectManagerHeaderTextBlock" Text="Project Manager" Style="{StaticResource Header}" HorizontalAlignment="Center"/>
                 <TextBlock Name="ProjectManagerNameTextBlock" Style="{StaticResource Label}" HorizontalAlignment="Center">
                     <TextBlock.Text>
@@ -49,8 +53,11 @@
                     </TextBlock.Text>
                 </TextBlock>
                 <TextBlock Name="ProjectManagerEmailTextBlock" Text="{Binding CurrentProject.Manager.Email}" Style="{StaticResource Label}" HorizontalAlignment="Center"/>
+                
                 <Separator/>
+                
                 <TextBlock Name="ProductOwnerHeaderTextBlock" Text="Product Owner" Style="{StaticResource Header}" HorizontalAlignment="Center" Margin="0,10,0,0"/>
+
                 <TextBlock Name="ProductOwnerNameTextBlock" Style="{StaticResource Label}" HorizontalAlignment="Center">
                     <TextBlock.Text>
                         <MultiBinding StringFormat="{}{0} {1}">
@@ -60,12 +67,16 @@
                     </TextBlock.Text>
                 </TextBlock>
                 <TextBlock Name="ProductOwnerEmailTextBlock" Text="{Binding CurrentProject.ProductOwner.Email, Mode=OneWay}" Style="{StaticResource Label}" HorizontalAlignment="Center"/>
+                
                 <Separator/>
+
                 <Grid Height="425">
+
                     <Grid.RowDefinitions>
                         <RowDefinition Height="0.07*"/>
                         <RowDefinition Height="0.9*"/>
                     </Grid.RowDefinitions>
+
                     <TextBlock Grid.Row="0" Name="ScrumMastersHeaderTextBlock" Text="Scrum Masters" Style="{StaticResource Header}" HorizontalAlignment="Center"/>
                     <ListBox Grid.Row="1" Name="ScrumMastersListBox" ItemsSource="{Binding CurrentProject.ScrumMasters}" Style="{StaticResource DefaultListBox}"
                              ContextMenuOpening="ScrumMastersListBox_ContextMenuOpening">
@@ -110,26 +121,33 @@
                     </ListBox>
                 </Grid>
             </StackPanel>
+            
             <StackPanel Grid.Column="1" Margin="10,0,0,0">
+                
                 <Grid Visibility="{Binding Permissions.Manager, Converter={StaticResource BoolToHiddenConverter}}">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="0.86*"/>
                         <ColumnDefinition Width="0.14*"/>
                     </Grid.ColumnDefinitions>
+                    
                     <TextBox Grid.Column="0" Name="SearchEmailTextBox" Style="{StaticResource DefaultTextBox}" HorizontalContentAlignment="Center">
                         <utility:WatermarkService.Watermark>
                             <TextBlock Style="{StaticResource Watermark}" HorizontalAlignment="Center" Margin="0,5,0,0" Name="SearchEmailTextBlock">Enter User Email to Add to Team</TextBlock>
                         </utility:WatermarkService.Watermark>
                     </TextBox>
+                    
                     <Button Grid.Column="1" Name="SearchButton" Content="Search" Style="{StaticResource StandardButton}" Width="50" Command="{Binding SearchCommand}"/>
                 </Grid>
+                
                 <Grid Margin="0,10,0,0" Height="60" Visibility="{Binding Permissions.Manager, Converter={StaticResource BoolToHiddenConverter}}">
+                    
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="0.2*"/>
                         <ColumnDefinition Width="0.4*"/>
                         <ColumnDefinition Width="0.2*"/>
                         <ColumnDefinition Width="0.2*"/>
                     </Grid.ColumnDefinitions>
+                    
                     <Image Grid.Column="0" Name="ProjectTeamListBoxProfilePicture"
                                            Height="64" Width="64" Stretch="Fill"
                                            VerticalAlignment="Center">
@@ -137,6 +155,7 @@
                             <Binding Path="SearchResultUser.ProfilePicture" Converter="{StaticResource ImageConverter}"/>
                         </Image.Source>
                     </Image>
+                    
                     <TextBlock Grid.Column="1" Name="SearchResultName" Style="{StaticResource Label}" Margin="0,0,35,0" VerticalAlignment="Center" HorizontalAlignment="Center" TextWrapping="Wrap">
                         <TextBlock.Text>
                             <MultiBinding StringFormat="{}{0} {1}">
@@ -145,7 +164,9 @@
                             </MultiBinding>
                         </TextBlock.Text>
                     </TextBlock>
+                    
                     <StackPanel Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Left">
+                        
                         <Image Name="TeamMemberListDeveloperIcon" Height="24" Width="24" Stretch="Fill" VerticalAlignment="Center"
                                    Visibility="{Binding SearchResultUser.Roles.Developer, Converter={StaticResource BoolToVisConverter}, FallbackValue=Collapsed}"
                                    ToolTip="Developer">
@@ -153,6 +174,7 @@
                                 <BitmapImage UriSource="/Resources/Images/Icons/DeveloperIcon.png" />
                             </Image.Source>
                         </Image>
+                        
                         <Image Name="TeamMemberListScrumMasterIcon" Height="24" Width="24" Stretch="Fill" VerticalAlignment="Center"
                                    Visibility="{Binding SearchResultUser.Roles.ScrumMaster, Converter={StaticResource BoolToVisConverter}, FallbackValue=Collapsed}"
                                    ToolTip="Scrum Master">
@@ -160,6 +182,7 @@
                                 <BitmapImage UriSource="/Resources/Images/Icons/ScrumMasterIcon.png" />
                             </Image.Source>
                         </Image>
+                        
                         <Image Name="TeamMemberListProductOwnerIcon" Height="24" Width="24" Stretch="Fill" VerticalAlignment="Center"
                                    Visibility="{Binding SearchResultUser.Roles.ProductOwner, Converter={StaticResource BoolToVisConverter}, FallbackValue=Collapsed}"
                                    ToolTip="Product Owner">
@@ -167,15 +190,20 @@
                                 <BitmapImage UriSource="/Resources/Images/Icons/ProductOwnerIcon.png" />
                             </Image.Source>
                         </Image>
+                        
                     </StackPanel>
+                    
                     <Button Grid.Column="3" Name="AddToTeamButton" Content="Add" 
                             Style="{StaticResource StandardButton}" Width="50" HorizontalAlignment="Right"
                             Command="{Binding AddToTeamCommand}" Visibility="{Binding SearchResultUser, TargetNullValue=Collapsed}"/>
                 </Grid>
+                
                 <TextBlock Name="TeamMembersHeaderTextBox" Text="Project Team" 
                                Style="{StaticResource Header}" HorizontalAlignment="Center"
                                Margin="0,10,0,10"/>
-                <Grid Height="481">
+                
+                <Grid Height="521">
+                    
                     <ListBox Name="TeamMembersListBox"
                              ItemsSource="{Binding TeamMembers}"
                              Style="{StaticResource DefaultListBox}"
@@ -183,6 +211,7 @@
                              ContextMenuOpening="TeamMembersListBox_ContextMenuOpening">
                         <ListBox.ContextMenu>
                             <ContextMenu>
+
                                 <MenuItem Name="SetAsProductOwnerMenuOption"
                                           Header="Set as Product Owner" 
                                           Command="{Binding SetProductOwnerCommand}"
@@ -208,6 +237,7 @@
                                         </Style>
                                     </MenuItem.Style>
                                 </MenuItem>
+
                                 <MenuItem Name="SetAsScrumMasterMenuOption"
                                           Header="Set as ScrumMaster"
                                           Command="{Binding SetScrumMasterCommand}"
@@ -243,6 +273,7 @@
                                         <ColumnDefinition Width="*"/>
                                         <ColumnDefinition Width="*"/>
                                     </Grid.ColumnDefinitions>
+                                    
                                     <Image Grid.Column="0" Name="ProjectTeamListBoxProfilePicture"
                                            Height="64" Width="64" Stretch="Fill"
                                            VerticalAlignment="Center">
@@ -250,6 +281,7 @@
                                             <Binding Path="ProfilePicture" Converter="{StaticResource ImageConverter}"/>
                                         </Image.Source>
                                     </Image>
+                                    
                                     <StackPanel Grid.Column="1">
                                         <TextBlock Name="TeamMemberListUserNameTextBlock" Style="{StaticResource ListBoxItemHeader}" Width="150" TextWrapping="Wrap" HorizontalAlignment="Left">
                                             <TextBlock.Text>
@@ -259,9 +291,12 @@
                                                 </MultiBinding>
                                             </TextBlock.Text>
                                         </TextBlock>
-                                        <Separator />
+                                        
+                                        <Separator/>
+                                        
                                         <TextBlock Name="TeamMemberListEmailTextBlock" Style="{StaticResource ButtonLabel}" VerticalAlignment="Bottom" Text="{Binding Email}" HorizontalAlignment="Left"/>
                                     </StackPanel>
+                                    
                                     <StackPanel Grid.Column="2">
                                         <Image Name="TeamMemberListDeveloperIcon" Height="24" Width="24" Stretch="Fill" VerticalAlignment="Center"
                                                Visibility="{Binding Roles.Developer, Converter={StaticResource BoolToVisConverter}}"
@@ -270,6 +305,7 @@
                                                 <BitmapImage UriSource="/Resources/Images/Icons/DeveloperIcon.png" />
                                             </Image.Source>
                                         </Image>
+                                        
                                         <Image Name="TeamMemberListScrumMasterIcon" Height="24" Width="24" Stretch="Fill" VerticalAlignment="Center"
                                                Visibility="{Binding Roles.ScrumMaster, Converter={StaticResource BoolToVisConverter}}"
                                                ToolTip="Scrum Master">
@@ -277,6 +313,7 @@
                                                 <BitmapImage UriSource="/Resources/Images/Icons/ScrumMasterIcon.png" />
                                             </Image.Source>
                                         </Image>
+                                        
                                         <Image Name="TeamMemberListProductOwnerIcon" Height="24" Width="24" Stretch="Fill" VerticalAlignment="Center"
                                                Visibility="{Binding Roles.ProductOwner, Converter={StaticResource BoolToVisConverter}}"
                                                ToolTip="Product Owner">

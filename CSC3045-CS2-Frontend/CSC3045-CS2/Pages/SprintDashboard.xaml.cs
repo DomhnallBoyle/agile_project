@@ -33,11 +33,9 @@ namespace CSC3045_CS2.Pages
 
         #region Public variables
 
-        public String SprintDetails { get; set; }
         public Sprint CurrentSprint { get; set; }
         public Task CurrentTask { get; set; }
         public List<UserStory> UserStories { get; set; }
-        public Permissions Permissions { get; set; }
         public List<Task> Tasks
         {
             get { return _tasks; }
@@ -47,7 +45,7 @@ namespace CSC3045_CS2.Pages
                 OnPropertyChanged();
             }
         }
-        
+        public bool IsSprintScrumMaster { get; set; }
         public PlotModel PlotModel
         {
             get { return plotModel; }
@@ -66,14 +64,15 @@ namespace CSC3045_CS2.Pages
             _sprintClient = new SprintClient();
             _taskClient = new TaskClient();
 
-            Permissions = new Permissions((User)Application.Current.Properties["user"], sprint.Project);
-         
+            User user = (User)Application.Current.Properties["user"];
+            Permissions = new Permissions(user, sprint.Project);
+            IsSprintScrumMaster = sprint.ScrumMaster.Id == user.Id;
+
+
             sprint.Users = _sprintClient.GetSprintTeam(sprint.Project.Id, sprint.Id);
             UserStories = _sprintClient.GetSprintStories(sprint.Project.Id, sprint.Id);
 
             CurrentSprint = sprint;
-
-            SprintDetails = string.Format("{0}, \n\tStart Date: {1}, \n\tEnd Date: {2}", CurrentSprint.Name, CurrentSprint.StartDate.ToShortDateString(), CurrentSprint.EndDate.ToShortDateString());
 
             _sprintBacklog = _sprintClient.GetSprintBacklog(sprint.Project.Id, sprint.Id);
 

@@ -10,72 +10,74 @@
       d:DesignHeight="900" d:DesignWidth="1280"
       Title="Create Sprint">
 
-    <StackPanel Width="500" Margin="0,75,0,0">
-        <ContentControl Template="{StaticResource Headers}" Name="Header" ></ContentControl>
+    <StackPanel Width="700" Margin="0,75,0,0">
+        <ContentControl Template="{StaticResource Headers}" Name="Header"/>
 
-        <StackPanel Width="300">
-            <AdornerDecorator>
-                <TextBox Name="SprintNameTextBox" MaxLength="50" Style="{StaticResource DefaultTextBox}" HorizontalContentAlignment="Center">
-                    <utility:WatermarkService.Watermark>
-                        <TextBlock Style="{StaticResource Watermark}" HorizontalAlignment="Center" Margin="0,5,0,0" Name="SprintNameTextBlock">Sprint Name</TextBlock>
-                    </utility:WatermarkService.Watermark>
-                </TextBox>
-            </AdornerDecorator>
+        <StackPanel Width="500">
+            <StackPanel Width="300">
+                <AdornerDecorator>
+                    <TextBox Name="SprintNameTextBox" MaxLength="50" Style="{StaticResource DefaultTextBox}" HorizontalContentAlignment="Center">
+                        <utility:WatermarkService.Watermark>
+                            <TextBlock Style="{StaticResource Watermark}" HorizontalAlignment="Center" Margin="0,5,0,0" Name="SprintNameTextBlock">Sprint Name</TextBlock>
+                        </utility:WatermarkService.Watermark>
+                    </TextBox>
+                </AdornerDecorator>
 
-            <AdornerDecorator Margin="0,12,0,0">
-                <DatePicker Name="StartDatePicker">
-                    <DatePicker.Resources>
-                        <Style TargetType="{x:Type DatePickerTextBox}">
-                            <Setter Property="Template">
-                                <Setter.Value>
-                                    <ControlTemplate>
-                                        <TextBox Text="{Binding Text, RelativeSource={RelativeSource AncestorType={x:Type DatePicker}}}" Style="{StaticResource DefaultTextBox}" HorizontalContentAlignment="Center">
-                                            <utility:WatermarkService.Watermark>
-                                                <TextBlock Style="{StaticResource Watermark}" HorizontalAlignment="Center" Margin="0,5,0,0" Name="SprintStartDateTextBlock">Sprint Start Date</TextBlock>
-                                            </utility:WatermarkService.Watermark>
-                                        </TextBox>
-                                    </ControlTemplate>
-                                </Setter.Value>
-                            </Setter>
-                        </Style>
-                    </DatePicker.Resources>
-                </DatePicker>
-            </AdornerDecorator>
+                <AdornerDecorator Margin="0,12,0,0">
+                    <DatePicker Name="StartDatePicker">
+                        <DatePicker.Resources>
+                            <Style TargetType="{x:Type DatePickerTextBox}">
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate>
+                                            <TextBox Text="{Binding Text, RelativeSource={RelativeSource AncestorType={x:Type DatePicker}}}" Style="{StaticResource DefaultTextBox}" HorizontalContentAlignment="Center">
+                                                <utility:WatermarkService.Watermark>
+                                                    <TextBlock Style="{StaticResource Watermark}" HorizontalAlignment="Center" Margin="0,5,0,0" Name="SprintStartDateTextBlock">Sprint Start Date</TextBlock>
+                                                </utility:WatermarkService.Watermark>
+                                            </TextBox>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </DatePicker.Resources>
+                    </DatePicker>
+                </AdornerDecorator>
 
-            <AdornerDecorator Margin="0,12,0,0">
-                <DatePicker Name="EndDatePicker">
-                    <DatePicker.Resources>
-                        <Style TargetType="{x:Type DatePickerTextBox}">
-                            <Setter Property="Template">
-                                <Setter.Value>
-                                    <ControlTemplate>
-                                        <TextBox Text="{Binding Text, RelativeSource={RelativeSource AncestorType={x:Type DatePicker}}}" Style="{StaticResource DefaultTextBox}" HorizontalContentAlignment="Center">
-                                            <utility:WatermarkService.Watermark>
-                                                <TextBlock Style="{StaticResource Watermark}" HorizontalAlignment="Center" Margin="0,5,0,0" Name="SprintEndDateTextBlock">Sprint End Date</TextBlock>
-                                            </utility:WatermarkService.Watermark>
-                                        </TextBox>
-                                    </ControlTemplate>
-                                </Setter.Value>
-                            </Setter>
-                        </Style>
-                    </DatePicker.Resources>
-                </DatePicker>
-            </AdornerDecorator>
+                <AdornerDecorator Margin="0,12,0,0">
+                    <DatePicker Name="EndDatePicker">
+                        <DatePicker.Resources>
+                            <Style TargetType="{x:Type DatePickerTextBox}">
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate>
+                                            <TextBox Text="{Binding Text, RelativeSource={RelativeSource AncestorType={x:Type DatePicker}}}" Style="{StaticResource DefaultTextBox}" HorizontalContentAlignment="Center">
+                                                <utility:WatermarkService.Watermark>
+                                                    <TextBlock Style="{StaticResource Watermark}" HorizontalAlignment="Center" Margin="0,5,0,0" Name="SprintEndDateTextBlock">Sprint End Date</TextBlock>
+                                                </utility:WatermarkService.Watermark>
+                                            </TextBox>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </DatePicker.Resources>
+                    </DatePicker>
+                </AdornerDecorator>
 
-            <Grid Margin="0,12,0,0">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions>
+                <Grid Margin="0,12,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
 
-                <Button Grid.Column="0" Name="CancelButton" Content="Cancel"
+                    <Button Grid.Column="0" Name="CancelButton" Content="Cancel"
                         HorizontalAlignment="Right" Margin="0,0,15,0"
                         Style="{StaticResource StandardButton}" Command="{Binding CancelCommand}"/>
-                <Button Grid.Column="1" Name="CreateButton" Content="Create" 
+                    <Button Grid.Column="1" Name="CreateButton" Content="Create" 
                         HorizontalAlignment="Left" Margin="15,0,0,0"
                         Style="{StaticResource StandardButton}" Command="{Binding CreateCommand}"/>
-            </Grid>
-        </StackPanel>
+                </Grid>
+            </StackPanel>
 
+        </StackPanel>
     </StackPanel>
 </local:BasePage>
