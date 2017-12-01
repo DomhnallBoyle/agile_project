@@ -127,14 +127,9 @@
                 </Grid>
             </StackPanel>
 
-<<<<<<< HEAD
-            <StackPanel Grid.Column="1" Margin="10,0,0,0" Grid.ColumnSpan="2">
-                <Grid Visibility="{Binding Permissions.Manager, Converter={StaticResource BoolToVisConverter}}">
-=======
             <StackPanel Grid.Column="1" Margin="10,0,0,0">
-                <Grid Visibility="{Binding Permissions.Manager, Converter={StaticResource BoolToHiddenConverter}}">
->>>>>>> 86aded57332ffcd9aee3c9e5c6b20836cf241c06
-                    <Grid.ColumnDefinitions>
+                        <Grid Visibility="{Binding Permissions.Manager, Converter={StaticResource BoolToHiddenConverter}}">
+                            <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="0.86*"/>
                         <ColumnDefinition Width="0.14*"/>
                     </Grid.ColumnDefinitions>

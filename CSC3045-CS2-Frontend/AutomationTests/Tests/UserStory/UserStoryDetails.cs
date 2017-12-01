@@ -54,7 +54,7 @@ namespace AutomationTests.Tests.UserStory
 
             var StoryListItem = (WPFListItem)_productBacklogPage.StoryListBox.Items.Find(item => "e2eUserStory1".Equals(item.Text));
 
-            _productBacklogPage.GetViewDetailsForUserStoryListItem(StoryListItem).Click();
+            _productBacklogPage.StoryListBox.Click();
 
             _userStoryDetailsPage.CreateAcceptanceTestButton.Click();
 
@@ -85,7 +85,21 @@ namespace AutomationTests.Tests.UserStory
         public void ShouldSuccessfullyCheckUserStoryAsChecked()
         {
             var UserStoryAcceptanceTests = (WPFListItem)_userStoryDetailsPage.UserStoryAcceptanceTests.Items.Find(item => "e2eGiven1".Equals(item.Text));
-            _userStoryDetailsPage.CompleteLabelBlock(UserStoryAcceptanceTests).Click();
-        }   
+
+            _userStoryDetailsPage.CompletedCheckBox.Select();
+
+            _userStoryDetailsPage.BackButton.Click();
+
+            Assert.IsTrue(_productBacklogPage.IsCurrentPage());
+
+            var StoryListItem = (WPFListItem)_productBacklogPage.StoryListBox.Items.Find(item => "e2eUserStory1".Equals(item.Text));
+
+            __productBacklogPage.StoryListBox.Click();
+
+            var UserStoryAcceptanceTests1 = (WPFListItem)_userStoryDetailsPage.UserStoryAcceptanceTests.Items.Find(item => "e2eGiven1".Equals(item.Text));
+
+            Assert.IsTrue(_userStoryDetailsPage.CompletedCheckbox.IsSelected);
+
+        }
     }
 }

@@ -21,6 +21,11 @@ namespace AutomationTests.PageTemplates
             get { return MainWindow.Get<Button>("CreateAcceptanceTestButton"); }
         }
 
+        public Button BackButton
+        {
+            get { return MainWindow.Get<Button>("BackButton"); }
+        }
+
         public ListBox UserStoryAcceptanceTests
         {
             get { return MainWindow.Get<ListBox>("UserStoryAcceptanceTests"); }
@@ -31,11 +36,12 @@ namespace AutomationTests.PageTemplates
             get { return MainWindow.Get<Label>("StoryNameTextBlock"); }
         }
 
-        public CheckBox CompleteLabelBlock(WPFListItem listItem)
+        public CheckBox CompletedCheckBox
         {
-            return listItem.Get<CheckBox>("CompleteLabelBlock");
+            get { return MainWindow.Get<CheckBox>("CompletedCheckBox"); }
         }
-    }
 
-    
+
+
+    }
 }

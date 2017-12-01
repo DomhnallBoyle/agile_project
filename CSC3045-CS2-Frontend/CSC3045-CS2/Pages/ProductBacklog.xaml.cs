@@ -188,8 +188,6 @@ namespace CSC3045_CS2
         }
 
         #endregion
-<<<<<<< HEAD
-=======
 
         #region drag & drop functionality
 
@@ -210,7 +208,6 @@ namespace CSC3045_CS2
         }
 
         #endregion      
->>>>>>> 86aded57332ffcd9aee3c9e5c6b20836cf241c06
     }
 
 
