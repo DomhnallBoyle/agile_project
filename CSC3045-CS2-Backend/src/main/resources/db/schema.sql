@@ -9,9 +9,9 @@ CREATE TABLE USER
 (
   ID       BIGINT AUTO_INCREMENT PRIMARY KEY NOT NULL,
   EMAIL    VARCHAR(255)                      NOT NULL,
-  FORENAME VARCHAR(255)                      NOT NULL,
-  SURNAME  VARCHAR(255)                      NOT NULL,
-  PROFILE_PICTURE  VARCHAR(255),
+  FORENAME VARCHAR(35)                      NOT NULL,
+  SURNAME  VARCHAR(35)                      NOT NULL,
+  PROFILE_PICTURE  VARCHAR(260),
   ROLES_ID BIGINT,
   FOREIGN KEY (ROLES_ID) REFERENCES ROLES (ID)
 );
@@ -25,7 +25,7 @@ CREATE TABLE ACCOUNT
 CREATE TABLE PROJECT
 (
   ID               BIGINT AUTO_INCREMENT PRIMARY KEY NOT NULL,
-  DESCRIPTION      VARCHAR(255)                      NOT NULL,
+  DESCRIPTION      VARCHAR(500)                      NOT NULL,
   NAME             VARCHAR(255)                      NOT NULL,
   MANAGER_ID       BIGINT                            NOT NULL,
   PRODUCT_OWNER_ID BIGINT,
@@ -44,7 +44,7 @@ CREATE TABLE SPRINT
 (
   ID              BIGINT AUTO_INCREMENT PRIMARY KEY  NOT NULL,
   PROJECT_ID      BIGINT                             NOT NULL,
-  NAME            VARCHAR(255)                       NOT NULL,
+  NAME            VARCHAR(50)                       NOT NULL,
   START_DATE      TIMESTAMP                          NOT NULL,
   END_DATE        TIMESTAMP                          NOT NULL,
   SCRUM_MASTER_ID BIGINT                             NOT NULL,
@@ -63,8 +63,8 @@ CREATE TABLE USER_STORY
   ID           BIGINT AUTO_INCREMENT PRIMARY KEY NOT NULL,
   PROJECT_ID   BIGINT                            NOT NULL,
   SPRINT_ID    BIGINT,
-  NAME         VARCHAR(255)                      NOT NULL,
-  DESCRIPTION  VARCHAR(255)                      NOT NULL,
+  NAME         VARCHAR(50)                      NOT NULL,
+  DESCRIPTION  VARCHAR(500)                      NOT NULL,
   POINTS       INTEGER,
   MARKET_VALUE INTEGER,
   INDEX        INTEGER,
@@ -86,8 +86,8 @@ CREATE TABLE TASK
   ID               BIGINT AUTO_INCREMENT PRIMARY KEY NOT NULL,
   USER_STORY_ID    BIGINT                            NOT NULL,
   ASSIGNEE_ID      BIGINT,
-  NAME             VARCHAR(255)                      NOT NULL,
-  DESCRIPTION      VARCHAR(255),
+  NAME             VARCHAR(50)                      NOT NULL,
+  DESCRIPTION      VARCHAR(500),
   INITIAL_ESTIMATE INTEGER                           NOT NULL,
   FOREIGN KEY (USER_STORY_ID) REFERENCES USER_STORY (ID),
   FOREIGN KEY (ASSIGNEE_ID) REFERENCES USER (ID)

@@ -2,6 +2,7 @@ package uk.ac.qub.csc3045.api.setup;
 
 import uk.ac.qub.csc3045.api.model.Project;
 import uk.ac.qub.csc3045.api.model.Sprint;
+import uk.ac.qub.csc3045.api.model.Task;
 import uk.ac.qub.csc3045.api.model.User;
 import uk.ac.qub.csc3045.api.model.UserStory;
 
@@ -44,6 +45,16 @@ public class UnitTestObjectGenerator {
         project.setDescription("Test Project Description " + id);
 
         return project;
+    }
+    public static Task generateTask() {
+    	long id = rand.nextInt(1000);
+    	Task task = new Task();
+    	task.setId(id);
+    	task.setName("Task"+id);
+    	task.setDescription("Descrip");
+    	task.setInitialEstimate(123);
+    	
+    	return task;
     }
 
     public static User generateUser() {

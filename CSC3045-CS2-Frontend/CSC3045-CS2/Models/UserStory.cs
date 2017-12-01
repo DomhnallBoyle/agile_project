@@ -1,6 +1,8 @@
 ﻿using RestSharp.Deserializers;
 using System;
 using System.Collections.Generic;
+using CSC3045_CS2.Utility;
+using System.Windows.Input;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -61,6 +63,5 @@ namespace CSC3045_CS2.Models
             this.Project = project;
             this.Sprint = sprint;
         }
-
     }
 }

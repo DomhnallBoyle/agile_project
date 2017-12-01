@@ -13,16 +13,14 @@
 
     <StackPanel Width="750" Margin="0,75,0,0">
         <ContentControl Template="{StaticResource Headers}" Name="Header"/>
-
-        <TextBlock Name="ProjectNameTextBlock" HorizontalAlignment="Center" Style="{StaticResource Header}"  Text="{Binding CurrentProject.Name}" Margin="0,0,0,15"/>
-
-        <Button Visibility="Collapsed" Grid.Column="0" Name="ProjectDropDownButton" Content="Project List" Style="{StaticResource StandardButton}" Command="{Binding ProjectDropDown}" ContextMenuService.IsEnabled="False">
+        <TextBlock Text="Click to Navigate Projects" HorizontalAlignment="Left" Style="{StaticResource Label}" Foreground="Gold"  Margin="5,0,0,0" />
+        <Button HorizontalAlignment="Left" Name="ProjectDropDownButton" Margin="0,5,5,5" Content="Select a Project" Style="{StaticResource StandardButton}" Command="{Binding ProjectDropDown}" ContextMenuService.IsEnabled="True">
             <Button.ContextMenu>
                 <ContextMenu Name="projectMenuItems">
                 </ContextMenu>
             </Button.ContextMenu>
         </Button>
-
+        <TextBlock Name="ProjectNameTextBlock" HorizontalAlignment="Center" Style="{StaticResource Header}"  Text="{Binding CurrentProject.Name}" Margin="0,0,0,15"/>
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
@@ -41,7 +39,6 @@
                     <Button Grid.Column="1" Name="ProductBacklogButton" Content="Product Backlog" Style="{StaticResource StandardButton}" Command="{Binding GoToProductBacklogCommand}" Width="110" Margin="5,0,5,0"/>
                     <Button Grid.Column="2" Name="ManageSprintsButton" Content="Sprint Overview" Style="{StaticResource StandardButton}" Command="{Binding GoToManageSprintsCommand}" Width="110"/>
                 </Grid>
-
                 <Separator/>
 
                 <TextBlock Name="ProjectManagerHeaderTextBlock" Text="Project Manager" Style="{StaticResource Header}" HorizontalAlignment="Center"/>

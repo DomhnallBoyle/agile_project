@@ -1,18 +1,19 @@
 package uk.ac.qub.csc3045.api.model;
 
 import java.util.List;
-
 import javax.validation.constraints.NotNull;
-import java.util.List;
+import javax.validation.constraints.Size;
 
 public class UserStory {
 
     private Long id;
 
     @NotNull
+    @Size(max=50)
     private String name;
 
     @NotNull
+    @Size(max=500)
     private String description;
 
     private Integer points;

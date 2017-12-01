@@ -17,7 +17,7 @@
             <TextBlock Name="StoryNameTextBlock" HorizontalAlignment="Center" Style="{StaticResource Header}"  Text="{Binding CurrentUserStory.Name}"/>
 
             <AdornerDecorator Margin="0,12,0,0">
-                <TextBox Name="GivenTextBox" Style="{StaticResource DefaultTextBox}" Height="75" TextWrapping="Wrap" AcceptsReturn="True">
+                <TextBox Name="GivenTextBox" MaxLength="255" Style="{StaticResource DefaultTextBox}" Height="75" TextWrapping="Wrap" AcceptsReturn="True">
                     <utility:WatermarkService.Watermark>
                         <TextBlock Style="{StaticResource Watermark}" Name="GivenTextBlock"
                                    HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,5">Given</TextBlock>
@@ -26,7 +26,7 @@
             </AdornerDecorator>
 
             <AdornerDecorator Margin="0,12,0,0">
-                <TextBox Name="WhenTextBox" Style="{StaticResource DefaultTextBox}" Height="75" TextWrapping="Wrap" AcceptsReturn="True">
+                <TextBox Name="WhenTextBox" MaxLength="255" Style="{StaticResource DefaultTextBox}" Height="75" TextWrapping="Wrap" AcceptsReturn="True">
                     <utility:WatermarkService.Watermark>
                         <TextBlock Style="{StaticResource Watermark}" Name="WhenTextBlock"
                                    HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,5">When</TextBlock>
@@ -35,7 +35,7 @@
             </AdornerDecorator>
 
             <AdornerDecorator Margin="0,12,0,0">
-                <TextBox Name="ThenTextBox" Style="{StaticResource DefaultTextBox}" Height="75" TextWrapping="Wrap" AcceptsReturn="True">
+                <TextBox Name="ThenTextBox" MaxLength="255" Style="{StaticResource DefaultTextBox}" Height="75" TextWrapping="Wrap" AcceptsReturn="True">
                     <utility:WatermarkService.Watermark>
                         <TextBlock Style="{StaticResource Watermark}" Name="ThenTextBlock"
                                    HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,5">Then</TextBlock>

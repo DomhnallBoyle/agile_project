@@ -17,7 +17,12 @@ public class UserStoryController {
     public UserStoryController(UserStoryService userStoryService) {
         this.userStoryService = userStoryService;
     }
-    
+
+    @PutMapping(value="/{storyId}")
+    public ResponseEntity<UserStory> update(@Valid @RequestBody UserStory userStory, @PathVariable("storyId") long storyId) {
+    	return new ResponseEntity<>(this.userStoryService.updateUserStory(userStory, storyId), HttpStatus.OK);
+    }
+
     @GetMapping()
     public ResponseEntity<List<UserStory>> getUserStoriesByProject(@PathVariable("projectId") long projectId) {
         return new ResponseEntity<>(this.userStoryService.getAllUserStories(projectId), HttpStatus.OK);

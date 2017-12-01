@@ -9,6 +9,8 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Navigation;
+using System.Text;
+
 namespace CSC3045_CS2.Pages
 {
     /// <summary>
@@ -21,6 +23,10 @@ namespace CSC3045_CS2.Pages
 
         private UserStoryClient _client;
 
+        private Style _invalidTextBoxStyle;
+        private Style _validTextBoxStyle;
+
+        private String _warningMessage;
         #endregion
 
         #region Public Variables
@@ -38,8 +44,67 @@ namespace CSC3045_CS2.Pages
 
             CurrentPage = this.Title;
             CurrentUserStory = userStory;
+
+            PageSetup();
         }
-    
+
+        #region Class Methods
+
+        /// <summary>
+        /// Set style variables on page setup
+        /// </summary>
+        private void PageSetup()
+        {
+            _invalidTextBoxStyle = FindResource("InvalidTextBox") as Style;
+            _validTextBoxStyle = FindResource("DefaultTextBox") as Style;
+        }
+
+        /// <summary>
+        /// Performs a check to ensure that no fields are left
+        /// blank when creating an acceptance test
+        /// </summary>
+        private bool CheckFields()
+        {
+            bool valid = true;
+            StringBuilder sb = new StringBuilder();
+
+            if (!String.IsNullOrEmpty(GivenTextBox.Text))
+            {
+                GivenTextBox.Style = _validTextBoxStyle;
+            }
+            else
+            {
+                GivenTextBox.Style = _invalidTextBoxStyle;
+                valid = false;
+                sb.Append("You must enter a 'Given' for Acceptance Test\n");
+            }
+
+            if (!String.IsNullOrEmpty(WhenTextBox.Text))
+            {
+                WhenTextBox.Style = _validTextBoxStyle;
+            }
+            else
+            {
+                WhenTextBox.Style = _invalidTextBoxStyle;
+                valid = false;
+                sb.Append("You must enter a 'When' for Acceptance Test");
+            }
+
+            if (!String.IsNullOrEmpty(ThenTextBox.Text))
+            {
+                ThenTextBox.Style = _validTextBoxStyle;
+            }
+            else
+            {
+                ThenTextBox.Style = _invalidTextBoxStyle;
+                valid = false;
+                sb.Append("You must enter a 'Then' for Acceptance Test");
+            }
+
+            _warningMessage = sb.ToString();
+            return valid;
+        }
+        #endregion
         #region Command Methods
 
         public ICommand CancelCommand
@@ -61,21 +126,28 @@ namespace CSC3045_CS2.Pages
             {
                 return new RelayCommand(param =>
                 {
-                    AcceptanceTest acceptanceTest = new AcceptanceTest(GivenTextBox.Text, WhenTextBox.Text, ThenTextBox.Text, CurrentUserStory);
-
-                    try
+                    if (CheckFields())
                     {
-                        _client.CreateAcceptanceTest(acceptanceTest);
+                        AcceptanceTest acceptanceTest = new AcceptanceTest(GivenTextBox.Text, WhenTextBox.Text, ThenTextBox.Text, CurrentUserStory);
 
-                        MessageBoxUtil.ShowSuccessBox("Acceptance Test Creation Successful!");
+                        try
+                        {
+                            _client.CreateAcceptanceTest(acceptanceTest);
 
-                        Page userStoryDetails = new UserStoryDetails(CurrentUserStory);
+                            MessageBoxUtil.ShowSuccessBox("Acceptance Test Creation Successful!");
 
-                        NavigationService.GetNavigationService(this).Navigate(userStoryDetails);
+                            Page userStoryDetails = new UserStoryDetails(CurrentUserStory);
+
+                            NavigationService.GetNavigationService(this).Navigate(userStoryDetails);
+                        }
+                        catch (RestResponseErrorException ex)
+                        {
+                            MessageBoxUtil.ShowErrorBox(ex.Message);
+                        }
                     }
-                    catch (RestResponseErrorException ex)
+                    else
                     {
-                        MessageBoxUtil.ShowErrorBox(ex.Message);
+                        MessageBoxUtil.ShowWarningBox(_warningMessage);
                     }
                 });
             }
