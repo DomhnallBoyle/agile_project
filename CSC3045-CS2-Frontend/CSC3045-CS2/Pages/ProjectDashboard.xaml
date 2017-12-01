@@ -20,11 +20,7 @@
                 </ContextMenu>
             </Button.ContextMenu>
         </Button>
-
-
         <TextBlock Name="ProjectNameTextBlock" HorizontalAlignment="Center" Style="{StaticResource Header}"  Text="{Binding CurrentProject.Name}" Margin="0,0,0,15"/>
-
-       
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
@@ -43,7 +39,6 @@
                     <Button Grid.Column="1" Name="ProductBacklogButton" Content="Product Backlog" Style="{StaticResource StandardButton}" Command="{Binding GoToProductBacklogCommand}" Width="110" Margin="5,0,5,0"/>
                     <Button Grid.Column="2" Name="ManageSprintsButton" Content="Sprint Overview" Style="{StaticResource StandardButton}" Command="{Binding GoToManageSprintsCommand}" Width="110"/>
                 </Grid>
-
                 <Separator/>
 
                 <TextBlock Name="ProjectManagerHeaderTextBlock" Text="Project Manager" Style="{StaticResource Header}" HorizontalAlignment="Center"/>

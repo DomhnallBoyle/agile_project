@@ -56,10 +56,7 @@ namespace CSC3045_CS2.Pages
             {
                 return new RelayCommand(param =>
                 {
-
-
                     Page userDashboard = new UserDashboard();
-
                     NavigationService.GetNavigationService(this).Navigate(userDashboard);
                 });
             }
