@@ -70,13 +70,17 @@ namespace AutomationTests.Tests.AcceptanceTest
 
             var UserStoryAcceptanceTests = (WPFListItem)_userStoryDetailsPage.UserStoryAcceptanceTests.Items.Find(item => "e2eGiven1".Equals(item.Text));
 
-            _userStoryDetailsPage.CreateAcceptanceTestButton.Click();
+            Assert.IsTrue(_userStoryDetailsPage.IsCurrentPage());
         }
 
         [Test]
         public void ShouldSuccessfullyAccessCreateAAcceptanceTestAndCancel()
         {
+            Assert.IsTrue(_createAcceptanceTestPage.IsCurrentPage());
+
             _createAcceptanceTestPage.CancelButton.Click();
+
+            Assert.IsTrue(_userStoryDetailsPage.IsCurrentPage());
         }
 
         [Test]

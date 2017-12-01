@@ -16,9 +16,30 @@ namespace AutomationTests.PageTemplates
         {
             get { return MainWindow.Get<Button>("LogoutButton"); }
         }
+
         public ListBox ProjectListBox
         {
             get { return MainWindow.Get<ListBox>("ProjectListBox"); }
+        }
+
+        public Image ManagerIcon(WPFListItem listItem)
+        {
+            return listItem.Get<Image>("TeamMemberListManagerIcon");
+        }
+
+        public Image DeveloperIcon(WPFListItem listItem)
+        {
+            return listItem.Get<Image>("TeamMemberListDeveloperIcon");
+        }
+
+        public Image ScrumMaserIcon(WPFListItem listItem)
+        {
+            return listItem.Get<Image>("TeamMemberListScrumMasterIcon");
+        }
+
+        public Image ProductOwnerIcon(WPFListItem listItem)
+        {
+            return listItem.Get<Image>("TeamMemberListProductOwnerIcon");
         }
 
         public UserDashboardPage(Window window) : base(window)
@@ -39,24 +60,9 @@ namespace AutomationTests.PageTemplates
             }
         }
 
-        public Image ManagerIcon(WPFListItem listItem)
+        public WPFListItem GetProjectListItem(string name)
         {
-            return listItem.Get<Image>("Manager");
-        }
-
-        public Image DeveloperIcon(WPFListItem listItem)
-        {
-            return listItem.Get<Image>("Developer");
-        }
-
-        public Image ScrumMaserIcon(WPFListItem listItem)
-        {
-            return listItem.Get<Image>("ScrumMaster");
-        }
-
-        public Image ProductOwnerIcon(WPFListItem listItem)
-        {
-            return listItem.Get<Image>("ProductOwner");
+            return (WPFListItem)ProjectListBox.Items.Find(item => name.Equals(item.Text));
         }
     }
 }

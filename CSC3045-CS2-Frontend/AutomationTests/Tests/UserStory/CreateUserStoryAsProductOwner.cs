@@ -47,6 +47,8 @@ namespace AutomationTests.Tests.UserStory
             Assert.IsTrue(_productBacklogPage.IsCurrentPage());
 
             var StoryListItem = (WPFListItem)_productBacklogPage.StoryListBox.Items.Find(item => "e2eUserStory1".Equals(item.Text));
+
+            Assert.IsTrue(_productBacklogPage.IsCurrentPage());
         }
 
         [Test]

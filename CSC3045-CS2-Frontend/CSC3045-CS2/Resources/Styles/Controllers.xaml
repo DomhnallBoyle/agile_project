@@ -8,20 +8,32 @@
             <StackPanel>
                 <Grid>
                     <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="3*"/>
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
 
-                    <controls:TextBlockPlus Grid.Column="0" x:Name="PageTitle" 
+                    <controls:TextBlockPlus Grid.Column="1" x:Name="PageTitle" 
                                Text="{Binding CurrentPage}" Style="{StaticResource Title}" 
                                HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                 
+         
+                 
 
-                    <Image Grid.Column="1" Name="ProfilePicture"
+                    <Image Source="{Binding HomeImage}" Width="50" Height="50" Stretch="Fill" Cursor="Hand">
+                        <Image.InputBindings>
+                            <MouseBinding Gesture="LeftClick" Command="{Binding HomeCommand, Mode=OneTime}" />
+                        </Image.InputBindings>
+                    </Image>
+
+
+
+                    <Image Grid.Column="2" Name="ProfilePicture"
                            Height="64" Width="64" Stretch="Fill"
                            HorizontalAlignment="Right" Source="{Binding Image}"/>
 
-                    <StackPanel Grid.Column="2" Margin="5,0,0,0">
+                    <StackPanel Grid.Column="3" Margin="5,0,0,0">
                         <controls:TextBlockPlus x:Name="UserLabel" Text="{Binding UserLabel}" HorizontalAlignment="Center" Style="{StaticResource Label}" TextWrapping="Wrap"/>
                         <Button Name="LogoutButton" Content="Logout" 
                                 HorizontalAlignment="Center" Margin="0,15,0,0"

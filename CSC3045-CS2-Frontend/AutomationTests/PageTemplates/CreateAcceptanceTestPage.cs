@@ -4,16 +4,7 @@ using TestStack.White.UIItems.WindowItems;
 namespace AutomationTests.PageTemplates
 {
     public class CreateAcceptanceTestPage : BasePage
-    {
-
-        public CreateAcceptanceTestPage(Window window) : base(window)
-        { }
-
-        public override bool IsCurrentPage()
-        {
-            return PageTitle.Text.Equals("Create Acceptance Test");
-        }
-
+    {      
         public Button CreateButton
         {
             get { return MainWindow.Get<Button>("CreateButton"); }
@@ -37,6 +28,14 @@ namespace AutomationTests.PageTemplates
         public TextBox ThenTextBox
         {
             get { return MainWindow.Get<TextBox>("ThenTextBox"); }
+        }
+
+        public CreateAcceptanceTestPage(Window window) : base(window)
+        { }
+
+        public override bool IsCurrentPage()
+        {
+            return PageTitle.Text.Equals("Create Acceptance Test");
         }
 
         public void enterCorrectAcceptanceDetails(string given, string when, string then)

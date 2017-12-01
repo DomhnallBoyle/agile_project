@@ -12,6 +12,12 @@ namespace AutomationTests.Tests.UserDashboard
     {
         private UserDashboardPage _userDashboardPage;
 
+        [OneTimeSetUp]
+        public void OneTimeSetup()
+        {
+            _userDashboardPage = new UserDashboardPage(MainWindow);
+        }
+
         [Test]
         public void ShouldSuccessfullyDisplayProjectName()
         {
@@ -41,9 +47,9 @@ namespace AutomationTests.Tests.UserDashboard
             var projectListItem = (WPFListItem)_userDashboardPage.ProjectListBox.Items.Find(item => "e2eProjectName1".Equals(item.Text));
             foreach (WPFListItem item in _userDashboardPage.ProjectListBox.Items)
             {
-                Assert.False(item.Get<TestStack.White.UIItems.Image>("ScrumMaster").Visible);
-                Assert.False(item.Get<TestStack.White.UIItems.Image>("Developer").Visible);
-                Assert.True(item.Get<TestStack.White.UIItems.Image>("ProductOwner").Visible);
+                Assert.False(item.Get<TestStack.White.UIItems.Image>("TeamMemberListScrumMasterIcon").Visible);
+                Assert.False(item.Get<TestStack.White.UIItems.Image>("TeamMemberListDeveloperIcon").Visible);
+                Assert.True(item.Get<TestStack.White.UIItems.Image>("TeamMemberListProductOwnerIcon").Visible);
             }
 
         }
@@ -57,10 +63,10 @@ namespace AutomationTests.Tests.UserDashboard
             var projectListItem = (WPFListItem)_userDashboardPage.ProjectListBox.Items.Find(item => "e2eProjectName1".Equals(item.Text));
             foreach (WPFListItem item in _userDashboardPage.ProjectListBox.Items)
             {
-                Assert.True(item.Get<TestStack.White.UIItems.Image>("Manager").Visible);
-                Assert.False(item.Get<TestStack.White.UIItems.Image>("ScrumMaster").Visible);
-                Assert.False(item.Get<TestStack.White.UIItems.Image>("Developer").Visible);
-                Assert.False(item.Get<TestStack.White.UIItems.Image>("ProductOwner").Visible);
+                Assert.True(item.Get<TestStack.White.UIItems.Image>("TeamMemberListManagerIcon").Visible);
+                Assert.False(item.Get<TestStack.White.UIItems.Image>("TeamMemberListScrumMasterIcon").Visible);
+                Assert.False(item.Get<TestStack.White.UIItems.Image>("TeamMemberListDeveloperIcon").Visible);
+                Assert.False(item.Get<TestStack.White.UIItems.Image>("TeamMemberListProductOwnerIcon").Visible);
             }
 
         }
