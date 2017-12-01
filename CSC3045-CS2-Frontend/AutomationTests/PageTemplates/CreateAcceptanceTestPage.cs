@@ -47,6 +47,15 @@ namespace AutomationTests.PageTemplates
             CreateButton.Click();
         }
 
+        public void enterCorrectAcceptanceDetailsToCancel(string given, string when, string then)
+        {
+            GivenTextBox.Text = given;
+            WhenTextBox.Text = when;
+            ThenTextBox.Text = then;
+
+            CancelButton.Click();
+        }
+
         public void enterEmptyGivenAcceptanceDetails(string when, string then)
         {
             WhenTextBox.Text = when;
