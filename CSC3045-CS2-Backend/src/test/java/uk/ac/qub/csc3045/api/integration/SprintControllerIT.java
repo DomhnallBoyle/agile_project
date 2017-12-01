@@ -279,27 +279,6 @@ public class SprintControllerIT {
      */
     
     @Test
-    public void getAvailableDevelopersShouldReturn200() {
-        Response r = requestHelper.sendGetRequestWithAuthHeader("/project/" + existingProject.getId() + "/sprint/" + sprint.getId() + "/user/available", authHeader);
-        List<User> returnedUsers = Arrays.asList(r.getBody().as(User[].class));
-        
-        User tempUser = new User("Dinesh", "Yang", "d.chugtai@valley.com", "dinesh_chugtai.jpg", new Roles(true, false, false));
-        tempUser.setId(4L);
-        userList.add(tempUser);
-        tempUser = new User("Nelson", "Bighetti", "big.head@valley.com", "elson_bighetti.jpg", new Roles(true, false, false));
-        tempUser.setId(7L);
-        userList.add(tempUser);
-        
-        r.then().assertThat().statusCode(200);
-        
-//        for (int i = 0; i < returnedUsers.size() - 1; i++) {
-//            System.out.println(returnedUsers.get(i).getForename() + " - " + userList.get(i).getForename());
-//            assertEquals(userList.get(i).getForename() + " " + userList.get(i).getSurname(), returnedUsers.get(i).getForename() + " " + returnedUsers.get(i).getSurname());
-//            assertEquals(userList.get(i).getId(), returnedUsers.get(i).getId());
-//        }
-    }
-    
-    @Test
     public void getAvailableDevelopersProjectDoesNotExistShouldReturn404() {
         Response r = requestHelper.sendGetRequestWithAuthHeader("/project/" + nonExistingId + "/sprint/" + sprint.getId() + "/user/available", authHeader);
         
@@ -321,7 +300,15 @@ public class SprintControllerIT {
     
     @Test
     public void updateSprintTeamShouldReturn200() {
+        Response r = requestHelper.sendGetRequestWithAuthHeader("/project/" + existingProject.getId() + "/sprint/" + sprint.getId() + "/user", authHeader);
+        List<User> returnedUsers = Arrays.asList(r.getBody().as(User[].class));
         
+        r.then().assertThat().statusCode(200);
+        
+        for (int i = 0; i < returnedUsers.size() - 1; i++) {
+            assertEquals(userList.get(i).getForename() + " " + userList.get(i).getSurname(), returnedUsers.get(i).getForename() + " " + returnedUsers.get(i).getSurname());
+            assertEquals(userList.get(i).getId(), returnedUsers.get(i).getId());
+        }
     }
     
     @Test

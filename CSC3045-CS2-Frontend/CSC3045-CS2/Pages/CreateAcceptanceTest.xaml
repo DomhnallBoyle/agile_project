@@ -13,7 +13,7 @@
     <StackPanel Width="700" Margin="0,75,0,0">
         <ContentControl Template="{StaticResource Headers}" Name="Header"/>
 
-        <StackPanel Width="400">
+        <StackPanel Width="450">
             <TextBlock Name="StoryNameTextBlock" HorizontalAlignment="Center" Style="{StaticResource Header}"  Text="{Binding CurrentUserStory.Name}"/>
 
             <AdornerDecorator Margin="0,12,0,0">
