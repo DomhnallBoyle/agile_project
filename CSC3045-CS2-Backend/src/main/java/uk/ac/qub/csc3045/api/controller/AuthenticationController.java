@@ -23,6 +23,11 @@ public class AuthenticationController {
         this.authenticationService = authenticationService;
     }
 
+    /**
+     * Controller for registering
+     * @param account - Request takes in account object
+     * @return Account object from the database
+     */
     @PostMapping(value = "/register")
     public ResponseEntity<Account> register(@Valid @RequestBody Account account) {
         return new ResponseEntity<>(this.authenticationService.register(account), HttpStatus.CREATED);
