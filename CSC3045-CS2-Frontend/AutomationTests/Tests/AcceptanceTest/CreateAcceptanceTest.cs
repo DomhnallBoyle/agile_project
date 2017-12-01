@@ -45,18 +45,23 @@ namespace AutomationTests.Tests.AcceptanceTest
 
             _productBacklogPage.CreateStoryButton.Click();
 
-            _createUserStoryPage.enterCorrectStoryDetails("e2eUserStory1", "10", "e2eDescription");
+            _createUserStoryPage.enterCorrectStoryDetails("e2eUserStoryAcceptanceTest", "10", "e2eDescription");
 
             Assert.IsTrue(_productBacklogPage.IsCurrentPage());
 
-            var StoryListItem = (WPFListItem)_productBacklogPage.StoryListBox.Items.Find(item => "e2eUserStory1".Equals(item.Text));
+            var StoryListItem = (WPFListItem)_productBacklogPage.StoryListBox.Items.Find(item => "e2eUserStoryAcceptanceTest".Equals(item.Text));
 
-            _productBacklogPage.GetViewDetailsForUserStoryListItem(StoryListItem).Click();
+            StoryListItem.Click();
+
+            Assert.IsTrue(_userStoryDetailsPage.IsCurrentPage());
         }
 
         [Test]
         public void ShouldSuccessfullyCreateAnAcceptanceTestAsAProductOwner()
+
         {
+            Assert.IsTrue(_userStoryDetailsPage.IsCurrentPage());
+
             _userStoryDetailsPage.CreateAcceptanceTestButton.Click();
 
             _createAcceptanceTestPage.enterCorrectAcceptanceDetails("e2eGiven1", "e2eWhen1", "e2eThen1");
@@ -76,6 +81,10 @@ namespace AutomationTests.Tests.AcceptanceTest
         [Test]
         public void ShouldSuccessfullyAccessCreateAAcceptanceTestAndCancel()
         {
+              Assert.IsTrue(_userStoryDetailsPage.IsCurrentPage());
+
+            _userStoryDetailsPage.CreateAcceptanceTestButton.Click();
+
             Assert.IsTrue(_createAcceptanceTestPage.IsCurrentPage());
 
             _createAcceptanceTestPage.CancelButton.Click();
@@ -86,6 +95,10 @@ namespace AutomationTests.Tests.AcceptanceTest
         [Test]
         public void ShouldFailCreatingAnAcceptanceTestWithEmptyGiven()
         {
+            Assert.IsTrue(_userStoryDetailsPage.IsCurrentPage());
+
+            _userStoryDetailsPage.CreateAcceptanceTestButton.Click();
+
             _createAcceptanceTestPage.enterEmptyGivenAcceptanceDetails("e2eWhen2", "e2eThen2");
 
             _createAcceptanceTestPage.CreateButton.Click();
@@ -94,11 +107,20 @@ namespace AutomationTests.Tests.AcceptanceTest
             Assert.NotNull(messageBox);
 
             MessageBoxUtil.ClickOKButton(messageBox);
+
+            _createAcceptanceTestPage.CancelButton.Click();
+
+            Assert.IsTrue(_userStoryDetailsPage.IsCurrentPage());
+
         }
 
         [Test]
         public void ShouldFailCreatingAnAcceptanceTestWithEmptyWhen()
         {
+            Assert.IsTrue(_userStoryDetailsPage.IsCurrentPage());
+
+            _userStoryDetailsPage.CreateAcceptanceTestButton.Click();
+
             _createAcceptanceTestPage.enterEmptyWhenAcceptanceDetails("e2eGiven3", "e2eThen3");
 
             _createAcceptanceTestPage.CreateButton.Click();
@@ -107,11 +129,19 @@ namespace AutomationTests.Tests.AcceptanceTest
             Assert.NotNull(messageBox);
 
             MessageBoxUtil.ClickOKButton(messageBox);
+
+            _createAcceptanceTestPage.CancelButton.Click();
+
+            Assert.IsTrue(_userStoryDetailsPage.IsCurrentPage());
         }
 
         [Test]
         public void ShouldFailCreatingAnAcceptanceTestWithEmptyThen()
         {
+            Assert.IsTrue(_userStoryDetailsPage.IsCurrentPage());
+
+            _userStoryDetailsPage.CreateAcceptanceTestButton.Click();
+
             _createAcceptanceTestPage.enterEmptyThenAcceptanceDetails("e2eGiven4", "e2eWhen4");
 
             _createAcceptanceTestPage.CreateButton.Click();
@@ -120,6 +150,10 @@ namespace AutomationTests.Tests.AcceptanceTest
             Assert.NotNull(messageBox);
 
             MessageBoxUtil.ClickOKButton(messageBox);
+
+            _createAcceptanceTestPage.CancelButton.Click();
+
+            Assert.IsTrue(_userStoryDetailsPage.IsCurrentPage());
         }
     }
 }

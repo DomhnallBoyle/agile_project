@@ -42,19 +42,24 @@ namespace AutomationTests.Tests.UserStory
 
             _productBacklogPage.CreateStoryButton.Click();
 
-            _createUserStoryPage.enterCorrectStoryDetails("e2eUserStory1", "10", "e2eDescription");
+            Assert.IsTrue(_createUserStoryPage.IsCurrentPage());
+
+            _createUserStoryPage.enterCorrectStoryDetails("e2eUserStoryTest", "10", "e2eDescriptionTest");
 
             Assert.IsTrue(_productBacklogPage.IsCurrentPage());
+
+            var StoryListItem = (WPFListItem)_productBacklogPage.StoryListBox.Items.Find(item => "e2eUserStoryTest".Equals(item.Text));
 
             _productBacklogPage.CreateStoryButton.Click();
 
-            _createUserStoryPage.enterCorrectStoryDetails("e2eUserStory1", "10", "e2eDescription");
+            _createUserStoryPage.enterCorrectStoryDetails("e2eUserStoryUserStoryDetails", "10", "e2eDescription");
 
             Assert.IsTrue(_productBacklogPage.IsCurrentPage());
 
-            var StoryListItem = (WPFListItem)_productBacklogPage.StoryListBox.Items.Find(item => "e2eUserStory1".Equals(item.Text));
 
-            _productBacklogPage.GetViewDetailsForUserStoryListItem(StoryListItem).Click();
+            var ProductListItem = (WPFListItem)_productBacklogPage.StoryListBox.Items.Find(item => "e2eUserStoryUserStoryDetails".Equals(item.Text));
+
+            ProductListItem.Click();
 
             _userStoryDetailsPage.CreateAcceptanceTestButton.Click();
 
@@ -72,20 +77,16 @@ namespace AutomationTests.Tests.UserStory
         [Test]
         public void ShouldSuccessfullyCheckAnAcceptanceTestExists()
         {
+            Assert.IsTrue(_userStoryDetailsPage.IsCurrentPage());
             var UserStoryAcceptanceTests = (WPFListItem)_userStoryDetailsPage.UserStoryAcceptanceTests.Items.Find(item => "e2eGiven1".Equals(item.Text));
         }
 
-        [Test]
-        public void ShouldSuccessfullyDisplayCurrentUserStory()
-        {
-            Assert.AreEqual("e2eUserStory1", _userStoryDetailsPage.StoryNameTextBlock.Text);
-        }
-
-        [Test]
-        public void ShouldSuccessfullyCheckUserStoryExists()
+       // [Test]
+        public void ShouldSuccessfullyCheckAcceptanceTestAsCompleted()
         {
             var UserStoryAcceptanceTests = (WPFListItem)_userStoryDetailsPage.UserStoryAcceptanceTests.Items.Find(item => "e2eGiven1".Equals(item.Text));
-            _userStoryDetailsPage.CompleteLabelBlock(UserStoryAcceptanceTests).Click();
-        }   
+            _userStoryDetailsPage.CompleteLabelBlock.Select();
+             Assert.IsTrue(_userStoryDetailsPage.CompleteLabelBlock.IsSelected);
+        }
     }
 }

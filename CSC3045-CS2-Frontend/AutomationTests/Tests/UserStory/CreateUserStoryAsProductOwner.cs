@@ -41,55 +41,91 @@ namespace AutomationTests.Tests.UserStory
 
         [Test]
         public void ShouldSuccessfullyCreateAUserStoryAsAProductOwner()
-        {                  
-            _createUserStoryPage.enterCorrectStoryDetails("e2eUserStory1", "10", "e2eDescription");
+        {
+            Assert.IsTrue(_createUserStoryPage.IsCurrentPage());
+
+            _createUserStoryPage.enterCorrectStoryDetails("e2eUserStoryTest", "10", "e2eDescriptionTest");
 
             Assert.IsTrue(_productBacklogPage.IsCurrentPage());
 
-            var StoryListItem = (WPFListItem)_productBacklogPage.StoryListBox.Items.Find(item => "e2eUserStory1".Equals(item.Text));
+            var StoryListItem = (WPFListItem)_productBacklogPage.StoryListBox.Items.Find(item => "e2eUserStoryTest".Equals(item.Text));
 
             Assert.IsTrue(_productBacklogPage.IsCurrentPage());
+
+            _productBacklogPage.CreateStoryButton.Click();
+
+            Assert.IsTrue(_createUserStoryPage.IsCurrentPage());
         }
 
         [Test]
         public void ShouldSuccessfullyAccessCreateAUserStoryAndCancel()
         {
+            Assert.IsTrue(_createUserStoryPage.IsCurrentPage());
+
             _createUserStoryPage.CancelButton.Click();
 
             Assert.IsTrue(_productBacklogPage.IsCurrentPage());
+
+            _productBacklogPage.CreateStoryButton.Click();
+
+            Assert.IsTrue(_createUserStoryPage.IsCurrentPage());
         }
 
         [Test]
         public void ShouldFailCreatingAUserStoryWithEmptyName()
-        {         
+        {
+            Assert.IsTrue(_createUserStoryPage.IsCurrentPage());
+
             _createUserStoryPage.enterEmptyNameStoryDetails("10", "e2eDescription");
 
             var messageBox = MessageBoxUtil.GetWarningMessageBox(MainWindow);
             Assert.NotNull(messageBox);
 
             MessageBoxUtil.ClickOKButton(messageBox);
+
+            _createUserStoryPage.CancelButton.Click();
+
+            _productBacklogPage.CreateStoryButton.Click();
+
+            Assert.IsTrue(_createUserStoryPage.IsCurrentPage());
         }
 
         [Test]
         public void ShouldFailCreatingAUserStoryWithEmptyDescription()
         {
+            Assert.IsTrue(_createUserStoryPage.IsCurrentPage());
+
             _createUserStoryPage.enterEmptyNameStoryDetails("e2eUserStory", "10");
 
             var messageBox = MessageBoxUtil.GetWarningMessageBox(MainWindow);
             Assert.NotNull(messageBox);
 
             MessageBoxUtil.ClickOKButton(messageBox);
+
+            _createUserStoryPage.CancelButton.Click();
+
+            _productBacklogPage.CreateStoryButton.Click();
+
+            Assert.IsTrue(_createUserStoryPage.IsCurrentPage());
         }
 
         [Test]
         public void ShouldFailCreatingAUserStoryWithEmptyMarketValue()
-        { 
+        {
+            Assert.IsTrue(_createUserStoryPage.IsCurrentPage());
+
             _createUserStoryPage.enterEmptyDescriptionStoryDetails("e2eUserStory", "e2eDesciption");
 
             var messageBox = MessageBoxUtil.GetWarningMessageBox(MainWindow);
             Assert.NotNull(messageBox);
 
             MessageBoxUtil.ClickOKButton(messageBox);
+
+            _createUserStoryPage.CancelButton.Click();
+
+            _productBacklogPage.CreateStoryButton.Click();
+
+            Assert.IsTrue(_createUserStoryPage.IsCurrentPage());
         }
 
         [Test]

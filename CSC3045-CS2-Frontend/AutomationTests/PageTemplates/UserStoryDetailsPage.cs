@@ -23,17 +23,17 @@ namespace AutomationTests.PageTemplates
             get { return MainWindow.Get<Label>("StoryNameTextBlock"); }
         }
 
-        public CheckBox CompleteLabelBlock(WPFListItem listItem)
+        public CheckBox CompleteLabelBlock
         {
-            return listItem.Get<CheckBox>("CompleteLabelBlock");
+            get { return MainWindow.Get<CheckBox>("CompleteLabelBlock"); }
         }
-
+     
         public UserStoryDetailsPage(Window window) : base(window)
         { }
 
         public override bool IsCurrentPage()
         {
-            return PageTitle.Text.Equals("");
+            return PageTitle.Text.Equals("Acceptance Tests");
         }
 
     }

@@ -7,11 +7,6 @@ namespace AutomationTests.PageTemplates
     class CreateUserStoryPage : BasePage
     {
        
-        public override bool IsCurrentPage()
-        {
-            return PageTitle.Text.Equals("");
-        }
-
         public Button CreateButton
         {
             get { return MainWindow.Get<Button>("CreateButton"); }
@@ -44,6 +39,12 @@ namespace AutomationTests.PageTemplates
 
         public CreateUserStoryPage(Window window) : base(window)
         { }
+
+
+        public override bool IsCurrentPage()
+        {
+            return PageTitle.Text.Equals("Create User Story");
+        }
 
 
         public void enterCorrectStoryDetails(string storyName, string storyMarketValue, string storyDescription)
