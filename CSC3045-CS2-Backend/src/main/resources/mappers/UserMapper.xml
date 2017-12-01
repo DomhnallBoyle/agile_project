@@ -21,6 +21,11 @@
         <result column="scrum_master" property="scrumMaster"/>
         <result column="product_owner" property="productOwner"/>
     </resultMap>
+    
+    <resultMap type="Skill" id="skillResultMap">
+    	<id column="skill_id" property="id"/>
+    	<result column="description" property="description"/>
+    </resultMap>
 
     <!-- SELECT Queries -->
 
@@ -63,8 +68,26 @@
         FROM PROJECT
         WHERE MANAGER_ID = #{userId}
     </select>
+    
+    <select id="getUserSkills" resultMap="skillResultMap">
+    	SELECT 
+    		ID AS skill_id,
+    		DESCRIPTION
+    	FROM SKILL WHERE USER_ID = #{userId}
+    </select>
+    
+    <!-- INSERT Queries -->
+    
+    <insert id="addUserSkill">
+    	INSERT INTO SKILL (DESCRIPTION, USER_ID) VALUES (#{skill.description}, #{userId})
+    </insert>
+    
+    <!-- DELETE Queries -->
+    <delete id="removeUserSkills">
+    	DELETE FROM SKILL WHERE USER_ID = #{userId}
+    </delete>
 
-	    <!-- Nested SELECT queries for Project -->
+	<!-- Nested SELECT queries for Project -->
 
     <select id="selectManager" resultMap="userResultMap">
         SELECT
