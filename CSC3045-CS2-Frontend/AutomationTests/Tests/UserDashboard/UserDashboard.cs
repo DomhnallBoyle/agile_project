@@ -28,6 +28,7 @@ namespace AutomationTests.Tests.UserDashboard
         {
            Assert.IsTrue(_userDashboardPage.IsCurrentPage());
             var projectListItem = (WPFListItem)_userDashboardPage.ProjectListBox.Items.Find(item => "e2eProjectName1".Equals(item.Text));
+            Assert.NotNull(projectListItem);
         }
 
         [Test]
@@ -35,6 +36,7 @@ namespace AutomationTests.Tests.UserDashboard
         {         
             Assert.IsTrue(_userDashboardPage.IsCurrentPage());
             var projectListItem = (WPFListItem)_userDashboardPage.ProjectListBox.Items.Find(item => "e2eProjectDescription1".Equals(item.Text));
+            Assert.NotNull(projectListItem);
         }
 
      
