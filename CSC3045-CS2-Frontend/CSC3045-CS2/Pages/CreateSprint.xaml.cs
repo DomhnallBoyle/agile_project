@@ -97,7 +97,7 @@ namespace CSC3045_CS2.Pages
                 sb.Append("The Sprint End Date must be after the Sprint Start Date");
             }
 
-            if (StartDatePicker.SelectedDate < DateTime.Now)
+            if (StartDatePicker.SelectedDate < DateTime.Now.AddDays(-1))
             {
                 valid = false;
                 sb.Append("The Sprint Start Date can't be in the past");

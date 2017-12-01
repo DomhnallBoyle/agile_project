@@ -173,7 +173,7 @@
                                     <ColumnDefinition Width="0.2*"/>
                                 </Grid.ColumnDefinitions>
 
-                                <TextBlock Grid.Column="0" Text="{Binding Name}" Name="TaskNameTextBlock"
+                                <TextBlock Grid.Column="0" Text="{Binding Name}" Name="TaskNameTextBlock" TextWrapping="Wrap" Width="200"
                                            Style="{StaticResource ListBoxItemHeader}" VerticalAlignment="Center" HorizontalAlignment="Left"/>
 
                                 <TextBlock Grid.Column="1" TextWrapping="Wrap" Style="{StaticResource ListBoxItem}" Width="125" VerticalAlignment="Center" HorizontalAlignment="Center">
