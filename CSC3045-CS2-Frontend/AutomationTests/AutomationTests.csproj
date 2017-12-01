@@ -77,6 +77,8 @@
     <Compile Include="Tests\Project\ProjectDashboardManagerActions.cs" />
     <Compile Include="Tests\Project\ProjectDashboardNonManagerActions.cs" />
     <Compile Include="Tests\Sprint\CreateSprint.cs" />
+    <Compile Include="Tests\Sprint\ManageSprintAsNonScrumMaster.cs" />
+    <Compile Include="Tests\Sprint\ManageSprintsAsScrumMaster.cs" />
     <Compile Include="Tests\UserDashboard\UserDashboard.cs" />
     <Compile Include="Tests\UserStory\CreateUserStoryAsNonProductOwner.cs" />
     <Compile Include="Tests\UserStory\CreateUserStoryAsProductOwner.cs" />

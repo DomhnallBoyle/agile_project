@@ -35,6 +35,7 @@ namespace AutomationTests.Tests.AcceptanceTest
             Assert.IsTrue(_userDashboardPage.IsCurrentPage());
 
             var projectListItem = (WPFListItem)_userDashboardPage.ProjectListBox.Items.Find(item => "e2eProjectName1".Equals(item.Text));
+            Assert.NotNull(projectListItem);
             projectListItem.Click();
 
             Assert.IsTrue(_projectDashboardPage.IsCurrentPage());
