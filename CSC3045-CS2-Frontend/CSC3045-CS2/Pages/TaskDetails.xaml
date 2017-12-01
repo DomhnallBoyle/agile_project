@@ -62,7 +62,7 @@
         </Grid>
         
         <Grid Height="400" Margin="0,12,0,0">
-            <ListBox Name="DailyEstimateListBox" ItemsSource="{Binding TaskEstimates}"
+            <ListBox Name="DailyEstimateListBox" ItemsSource="{Binding DailyEstimates}"
                      Style="{StaticResource DefaultListBox}" HorizontalContentAlignment="Stretch">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
@@ -72,7 +72,7 @@
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
 
-                            <TextBlock Grid.Column="0" Name="DateTextBlock" Style="{StaticResource ListBoxItem}">
+                            <TextBlock Grid.Column="0" Name="DateTextBlock" HorizontalAlignment="Center" VerticalAlignment="Center" Style="{StaticResource ListBoxItem}">
                                 <TextBlock.Text>
                                     <MultiBinding StringFormat="{}{0}, {1}/{2}{3}">
                                         <Binding Path="Date.DayOfWeek"/>
@@ -84,7 +84,7 @@
                             </TextBlock>
 
                             <StackPanel Grid.Column="1">
-                                <TextBlock Name="HoursRemainingLabelTextBlock" Text="Hours Remaining" Style="{StaticResource ListBoxItem}"/>
+                                <TextBlock Name="HoursRemainingLabelTextBlock" HorizontalAlignment="Center" Text="Hours Remaining" Style="{StaticResource ListBoxItem}"/>
 
                                 <AdornerDecorator>
                                     <TextBox Name="HoursRemainingTextBox" Text="{Binding Estimate}" Style="{StaticResource DefaultTextBox}" HorizontalContentAlignment="Center">
@@ -94,8 +94,6 @@
                                     </TextBox>
                                 </AdornerDecorator>
                             </StackPanel>
-
-                            <Separator/>
                         </Grid>
                     </DataTemplate>
                 </ListBox.ItemTemplate>

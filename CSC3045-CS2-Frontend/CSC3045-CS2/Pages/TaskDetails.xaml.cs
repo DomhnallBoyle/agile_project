@@ -9,6 +9,7 @@ using System.Runtime.CompilerServices;
 using System.Collections.ObjectModel;
 using CSC3045_CS2.Exception;
 using System.Collections.Generic;
+using System;
 
 namespace CSC3045_CS2.Pages
 {
@@ -44,7 +45,22 @@ namespace CSC3045_CS2.Pages
             DataContext = this;
 
             _taskClient = new TaskClient();
+
             CurrentTask = currentTask;
+
+            try
+            {
+                DailyEstimates = new ObservableCollection<TaskEstimate>(_taskClient.GetTaskEstimates(
+                                                                                CurrentTask.UserStory.Project.Id,
+                                                                                CurrentTask.UserStory.Id,
+                                                                                CurrentTask.Id));
+            }
+            catch (RestResponseErrorException ex)
+            {
+                MessageBoxUtil.ShowErrorBox(ex.Message);
+            }
+
+            Console.WriteLine("Stop Here");
         }
 
         #region Command Methods
@@ -72,6 +88,11 @@ namespace CSC3045_CS2.Pages
                     {
                         List<TaskEstimate> dailyEstimates = new List<TaskEstimate>(DailyEstimates);
 
+                        _taskClient.UpdateTaskEstimates(
+                                CurrentTask.UserStory.Project.Id,
+                                CurrentTask.UserStory.Id,
+                                CurrentTask.Id,
+                                dailyEstimates);
                     }
                     catch (RestResponseErrorException ex)
                     {
