@@ -1,6 +1,8 @@
 package uk.ac.qub.csc3045.api.service;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static uk.ac.qub.csc3045.api.setup.UnitTestObjectGenerator.generateProject;
@@ -26,6 +28,10 @@ import static uk.ac.qub.csc3045.api.setup.UnitTestObjectGenerator.*;
 
 public class TaskServiceTest {
 	
+    private String projectDoesNotExistErrorMessage = "Project does not exist in the database";
+    private String userStoryDoesNotExistErrorMessage ="User Story does not exist in the database";
+    private String taskDoesNotExistErrorMessage = "Task does not exist in the database";
+    
 	private Task task;
 	private TaskService taskService;
 	
@@ -76,23 +82,35 @@ public class TaskServiceTest {
 	    assertTrue(response.equals(task));    
 	}
 	
-	@Test(expected = ResponseErrorException.class)
+	@Test
 	public void testCreateTaskThrowsExceptionWhenProjectIsNull() {
 		// Arrange
 		when(projectMapperMock.getProjectById(project.getId())).thenReturn(null);
 		
 		// Act
-		taskService.create(project.getId(), userStory.getId(), task);
+		try {
+		    taskService.create(project.getId(), userStory.getId(), task);
+		    
+		    fail();
+		} catch (ResponseErrorException e) {
+		    assertEquals(projectDoesNotExistErrorMessage, e.getMessage());
+		}
 	}
 	
-	@Test(expected = ResponseErrorException.class)
+	@Test
 	public void testCreateTaskThrowsExceptionWhenUserStoryIsNull() {
 		// Arrange
 		when(projectMapperMock.getProjectById(project.getId())).thenReturn(project);
 	    when(userStoryMapperMock.getUserStoryById(userStory.getId())).thenReturn(null);
 	    
 	    // Act
-	    taskService.create(project.getId(), userStory.getId(), task);
+	    try {
+	        taskService.create(project.getId(), userStory.getId(), task);
+	        
+	        fail();
+	    } catch (ResponseErrorException e) {
+	        assertEquals(userStoryDoesNotExistErrorMessage, e.getMessage());
+	    }
 	}
 	
 	@Test
@@ -109,23 +127,31 @@ public class TaskServiceTest {
 	    assertTrue(response.equals(tasks));
 	}
 	
-	@Test(expected = ResponseErrorException.class)
+	@Test
 	public void testGetUserStoryTasksThrowsExceptionWhenProjectIsNull() {
 		// Arrange
 		when(projectMapperMock.getProjectById(project.getId())).thenReturn(null);
 	    
 	    // Act
-		taskService.getUserStoryTasks(userStory.getProject().getId(), userStory.getId());
+		try {
+		    taskService.getUserStoryTasks(userStory.getProject().getId(), userStory.getId());
+		} catch (ResponseErrorException e) {
+		    assertEquals(projectDoesNotExistErrorMessage, e.getMessage());
+		}
 	}
 	
-	@Test(expected = ResponseErrorException.class)
+	@Test
 	public void testGetUserStoryTasksThrowsExceptionWhenUserStoryIsNull() {
 		// Arrange
 		when(projectMapperMock.getProjectById(project.getId())).thenReturn(project);
 	    when(userStoryMapperMock.getUserStoryById(userStory.getId())).thenReturn(null);
 	    
 	    // Act
-	    taskService.getUserStoryTasks(userStory.getProject().getId(), userStory.getId());
+	    try {
+	        taskService.getUserStoryTasks(userStory.getProject().getId(), userStory.getId());
+	    } catch (ResponseErrorException e) {
+	        assertEquals(userStoryDoesNotExistErrorMessage, e.getMessage());
+	    }
 	}
 	
 	@Test
@@ -142,34 +168,46 @@ public class TaskServiceTest {
 	    assertTrue(response.equals(task));
 	}
 	
-	@Test(expected = ResponseErrorException.class)
+	@Test
 	public void testGetTaskThrowsAnExceptionWhenProjectIsNull() {
 		// Arrange
 		when(projectMapperMock.getProjectById(project.getId())).thenReturn(null);
 	    
 		// Act
-		taskService.getTask(project.getId(), userStory.getId(), task.getId());
+		try {
+		    taskService.getTask(project.getId(), userStory.getId(), task.getId());
+		} catch (ResponseErrorException e) {
+		    assertEquals(projectDoesNotExistErrorMessage, e.getMessage());
+		}
 	}
 	
-	@Test(expected = ResponseErrorException.class)
+	@Test
 	public void testGetTaskThrowsAnExceptionWhenUserStoryIsNull() {
 		// Arrange
 		when(projectMapperMock.getProjectById(project.getId())).thenReturn(project);
 	    when(userStoryMapperMock.getUserStoryById(userStory.getId())).thenReturn(null);
     
 	    // Act
-	    taskService.getTask(project.getId(), userStory.getId(), task.getId());
+	    try {
+	        taskService.getTask(project.getId(), userStory.getId(), task.getId());
+	    } catch (ResponseErrorException e) {
+	        assertEquals(userStoryDoesNotExistErrorMessage, e.getMessage());
+	    }
 	}
 	
-	@Test(expected = ResponseErrorException.class)
-	public void testGetTaskThrowsAnExceptionWhenTaskIsNull() {
+	@Test
+	public void testGetTaskThrowsAnExceptionWhenTaskDoesNotExist() {
 		// Arrange
 		when(projectMapperMock.getProjectById(project.getId())).thenReturn(project);
 	    when(userStoryMapperMock.getUserStoryById(userStory.getId())).thenReturn(userStory);
 	    when(taskMapperMock.getTaskById(task.getId())).thenReturn(null);
 
 	    // Act
-	    taskService.getTask(project.getId(), userStory.getId(), task.getId());
+	    try {
+	        taskService.getTask(project.getId(), userStory.getId(), task.getId());
+	    } catch (ResponseErrorException e) {
+	        assertEquals(taskDoesNotExistErrorMessage, e.getMessage());
+	    }
 	}
 	
 	@Test
@@ -184,12 +222,16 @@ public class TaskServiceTest {
 		assertTrue(response.equals(task));
 	}
 	
-	@Test(expected = ResponseErrorException.class)
-	public void testUpdateTaskThrowsExceptionWhenTaskIdIsNull() {
+	@Test
+	public void testUpdateTaskThrowsExceptionWhenTaskDoesNotExist() {
 		// Arrange
 		when(taskMapperMock.getTaskById(task.getId())).thenReturn(null);
 
 		// Act
-		taskService.updateTask(task, task.getId());
+		try {
+		    taskService.updateTask(task, task.getId());
+		} catch (ResponseErrorException e) {
+		    assertEquals(taskDoesNotExistErrorMessage, e.getMessage());
+		}
 	}
 }
